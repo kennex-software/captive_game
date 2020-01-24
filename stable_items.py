@@ -65,7 +65,7 @@ class Stable_Items():
                                 '   change the channel.',
                                 '-You can also enter in channels,',
                                 '   but must press the central',
-                                '   play button afterward.'
+                                '   play button afterward.',
                                 '-Some channels may start with 0.',
                                 '-Enjoy your TV!'
                                 ]
