@@ -252,7 +252,6 @@ class Stable_Items():
                     pygame.draw.rect(screen, gs.black, current_grid, 3)
                 """
 
-
     def draw_manual(self, gs, screen):  # Defines and draws the manuals when they are clicked todo figure out what needs to go in the manuals
         """Function to draw the manuals to the screen based on the inputs given, i.e. which color/which one is clicked"""
 
@@ -349,10 +348,71 @@ class Stable_Items():
         self.remote_rect.x += 750
         self.remote_rect.y += 195
 
+        # Remote Click Box List
+        self.remote_square_buttons_clickbox = [
+                                        [(784, 370), (812, 370), (812, 392), (784, 392)], # Volume Up
+                                        [(784, 415), (812, 415), (812, 437), (784, 437)], # Volume Down
+                                        [(872, 370), (900, 370), (900, 392), (872, 392)], # Channel Up
+                                        [(872, 416), (900, 416), (900, 437), (872, 437)], # Channel Down
+
+                                        [(784, 473), (813, 473), (812, 490), (784, 490)], # 1 Button
+                                        [(827, 473), (856, 473), (856, 490), (827, 490)], # 2 Button
+                                        [(870, 473), (900, 473), (900, 490), (870, 490)], # 3 Button
+
+                                        [(784, 510), (813, 510), (812, 530), (784, 530)], # 4 Button
+                                        [(827, 510), (856, 510), (856, 530), (827, 530)], # 5 Button
+                                        [(870, 510), (900, 510), (900, 530), (870, 530)], # 6 Button
+
+                                        [(784, 549), (813, 549), (812, 569), (784, 569)], # 7 Button
+                                        [(827, 549), (856, 549), (856, 569), (827, 569)], # 8 Button
+                                        [(870, 549), (900, 549), (900, 569), (870, 569)], # 9 Button
+
+                                        [(784, 589), (813, 589), (812, 607), (784, 607)], # L Button
+                                        [(827, 589), (856, 589), (856, 607), (827, 607)], # 0 Button
+                                        [(870, 589), (900, 589), (900, 607), (870, 607)], # F Button
+
+                                        [(782, 641), (805, 641), (805, 655), (782, 655)], # Rewind
+                                        [(815, 641), (837, 641), (837, 655), (815, 655)], # Play
+                                        [(847, 641), (868, 641), (868, 655), (847, 655)], # Pause
+                                        [(878, 641), (902, 641), (902, 655), (878, 655)], # Fast Forward
+
+                                        [(782, 220), (812, 220), (812, 240), (782, 240)], # Mute
+
+                                        [(823, 290), (840, 283), (858, 291), (865, 307), (860, 326), (842, 333), (823, 325), (816, 307)], # Central Play
+                                        [(823, 290), (840, 283), (859, 291), (877, 271), (860, 260), (840, 255), (821, 260), (804, 270)], # Top Arrow
+                                        [(859, 291), (879, 272), (889, 286), (893, 307), (890, 323), (879, 344), (860, 325), (867, 306)], # Right Arrow
+                                        [(822, 327), (840, 334), (857, 328), (876, 343), (859, 356), (841, 361), (821, 355), (804, 346)], # Bottom Arrow
+                                        [(803, 272), (823, 290), (815, 307), (822, 327), (804, 344), (789, 323), (789, 309), (793, 285)], # Left Arrow
+
+                                        [(899, 218), (910, 221), (914, 231), (908, 241), (900, 245), (888, 239), (887, 229), (890, 221)] # Power Button
+                                        ]
+
+
+
+
+
+        self.remote_round_buttons_clickbox = [
+                                    [(900, 232)], # Power Button
+                                    [(841, 309)] # Play Circle
+                                    ]
+
+        #for box in self.remote_square_buttons_clickbox:
+
+
+
         if gs.current_room_view == 1 and gs.room_view_drill_down == 0:
             # Draw Enlarged Remote Inventory Item When Clicked on the TV view
             self.screen.blit(enlarged_remote, (750,195))
             pygame.draw.rect(screen, gs.yellow, self.remote_rect, -1)
+
+            """
+            # Commented out to show or not show clickboxes for remote
+            index = 0
+            for box in self.remote_square_buttons_clickbox:
+                pygame.draw.polygon(screen, gs.clickboxcolor, self.remote_square_buttons_clickbox[index], 1)
+                index += 1
+            """
+
             if gs.close_remote:
                 gs.remote_opened = False
                 gs.stable_item_opened = False
@@ -364,12 +424,16 @@ class Stable_Items():
 
     def remote_buttons_clicked(self, gs, event):
         """Function to change the TV screen when remote can be opened as well as close the remote"""
+        for box in self.remote_square_buttons_clickbox:
+            if gf.check_inside_clickbox(self, box, ((event.pos), (0, 0))):
+                print(self.remote_square_buttons_clickbox.index(box)) # todo comment this out later
+
 
         # Closes remote is anywhere is clicked but the remote
         if gs.remote_opened == True and not self.remote_rect.collidepoint(event.pos):
             gs.close_remote = True
 
-    def draw_papers(self, gs, screen):  # todo figure out what needs to go on the papers (use the SVG's and don't scale them)
+    def draw_papers(self, gs, screen):
         """Function to draw the papers to the screen"""
 
         # Clickboxes

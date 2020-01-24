@@ -22,6 +22,7 @@ class Settings():
         self.gw_border = 5
 
         # Fonts
+        self.verdana12 = pygame.font.SysFont("Verdana", 12, True)
         self.verdana16 = pygame.font.SysFont("Verdana", 16, True)
         self.verdana18 = pygame.font.SysFont("Verdana", 18, True)
         self.verdana22 = pygame.font.SysFont("Verdana", 22, True)
@@ -180,6 +181,9 @@ class Settings():
         self.pub_n8 = 0
         self.pub_n9 = 0
         self.pub_code = 0
+
+        # Control Panel
+        self.control_panel_on = True
 
         # Channel
         self.channel_code = 0

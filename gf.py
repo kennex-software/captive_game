@@ -11,7 +11,7 @@ from stable_items import Stable_Items
 from inventory import Inventory
 from PIL import ImageFont
 
-def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks):
+def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp):
     """Response to mouse events."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -19,7 +19,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 if not gs.stable_item_opened:
-                    room_view.switch_light(gs, screen, event)
+                    room_view.switch_light(gs, event)
                     if gs.lights_on:
                         room_view.move_between_views(gs, screen, game_objects, stable_item_blocks, event)
                         inventory.select_item(gs, screen, room_view, event)
@@ -41,6 +41,12 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                         stable_item_blocks.remote_buttons_clicked(gs, event)
                     if gs.papers_opened:
                         stable_item_blocks.change_papers(gs, event)
+                if gs.control_panel_on:
+                    cp.check_clicked_setting(gs, screen, event)
+                    if cp.selected == 1:
+                        cp.dots.append(event.pos)
+
+
 
 
                 print("Click Position: " + str(event.pos))
@@ -52,13 +58,18 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
         elif event.type == pygame.MOUSEMOTION:
             inventory.item_grabbed(gs, screen, event)
 
-def update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks):
+def update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp):
     """Update images on the screen and flip to the new screen."""
     # Redraw the screen during each pass through the loop
     screen.fill(gs.bg_color)
     room_view.current_view(gs, screen, stable_item_blocks)
     GameObjects(gs, screen, inventory)
     GameText(gs, screen)
+    if gs.control_panel_on:
+        cp.draw_control_panel(gs, screen)
+        if cp.selected == 1:
+            cp.draw_dots(gs, screen)
+
     
         
     # Make the most recently drawn screen visible.

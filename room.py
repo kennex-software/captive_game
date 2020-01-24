@@ -639,7 +639,7 @@ class Room():
             if desk_drawer1_opened.collidepoint(event.pos):
                 gs.dd1_opened = False
 
-    def switch_light(self, gs, screen, event):
+    def switch_light(self, gs, event):
         if self.light_switch.collidepoint(event.pos):
             gs.lights_on = not gs.lights_on
 

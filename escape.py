@@ -7,6 +7,7 @@ import puzzles
 from inventory import Inventory
 from objects import GameObjects
 from stable_items import Stable_Items
+from control_panel import Control_Panel
 from room import Room
 from pygame.locals import *
 import time
@@ -23,14 +24,15 @@ def run_game():
     room_view = Room(gs, screen, stable_item_blocks)
     inventory = Inventory(gs, screen, room_view)
     game_objects = GameObjects(gs, screen, inventory)
+    cp = Control_Panel(gs, screen)
 
     gf.generate_codes(gs) # generates numbers for problems and puzzles
 
     pygame.time.Clock()
 
     while True:
-        gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks)
-        gf.update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks)
+        gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
+        gf.update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
         
         
         if gs.sleeperticks:
