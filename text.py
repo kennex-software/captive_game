@@ -2,7 +2,6 @@
 
 import pygame, sys
 import pygame.font
-import ptext
 
 class GameText():
     """All text that occurs during the game at the bottom of the screen."""

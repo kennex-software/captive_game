@@ -9,7 +9,7 @@ from stable_items import Stable_Items
 from pygame.locals import *
 from pygame.math import Vector2
 from pygame.math import Vector3
-from noise import pnoise2
+#from noise import pnoise2
 #import tv_channels
 import numpy as np
 

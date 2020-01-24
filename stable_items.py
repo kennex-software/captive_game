@@ -350,55 +350,55 @@ class Stable_Items():
 
         # Remote Click Box List
         self.remote_square_buttons_clickbox = [
-                                        [(784, 370), (812, 370), (812, 392), (784, 392)], # Volume Up
-                                        [(784, 415), (812, 415), (812, 437), (784, 437)], # Volume Down
-                                        [(872, 370), (900, 370), (900, 392), (872, 392)], # Channel Up
-                                        [(872, 416), (900, 416), (900, 437), (872, 437)], # Channel Down
+                                        [(784, 370), (812, 370), (812, 392), (784, 392)], # Volume Up // 0
+                                        [(784, 415), (812, 415), (812, 437), (784, 437)], # Volume Down // 1
+                                        [(872, 370), (900, 370), (900, 392), (872, 392)], # Channel Up // 2
+                                        [(872, 416), (900, 416), (900, 437), (872, 437)], # Channel Down // 3
 
-                                        [(784, 473), (813, 473), (812, 490), (784, 490)], # 1 Button
-                                        [(827, 473), (856, 473), (856, 490), (827, 490)], # 2 Button
-                                        [(870, 473), (900, 473), (900, 490), (870, 490)], # 3 Button
+                                        [(784, 473), (813, 473), (812, 490), (784, 490)], # 1 Button // 4
+                                        [(827, 473), (856, 473), (856, 490), (827, 490)], # 2 Button // 5
+                                        [(870, 473), (900, 473), (900, 490), (870, 490)], # 3 Button // 6
 
-                                        [(784, 510), (813, 510), (812, 530), (784, 530)], # 4 Button
-                                        [(827, 510), (856, 510), (856, 530), (827, 530)], # 5 Button
-                                        [(870, 510), (900, 510), (900, 530), (870, 530)], # 6 Button
+                                        [(784, 510), (813, 510), (812, 530), (784, 530)], # 4 Button // 7
+                                        [(827, 510), (856, 510), (856, 530), (827, 530)], # 5 Button // 8
+                                        [(870, 510), (900, 510), (900, 530), (870, 530)], # 6 Button // 9
 
-                                        [(784, 549), (813, 549), (812, 569), (784, 569)], # 7 Button
-                                        [(827, 549), (856, 549), (856, 569), (827, 569)], # 8 Button
-                                        [(870, 549), (900, 549), (900, 569), (870, 569)], # 9 Button
+                                        [(784, 549), (813, 549), (812, 569), (784, 569)], # 7 Button // 10
+                                        [(827, 549), (856, 549), (856, 569), (827, 569)], # 8 Button // 11
+                                        [(870, 549), (900, 549), (900, 569), (870, 569)], # 9 Button // 12
 
-                                        [(784, 589), (813, 589), (812, 607), (784, 607)], # L Button
-                                        [(827, 589), (856, 589), (856, 607), (827, 607)], # 0 Button
-                                        [(870, 589), (900, 589), (900, 607), (870, 607)], # F Button
+                                        [(827, 589), (856, 589), (856, 607), (827, 607)], # 0 Button // 13
+                                        [(784, 589), (813, 589), (812, 607), (784, 607)], # L Button // 14
+                                        [(870, 589), (900, 589), (900, 607), (870, 607)], # F Button // 15
 
-                                        [(782, 641), (805, 641), (805, 655), (782, 655)], # Rewind
-                                        [(815, 641), (837, 641), (837, 655), (815, 655)], # Play
-                                        [(847, 641), (868, 641), (868, 655), (847, 655)], # Pause
-                                        [(878, 641), (902, 641), (902, 655), (878, 655)], # Fast Forward
+                                        [(782, 641), (805, 641), (805, 655), (782, 655)], # Rewind // 16
+                                        [(815, 641), (837, 641), (837, 655), (815, 655)], # Play // 17
+                                        [(847, 641), (868, 641), (868, 655), (847, 655)], # Pause // 18
+                                        [(878, 641), (902, 641), (902, 655), (878, 655)], # Fast Forward // 19
 
-                                        [(782, 220), (812, 220), (812, 240), (782, 240)], # Mute
+                                        [(782, 220), (812, 220), (812, 240), (782, 240)], # Mute // 20
 
-                                        [(823, 290), (840, 283), (858, 291), (865, 307), (860, 326), (842, 333), (823, 325), (816, 307)], # Central Play
-                                        [(823, 290), (840, 283), (859, 291), (877, 271), (860, 260), (840, 255), (821, 260), (804, 270)], # Top Arrow
-                                        [(859, 291), (879, 272), (889, 286), (893, 307), (890, 323), (879, 344), (860, 325), (867, 306)], # Right Arrow
-                                        [(822, 327), (840, 334), (857, 328), (876, 343), (859, 356), (841, 361), (821, 355), (804, 346)], # Bottom Arrow
-                                        [(803, 272), (823, 290), (815, 307), (822, 327), (804, 344), (789, 323), (789, 309), (793, 285)], # Left Arrow
+                                        [(823, 290), (840, 283), (858, 291), (865, 307), (860, 326), (842, 333), (823, 325), (816, 307)], # Central Play // 21
+                                        [(823, 290), (840, 283), (859, 291), (877, 271), (860, 260), (840, 255), (821, 260), (804, 270)], # Top Arrow // 22
+                                        [(859, 291), (879, 272), (889, 286), (893, 307), (890, 323), (879, 344), (860, 325), (867, 306)], # Right Arrow // 23
+                                        [(822, 327), (840, 334), (857, 328), (876, 343), (859, 356), (841, 361), (821, 355), (804, 346)], # Bottom Arrow // 24
+                                        [(803, 272), (823, 290), (815, 307), (822, 327), (804, 344), (789, 323), (789, 309), (793, 285)], # Left Arrow // 25
 
-                                        [(899, 218), (910, 221), (914, 231), (908, 241), (900, 245), (888, 239), (887, 229), (890, 221)] # Power Button
+                                        [(899, 218), (910, 221), (914, 231), (908, 241), (900, 245), (888, 239), (887, 229), (890, 221)] # Power Button // 26
                                         ]
 
-
-
-
-
-        self.remote_round_buttons_clickbox = [
-                                    [(900, 232)], # Power Button
-                                    [(841, 309)] # Play Circle
-                                    ]
-
-        #for box in self.remote_square_buttons_clickbox:
-
-
+        self.number_index_dict = {'4': 1,
+                                  '5': 2,
+                                  '6': 3,
+                                  '7': 4,
+                                  '8': 5,
+                                  '9': 6,
+                                  '10': 7,
+                                  '11': 8,
+                                  '12': 9,
+                                  '13': 0,
+                                  '14': 'L',
+                                  '15': 'F'}
 
         if gs.current_room_view == 1 and gs.room_view_drill_down == 0:
             # Draw Enlarged Remote Inventory Item When Clicked on the TV view
@@ -426,7 +426,56 @@ class Stable_Items():
         """Function to change the TV screen when remote can be opened as well as close the remote"""
         for box in self.remote_square_buttons_clickbox:
             if gf.check_inside_clickbox(self, box, ((event.pos), (0, 0))):
+                box_index = self.remote_square_buttons_clickbox.index(box)
                 print(self.remote_square_buttons_clickbox.index(box)) # todo comment this out later
+
+                # Logic for when buttons are pressed on remote and how they interact with the TV
+                if gs.tv_on == False and box_index == 26:  # Power Button
+                    gs.tv_on = True
+                    print('tv on')
+                    if box_index == 0:  # Volume Up
+                        pass
+                    elif box_index == 1:  # Volume Down
+                        pass
+                    elif box_index == 2:  # Channel Up
+                        pass
+                    elif box_index == 3:  # Channel Down
+                        pass
+                    elif box_index >= 4 and box_index <= 13:  # Numbers 1,2,3,4,5,6,7,8,9,0
+                        print("number")
+                        # todo see dictionary above for all numbers regarding this.  Create a function that converts all entered indexes into actual numbers
+
+                    elif box_index == 14:  # L Button
+                        pass
+                    elif box_index == 15:  # F Button
+                        pass
+                    elif box_index == 16:  # Rewind
+                        pass
+                    elif box_index == 17:  # Play
+                        pass
+                    elif box_index == 18:  # Pause
+                        pass
+                    elif box_index == 19:  # Fast Forward
+                        pass
+                    elif box_index == 20:  # Mute
+                        pass
+                    elif box_index == 21:  # Central Play
+                        pass
+                    elif box_index == 22:  # Top Arrow
+                        pass
+                    elif box_index == 23:  # Right Arrow
+                        pass
+                    elif box_index == 24:  # Bottom Arrow
+                        pass
+                    elif box_index == 25:  # Left Arrow
+                        pass
+
+                else:
+                    gs.tv_on = False
+                    print('tv off')
+
+
+
 
 
         # Closes remote is anywhere is clicked but the remote

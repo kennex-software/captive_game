@@ -143,7 +143,9 @@ class Settings():
         self.door_opened = False  # Default = False
         
         # TV Settings
-        self.tv_on = False  # Default = False 
+        self.tv_on = False  # Default = False
+        self.current_channel = None
+        self.input_channel = None
         
         # Lights Settings
         self.lights_on = True  # Default = False
@@ -185,8 +187,9 @@ class Settings():
         # Control Panel
         self.control_panel_on = True
 
-        # Channel
+        # Channel Code
         self.channel_code = 0
+
 
         # Color Code List --- MOSTLY STATIC --- name: number[0], letter[1], color[2]
             # The numbers will change every time a new game is started

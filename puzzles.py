@@ -6,7 +6,6 @@ import random
 import math
 import pygame
 import pygame.font
-import ptext
 
 # Digit Doubler - Used to find the digits to circle for Puzzle A
 def double_digits(n):
