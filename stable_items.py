@@ -56,22 +56,50 @@ class Stable_Items():
 
             # Page 2
             if page == 2:
+                instructions = ['',
+                                '-The TV can be turned on or off',
+                                '   when you point the remote at it.',
+                                '-Batteries are required for the',
+                                '   remote to work. (Sold separately)',
+                                '-Use the channel buttons to',
+                                '   change the channel.',
+                                '-You can also enter in channels,',
+                                '   but must press the central',
+                                '   play button afterward.',
+                                '-Enjoy your TV!'
+                                ]
                 line_spacing = 200
                 text_height = gs.verdana18.get_height()
 
                 heading_image = gs.garamond30.render('TELEVISION', True, gs.black)
                 screen.blit(heading_image, ((self.page_area.centerx-(heading_image.get_width()/2)), (line_spacing-25)))
 
+                for instruction in instructions:
+                    text_image = gs.verdana18.render(instruction, True, gs.black)
+                    screen.blit(text_image, (460, line_spacing+35))
+                    line_spacing += text_height
 
             # Page 3
             if page == 3:
+                instructions = ['',
+                                '-Cameras can be viewed by going',
+                                '   to the proper camera channel.',
+                                '-Cameras must be powered by a',
+                                '   power cord. (Sold Separately)',
+                                '-Cameras are live action only.',
+                                '-They are not recording.,',
+                                '-Enjoy your cameras!'
+                                ]
                 line_spacing = 200
                 text_height = gs.verdana18.get_height()
 
                 heading_image = gs.garamond30.render('CAMERAS', True, gs.black)
                 screen.blit(heading_image, ((self.page_area.centerx-(heading_image.get_width()/2)), (line_spacing-25)))
 
-
+                for instruction in instructions:
+                    text_image = gs.verdana18.render(instruction, True, gs.black)
+                    screen.blit(text_image, (460, line_spacing+35))
+                    line_spacing += text_height
             # Page 4
             if page == 4:
                 surface = pygame.Surface((100,100))
