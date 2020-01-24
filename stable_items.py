@@ -88,7 +88,7 @@ class Stable_Items():
                                 '-Cameras must be powered by a',
                                 '   power cord. (Sold Separately)',
                                 '-Cameras are live action only.',
-                                '-They are not recording.,',
+                                '-They are not recording.',
                                 '-Enjoy your cameras!'
                                 ]
                 line_spacing = 200
