@@ -65,7 +65,8 @@ class Stable_Items():
                                 '   change the channel.',
                                 '-You can also enter in channels,',
                                 '   but must press the central',
-                                '   play button afterward.',
+                                '   play button afterward.'
+                                '-Some channels may start with 0.',
                                 '-Enjoy your TV!'
                                 ]
                 line_spacing = 200
@@ -335,7 +336,6 @@ class Stable_Items():
             gs.stable_item_opened = False
             color_cover = None
             gs.current_page = 1
-
 
     def change_manual_pages(self, gs, event):
         """Function to change the pages in the manuals"""
