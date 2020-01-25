@@ -151,7 +151,12 @@ class Room():
             
             # TV
             pygame.draw.rect(screen, gs.black, (930, 125, 500, 326))
-            pygame.draw.rect(screen, gs.tv_screen, (945, 140, 470, 296))
+            self.partial_tv_screen_glass = Rect(945, 140, 470, 296)
+            pygame.draw.rect(screen, gs.tv_screen, self.partial_tv_screen_glass)
+
+            if gs.tv_on:
+                channel_text = gs.verdana16.render(str(gs.current_channel), True, gs.green)
+                screen.blit(channel_text, ((self.partial_tv_screen_glass.x + 3), self.partial_tv_screen_glass.y))
 
             # Required in all views if items are opened during the view.
             if gs.stable_item_opened:
@@ -399,10 +404,10 @@ class Room():
 
         # If TV is on, display the channel
         if gs.tv_on:
-            200,145
             channel_text = gs.verdana16.render(str(gs.current_channel), True, gs.green)
+            screen.blit(channel_text, ((self.tv_screen_glass.x + 3), (self.tv_screen_glass.y)))
 
-            screen.blit(channel_text, (198, 140))
+
 
         # Click / Mouseovers
         self.clickbox_tv_stand_side = [(715, 500), (770, 500), (803, 622), (742, 628), (744, 528)]

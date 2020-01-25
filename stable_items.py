@@ -431,7 +431,7 @@ class Stable_Items():
                     elif box_index == 1:  # Volume Down todo figure out how sounds work in pygame
                         pass
                     elif box_index == 2:  # Channel Up
-                        if gs.current_channel.isnumeric():
+                        if gs.current_channel.isnumeric() and len(gs.current_channel) <= 12:
                             gs.current_channel = str(int(gs.current_channel)+1)
                         else:
                             gs.current_channel = 'INVALID'
@@ -488,10 +488,14 @@ class Stable_Items():
                               '14': 'L',
                               '15': 'F'}
         temp_channel = []
-        for button in gs.button_input_list:
-            temp_channel.append(number_index_dict.get(str(button)))
-            gs.current_channel = ''.join(map(str, temp_channel))
-        gs.button_input_list.clear()
+        if len(gs.button_input_list) <= 12:
+            for button in gs.button_input_list:
+                temp_channel.append(number_index_dict.get(str(button)))
+                gs.current_channel = ''.join(map(str, temp_channel))
+            gs.button_input_list.clear()
+        else:
+            gs.current_channel = 'INVALID'
+            gs.button_input_list.clear()
         # print(gs.current_channel) todo delete later
 
     def draw_papers(self, gs, screen):
