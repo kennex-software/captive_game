@@ -397,24 +397,13 @@ class Room():
         pygame.draw.rect(screen, gs.black, (180, 125, 500, 326))  # border around the TV
         pygame.draw.rect(screen, gs.tv_screen, self.tv_screen_glass)
 
-        # TV Channels
-        # Channel 1 | Whitespace todo figure out how to create perlin noise for TV screens (maybe with import noise function)???
-        """lin = np.linspace(0,5,100,endpoint=False)
-        x,y = np.meshgrid(lin,lin) # FIX3: I thought I had to invert x and y here but it was a mistake
-        whitespace = tv_channels.perlin(x,y,seed=2)
-        surf = pygame.surfarray.make_surface(whitespace)
-        screen.blit(surf, (0, 0))"""
-        # Channel 2 | Whitespace todo figure out how to create perlin noise for TV screens (maybe with import noise function)???
-        # Channel 3 | Color Flash todo will flash a specific color which will be needed in the game, maybe every 9 seconds or so
-        # Channel 4 | Camera 1 todo make this a view of Camera 1 (always plugged in)
-        # Channel 5 | Camera 2 todo make this a view of Camera 2, if plugged in... if not, show whitespace (see channel 1)
-        # Channel 6 | Camera 3 todo make this a view of Camera 3 (always plugged in) make this camera the least important, but maybe a view of inside the room
-        # Channel 7 | # todo figure out what to make channel
-        # Channel 8 | Whitespace todo figure out how to create perlin noise for TV screens (maybe with import noise function)???
-        # Channel 9 | # todo figure out what to make channel
+        # If TV is on, display the channel
+        if gs.tv_on:
+            200,145
+            channel_text = gs.verdana16.render(str(gs.current_channel), True, gs.green)
 
+            screen.blit(channel_text, (198, 140))
 
-        
         # Click / Mouseovers
         self.clickbox_tv_stand_side = [(715, 500), (770, 500), (803, 622), (742, 628), (744, 528)]
         self.clickbox_tv_stand_side_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_tv_stand_side, 1) # todo remove this with a comment

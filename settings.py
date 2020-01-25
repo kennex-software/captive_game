@@ -125,7 +125,7 @@ class Settings():
 
         # TV Settings
         self.tv_on = False  # Default = False
-        self.current_channel = None
+        self.current_channel = '3'
 
         
         # Default room view

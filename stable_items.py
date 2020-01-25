@@ -420,7 +420,10 @@ class Stable_Items():
                 if not gs.tv_on:
                     print("tv off")
                     if box_index == 26:
+                        if gs.current_channel == 'INVALID':
+                            gs.current_channel = '3'
                         gs.tv_on = True
+
                         print('tv on')
                 elif gs.tv_on:
                     if box_index == 0:  # Volume Up todo figure out how sounds work in pygame
@@ -428,9 +431,15 @@ class Stable_Items():
                     elif box_index == 1:  # Volume Down todo figure out how sounds work in pygame
                         pass
                     elif box_index == 2:  # Channel Up
-                        gs.current_channel += 1
+                        if gs.current_channel.isnumeric():
+                            gs.current_channel = str(int(gs.current_channel)+1)
+                        else:
+                            gs.current_channel = 'INVALID'
                     elif box_index == 3:  # Channel Down
-                        gs.current_channel -= 1
+                        if gs.current_channel.isnumeric():
+                            gs.current_channel = str(int(gs.current_channel)-1)
+                        else:
+                            gs.current_channel = 'INVALID'
                     elif box_index >= 4 and box_index <= 13:  # Numbers 1,2,3,4,5,6,7,8,9,0
                         gs.button_input_list.append(box_index)
                     elif box_index == 14:  # L Button
@@ -461,10 +470,6 @@ class Stable_Items():
                         gs.tv_on = False
                         print('tv off')
 
-
-
-
-
         # Closes remote is anywhere is clicked but the remote
         if gs.remote_opened == True and not self.remote_rect.collidepoint(event.pos):
             gs.close_remote = True
@@ -483,13 +488,11 @@ class Stable_Items():
                               '14': 'L',
                               '15': 'F'}
         temp_channel = []
-        print(gs.button_input_list)
         for button in gs.button_input_list:
             temp_channel.append(number_index_dict.get(str(button)))
             gs.current_channel = ''.join(map(str, temp_channel))
         gs.button_input_list.clear()
-        print(gs.button_input_list)
-        print(gs.current_channel)
+        # print(gs.current_channel) todo delete later
 
     def draw_papers(self, gs, screen):
         """Function to draw the papers to the screen"""
