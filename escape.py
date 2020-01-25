@@ -20,13 +20,15 @@ def run_game():
     screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF) # add ability to resize window
     pygame.display.set_caption("Escape the Room | Kennex")
 
+    gf.generate_codes(gs) # generates numbers for problems and puzzles
+
     stable_item_blocks = Stable_Items(gs, screen)
     room_view = Room(gs, screen, stable_item_blocks)
     inventory = Inventory(gs, screen, room_view)
     game_objects = GameObjects(gs, screen, inventory)
     cp = Control_Panel(gs, screen)
 
-    gf.generate_codes(gs) # generates numbers for problems and puzzles
+
 
     pygame.time.Clock()
 

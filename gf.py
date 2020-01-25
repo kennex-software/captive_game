@@ -32,11 +32,14 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                         if gs.current_room_view == 1:  # Right from default
                             pass
                         if gs.current_room_view < -1 or gs.current_room_view > 1:  # Fourth wall
-                            pass
+                            if gs.room_view_drill_down == 1:
+                                if gs.safe_uncovered:
+                                    room_view.safe_controls(gs, event)
+
+
                 else:
                     if gs.red_book_opened or gs.blue_book_opened:
                         stable_item_blocks.change_manual_pages(gs, event)
-
                     if gs.remote_opened:
                         stable_item_blocks.remote_buttons_clicked(gs, event)
                     if gs.papers_opened:
