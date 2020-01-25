@@ -186,7 +186,7 @@ class Settings():
         self.pub_code = 0
 
         # Control Panel
-        self.control_panel_on = True
+        self.control_panel_on = False
 
         # Channel Code
         self.channel_code = 0

@@ -10,7 +10,7 @@ from pygame.locals import *
 from pygame.math import Vector2
 from pygame.math import Vector3
 #from noise import pnoise2
-#import tv_channels
+import tv_channels
 import numpy as np
 
 class Room():
@@ -24,7 +24,7 @@ class Room():
         self.e_window = pygame.Rect(305, 80, 500, 600)
         self.click_window_int_frame = pygame.Rect(0, self.e_window.top, 12, self.e_window.height)
         
-        # clickbox_name = [(), (), (), (), (), (), (), (), (), (), (), ()]               
+        # clickbox_name = [(), (), (), (), (), (), (), (), (), (), (), ()]
         
     def room_view_three_1(self, gs, screen, stable_item_blocks):  # View next to TV stand
         # Clear Screen
@@ -157,6 +157,7 @@ class Room():
             if gs.tv_on:
                 channel_text = gs.verdana16.render(str(gs.current_channel), True, gs.green)
                 screen.blit(channel_text, ((self.partial_tv_screen_glass.x + 3), self.partial_tv_screen_glass.y))
+                tv_channels.tv_channels(gs, screen)
 
             # Required in all views if items are opened during the view.
             if gs.stable_item_opened:
@@ -406,6 +407,9 @@ class Room():
         if gs.tv_on:
             channel_text = gs.verdana16.render(str(gs.current_channel), True, gs.green)
             screen.blit(channel_text, ((self.tv_screen_glass.x + 3), (self.tv_screen_glass.y)))
+
+            tv_channels.tv_channels(gs, screen)
+
 
 
 
