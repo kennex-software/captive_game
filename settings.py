@@ -121,6 +121,12 @@ class Settings():
         self.remote_opened = False  # Default = False
         self.close_remote = False  # Default = False
         self.batteries_input = False  # Default = False
+        self.button_input_list = []
+
+        # TV Settings
+        self.tv_on = False  # Default = False
+        self.current_channel = None
+
         
         # Default room view
         self.fourth_wall = False  # Default = False
@@ -141,12 +147,7 @@ class Settings():
         
         # Door Settings
         self.door_opened = False  # Default = False
-        
-        # TV Settings
-        self.tv_on = False  # Default = False
-        self.current_channel = None
-        self.input_channel = None
-        
+
         # Lights Settings
         self.lights_on = True  # Default = False
         

@@ -387,19 +387,6 @@ class Stable_Items():
                                         [(899, 218), (910, 221), (914, 231), (908, 241), (900, 245), (888, 239), (887, 229), (890, 221)] # Power Button // 26
                                         ]
 
-        self.number_index_dict = {'4': 1,
-                                  '5': 2,
-                                  '6': 3,
-                                  '7': 4,
-                                  '8': 5,
-                                  '9': 6,
-                                  '10': 7,
-                                  '11': 8,
-                                  '12': 9,
-                                  '13': 0,
-                                  '14': 'L',
-                                  '15': 'F'}
-
         if gs.current_room_view == 1 and gs.room_view_drill_down == 0:
             # Draw Enlarged Remote Inventory Item When Clicked on the TV view
             self.screen.blit(enlarged_remote, (750,195))
@@ -427,40 +414,41 @@ class Stable_Items():
         for box in self.remote_square_buttons_clickbox:
             if gf.check_inside_clickbox(self, box, ((event.pos), (0, 0))):
                 box_index = self.remote_square_buttons_clickbox.index(box)
-                print(self.remote_square_buttons_clickbox.index(box)) # todo comment this out later
+                print(box_index) # todo comment this out later
 
                 # Logic for when buttons are pressed on remote and how they interact with the TV
-                if gs.tv_on == False and box_index == 26:  # Power Button
-                    gs.tv_on = True
-                    print('tv on')
-                    if box_index == 0:  # Volume Up
+                if not gs.tv_on:
+                    print("tv off")
+                    if box_index == 26:
+                        gs.tv_on = True
+                        print('tv on')
+                elif gs.tv_on:
+                    if box_index == 0:  # Volume Up todo figure out how sounds work in pygame
                         pass
-                    elif box_index == 1:  # Volume Down
+                    elif box_index == 1:  # Volume Down todo figure out how sounds work in pygame
                         pass
                     elif box_index == 2:  # Channel Up
-                        pass
+                        gs.current_channel += 1
                     elif box_index == 3:  # Channel Down
-                        pass
+                        gs.current_channel -= 1
                     elif box_index >= 4 and box_index <= 13:  # Numbers 1,2,3,4,5,6,7,8,9,0
-                        print("number")
-                        # todo see dictionary above for all numbers regarding this.  Create a function that converts all entered indexes into actual numbers
-
+                        gs.button_input_list.append(box_index)
                     elif box_index == 14:  # L Button
-                        pass
+                        gs.button_input_list.append(box_index)
                     elif box_index == 15:  # F Button
-                        pass
+                        gs.button_input_list.append(box_index)
                     elif box_index == 16:  # Rewind
-                        pass
+                        pass # todo print something in text stating that nothing happened
                     elif box_index == 17:  # Play
-                        pass
+                        pass # todo print something in text stating that nothing happened
                     elif box_index == 18:  # Pause
-                        pass
+                        pass # todo print something in text stating that nothing happened
                     elif box_index == 19:  # Fast Forward
-                        pass
-                    elif box_index == 20:  # Mute
+                        pass # todo print something in text stating that nothing happened
+                    elif box_index == 20:  # Mute todo figure out how sounds work in pygame
                         pass
                     elif box_index == 21:  # Central Play
-                        pass
+                        self.remote_entry(gs)
                     elif box_index == 22:  # Top Arrow
                         pass
                     elif box_index == 23:  # Right Arrow
@@ -469,10 +457,9 @@ class Stable_Items():
                         pass
                     elif box_index == 25:  # Left Arrow
                         pass
-
-                else:
-                    gs.tv_on = False
-                    print('tv off')
+                    elif box_index == 26:  # Power Button
+                        gs.tv_on = False
+                        print('tv off')
 
 
 
@@ -481,6 +468,28 @@ class Stable_Items():
         # Closes remote is anywhere is clicked but the remote
         if gs.remote_opened == True and not self.remote_rect.collidepoint(event.pos):
             gs.close_remote = True
+
+    def remote_entry(self, gs):
+        number_index_dict = {'4': 1,
+                              '5': 2,
+                              '6': 3,
+                              '7': 4,
+                              '8': 5,
+                              '9': 6,
+                              '10': 7,
+                              '11': 8,
+                              '12': 9,
+                              '13': 0,
+                              '14': 'L',
+                              '15': 'F'}
+        temp_channel = []
+        print(gs.button_input_list)
+        for button in gs.button_input_list:
+            temp_channel.append(number_index_dict.get(str(button)))
+            gs.current_channel = ''.join(map(str, temp_channel))
+        gs.button_input_list.clear()
+        print(gs.button_input_list)
+        print(gs.current_channel)
 
     def draw_papers(self, gs, screen):
         """Function to draw the papers to the screen"""
