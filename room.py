@@ -330,8 +330,8 @@ class Room():
             if gs.stable_item_opened:
                 self.find_stable_item_opened(gs, screen, stable_item_blocks)
 
-            """
-            # Plant
+
+            # Trash Can todo trash can stuff
             top_of_pot = pygame.Rect(130, 555, 120, 25)
             bottom_of_pot = pygame.Rect(0, 675, 90, 25)
             bottom_of_pot.centerx = top_of_pot.centerx
@@ -350,7 +350,7 @@ class Room():
             
             #pygame.draw.line(screen, gs.black, (), (bottom_of_pot.midleft), 3)
             #pygame.draw.line(screen, gs.black, (top_of_pot.midright), (bottom_of_pot.midright), 3)
-            """
+
         
     def room_view_two(self, gs, screen, stable_item_blocks):  # View with desk / File cabinet
         # Carpet
