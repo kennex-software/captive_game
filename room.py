@@ -63,6 +63,64 @@ class Room():
         pygame.draw.line(screen, gs.black, (876, 508), (0, 508), 5)
         pygame.draw.line(screen, gs.black, (876, 508), (876, 0), 5)
 
+        # Safe
+        self.safe = pygame.Rect(270, 130, 480, 270)
+        self.safe_hole = self.safe.inflate(90, 60)
+        self.safe_cover = self.safe_hole.inflate(10,10)
+        self.safe_handle = pygame.Rect(700, 240, 30, 80)
+
+        if gs.safe_uncovered:  # Safe is covered by a panel that requires a screwdriver to take off
+            # Safe Hole
+            pygame.draw.rect(screen, gs.dark_gray, self.safe_hole)
+            pygame.draw.rect(screen, gs.black, self.safe_hole, 5)
+            pygame.draw.line(screen, gs.black, self.safe_hole.topleft, ((self.safe.topleft[0]+30),(self.safe.topleft[1]+30)), 3)
+            pygame.draw.line(screen, gs.black, self.safe_hole.topright, ((self.safe.topright[0]-30),(self.safe.topright[1]+30)), 3)
+            pygame.draw.line(screen, gs.black, self.safe_hole.bottomleft, ((self.safe.bottomleft[0]+30),(self.safe.bottomleft[1]-40)), 3)
+            pygame.draw.line(screen, gs.black, self.safe_hole.bottomright, ((self.safe.bottomright[0]-30),(self.safe.bottomright[1]-40)), 3)
+
+            # Safe
+            pygame.draw.rect(screen, gs.safe, self.safe)
+            pygame.draw.rect(screen, gs.black, self.safe, 4)
+            # Safe Numbers
+            self.safe_number_rect_n1 = pygame.Rect((self.safe.topleft[0] + 20), (self.safe.topleft[1] + 20), 70, 100)
+            self.safe_number_rect_n2 = self.safe_number_rect_n1.move(90, 0)
+            self.safe_number_rect_n3 = self.safe_number_rect_n2.move(90, 0)
+            self.safe_number_rect_n4 = self.safe_number_rect_n3.move(90, 0)
+
+            # Safe Colors
+            self.safe_number_rect_c1 = self.safe_number_rect_n3.move(0, 130)
+            self.safe_number_rect_c2 = self.safe_number_rect_n4.move(0, 130)
+
+            # Safe Initiation
+            self.safe_number_rect_init = self.safe_number_rect_n1.move(0, 130)
+
+            # Handle
+            pygame.draw.rect(screen, gs.gray, self.safe_handle)
+            pygame.draw.rect(screen, gs.black, self.safe_handle, 3)
+
+            pygame.draw.rect(screen, gs.yellow, self.safe_number_rect_n1) # Number spot 1
+            pygame.draw.rect(screen, gs.yellow, self.safe_number_rect_n2) # Number spot 2
+            pygame.draw.rect(screen, gs.yellow, self.safe_number_rect_n3) # Number spot 3
+            pygame.draw.rect(screen, gs.yellow, self.safe_number_rect_n4) # Number spot 4
+            pygame.draw.rect(screen, gs.yellow, self.safe_number_rect_init) # Initiation
+            pygame.draw.rect(screen, gs.yellow, self.safe_number_rect_c1) # Color spot 1
+            pygame.draw.rect(screen, gs.yellow, self.safe_number_rect_c2) # Color Spot 2
+
+            # Borders
+            pygame.draw.rect(screen, gs.black, self.safe_number_rect_n1, 2) # Number spot 1
+            pygame.draw.rect(screen, gs.black, self.safe_number_rect_n2, 2) # Number spot 2
+            pygame.draw.rect(screen, gs.black, self.safe_number_rect_n3, 2) # Number spot 3
+            pygame.draw.rect(screen, gs.black, self.safe_number_rect_n4, 2) # Number spot 4
+            pygame.draw.rect(screen, gs.black, self.safe_number_rect_init, 2) # Initiation
+            pygame.draw.rect(screen, gs.black, self.safe_number_rect_c1, 2) # Color spot 1
+            pygame.draw.rect(screen, gs.black, self.safe_number_rect_c2, 2) # Color Spot 2
+
+        else:  # Safe Panel not removed
+            pygame.draw.rect(screen, gs.door, self.safe_cover)
+            pygame.draw.rect(screen, gs.black, self.safe_cover, 2)
+
+
+
         # Required in all views if items are opened during the view.
         if gs.stable_item_opened:
             self.find_stable_item_opened(gs, screen, stable_item_blocks)
@@ -559,6 +617,7 @@ class Room():
         ### Back button
         if game_objects.go_back.collidepoint(event.pos) and gs.stable_item_opened == False:
             gs.room_view_drill_down = 0
+            gs.current_room_view = int(gs.current_room_view // 1)
 
     def drill_down_views(self, gs, screen, game_objects, event):
         """Moves player between various drill down views on each view already"""        
@@ -573,15 +632,19 @@ class Room():
         if gs.current_room_view == 1:  # Right from default
             if gf.check_inside_clickbox(self, self.clickbox_tv_stand_side, ((event.pos), (0, 0))):
                 gs.room_view_drill_down = 1
+                #gs.current_room_view = 3.1
             
         if gs.current_room_view < -1 or gs.current_room_view > 1:  # Fourth wall
             #if self.clickbox_closet_right.collidepoint(event.pos):
-            if gf.check_inside_clickbox(self, self.clickbox_closet_right, ((event.pos), (0, 0))):
-                gs.room_view_drill_down = 1
-            if self.window.collidepoint(event.pos):
-                gs.room_view_drill_down = 2
+            if gs.room_view_drill_down == 0:
+                if gf.check_inside_clickbox(self, self.clickbox_closet_right, ((event.pos), (0, 0))):
+                    gs.room_view_drill_down = 1
+                if self.window.collidepoint(event.pos):
+                    gs.room_view_drill_down = 2
+                    #gs.current_room_view = 4.2
             if self.click_window_int_frame.collidepoint(event.pos) and gs.room_view_drill_down == 2:
                 gs.room_view_drill_down = 2.1
+                #gs.current_room_view = 4.21
 
     def open_drawers(self, gs, screen, game_objects, event):
         """Opens drawers (file cabinets and desk drawers when the user clicks them"""

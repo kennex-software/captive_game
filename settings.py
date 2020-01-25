@@ -87,6 +87,7 @@ class Settings():
         self.dark_wood = (95, 90, 89)
         self.darker_wood = (69, 64, 63)
         self.tv_screen = (82, 82, 82)
+        self.safe = (47, 54, 82)
         
         self.red_book_color = (120, 33, 33)  # Red One
         self.blue_book_color = (66, 72, 158)  # Blue one
@@ -126,6 +127,9 @@ class Settings():
         # TV Settings
         self.tv_on = False  # Default = False
         self.current_channel = '3'
+
+        # Safe Settings
+        self.safe_uncovered = True # Default = false
 
         
         # Default room view
