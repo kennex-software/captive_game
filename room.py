@@ -30,6 +30,8 @@ class Room():
         self.safe_cover = self.safe_hole.inflate(10,10)
         self.safe_handle = pygame.Rect(700, 240, 30, 80)
         self.safe_use_color = gs.red
+        self.safe_status_color_on = gs.black
+        self.safe_status_color_off = gs.red
 
         # Safe Numbers
         self.safe_number_rect_n1 = pygame.Rect((self.safe.topleft[0] + 20), (self.safe.topleft[1] + 20), 70, 100)
@@ -51,19 +53,7 @@ class Room():
         self.index_color1 = gs.color_codes.get('purple')[0]
         self.index_color2 = gs.color_codes.get('purple')[0]
 
-
-        """
-                self.color_codes = {'purple': [1, 'p', self.purple],
-                            'blue': [2, 'b', self.blue],
-                            'green': [3, 'g', self.green],
-                            'yellow': [4, 'y', self.bright_yellow],
-                            'orange':[5, 'o', self.orange],
-                            'red': [6, 'r', self.red]}
-        """
-
-
-
-        # Safe Initiation
+        # Safe Initialization
         self.safe_use_rect = self.safe_number_rect_n1.move(0, 130)
         
         # clickbox_name = [(), (), (), (), (), (), (), (), (), (), (), ()]
@@ -122,11 +112,43 @@ class Room():
             pygame.draw.rect(screen, gs.gray, self.safe_handle)
             pygame.draw.rect(screen, gs.black, self.safe_handle, 3)
 
+            # Numbers
             pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n1) # Number spot 1
             pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n2) # Number spot 2
             pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n3) # Number spot 3
             pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n4) # Number spot 4
 
+            self.n1_image = gs.arial60.render(str(self.safe_number_n1), True, gs.black) # n1 text
+            self.n2_image = gs.arial60.render(str(self.safe_number_n2), True, gs.black) # n2 text
+            self.n3_image = gs.arial60.render(str(self.safe_number_n3), True, gs.black) # n3 text
+            self.n4_image = gs.arial60.render(str(self.safe_number_n4), True, gs.black) # n4 text
+
+            self.n1_rect = self.n1_image.get_rect(center=self.safe_number_rect_n1.center) # n1 rect
+            self.n2_rect = self.n2_image.get_rect(center=self.safe_number_rect_n2.center) # n2 rect
+            self.n3_rect = self.n3_image.get_rect(center=self.safe_number_rect_n3.center) # n3 rect
+            self.n4_rect = self.n4_image.get_rect(center=self.safe_number_rect_n4.center) # n4 rect
+
+            screen.blit(self.n1_image, self.n1_rect) # n1 blit
+            screen.blit(self.n2_image, self.n2_rect) # n2 blit
+            screen.blit(self.n3_image, self.n3_rect) # n3 blit
+            screen.blit(self.n4_image, self.n4_rect) # n4 blit
+
+            # On / Off Settings
+            self.safe_on_block = pygame.Rect(657, 170, 8, 8)
+            self.safe_off_block = self.safe_on_block.move(0, 30)
+
+            pygame.draw.circle(screen, self.safe_status_color_on, self.safe_on_block.center, 8)
+            pygame.draw.circle(screen, self.safe_status_color_off, self.safe_off_block.center, 8)
+            pygame.draw.circle(screen, gs.black, self.safe_on_block.center, 9, 2)
+            pygame.draw.circle(screen, gs.black, self.safe_off_block.center, 9, 2)
+
+            self.on_text = gs.arial16.render('ON', True, gs.white)
+            self.off_text = gs.arial16.render('OFF', True, gs.white)
+
+            screen.blit(self.on_text, ((self.safe_on_block.x + 20), self.safe_on_block.y - 6))
+            screen.blit(self.off_text, ((self.safe_off_block.x + 20), self.safe_off_block.y - 6))
+
+            # Initialization Block
             pygame.draw.rect(screen, self.safe_use_color, self.safe_use_rect) # Initiation
             pygame.draw.rect(screen, self.safe_color_c1, self.safe_number_rect_c1) # Color spot 1
             pygame.draw.rect(screen, self.safe_color_c2, self.safe_number_rect_c2) # Color Spot 2
@@ -152,27 +174,64 @@ class Room():
         if gs.stable_item_opened:
             self.find_stable_item_opened(gs, screen, stable_item_blocks)
 
-    def safe_controls(self, gs, event):
+    def safe_controls(self, gs, screen, event):
+        if gs.safe_on:
 
-        if self.safe_use_rect.collidepoint(event.pos):
-            self.safe_use_color = gs.green
+            # Number Button 1
+            if self.safe_number_rect_n1.collidepoint(event.pos):
+                self.safe_number_n1 += 1
+                gs.safe_combo_n1 = self.safe_number_n1
+                if self.safe_number_n1 > 9:
+                    self.safe_number_n1 = 0
 
-        elif self.safe_number_rect_c1.collidepoint(event.pos):
-            for v in gs.color_codes.values():
-                if v[0] == self.index_color1:
-                    self.safe_color_c1 = v[2]
-            if self.index_color1 == 6:
-                self.index_color1 = 1
-            else:
-                self.index_color1 += 1
-        elif self.safe_number_rect_c2.collidepoint(event.pos):
-            for v in gs.color_codes.values():
-                if v[0] == self.index_color2:
-                    self.safe_color_c2 = v[2]
-            if self.index_color2 == 6:
-                self.index_color2 = 1
-            else:
-                self.index_color2 += 1
+            # Number Button 2
+            if self.safe_number_rect_n2.collidepoint(event.pos):
+                self.safe_number_n2 += 1
+                gs.safe_combo_n2 = self.safe_number_n2
+                if self.safe_number_n2 > 9:
+                    self.safe_number_n2 = 0
+
+            # Number Button 3
+            if self.safe_number_rect_n3.collidepoint(event.pos):
+                self.safe_number_n3 += 1
+                gs.safe_combo_n3 = self.safe_number_n3
+                if self.safe_number_n3 > 9:
+                    self.safe_number_n3 = 0
+
+            # Number Button 4
+            if self.safe_number_rect_n4.collidepoint(event.pos):
+                self.safe_number_n4 += 1
+                gs.safe_combo_n4 = self.safe_number_n4
+                if self.safe_number_n4 > 9:
+                    self.safe_number_n4 = 0
+
+
+            # Color Button 1
+            elif self.safe_number_rect_c1.collidepoint(event.pos):
+                for v in gs.color_codes.values():
+                    if v[0] == self.index_color1:
+                        self.safe_color_c1 = v[2]
+                        gs.color_number_1 = v[0]
+                if self.index_color1 == 6:
+                    self.index_color1 = 1
+                else:
+                    self.index_color1 += 1
+
+            # Color Button 2
+            elif self.safe_number_rect_c2.collidepoint(event.pos):
+                for v in gs.color_codes.values():
+                    if v[0] == self.index_color2:
+                        self.safe_color_c2 = v[2]
+                        gs.color_number_2 = v[0]
+                if self.index_color2 == 6:
+                    self.index_color2 = 1
+                else:
+                    self.index_color2 += 1
+
+            # Initialization todo some sort of channel or something
+            elif self.safe_use_rect.collidepoint(event.pos):
+                self.safe_use_color = gs.green
+
 
         
     def room_view_four_2(self, gs, screen, stable_item_blocks):  # View of window

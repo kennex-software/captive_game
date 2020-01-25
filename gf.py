@@ -34,7 +34,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                         if gs.current_room_view < -1 or gs.current_room_view > 1:  # Fourth wall
                             if gs.room_view_drill_down == 1:
                                 if gs.safe_uncovered:
-                                    room_view.safe_controls(gs, event)
+                                    room_view.safe_controls(gs, screen, event)
 
 
                 else:

@@ -26,8 +26,11 @@ class Settings():
         self.verdana16 = pygame.font.SysFont("Verdana", 16, True)
         self.verdana18 = pygame.font.SysFont("Verdana", 18, True)
         self.verdana22 = pygame.font.SysFont("Verdana", 22, True)
+
         self.arial16 = pygame.font.SysFont("Arial", 16, True)
         self.arial22 = pygame.font.SysFont("Arial", 22, True)
+        self.arial60 = pygame.font.SysFont("Arial", 60, True)
+
         self.garamond16 = pygame.font.SysFont("Garamond", 16, True)
         self.garamond22 = pygame.font.SysFont("Garamond", 22, True)
         self.garamond30 = pygame.font.SysFont("Garamond", 30, True)
@@ -130,6 +133,14 @@ class Settings():
 
         # Safe Settings
         self.safe_uncovered = True # Default = false
+        self.safe_on = True  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo figure out how to turn on safe
+        self.safe_initialized = False # Safe can only be opened if a certain channel is on the TV
+        self.color_number_1 = None  # This number is needed to open the safe
+        self.color_number_2 = None  # This number is needed to open the safe
+        self.safe_combo_n1 = None  # This number is needed to open the safe
+        self.safe_combo_n2 = None  # This number is needed to open the safe
+        self.safe_combo_n3 = None  # This number is needed to open the safe
+        self.safe_combo_n4 = None  # This number is needed to open the safe
 
         
         # Default room view
