@@ -118,9 +118,13 @@ class Settings():
         self.camera_manual_found = False
         self.chair_manual_found = False
         self.desk_drawer_removed = False
+        self.shirt_found = False
 
         # Stable Items in Inventory Settings
         self.stable_item_opened = False  # Default = False
+
+        # Shirt Settings
+        self.shirt_opened = False
 
         # Remote Settings
         self.remote_opened = False  # Default = False

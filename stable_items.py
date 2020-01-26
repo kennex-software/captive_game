@@ -10,11 +10,13 @@ from settings import Settings
 import inventory
 
 i_enlarged_remote = 'images/remote_enlarged.png'
+i_big_shirt = 'images/shirt_no_hang.png'
 i_enlarged_papers_top1 = 'images/papers_1top.png'
 i_enlarged_papers_top2 = 'images/papers_2top.png'
 i_enlarged_papers_top3 = 'images/papers_3top.png'
 
 enlarged_remote = pygame.image.load(i_enlarged_remote)
+enlarged_shirt = pygame.image.load(i_big_shirt)
 enlarged_papers_top1 = pygame.image.load(i_enlarged_papers_top1)
 enlarged_papers_top2 = pygame.image.load(i_enlarged_papers_top2)
 enlarged_papers_top3 = pygame.image.load(i_enlarged_papers_top3)
@@ -252,6 +254,22 @@ class Stable_Items():
                     pygame.draw.rect(screen, gs.black, current_grid, 3)
                 """
 
+    def open_shirt(self, gs, screen):
+        # Open Shirt
+        self.shirt_rect = enlarged_shirt.get_rect(center = screen.get_rect().center)
+        self.screen.blit(enlarged_shirt, self.shirt_rect)
+
+
+    def shirt_clicks(self, gs, event):
+        print('clicked shirt')
+        # Closes shirt if anywhere is clicked but the shirt
+        if gs.shirt_opened == True and not self.shirt_rect.collidepoint(event.pos):
+            gs.shirt_opened = False
+            gs.stable_item_opened = False
+
+
+
+
     def draw_manual(self, gs, screen):  # Defines and draws the manuals when they are clicked todo figure out what needs to go in the manuals
         """Function to draw the manuals to the screen based on the inputs given, i.e. which color/which one is clicked"""
 
@@ -470,7 +488,7 @@ class Stable_Items():
                         gs.tv_on = False
                         print('tv off')
 
-        # Closes remote is anywhere is clicked but the remote
+        # Closes remote if anywhere is clicked but the remote
         if gs.remote_opened == True and not self.remote_rect.collidepoint(event.pos):
             gs.close_remote = True
 

@@ -14,6 +14,9 @@ from pygame.math import Vector3
 import tv_channels
 import numpy as np
 
+hanging_shirt_load = 'images/shirt.png' # Shirt
+hanging_shirt = pygame.image.load(hanging_shirt_load)
+
 class Room():
     """Class to store the objects of the rooms and the views regarding them"""
     
@@ -679,25 +682,11 @@ class Room():
         pygame.draw.rect(screen, gs.black, (937, 552, 12, 12), 1)
 
         # Closet Items
-        #hanger_lines = [(125, 225), (131, 227), (131, 247), (160, 290), (92, 275), (131, 247)]
 
-        hanger_surface = pygame.Surface((75, 80), pygame.SRCALPHA)
-        hanger_lines = [(34, 3), (40, 5), (40, 25), (69, 68), (1, 53), (40, 25)]
+        # Shirt in Closet
+        self.shirt_surface = pygame.Rect(125, 212, 150, 235)
+        screen.blit(pygame.transform.smoothscale(hanging_shirt, (150, 235)), self.shirt_surface)
 
-        hanger_surface.fill(gs.transcolor)
-
-        pygame.draw.lines(hanger_surface, gs.black, False, hanger_lines, 4)
-        pygame.draw.lines(hanger_surface, gs.gray, False, hanger_lines, 2)
-
-
-        self.screen.blit(hanger_surface, (200, 203))
-        self.screen.blit(hanger_surface, (165, 209))
-        self.screen.blit(hanger_surface, (91, 221))
-
-        shirt_surface = pygame.Surface((110, 185), pygame.SRCALPHA)
-        #shirt_lines = [(152, 445), (242, 439), (240, 273), (226, 251), (204, 253), (189, 251), (181, 240), (163, 262)]
-        #pygame.draw.polygon(screen, gs.red, shirt_lines)
-        
         # Click / Mouseovers
         self.clickbox_closet_right = [(280, 516), (332, 530), (332, 615), (269, 574)]
         self.clickbox_closet_right_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_closet_right, 1)
@@ -863,6 +852,9 @@ class Room():
 
         if gs.papers_opened:
             stable_item_blocks.draw_papers(gs, screen)
+
+        if gs.shirt_opened:
+            stable_item_blocks.open_shirt(gs, screen)
 
 
 

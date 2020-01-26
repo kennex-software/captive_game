@@ -24,6 +24,7 @@ i_power_cord = 'images/power_cord.png' # Power Cord
 i_papers = 'images/papers.png' # Papers
 i_red_book = 'images/red_book.png' # Red Book
 i_blue_book = 'images/blue_book.png' # Blue Book
+i_shirt = 'images/shirt_no_hang.png' # Shirt
 
 door_key = pygame.image.load(i_door_key)
 fc_key1 = pygame.image.load(i_fc_key1)
@@ -35,6 +36,7 @@ power_cord = pygame.image.load(i_power_cord)
 papers = pygame.image.load(i_papers)
 red_book = pygame.image.load(i_red_book)
 blue_book = pygame.image.load(i_blue_book)
+shirt = pygame.image.load(i_shirt)
 
 sur_inv_desk_drawer = pygame.Surface((218, 94), pygame.SRCALPHA)
 sur_inv_desk_drawer.fill((254, 254, 254, 0))
@@ -117,6 +119,9 @@ class Inventory():
             self.screen.blit(pygame.transform.smoothscale(camera_manual, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[2])
         if gs.chair_manual_found == True:  # Draw Chair Manual Inventory Item
             self.screen.blit(pygame.transform.smoothscale(chair_manual, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[3])
+        if gs.shirt_found == True:
+            # Draw Shirt
+            self.screen.blit(pygame.transform.smoothscale(shirt, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[4])
         if gs.desk_drawer_removed == True:  # Draw Desk Drawer
             sdx = inv_items_stable[4].centerx
             sdy = inv_items_stable[4].centery
@@ -147,9 +152,11 @@ class Inventory():
         self.screen.blit(pygame.transform.smoothscale(red_book, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[2])
         # Draw Chair Manual Inventory Item
         self.screen.blit(pygame.transform.smoothscale(blue_book, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[3])
+        # Draw Shirt
+        self.screen.blit(pygame.transform.smoothscale(shirt, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[4])
         # Draw Desk Drawer
-        sdx = inv_items_stable[4].centerx
-        sdy = inv_items_stable[4].centery
+        sdx = inv_items_stable[5].centerx
+        sdy = inv_items_stable[5].centery
         scaled_drawer = gf.aspect_scale(sur_inv_desk_drawer, int(gs.inv_item_w))
         self.screen.blit(scaled_drawer, (sdx - scaled_drawer.get_width() // 2, sdy - scaled_drawer.get_height() // 2 ))
         
@@ -203,11 +210,13 @@ class Inventory():
                 if index == 3:
                     gs.blue_book_opened = not gs.blue_book_opened
                     gs.current_manual = 'blue_book'
-                if index == 4:  # todo figure out what to do with this later
+                if index == 4:
+                    gs.shirt_opened = not gs.shirt_opened
+                if index == 5:  # todo figure out what to do with this later
                     gs.stable_item_opened = False
                     print("drawer")
                     gf.print_settings(gs)
-                if index == 5: # todo figure out what to do with this later
+                if index == 6: # todo figure out what to do with this later
                     gs.stable_item_opened = False
                     print("empty")
 
