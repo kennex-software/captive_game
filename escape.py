@@ -69,3 +69,4 @@ TO DO LIST
 # todo draw the shirt sprites
 # todo draw the screwdriver sprites
 # todo draw all sprites that need to be placed somewhere in game
+# todo draw open door

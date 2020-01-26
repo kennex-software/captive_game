@@ -80,6 +80,7 @@ class Settings():
         self.gray = (173, 168, 168)
         self.dark_gray = (53, 53, 53)
         self.dark_blue = (80, 92, 111) # Interior Walls
+        self.dark_brown = (56, 25, 11)
         
         self.carpet = (128, 128, 130)  # Carpet
         self.door = (81, 85, 88)  # Door / Fairly dark gray

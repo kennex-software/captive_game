@@ -7,6 +7,7 @@ from inventory import Inventory
 #from objects import GameObjects
 from stable_items import Stable_Items
 from pygame.locals import *
+from math import pi
 from pygame.math import Vector2
 from pygame.math import Vector3
 #from noise import pnoise2
@@ -262,9 +263,37 @@ class Room():
     def room_view_four_2_1(self, gs, screen, stable_item_blocks):  # View of outside window todo figure out what to do outside of the window
         # Clear Screen
         screen.fill(gs.white)
-        
+
+
+        # Required in all views if items are opened during the view.
+        if gs.stable_item_opened:
+            self.find_stable_item_opened(gs, screen, stable_item_blocks)
         # Window
         """ Change the code here to whatever needs to happen outside of the window"""
+
+        # Required in all views if items are opened during the view.
+        if gs.stable_item_opened:
+            self.find_stable_item_opened(gs, screen, stable_item_blocks)
+
+    def room_view_zero_1(self, gs, screen, stable_item_blocks):  # View of inside trash can
+        # Clear Screen
+        screen.fill(gs.carpet)
+
+        self.can_opening_rect = pygame.Rect(350, 220, 350, 350)
+
+        pygame.draw.circle(screen, gs.dark_brown, self.can_opening_rect.center, 250)
+        pygame.draw.circle(screen, gs.black, self.can_opening_rect.center, 250, 3)
+        pygame.draw.circle(screen, gs.brown, self.can_opening_rect.center, 149)
+        pygame.draw.circle(screen, gs.black, self.can_opening_rect.center, 150, 3)
+
+        pygame.draw.rect(screen, gs.bg_color, (0, 0, 1190, 84))
+
+        pygame.draw.line(screen, gs.black, (0, 84), (1190, 84), 5)
+
+
+
+
+
 
         # Required in all views if items are opened during the view.
         if gs.stable_item_opened:
@@ -326,30 +355,35 @@ class Room():
                 screen.blit(channel_text, ((self.partial_tv_screen_glass.x + 3), self.partial_tv_screen_glass.y))
                 tv_channels.tv_channels(gs, screen)
 
+            # Trash Can todo trash can stuff
+            self.top_of_can = pygame.Rect(130, 555, 120, 25)
+            bottom_of_can = pygame.Rect(0, 675, 90, 25)
+            bottom_of_can.centerx = self.top_of_can.centerx
+
+
+            pygame.draw.polygon(screen, gs.brown, ((self.top_of_can.midleft), (self.top_of_can.midright), (bottom_of_can.midright), (bottom_of_can.midleft)))
+
+            pygame.draw.polygon(screen, gs.black, ((self.top_of_can.midleft), (self.top_of_can.midright), (bottom_of_can.midright), (bottom_of_can.midleft)), 3)
+            pygame.draw.ellipse(screen, gs.brown, bottom_of_can)
+
+            pygame.draw.ellipse(screen, gs.dark_brown, self.top_of_can)
+
+            pygame.draw.arc(screen, gs.black, bottom_of_can, pi, 2*pi, 3)
+            pygame.draw.arc(screen, gs.black, bottom_of_can, .05+pi, 2*pi+.05, 3)
+
+            pygame.draw.ellipse(screen, gs.black, self.top_of_can, 3)
+
+            if gs.room_view_drill_down == 0.1:
+                self.room_view_zero_1(gs, screen, stable_item_blocks)
+
             # Required in all views if items are opened during the view.
             if gs.stable_item_opened:
                 self.find_stable_item_opened(gs, screen, stable_item_blocks)
 
 
-            # Trash Can todo trash can stuff
-            top_of_pot = pygame.Rect(130, 555, 120, 25)
-            bottom_of_pot = pygame.Rect(0, 675, 90, 25)
-            bottom_of_pot.centerx = top_of_pot.centerx
-            
-            
-            pygame.draw.polygon(screen, gs.brown, ((top_of_pot.midleft), (top_of_pot.midright), (bottom_of_pot.midright), (bottom_of_pot.midleft)))
-            
-            pygame.draw.polygon(screen, gs.black, ((top_of_pot.midleft), (top_of_pot.midright), (bottom_of_pot.midright), (bottom_of_pot.midleft)), 3)
-            pygame.draw.ellipse(screen, gs.brown, bottom_of_pot)
-            pygame.draw.ellipse(screen, gs.black, bottom_of_pot, 3)
-            pygame.draw.ellipse(screen, gs.dark_gray, top_of_pot)
-            
-            
-            
-            pygame.draw.ellipse(screen, gs.black, top_of_pot, 3)
-            
-            #pygame.draw.line(screen, gs.black, (), (bottom_of_pot.midleft), 3)
-            #pygame.draw.line(screen, gs.black, (top_of_pot.midright), (bottom_of_pot.midright), 3)
+
+
+
 
         
     def room_view_two(self, gs, screen, stable_item_blocks):  # View with desk / File cabinet
@@ -667,7 +701,7 @@ class Room():
         # Click / Mouseovers
         self.clickbox_closet_right = [(280, 516), (332, 530), (332, 615), (269, 574)]
         self.clickbox_closet_right_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_closet_right, 1)
-        
+
         if gs.room_view_drill_down == 1:
             self.room_view_four_1(gs, screen, stable_item_blocks)
             
@@ -676,6 +710,7 @@ class Room():
             
         if gs.room_view_drill_down == 2.1:
             self.room_view_four_2_1(gs, screen, stable_item_blocks)
+
 
         # Required in all views if items are opened during the view.
         if gs.stable_item_opened:
@@ -686,7 +721,7 @@ class Room():
         
         if gs.current_room_view == 0:   # Default View
             gs.fourth_wall = False
-            gs.drill_possible = False
+            gs.drill_possible = True
             self.room_view_one(gs, screen, stable_item_blocks)
 
         if gs.current_room_view == -1:  # Left from default
@@ -733,7 +768,9 @@ class Room():
         # Drill Down Views
         
         if gs.current_room_view == 0:   # Default View
-            pass
+            if self.top_of_can.collidepoint(event.pos):
+                gs.room_view_drill_down = 0.1
+                #gs.current_room_view = 4.21
 
         if gs.current_room_view == -1:  # Left from default
             pass
@@ -812,7 +849,6 @@ class Room():
     def switch_light(self, gs, event):
         if self.light_switch.collidepoint(event.pos):
             gs.lights_on = not gs.lights_on
-
 
     def find_stable_item_opened(self, gs, screen, stable_item_blocks):
         # Use this area to open all of the stable items in all views
