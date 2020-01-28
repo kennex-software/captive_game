@@ -25,6 +25,7 @@ i_papers = 'images/papers.png' # Papers
 i_red_book = 'images/red_book.png' # Red Book
 i_blue_book = 'images/blue_book.png' # Blue Book
 i_shirt = 'images/shirt_no_hang.png' # Shirt
+i_screwdriver = 'images/flathead.png' # Screwdriver
 
 door_key = pygame.image.load(i_door_key)
 fc_key1 = pygame.image.load(i_fc_key1)
@@ -37,6 +38,7 @@ papers = pygame.image.load(i_papers)
 red_book = pygame.image.load(i_red_book)
 blue_book = pygame.image.load(i_blue_book)
 shirt = pygame.image.load(i_shirt)
+screwdriver = pygame.image.load(i_screwdriver)
 
 sur_inv_desk_drawer = pygame.Surface((218, 94), pygame.SRCALPHA)
 sur_inv_desk_drawer.fill((254, 254, 254, 0))
@@ -79,7 +81,7 @@ class Inventory():
         
 
         # Range of inventory list | Need to figure out and fix the height variables        here V   and    here V
-        for y in range(8):
+        for y in range(7):
             inv_items_spaces.append(pygame.Rect(gs.sidebar_x+gs.item_offset_w, gs.item_offset_h+65*y, gs.inv_item_w, gs.inv_item_h))
             inv_items_stable.append(pygame.Rect(gs.inv_item_w+gs.sidebar_x+gs.item_offset_w*2, gs.item_offset_h+65*y, gs.inv_item_w, gs.inv_item_h))            
 
@@ -123,8 +125,8 @@ class Inventory():
             # Draw Shirt
             self.screen.blit(pygame.transform.smoothscale(shirt, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[4])
         if gs.desk_drawer_removed == True:  # Draw Desk Drawer
-            sdx = inv_items_stable[4].centerx
-            sdy = inv_items_stable[4].centery
+            sdx = inv_items_stable[5].centerx
+            sdy = inv_items_stable[5].centery
             scaled_drawer = gf.aspect_scale(sur_inv_desk_drawer, int(gs.inv_item_w))
             self.screen.blit(scaled_drawer, (sdx - scaled_drawer.get_width() // 2, sdy - scaled_drawer.get_height() // 2 ))    
             
@@ -141,6 +143,8 @@ class Inventory():
             self.screen.blit(pygame.transform.smoothscale(batteries, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[4])
         if gs.power_cord_found == True:  # Draw Power Cord Inventory Item
             self.screen.blit(pygame.transform.smoothscale(power_cord, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[5])
+        if gs.screwdriver_found == True  # Draw Screwdriver Inventory Item
+            self.screen.blit(pygame.transform.smoothscale(screwdriver, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[6])
         """
         
         ### Stable Items
@@ -159,6 +163,11 @@ class Inventory():
         sdy = inv_items_stable[5].centery
         scaled_drawer = gf.aspect_scale(sur_inv_desk_drawer, int(gs.inv_item_w))
         self.screen.blit(scaled_drawer, (sdx - scaled_drawer.get_width() // 2, sdy - scaled_drawer.get_height() // 2 ))
+
+        # settings 'S' todo remove this later
+        text = 'S'
+        text_image = gs.arial60.render(text, True, gs.black)
+        self.screen.blit(text_image, inv_items_stable[6])
         
         ### Moveable Items
         # Draw Door Key Inventory Item
@@ -173,6 +182,8 @@ class Inventory():
         self.screen.blit(pygame.transform.smoothscale(batteries, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[4])
         # Draw Power Cord Inventory Item
         self.screen.blit(pygame.transform.smoothscale(power_cord, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[5])
+        # Draw Screwdriver Inventory Item
+        self.screen.blit(pygame.transform.smoothscale(screwdriver, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[6])
 
         
         # Draw pick boxes
@@ -212,13 +223,11 @@ class Inventory():
                     gs.current_manual = 'blue_book'
                 if index == 4:
                     gs.shirt_opened = not gs.shirt_opened
-                if index == 5:  # todo figure out what to do with this later
-                    gs.stable_item_opened = False
-                    print("drawer")
-                    gf.print_settings(gs)
+                if index == 5:
+                    gs.desk_drawer_up = not gs.desk_drawer_up
                 if index == 6: # todo figure out what to do with this later
                     gs.stable_item_opened = False
-                    print("empty")
+                    gf.print_settings(gs)
 
     def item_grabbed(self, gs, screen, event):  # Referenced from gf
         """Drags items around screen"""

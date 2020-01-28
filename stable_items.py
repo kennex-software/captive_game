@@ -259,12 +259,26 @@ class Stable_Items():
         self.shirt_rect = enlarged_shirt.get_rect(center = screen.get_rect().center)
         self.screen.blit(enlarged_shirt, self.shirt_rect)
 
-
     def shirt_clicks(self, gs, event):
-        print('clicked shirt')
         # Closes shirt if anywhere is clicked but the shirt
         if gs.shirt_opened == True and not self.shirt_rect.collidepoint(event.pos):
             gs.shirt_opened = False
+            gs.stable_item_opened = False
+
+    def pull_up_desk_drawer(self, gs, screen):
+        # Pull up drawer
+
+        sdx = screen.get_rect().centerx
+        sdy = screen.get_rect().centery
+        self.scaled_drawer = gf.aspect_scale(inventory.sur_inv_desk_drawer, 400)
+        self.drawer_rect = self.scaled_drawer.get_rect(center = screen.get_rect().center)
+        self.screen.blit(self.scaled_drawer, (sdx - self.scaled_drawer.get_width() // 2, sdy - self.scaled_drawer.get_height() // 2 ))
+
+    def pull_up_desk_drawer_clicks(self, gs, event):
+        # Closes drawer if anywhere is clicked but the drawer
+
+        if gs.desk_drawer_up == True and not self.drawer_rect.collidepoint(event.pos):
+            gs.desk_drawer_up = False
             gs.stable_item_opened = False
 
 

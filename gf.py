@@ -46,6 +46,8 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                         stable_item_blocks.change_papers(gs, event)
                     if gs.shirt_opened:
                         stable_item_blocks.shirt_clicks(gs, event)
+                    if gs.desk_drawer_up:
+                        stable_item_blocks.pull_up_desk_drawer_clicks(gs, event)
                 if gs.control_panel_on:
                     cp.check_clicked_setting(gs, screen, event)
                     if cp.selected == 1:

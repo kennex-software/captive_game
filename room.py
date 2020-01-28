@@ -856,6 +856,9 @@ class Room():
         if gs.shirt_opened:
             stable_item_blocks.open_shirt(gs, screen)
 
+        if gs.desk_drawer_up:
+            stable_item_blocks.pull_up_desk_drawer(gs, screen)
+
 
 
 

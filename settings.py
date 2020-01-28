@@ -119,6 +119,7 @@ class Settings():
         self.chair_manual_found = False
         self.desk_drawer_removed = False
         self.shirt_found = False
+        self.screwdriver_found = False
 
         # Stable Items in Inventory Settings
         self.stable_item_opened = False  # Default = False
@@ -164,6 +165,7 @@ class Settings():
         self.dd3_opened = False  # Default = False
         
         self.dd3_open_attempts = 0  # Default = 0
+        self.desk_drawer_up = False
         
         # Door Settings
         self.door_opened = False  # Default = False
