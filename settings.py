@@ -108,7 +108,7 @@ class Settings():
         self.selected_item_start_y = 0
         
         # Inventory Items Found
-        self.all_items_visible = False # Default = False // Allows to toggle all items on or off
+        self.all_items_visible = True # Default = False // Allows to toggle all items on or off
         self.door_key_found = False # Default = False
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
@@ -181,7 +181,17 @@ class Settings():
         
         self.dd3_open_attempts = 0  # Default = 0
         self.desk_drawer_up = False
-        
+
+        # Locked Settings
+        self.fcd1_locked = False  # Default = False
+        self.fcd2_locked = True  # Default = True // Unlocked with Purple Key
+        self.dd1_locked = True  # Default = True // Unlocked with Green Key
+        self.dd2_locked = False  # Default = False
+        self.dd3_locked = True  # Default = True // Unlocked with Red Key
+        self.door_locked = True  # Default = True // Unlocked with Door Key (Gold)
+
+        self.all_unlocked = False # Default = False // Unlocks all drawers / doors
+
         # Door Settings
         self.door_opened = False  # Default = False todo change to false
         self.door_opened_true = False # Default = False // if door is opened for the first time, this will automatically be true and stay true

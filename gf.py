@@ -205,6 +205,19 @@ def generate_codes(gs):
     gs.color_codes['orange'][0] = number_list_colors[4]
     gs.color_codes['red'][0] = number_list_colors[5]
 
+    # Necessary game settings based on settings for development purposes
+    if gs.all_items_visible == True:
+        for n in range(0, 7):
+            gs.moveable_items_index_list.append(n)
+
+    if gs.all_unlocked == True:
+        self.fcd1_locked = False  # Default = False
+        self.fcd2_locked = False  # Default = True // Unlocked with Purple Key
+        self.dd1_locked = False  # Default = True // Unlocked with Green Key
+        self.dd2_locked = False  # Default = False
+        self.dd3_locked = False  # Default = True // Unlocked with Red Key
+        self.door_locked = False  # Default = True // Unlocked with Door Key (Gold)
+
 def print_settings(gs):
     # Print specific settings of the game for the use of more easily being able to design
     # Massive hints here

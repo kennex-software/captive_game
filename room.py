@@ -184,13 +184,13 @@ class Room():
 
     def click_red_book(self, gs, event):
         # function to be able to pick up the red book item
-        if self.red_book_clicker.collidepoint(event.pos):
+        if self.red_book_clicker.collidepoint(event.pos) and not fcdo1.collidepoint(event.pos):
             print('red book found')
             gs.red_book_found = True
 
     def click_blue_book(self, gs, event):
         # function to be able to pick up the blue book item
-        if self.blue_book_clicker.collidepoint(event.pos):
+        if self.blue_book_clicker.collidepoint(event.pos) and not fcdo2.collidepoint(event.pos):
             print('blue book found')
             gs.blue_book_found = True
 
@@ -1044,10 +1044,16 @@ class Room():
         if gs.fcd2_opened == False:
             if gs.fcd1_opened == False:
                 if fcd2.collidepoint(event.pos):
-                    gs.fcd2_opened = True
+                    if gs.fcd2_locked == False:
+                        gs.fcd2_opened = True
+                    else:
+                        print('FCD2 LOCKED')
             else:
                 if fcd2.collidepoint(event.pos) and not fcdo1.collidepoint(event.pos):
-                    gs.fcd2_opened = True
+                    if fcd2_lcoked == False:
+                        gs.fcd2_opened = True
+                    else:
+                        print('FCD2 LOCKED')
 
         elif gs.fcd2_opened:
             if fcdo2.collidepoint(event.pos):
@@ -1069,12 +1075,19 @@ class Room():
         if gs.dd3_opened == False:
             if gs.dd2_opened == False:
                 if desk_drawer3.collidepoint(event.pos):
-                    gs.dd3_open_attempts += 1
-                    gs.dd3_opened = True
+                    if gs.dd3_locked == False:
+                        gs.dd3_open_attempts += 1
+                        gs.dd3_opened = True
+                    else:
+                        print('DD3 LOCKED')
             else:
                 if desk_drawer3.collidepoint(event.pos) and not desk_drawer2_opened.collidepoint(event.pos):
-                    gs.dd3_opened = True
-                    gs.dd3_open_attempts += 1
+                    if gs.dd3_locked == False:
+                        gs.dd3_opened = True
+                        gs.dd3_open_attempts += 1
+                    else:
+                        print('DD3 LOCKED')
+
         elif gs.dd3_opened == True:
             if desk_drawer3_opened.collidepoint(event.pos):
                 gs.dd3_opened = False
@@ -1094,7 +1107,10 @@ class Room():
                 
         if gs.dd1_opened == False:
             if desk_drawer1.collidepoint(event.pos):
-                gs.dd1_opened = True
+                if gs.dd1_locked == False:
+                    gs.dd1_opened = True
+                else:
+                    print('DD1 LOCKED') # todo state locked to user
         elif gs.dd1_opened == True:
             if desk_drawer1_opened.collidepoint(event.pos):
                 gs.dd1_opened = False
