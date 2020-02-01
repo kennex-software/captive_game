@@ -82,8 +82,16 @@ class Room():
 
         # Safe Initialization
         self.safe_use_rect = self.safe_number_rect_n1.move(0, 130)
+
+        # Clickable Items
+
+        self.door_key_rotated_surface = pygame.Rect(521, 335, 50, 70)
+        self.laying_paper_surface = pygame.Rect(380, 475, 100, 100)
+        self.laying_remote_surface = pygame.Rect(380, 493, 50, 70)
         
         # clickbox_name = [(), (), (), (), (), (), (), (), (), (), (), ()]
+
+
         
     def room_view_three_1(self, gs, screen, stable_item_blocks):  # View next to TV stand
         # Clear Screen
@@ -110,7 +118,7 @@ class Room():
         pygame.draw.line(screen, gs.black, (0, 153), (184, 153), 3)
 
         # Draw Remote
-        self.laying_remote_surface = pygame.Rect(380, 493, 50, 70)
+
         self.laying_remote_rect = laying_remote.get_rect()
         screen.blit(pygame.transform.smoothscale(laying_remote, (int(self.laying_remote_rect[2]/4.5), int(self.laying_remote_rect[3]/4.5))), self.laying_remote_surface)
 
@@ -162,12 +170,9 @@ class Room():
                 pygame.draw.line(screen, gs.black, self.safe.bottomright, self.back_of_safe.bottomright, 3)
 
                 # Draw Door Key
-                self.door_key_rotated_surface = pygame.Rect(521, 335, 50, 70)
-                self.door_key_rotated_rect = door_key_rotated.get_rect()
-                screen.blit(pygame.transform.smoothscale(door_key_rotated, (int(self.door_key_rotated_rect[2]/6), int(self.door_key_rotated_rect[3]/6))), self.door_key_rotated_surface)
-
-                # todo click gold door key
-                # todo click safe door to close it
+                if not gs.door_key_found:
+                    self.door_key_rotated_rect = door_key_rotated.get_rect()
+                    screen.blit(pygame.transform.smoothscale(door_key_rotated, (int(self.door_key_rotated_rect[2]/6), int(self.door_key_rotated_rect[3]/6))), self.door_key_rotated_surface)
 
             else:
 
@@ -241,78 +246,90 @@ class Room():
             pygame.draw.rect(screen, gs.door, self.safe_cover)
             pygame.draw.rect(screen, gs.black, self.safe_cover, 2)
 
+
+
         # Draw Papers
-        self.laying_paper_surface = pygame.Rect(380, 475, 100, 100)
-        self.laying_paper_rect = laying_paper.get_rect()
-        screen.blit(pygame.transform.smoothscale(laying_paper, (int(self.laying_paper_rect[2]/2), int(self.laying_paper_rect[3]/2))), self.laying_paper_surface)
-
-        # todo clickable papers
-
+        if not gs.papers_found:
+            self.laying_paper_rect = laying_paper.get_rect()
+            screen.blit(pygame.transform.smoothscale(laying_paper, (int(self.laying_paper_rect[2]/2), int(self.laying_paper_rect[3]/2))), self.laying_paper_surface)
 
         # Required in all views if items are opened during the view.
         if gs.stable_item_opened:
             self.find_stable_item_opened(gs, screen, stable_item_blocks)
 
     def safe_controls(self, gs, screen, event):
-        if gs.safe_on:
+        if gs.safe_uncovered:
+            if gs.safe_opened or gs.safe_opened_true:
+                if not gs.door_key_found:
+                    if self.door_key_rotated_surface.collidepoint(event.pos):
+                        print('door key found')
+                        gs.door_key_found = True
 
-            # Number Button 1
-            if self.safe_number_rect_n1.collidepoint(event.pos):
-                self.safe_number_n1 += 1
-                gs.safe_combo_n1 = self.safe_number_n1
-                if self.safe_number_n1 > 9:
-                    self.safe_number_n1 = 0
+                # todo click gold door key
+                # todo click safe door to close it
 
-            # Number Button 2
-            if self.safe_number_rect_n2.collidepoint(event.pos):
-                self.safe_number_n2 += 1
-                gs.safe_combo_n2 = self.safe_number_n2
-                if self.safe_number_n2 > 9:
-                    self.safe_number_n2 = 0
+            else:
+                if gs.safe_on:
 
-            # Number Button 3
-            if self.safe_number_rect_n3.collidepoint(event.pos):
-                self.safe_number_n3 += 1
-                gs.safe_combo_n3 = self.safe_number_n3
-                if self.safe_number_n3 > 9:
-                    self.safe_number_n3 = 0
+                    # Number Button 1
+                    if self.safe_number_rect_n1.collidepoint(event.pos):
+                        self.safe_number_n1 += 1
+                        gs.safe_combo_n1 = self.safe_number_n1
+                        if self.safe_number_n1 > 9:
+                            self.safe_number_n1 = 0
 
-            # Number Button 4
-            if self.safe_number_rect_n4.collidepoint(event.pos):
-                self.safe_number_n4 += 1
-                gs.safe_combo_n4 = self.safe_number_n4
-                if self.safe_number_n4 > 9:
-                    self.safe_number_n4 = 0
+                    # Number Button 2
+                    if self.safe_number_rect_n2.collidepoint(event.pos):
+                        self.safe_number_n2 += 1
+                        gs.safe_combo_n2 = self.safe_number_n2
+                        if self.safe_number_n2 > 9:
+                            self.safe_number_n2 = 0
 
+                    # Number Button 3
+                    if self.safe_number_rect_n3.collidepoint(event.pos):
+                        self.safe_number_n3 += 1
+                        gs.safe_combo_n3 = self.safe_number_n3
+                        if self.safe_number_n3 > 9:
+                            self.safe_number_n3 = 0
 
-            # Color Button 1
-            elif self.safe_number_rect_c1.collidepoint(event.pos):
-                for v in gs.color_codes.values():
-                    if v[0] == self.index_color1:
-                        self.safe_color_c1 = v[2]
-                        gs.color_number_1 = v[0]
-                if self.index_color1 == 6:
-                    self.index_color1 = 1
-                else:
-                    self.index_color1 += 1
-
-            # Color Button 2
-            elif self.safe_number_rect_c2.collidepoint(event.pos):
-                for v in gs.color_codes.values():
-                    if v[0] == self.index_color2:
-                        self.safe_color_c2 = v[2]
-                        gs.color_number_2 = v[0]
-                if self.index_color2 == 6:
-                    self.index_color2 = 1
-                else:
-                    self.index_color2 += 1
-
-            # Initialization todo some sort of channel or something
-            elif self.safe_use_rect.collidepoint(event.pos):
-                self.safe_use_color = gs.green
+                    # Number Button 4
+                    if self.safe_number_rect_n4.collidepoint(event.pos):
+                        self.safe_number_n4 += 1
+                        gs.safe_combo_n4 = self.safe_number_n4
+                        if self.safe_number_n4 > 9:
+                            self.safe_number_n4 = 0
 
 
-        
+                    # Color Button 1
+                    elif self.safe_number_rect_c1.collidepoint(event.pos):
+                        for v in gs.color_codes.values():
+                            if v[0] == self.index_color1:
+                                self.safe_color_c1 = v[2]
+                                gs.color_number_1 = v[0]
+                        if self.index_color1 == 6:
+                            self.index_color1 = 1
+                        else:
+                            self.index_color1 += 1
+
+                    # Color Button 2
+                    elif self.safe_number_rect_c2.collidepoint(event.pos):
+                        for v in gs.color_codes.values():
+                            if v[0] == self.index_color2:
+                                self.safe_color_c2 = v[2]
+                                gs.color_number_2 = v[0]
+                        if self.index_color2 == 6:
+                            self.index_color2 = 1
+                        else:
+                            self.index_color2 += 1
+
+                    # Initialization todo some sort of channel or something
+                    elif self.safe_use_rect.collidepoint(event.pos):
+                        self.safe_use_color = gs.red
+
+        else:
+            pass
+            # todo click to open safe panel with flathead
+
     def room_view_four_2(self, gs, screen, stable_item_blocks):  # View of window
         # Clear Screen
         screen.fill(gs.bg_color)
@@ -483,12 +500,6 @@ class Room():
             if gs.stable_item_opened:
                 self.find_stable_item_opened(gs, screen, stable_item_blocks)
 
-
-
-
-
-
-        
     def room_view_two(self, gs, screen, stable_item_blocks):  # View with desk / File cabinet
         # Carpet
         pygame.draw.polygon(screen, gs.carpet, ((0, 735), (160, 600), (1075, 600), (1075, 735)))
@@ -769,11 +780,6 @@ class Room():
         if gs.stable_item_opened:
             self.find_stable_item_opened(gs, screen, stable_item_blocks)
 
-
-
-
-
-    
     def room_view_four(self, gs, screen, stable_item_blocks):  # View with closet / window
         # Carpet
         pygame.draw.polygon(screen, gs.carpet, ((0, 810), (0, 725), (490, 600), (1075, 600), (1075, 810)))
@@ -915,6 +921,7 @@ class Room():
             if gs.room_view_drill_down == 0:
                 if gf.check_inside_clickbox(self, self.clickbox_closet_right, ((event.pos), (0, 0))):
                     gs.room_view_drill_down = 1
+                    self.find_inventory_item_papers(gs, event)
                 if self.window.collidepoint(event.pos):
                     gs.room_view_drill_down = 2
                     #gs.current_room_view = 4.2
@@ -999,6 +1006,11 @@ class Room():
 
         if gs.desk_drawer_up:
             stable_item_blocks.pull_up_desk_drawer(gs, screen)
+
+    def find_inventory_item_papers(self, gs, event):
+        # Papers
+        print('papers possible to be found')
+
 
 
 

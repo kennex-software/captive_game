@@ -171,6 +171,7 @@ class Settings():
         
         # Door Settings
         self.door_opened = False  # Default = False todo change to false
+        self.door_opened_true = False # Default = False // if door is opened for the first time, this will automatically be true and stay true
 
         # Lights Settings
         self.lights_on = True  # Default = False
