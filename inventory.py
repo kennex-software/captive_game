@@ -15,9 +15,9 @@ inv_items = []  # List of actual inventory items
 # Load All Images
 # Inventory
 i_door_key = 'images/door_key.png' # Door Key >> Gold Key
-i_fc_key1 = 'images/fc_key1.png' # File Cabinet Key 1 >> Red Key
-i_fc_key2 = 'images/fc_key2.png' # File Cabinet Key 2 >> Purple Key
-i_dd_key = 'images/dd_key.png' # Desk Drawer Key >> Green Key
+i_red_key = 'images/red_key.png' # File Cabinet Key 1 >> Red Key
+i_purple_key = 'images/purple_key.png' # File Cabinet Key 2 >> Purple Key
+i_green_key = 'images/green_key.png' # Desk Drawer Key >> Green Key
 i_remote = 'images/remote.png' # Remote
 i_batteries = 'images/batteries.png' # Batteries
 i_power_cord = 'images/power_cord.png' # Power Cord
@@ -28,9 +28,9 @@ i_shirt = 'images/shirt_no_hang.png' # Shirt
 i_screwdriver = 'images/flathead.png' # Screwdriver
 
 door_key = pygame.image.load(i_door_key)
-fc_key1 = pygame.image.load(i_fc_key1)
-fc_key2 = pygame.image.load(i_fc_key2)
-dd_key = pygame.image.load(i_dd_key)
+red_key = pygame.image.load(i_red_key)
+purple_key = pygame.image.load(i_purple_key)
+green_key = pygame.image.load(i_green_key)
 remote = pygame.image.load(i_remote)
 batteries = pygame.image.load(i_batteries)
 power_cord = pygame.image.load(i_power_cord)
@@ -56,9 +56,9 @@ ripped_tape = pygame.image.load(g_ripped_tape)
 
 """
 inv_items.append(door_key)
-inv_items.append(fc_key1)
-inv_items.append(fc_key2)
-inv_items.append(dd_key)
+inv_items.append(red_key)
+inv_items.append(purple_key)
+inv_items.append(green_key)
 inv_items.append(remote)
 inv_items.append(batteries)
 inv_items.append(power_cord)
@@ -117,9 +117,9 @@ class Inventory():
             self.screen.blit(pygame.transform.smoothscale(remote, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[0])
         if gs.papers_found == True:  # Draw Papers Inventory Item
             self.screen.blit(pygame.transform.smoothscale(papers, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[1])   
-        if gs.camera_manual_found == True:  # Draw Camera Manual Inventory Item
+        if gs.red_book_found == True:  # Draw Camera Manual Inventory Item
             self.screen.blit(pygame.transform.smoothscale(camera_manual, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[2])
-        if gs.chair_manual_found == True:  # Draw Chair Manual Inventory Item
+        if gs.blue_book_found == True:  # Draw Chair Manual Inventory Item
             self.screen.blit(pygame.transform.smoothscale(chair_manual, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[3])
         if gs.shirt_found == True:
             # Draw Shirt
@@ -133,12 +133,12 @@ class Inventory():
         ### Moveable Items
         if gs.door_key_found == True:  # Draw Door Key Inventory Item
             self.screen.blit(pygame.transform.smoothscale(door_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[0])
-        if gs.fc_key1_found == True:  # Draw File Cabinet Key 1 Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(fc_key1, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[1])
-        if gs.fc_key2_found == True:  # Draw File Cabinet Key 2 Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(fc_key2, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[2])
-        if gs.dd_key_found == True:  # Draw Desk Drawer Key Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(dd_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[3])
+        if gs.red_key_found == True:  # Draw File Cabinet Key 1 Inventory Item
+            self.screen.blit(pygame.transform.smoothscale(red_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[1])
+        if gs.purple_key_found == True:  # Draw File Cabinet Key 2 Inventory Item
+            self.screen.blit(pygame.transform.smoothscale(purple_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[2])
+        if gs.green_key_found == True:  # Draw Desk Drawer Key Inventory Item
+            self.screen.blit(pygame.transform.smoothscale(green_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[3])
         if gs.batteries_found == True:  # Draw Batteries Inventory Item
             self.screen.blit(pygame.transform.smoothscale(batteries, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[4])
         if gs.power_cord_found == True:  # Draw Power Cord Inventory Item
@@ -173,11 +173,11 @@ class Inventory():
         # Draw Door Key Inventory Item
         self.screen.blit(pygame.transform.smoothscale(door_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[0])
         # Draw File Cabinet Key 1 Inventory Item
-        self.screen.blit(pygame.transform.smoothscale(fc_key1, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[1])
+        self.screen.blit(pygame.transform.smoothscale(red_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[1])
         # Draw File Cabinet Key 2 Inventory Item
-        self.screen.blit(pygame.transform.smoothscale(fc_key2, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[2])
+        self.screen.blit(pygame.transform.smoothscale(purple_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[2])
         # Draw Desk Drawer Key Inventory Item
-        self.screen.blit(pygame.transform.smoothscale(dd_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[3])
+        self.screen.blit(pygame.transform.smoothscale(green_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[3])
         # Draw Batteries Inventory Item
         self.screen.blit(pygame.transform.smoothscale(batteries, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[4])
         # Draw Power Cord Inventory Item

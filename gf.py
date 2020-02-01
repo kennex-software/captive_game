@@ -23,18 +23,30 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                     if gs.lights_on:
                         room_view.move_between_views(gs, screen, game_objects, stable_item_blocks, event)
                         inventory.select_item(gs, screen, room_view, event)
+
                         if gs.drill_possible:
                             room_view.drill_down_views(gs, screen, game_objects, event)
+
                         if gs.current_room_view == 0:   # Default View
-                            pass
+                            if not gs.power_cord_found: # Function to click power cord when it's not found
+                                room_view.click_power_cord(gs, event)
+
                         if gs.current_room_view == -1:  # Left from default
-                            room_view.open_drawers(gs, screen, game_objects, event)
+                            room_view.open_drawers(gs, screen, game_objects, event) # See open drawers for click events
+                            if gs.desk_drawer_removed and not gs.green_key_found:
+                                room_view.click_green_key(gs, event)
+
                         if gs.current_room_view == 1:  # Right from default
-                            pass
+                            if gs.room_view_drill_down == 1:
+                                if not gs.remote_found: # Function to click remote when it's not found
+                                    room_view.click_remote(gs, event)
+
                         if gs.current_room_view < -1 or gs.current_room_view > 1:  # Fourth wall
                             if gs.room_view_drill_down == 1:
-                                if gs.safe_uncovered:
+                                if gs.safe_uncovered: # Function when safe is uncovered
                                     room_view.safe_controls(gs, screen, event)
+                                if not gs.papers_found: # Function to click papers when they're not found
+                                    room_view.click_papers(gs, event)
 
 
                 else:

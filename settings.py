@@ -107,19 +107,28 @@ class Settings():
         self.si_start_y = 0
         
         # Inventory Items Found
-        self.door_key_found = False
-        self.fc_key1_found = False
-        self.fc_key2_found = False
-        self.dd_key_found = False
-        self.remote_found = False
-        self.batteries_found = False
-        self.power_cord_found = False
-        self.papers_found = False
-        self.camera_manual_found = False
-        self.chair_manual_found = False
-        self.desk_drawer_removed = False
-        self.shirt_found = False
-        self.screwdriver_found = False
+        self.door_key_found = False # Default = False
+        self.red_key_found = False # Default = False
+        self.purple_key_found = False # Default = False
+        self.green_key_found = False # Default = False
+        self.remote_found = False # Default = False
+        self.batteries_found = False # Default = False
+        self.power_cord_found = False # Default = False
+        self.papers_found = False # Default = False
+        self.red_book_found = False # Default = False
+        self.blue_book_found = False # Default = False
+        self.desk_drawer_removed = False # Default = False
+        self.shirt_found = False # Default = False
+        self.screwdriver_found = False # Default = False
+
+        self.door_key_used = False # Default = False
+        self.red_key_used = False # Default = False
+        self.purple_key_used = False # Default = False
+        self.green_key_used = False # Default = False
+        self.batteries_used = False # Default = False
+        self.power_cord_used = False # Default = False
+        self.screwdriver_used = False # Default = False
+
 
         # Stable Items in Inventory Settings
         self.stable_item_opened = False  # Default = False
@@ -130,7 +139,7 @@ class Settings():
         # Remote Settings
         self.remote_opened = False  # Default = False
         self.close_remote = False  # Default = False
-        self.batteries_input = False  # Default = False
+        self.batteries_input = True  # Default = False # todo change to false
         self.button_input_list = []
 
         # TV Settings
@@ -140,15 +149,15 @@ class Settings():
         # Safe Settings
         self.safe_uncovered = True # Default = false
         self.safe_on = True  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo figure out how to turn on safe
-        self.safe_initialized = False # Safe can only be opened if a certain channel is on the TV
+        self.safe_initialized = True # Safe can only be opened if a certain channel is on the TV
         self.color_number_1 = None  # This number is needed to open the safe
         self.color_number_2 = None  # This number is needed to open the safe
         self.safe_combo_n1 = None  # This number is needed to open the safe
         self.safe_combo_n2 = None  # This number is needed to open the safe
         self.safe_combo_n3 = None  # This number is needed to open the safe
         self.safe_combo_n4 = None  # This number is needed to open the safe
-        self.safe_opened = True # Default = False todo change to false
-        self.safe_opened_true = False # Default = False // if safe is opened for the first time, this will automatically be true and stay true
+        self.safe_opened = False # Default = False todo change to false
+        #self.safe_opened_true = False # Default = False // if safe is opened for the first time, this will automatically be true and stay true
 
         
         # Default room view
@@ -176,7 +185,7 @@ class Settings():
         # Lights Settings
         self.lights_on = True  # Default = False
         
-        # Manual Settings for Camera and Chair Manuals
+        # Manual Settings for Red and Blue Book
         self.red_book_opened = False  # Default = False
         self.blue_book_opened = False  # Default = False
         self.current_page = 1  # Default = 1
