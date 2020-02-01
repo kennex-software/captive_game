@@ -147,7 +147,7 @@ class Settings():
         self.safe_combo_n2 = None  # This number is needed to open the safe
         self.safe_combo_n3 = None  # This number is needed to open the safe
         self.safe_combo_n4 = None  # This number is needed to open the safe
-        self.safe_opened = True # Default = False
+        self.safe_opened = True # Default = False todo change to false
         self.safe_opened_true = False # Default = False // if safe is opened for the first time, this will automatically be true and stay true
 
         
@@ -170,7 +170,7 @@ class Settings():
         self.desk_drawer_up = False
         
         # Door Settings
-        self.door_opened = False  # Default = False
+        self.door_opened = False  # Default = False todo change to false
 
         # Lights Settings
         self.lights_on = True  # Default = False

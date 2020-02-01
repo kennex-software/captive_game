@@ -395,15 +395,7 @@ class Room():
         else:
             # Carpet
             pygame.draw.polygon(screen, gs.carpet, ((0, 725), (330, 600), (1070, 600), (1070, 735), (0, 735)))
-            
-            # Door
-            pygame.draw.rect(screen, gs.door, (390, 160, 225, 440))
-            pygame.draw.rect(screen, gs.black, (390, 160, 225, 440), 3)
-            pygame.draw.circle(screen, gs.dark_gray, (585-3, 390+5), 15)
-            pygame.draw.circle(screen, gs.yellow, (585, 390), 15)            
-            pygame.draw.circle(screen, gs.black, (585, 390), 16, 2)
-            pygame.draw.circle(screen, gs.black, (585, 390), 4, 1)
-            
+
             # Light Switch            
             pygame.draw.rect(screen, gs.off_white, self.light_switch)
             pygame.draw.rect(screen, gs.black, self.light_switch, 3)
@@ -413,6 +405,33 @@ class Room():
             pygame.draw.line(screen, gs.black, (0, 725), (330, 600), 5)
             pygame.draw.line(screen, gs.black, (330, 600), (330,0), 5)
             pygame.draw.line(screen, gs.black, (330, 600), (1100, 600), 5)
+
+            self.main_door = pygame.Rect(390, 160, 225, 440)
+
+            if gs.door_opened and gs.room_view_drill_down == 0:
+                # Draw Open Door Handle
+                pygame.draw.circle(screen, gs.yellow, (243, 398), 15)
+                pygame.draw.circle(screen, gs.black, (243, 398), 16, 2)
+
+
+
+
+                # Draw open door
+                self.opened_door = [(248, 101), (self.main_door.topleft), (self.main_door.bottomleft), (248, 674)]
+                pygame.draw.polygon(screen, gs.door, self.opened_door)
+                pygame.draw.polygon(screen, gs.black, self.opened_door, 3)
+                pygame.draw.line(screen, gs.black, (250, 101), (250, 674), 8)
+                pygame.draw.rect(screen, gs.white, self.main_door)
+                pygame.draw.rect(screen, gs.black, self.main_door, 3)
+
+            else:
+                # Door
+                pygame.draw.rect(screen, gs.door, self.main_door)
+                pygame.draw.rect(screen, gs.black, self.main_door, 3)
+                pygame.draw.circle(screen, gs.dark_gray, (585-3, 390+5), 15)
+                pygame.draw.circle(screen, gs.yellow, (585, 390), 15)
+                pygame.draw.circle(screen, gs.black, (585, 390), 16, 2)
+                pygame.draw.circle(screen, gs.black, (585, 390), 4, 1)
             
             # TV Stand
             pygame.draw.polygon(screen, gs.wood, ((900, 500), (870, 530), (1070, 530), (1070, 500)))
@@ -457,6 +476,8 @@ class Room():
 
             if gs.room_view_drill_down == 0.1:
                 self.room_view_zero_1(gs, screen, stable_item_blocks)
+
+
 
             # Required in all views if items are opened during the view.
             if gs.stable_item_opened:
