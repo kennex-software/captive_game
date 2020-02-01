@@ -100,6 +100,11 @@ class Room():
         self.laying_power_cord_scaled = pygame.transform.smoothscale(laying_power_cord, (int(self.laying_power_cord_rect[2]/1.5), int(self.laying_power_cord_rect[3]/1.5)))
         self.laying_power_cord_scaled_rect = self.laying_power_cord_scaled.get_rect(center = self.can_opening_rect.center)
 
+        self.laying_paper_clicker = self.draw_item_to_screen(gs, screen, laying_paper, 2, 380, 475)
+        self.remote_clicker = self.draw_item_to_screen(gs, screen, laying_remote, 4.5, 380, 493)
+        self.door_key_clicker = self.draw_item_to_screen(gs, screen, door_key_rotated, 6, 521, 335)
+        self.shirt_surface = pygame.Rect(125, 212, 150, 235)
+
 
 
         """
@@ -158,6 +163,60 @@ class Room():
 
         return image_rect
 
+    def click_papers(self, gs, event):
+        # function to be able to pick up the papers item
+        if self.laying_paper_clicker.collidepoint(event.pos):
+            print('papers found')
+            gs.papers_found = True
+
+    def click_shirt(self, gs, event):
+        # function to be able to pick up the shirt item
+        if self.shirt_surface.collidepoint(event.pos):
+            print('shirt found')
+            gs.shirt_found = True
+
+    def click_flathead(self, gs, event):
+        # function to be able to pick up the flathead item
+        if self.flathead_clicker.collidepoint(event.pos):
+            print('flathead found')
+            gs.screwdriver_found = True
+
+    def click_red_book(self, gs, event):
+        # function to be able to pick up the red book item
+        if self.red_book_clicker.collidepoint(event.pos):
+            print('red book found')
+            gs.red_book_found = True
+
+    def click_blue_book(self, gs, event):
+        # function to be able to pick up the blue book item
+        if self.blue_book_clicker.collidepoint(event.pos):
+            print('blue book found')
+            gs.blue_book_found = True
+
+    def click_green_key(self, gs, event):
+        # function to be able to pick up the green key item
+        if self.green_key_clicker.collidepoint(event.pos):
+            print('green key found')
+            gs.green_key_found = True
+
+    def click_power_cord(self, gs, event):
+        # function to be able to pick up the power cord item
+        if self.laying_power_cord_scaled_rect.collidepoint(event.pos):
+            print('power cord found')
+            gs.power_cord_found = True
+
+    def click_batteries(self, gs, event):
+        # function to be able to pick up the batteries item
+        if self.battery_clicker.collidepoint(event.pos):
+            gs.batteries_found = True
+            print('batteries found')
+
+    def click_remote(self, gs, event):
+        # function to be able to pick up the remote item
+        if self.remote_clicker.collidepoint(event.pos):
+            print('remote found')
+            gs.remote_found = True
+
 
         
     def room_view_three_1(self, gs, screen, stable_item_blocks):  # View next to TV stand
@@ -186,9 +245,11 @@ class Room():
 
         # Draw Remote
         if not gs.remote_found:
-            #screen.blit(pygame.transform.smoothscale(laying_remote, (int(self.laying_remote_full_rect[2] / 4.5), int(self.laying_remote_full_rect[3] / 4.5))), self.laying_remote_rect)
-            #pygame.draw.rect(screen, gs.yellow, self.laying_remote_rect, 3) # todo comment out later
             self.remote_clicker = self.draw_item_to_screen(gs, screen, laying_remote, 4.5, 380, 493)
+
+
+        #screen.blit(pygame.transform.smoothscale(laying_remote, (int(self.laying_remote_full_rect[2] / 4.5), int(self.laying_remote_full_rect[3] / 4.5))), self.laying_remote_rect)
+        #pygame.draw.rect(screen, gs.yellow, self.laying_remote_rect, 3) # todo comment out later
 
 
         # Required in all views if items are opened during the view.
@@ -307,58 +368,9 @@ class Room():
             self.laying_paper_clicker = self.draw_item_to_screen(gs, screen, laying_paper, 2, 380, 475)
 
 
-
         # Required in all views if items are opened during the view.
         if gs.stable_item_opened:
             self.find_stable_item_opened(gs, screen, stable_item_blocks)
-
-    def click_papers(self, gs, event):
-        # function to be able to pick up the papers item
-        if self.laying_paper_clicker.collidepoint(event.pos):
-            print('papers found')
-            gs.papers_found = True
-
-    def click_flathead(self, gs, event):
-        # function to be able to pick up the papers item
-        if self.flathead_clicker.collidepoint(event.pos):
-            print('flathead found')
-            gs.screwdriver_found = True
-
-    def click_red_book(self, gs, event):
-        # function to be able to pick up the papers item
-        if self.red_book_clicker.collidepoint(event.pos):
-            print('red book found')
-            gs.red_book_found = True
-
-    def click_blue_book(self, gs, event):
-        # function to be able to pick up the papers item
-        if self.blue_book_clicker.collidepoint(event.pos):
-            print('blue book found')
-            gs.blue_book_found = True
-
-    def click_green_key(self, gs, event):
-        # function to be able to pick up the papers item
-        if self.green_key_clicker.collidepoint(event.pos):
-            print('green key found')
-            gs.green_key_found = True
-
-    def click_power_cord(self, gs, event):
-        # function to be able to pick up the papers item
-        if self.laying_power_cord_scaled_rect.collidepoint(event.pos):
-            print('power cord found')
-            gs.power_cord_found = True
-
-    def click_batteries(self, gs, event):
-        # function to be able to pick up the papers item
-        if self.battery_clicker.collidepoint(event.pos):
-            gs.batteries_found = True
-            print('batteries found')
-
-    def click_remote(self, gs, event):
-        # function to be able to pick up the remote item
-        if self.remote_clicker.collidepoint(event.pos):
-            print('remote found')
-            gs.remote_found = True
 
     def safe_controls(self, gs, screen, event):
         if gs.safe_uncovered:
@@ -515,9 +527,6 @@ class Room():
                 # Draw Open Door Handle
                 pygame.draw.circle(screen, gs.yellow, (243, 398), 15)
                 pygame.draw.circle(screen, gs.black, (243, 398), 16, 2)
-
-
-
 
                 # Draw open door
                 self.opened_door = [(248, 101), (self.main_door.topleft), (self.main_door.bottomleft), (248, 674)]
@@ -924,8 +933,9 @@ class Room():
         # Closet Items
 
         # Shirt in Closet
-        self.shirt_surface = pygame.Rect(125, 212, 150, 235)
-        screen.blit(pygame.transform.smoothscale(hanging_shirt, (150, 235)), self.shirt_surface)
+        if not gs.shirt_found:
+            screen.blit(pygame.transform.smoothscale(hanging_shirt, (150, 235)), self.shirt_surface)
+
 
         # Click / Mouseovers
         self.clickbox_closet_right = [(280, 516), (332, 530), (332, 615), (269, 574)]

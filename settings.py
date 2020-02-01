@@ -185,7 +185,7 @@ class Settings():
         # Lights Settings
         self.lights_on = True  # Default = False
         
-        # Manual Settings for Red and Blue Book
+        # Settings for Red and Blue Book
         self.red_book_opened = False  # Default = False
         self.blue_book_opened = False  # Default = False
         self.current_page = 1  # Default = 1

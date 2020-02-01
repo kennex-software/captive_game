@@ -109,20 +109,19 @@ class Inventory():
     def draw_items(self, gs, screen):
         """Draw the items in the locations they need to be."""
         
-        """
-        # Change this area's comments around to either see or not see the items in full
 
+        # Change this area's comments around to either see or not see the items in full
+        """
         ### Stable Items
         if gs.remote_found == True:  # Draw Remote Inventory Item
             self.screen.blit(pygame.transform.smoothscale(remote, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[0])
         if gs.papers_found == True:  # Draw Papers Inventory Item
             self.screen.blit(pygame.transform.smoothscale(papers, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[1])   
-        if gs.red_book_found == True:  # Draw Camera Manual Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(camera_manual, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[2])
-        if gs.blue_book_found == True:  # Draw Chair Manual Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(chair_manual, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[3])
-        if gs.shirt_found == True:
-            # Draw Shirt
+        if gs.red_book_found == True:  # Draw Red Book Inventory Item
+            self.screen.blit(pygame.transform.smoothscale(red_book, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[2])
+        if gs.blue_book_found == True:  # Draw Blue Book Manual Inventory Item
+            self.screen.blit(pygame.transform.smoothscale(blue_book, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[3])
+        if gs.shirt_found == True: # Draw Shirt
             self.screen.blit(pygame.transform.smoothscale(shirt, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[4])
         if gs.desk_drawer_removed == True:  # Draw Desk Drawer
             sdx = inv_items_stable[5].centerx
@@ -143,11 +142,12 @@ class Inventory():
             self.screen.blit(pygame.transform.smoothscale(batteries, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[4])
         if gs.power_cord_found == True:  # Draw Power Cord Inventory Item
             self.screen.blit(pygame.transform.smoothscale(power_cord, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[5])
-        if gs.screwdriver_found == True  # Draw Screwdriver Inventory Item
+        if gs.screwdriver_found == True:  # Draw Screwdriver Inventory Item
             self.screen.blit(pygame.transform.smoothscale(screwdriver, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[6])
-        """
-        
-        ### Stable Items
+
+
+
+        """### Stable Items
         # Draw Remote Inventory Item
         self.screen.blit(pygame.transform.smoothscale(remote, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[0])
         # Draw Papers Inventory Item
@@ -163,6 +163,9 @@ class Inventory():
         sdy = inv_items_stable[5].centery
         scaled_drawer = gf.aspect_scale(sur_inv_desk_drawer, int(gs.inv_item_w))
         self.screen.blit(scaled_drawer, (sdx - scaled_drawer.get_width() // 2, sdy - scaled_drawer.get_height() // 2 ))
+
+        # todo fix the ability to click the shirt when viewing safe in closet
+        # todo fix the ability to open an open when it's not found yet in the inventory
 
         # settings 'S' todo remove this later
         text = 'S'
@@ -185,7 +188,7 @@ class Inventory():
         # Draw Screwdriver Inventory Item
         self.screen.blit(pygame.transform.smoothscale(screwdriver, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[6])
 
-        
+
         # Draw pick boxes
         for item in inv_items_spaces:
             pygame.draw.rect(screen, gs.yellow, item, -1)  # <<<<< CHANGE THE # HERE TO -1 TO REMOVE THE ABILITY TO SEE THE BOXES
@@ -217,10 +220,10 @@ class Inventory():
                     gs.papers_opened = not gs.papers_opened
                 if index == 2:
                     gs.red_book_opened = not gs.red_book_opened
-                    gs.current_manual = 'red_book'
+                    gs.current_book = 'red_book'
                 if index == 3:
                     gs.blue_book_opened = not gs.blue_book_opened
-                    gs.current_manual = 'blue_book'
+                    gs.current_book = 'blue_book'
                 if index == 4:
                     gs.shirt_opened = not gs.shirt_opened
                 if index == 5:

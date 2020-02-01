@@ -27,8 +27,11 @@ class Stable_Items():
         self.gs = gs
         self.screen = screen
 
+        self.red_key_clickbox = [(637, 546), (655, 531), (666, 448), (680, 411), (661, 377),
+                                (635, 371), (595, 395), (598, 437), (611, 479), (616, 527), (637, 548)]
+
     def book_page_content(self, gs, screen, page, page_area):
-        if gs.current_manual == 'red_book':
+        if gs.current_book == 'red_book':
             # Page 1
             if page == 1:
                 channels = ['',
@@ -109,21 +112,16 @@ class Stable_Items():
 
                 width = inventory.red_key_taped.get_width() // 3
                 height = inventory.red_key_taped.get_height() // 3
+                if not gs.red_key_found:
+                    screen.blit(pygame.transform.smoothscale(inventory.red_key_taped, (width, height)), (540, 380))
+                    pygame.draw.polygon(screen, gs.yellow, self.red_key_clickbox, 1) # todo comment this out
+                else:
+                    screen.blit(pygame.transform.smoothscale(inventory.ripped_tape, (width // 2, height)), (540, 380))
 
-                screen.blit(pygame.transform.smoothscale(inventory.red_key_taped, (width, height)), (540, 380))
-                screen.blit(pygame.transform.smoothscale(inventory.ripped_tape, (width // 2, height)), (540, 380))
-
-                red_key_clickbox = [(637, 546), (655, 531), (666, 448), (680, 411), (661, 377),
-                                (635, 371), (595, 395), (598, 437), (611, 479), (616, 527), (637, 548)]
-
-                clickbox_red_key = pygame.draw.polygon(screen, gs.yellow, red_key_clickbox, 1)
-
-                #if gf.check_inside_clickbox(clickbox_red_key, ((event.pos), (0, 0))):
-                #    print("clicked")
 
                 # todo figure out how to turn this into a clickbox and select the key
 
-        elif gs.current_manual == 'blue_book':
+        elif gs.current_book == 'blue_book':
             if page == 1:
                 # Page 1 - Pages to a diary
                 if gs.diary_choice == 1:
@@ -282,9 +280,9 @@ class Stable_Items():
         cover_color = None
 
         # Define the colors of the covers, as they can change
-        if gs.current_manual == 'red_book':
+        if gs.current_book == 'red_book':
             cover_color = gs.red_book_color
-        elif gs.current_manual == 'blue_book':
+        elif gs.current_book == 'blue_book':
             cover_color = gs.blue_book_color
 
         # Draw the covers
@@ -347,6 +345,7 @@ class Stable_Items():
             pygame.draw.polygon(screen, gs.off_white, (self.manual_pages.topleft, (self.bc_x + cf * 5 * (gs.current_page-1), self.bc_tc_y), (self.bc_x + cf * 5 * (gs.current_page-1), self.bc_bc_y), self.manual_pages.bottomleft))
             pygame.draw.polygon(screen, gs.black, (self.manual_pages.topleft, (self.bc_x + cf * 5 * (gs.current_page-1), self.bc_tc_y), (self.bc_x + cf * 5 * (gs.current_page-1), self.bc_bc_y), self.manual_pages.bottomleft), 2)
             self.book_page_content(gs, screen, gs.current_page, self.page_area) # Function to call the contents of the page
+
             gs.red_book_opened = False
             gs.blue_book_opened = False
             gs.stable_item_opened = False
@@ -356,7 +355,11 @@ class Stable_Items():
     def change_manual_pages(self, gs, event):
         """Function to change the pages in the manuals"""
         if self.manual_pages.collidepoint(event.pos):
-            gs.current_page += 1
+            if gs.current_book == 'red_book' and gs.current_page == 4 and not gs.red_key_found and gf.check_inside_clickbox(self, self.red_key_clickbox, ((event.pos), (0, 0))):
+                print('red key found')
+                gs.red_key_found = True
+            else:
+                gs.current_page += 1
 
     def draw_remote(self, gs, screen):
         """Function to draw the remote when clicked"""

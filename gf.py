@@ -28,7 +28,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                             room_view.drill_down_views(gs, screen, game_objects, event)
 
                         if gs.current_room_view == 0:   # Default View
-                            if not gs.power_cord_found: # Function to click power cord when it's not found
+                            if gs.room_view_drill_down == 0.1 and not gs.power_cord_found: # Function to click power cord when it's not found
                                 room_view.click_power_cord(gs, event)
 
                         if gs.current_room_view == -1:  # Left from default
@@ -42,6 +42,8 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                     room_view.click_remote(gs, event)
 
                         if gs.current_room_view < -1 or gs.current_room_view > 1:  # Fourth wall
+                            if not gs.shirt_found:
+                                room_view.click_shirt(gs, event)
                             if gs.room_view_drill_down == 1:
                                 if gs.safe_uncovered: # Function when safe is uncovered
                                     room_view.safe_controls(gs, screen, event)
