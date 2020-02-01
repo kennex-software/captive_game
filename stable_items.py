@@ -232,38 +232,24 @@ class Stable_Items():
                             y += 40
                             index += 1
 
-                """
-                # Grid 1
-                (((pub_grid_piece.x + width)/100), ((pub_grid_piece.y - height)/100)), # Grid 3
-                ((pub_grid_piece.x/100), ((pub_grid_piece.y - height)/100)), # Grid 2 >> 2 is after 3 because of how the grid calcs
-                (((pub_grid_piece.x - width)/100), (pub_grid_piece.y/100)), # Grid 4
-                ((pub_grid_piece.x/100), (pub_grid_piece.y/100)), # Grid 5 *** Same as grid piece
-                (((pub_grid_piece.x + width)/100), (pub_grid_piece.y/100)), # Grid 6
-                (((pub_grid_piece.x - width)/100), ((pub_grid_piece.y + height)/100)), # Grid 7
-                ((pub_grid_piece.x/100), ((pub_grid_piece.y + height)/100)), # Grid 8
-                (((pub_grid_piece.x + width)/100), ((pub_grid_piece.y + height)/100)), # Grid 9
-                
-
-
-
-                for bar in grid:
-
-                    x = column * width
-                    y = row * height
-                    current_grid = pygame.Rect(x, y, width, height)
-                    pygame.draw.rect(screen, gs.black, current_grid, 3)
-                """
-
     def open_shirt(self, gs, screen):
         # Open Shirt
         self.shirt_rect = enlarged_shirt.get_rect(center = screen.get_rect().center)
         self.screen.blit(enlarged_shirt, self.shirt_rect)
+
+        self.clickbox_shirt_pocket = [(537, 280), (570, 288), (566, 322), (536, 314)]
+        self.clickbox_shirt_pocket_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_shirt_pocket, 1)
 
     def shirt_clicks(self, gs, event):
         # Closes shirt if anywhere is clicked but the shirt
         if gs.shirt_opened == True and not self.shirt_rect.collidepoint(event.pos):
             gs.shirt_opened = False
             gs.stable_item_opened = False
+
+        if gf.check_inside_clickbox(self, self.clickbox_shirt_pocket, ((event.pos), (0, 0))):
+            print("shirt pocket clicked") # todo find purple key here
+
+
 
     def pull_up_desk_drawer(self, gs, screen):
         # Pull up drawer

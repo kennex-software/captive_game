@@ -131,6 +131,9 @@ class Room():
         pygame.draw.line(screen, gs.black, (876, 508), (876, 0), 5)
 
         if gs.safe_uncovered:  # Safe is covered by a panel that requires a screwdriver to take off
+
+
+
             # Safe Hole
             pygame.draw.rect(screen, gs.dark_gray, self.safe_hole)
             pygame.draw.rect(screen, gs.black, self.safe_hole, 5)
@@ -139,63 +142,98 @@ class Room():
             pygame.draw.line(screen, gs.black, self.safe_hole.bottomleft, ((self.safe.bottomleft[0]+30),(self.safe.bottomleft[1]-40)), 3)
             pygame.draw.line(screen, gs.black, self.safe_hole.bottomright, ((self.safe.bottomright[0]-30),(self.safe.bottomright[1]-40)), 3)
 
-            # Safe
-            pygame.draw.rect(screen, gs.safe, self.safe)
-            pygame.draw.rect(screen, gs.black, self.safe, 4)
 
-            # Handle
-            pygame.draw.rect(screen, gs.gray, self.safe_handle)
-            pygame.draw.rect(screen, gs.black, self.safe_handle, 3)
 
-            # Numbers
-            pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n1) # Number spot 1
-            pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n2) # Number spot 2
-            pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n3) # Number spot 3
-            pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n4) # Number spot 4
+            if gs.safe_opened:
+                # Opened Safe
+                pygame.draw.rect(screen, gs.tv_screen, self.safe)
+                pygame.draw.rect(screen, gs.black, self.safe, 4)
 
-            self.n1_image = gs.arial60.render(str(self.safe_number_n1), True, gs.black) # n1 text
-            self.n2_image = gs.arial60.render(str(self.safe_number_n2), True, gs.black) # n2 text
-            self.n3_image = gs.arial60.render(str(self.safe_number_n3), True, gs.black) # n3 text
-            self.n4_image = gs.arial60.render(str(self.safe_number_n4), True, gs.black) # n4 text
+                # Draw Opened Safe Door
+                self.safe_door = pygame.draw.polygon(screen, gs.tv_screen, ((-5, 183), (self.safe.topleft), (self.safe.bottomleft), (-5, 577)))
+                pygame.draw.polygon(screen, gs.black, ((-5, 183), (self.safe.topleft), (self.safe.bottomleft), (-5, 577)), 3)
 
-            self.n1_rect = self.n1_image.get_rect(center=self.safe_number_rect_n1.center) # n1 rect
-            self.n2_rect = self.n2_image.get_rect(center=self.safe_number_rect_n2.center) # n2 rect
-            self.n3_rect = self.n3_image.get_rect(center=self.safe_number_rect_n3.center) # n3 rect
-            self.n4_rect = self.n4_image.get_rect(center=self.safe_number_rect_n4.center) # n4 rect
+                self.back_of_safe = self.safe.inflate(-180, -190)
+                pygame.draw.rect(screen, gs.tv_screen, self.back_of_safe)
+                pygame.draw.rect(screen, gs.black, self.back_of_safe, 3)
+                pygame.draw.line(screen, gs.black, self.safe.topleft, self.back_of_safe.topleft, 3)
+                pygame.draw.line(screen, gs.black, self.safe.topright, self.back_of_safe.topright, 3)
+                pygame.draw.line(screen, gs.black, self.safe.bottomleft, self.back_of_safe.bottomleft, 3)
+                pygame.draw.line(screen, gs.black, self.safe.bottomright, self.back_of_safe.bottomright, 3)
 
-            screen.blit(self.n1_image, self.n1_rect) # n1 blit
-            screen.blit(self.n2_image, self.n2_rect) # n2 blit
-            screen.blit(self.n3_image, self.n3_rect) # n3 blit
-            screen.blit(self.n4_image, self.n4_rect) # n4 blit
+                # Draw Door Key
+                self.door_key_rotated_surface = pygame.Rect(521, 335, 50, 70)
+                self.door_key_rotated_rect = door_key_rotated.get_rect()
+                screen.blit(pygame.transform.smoothscale(door_key_rotated, (int(self.door_key_rotated_rect[2]/6), int(self.door_key_rotated_rect[3]/6))), self.door_key_rotated_surface)
 
-            # On / Off Settings
-            self.safe_on_block = pygame.Rect(657, 170, 8, 8)
-            self.safe_off_block = self.safe_on_block.move(0, 30)
+                # todo click gold door key
+                # todo click safe door to close it
 
-            pygame.draw.circle(screen, self.safe_status_color_on, self.safe_on_block.center, 8)
-            pygame.draw.circle(screen, self.safe_status_color_off, self.safe_off_block.center, 8)
-            pygame.draw.circle(screen, gs.black, self.safe_on_block.center, 9, 2)
-            pygame.draw.circle(screen, gs.black, self.safe_off_block.center, 9, 2)
+            else:
 
-            self.on_text = gs.arial16.render('ON', True, gs.white)
-            self.off_text = gs.arial16.render('OFF', True, gs.white)
+                # Closed Safe
+                pygame.draw.rect(screen, gs.safe, self.safe)
+                pygame.draw.rect(screen, gs.black, self.safe, 4)
 
-            screen.blit(self.on_text, ((self.safe_on_block.x + 20), self.safe_on_block.y - 6))
-            screen.blit(self.off_text, ((self.safe_off_block.x + 20), self.safe_off_block.y - 6))
 
-            # Initialization Block
-            pygame.draw.rect(screen, self.safe_use_color, self.safe_use_rect) # Initiation
-            pygame.draw.rect(screen, self.safe_color_c1, self.safe_number_rect_c1) # Color spot 1
-            pygame.draw.rect(screen, self.safe_color_c2, self.safe_number_rect_c2) # Color Spot 2
+                # Handle
+                pygame.draw.rect(screen, gs.gray, self.safe_handle)
+                pygame.draw.rect(screen, gs.black, self.safe_handle, 3)
 
-            # Borders
-            pygame.draw.rect(screen, gs.black, self.safe_number_rect_n1, 2) # Number spot 1
-            pygame.draw.rect(screen, gs.black, self.safe_number_rect_n2, 2) # Number spot 2
-            pygame.draw.rect(screen, gs.black, self.safe_number_rect_n3, 2) # Number spot 3
-            pygame.draw.rect(screen, gs.black, self.safe_number_rect_n4, 2) # Number spot 4
-            pygame.draw.rect(screen, gs.black, self.safe_use_rect, 2) # Initiation
-            pygame.draw.rect(screen, gs.black, self.safe_number_rect_c1, 2) # Color spot 1
-            pygame.draw.rect(screen, gs.black, self.safe_number_rect_c2, 2) # Color Spot 2
+                # Numbers
+                pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n1) # Number spot 1
+                pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n2) # Number spot 2
+                pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n3) # Number spot 3
+                pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n4) # Number spot 4
+
+                self.n1_image = gs.arial60.render(str(self.safe_number_n1), True, gs.black) # n1 text
+                self.n2_image = gs.arial60.render(str(self.safe_number_n2), True, gs.black) # n2 text
+                self.n3_image = gs.arial60.render(str(self.safe_number_n3), True, gs.black) # n3 text
+                self.n4_image = gs.arial60.render(str(self.safe_number_n4), True, gs.black) # n4 text
+
+                self.n1_rect = self.n1_image.get_rect(center=self.safe_number_rect_n1.center) # n1 rect
+                self.n2_rect = self.n2_image.get_rect(center=self.safe_number_rect_n2.center) # n2 rect
+                self.n3_rect = self.n3_image.get_rect(center=self.safe_number_rect_n3.center) # n3 rect
+                self.n4_rect = self.n4_image.get_rect(center=self.safe_number_rect_n4.center) # n4 rect
+
+                screen.blit(self.n1_image, self.n1_rect) # n1 blit
+                screen.blit(self.n2_image, self.n2_rect) # n2 blit
+                screen.blit(self.n3_image, self.n3_rect) # n3 blit
+                screen.blit(self.n4_image, self.n4_rect) # n4 blit
+
+                # On / Off Settings
+                self.safe_on_block = pygame.Rect(657, 170, 8, 8)
+                self.safe_off_block = self.safe_on_block.move(0, 30)
+
+                pygame.draw.circle(screen, self.safe_status_color_on, self.safe_on_block.center, 8)
+                pygame.draw.circle(screen, self.safe_status_color_off, self.safe_off_block.center, 8)
+                pygame.draw.circle(screen, gs.black, self.safe_on_block.center, 9, 2)
+                pygame.draw.circle(screen, gs.black, self.safe_off_block.center, 9, 2)
+
+                self.on_text = gs.arial16.render('ON', True, gs.white)
+                self.off_text = gs.arial16.render('OFF', True, gs.white)
+
+                screen.blit(self.on_text, ((self.safe_on_block.x + 20), self.safe_on_block.y - 6))
+                screen.blit(self.off_text, ((self.safe_off_block.x + 20), self.safe_off_block.y - 6))
+
+                # Initialization Block
+                pygame.draw.rect(screen, self.safe_use_color, self.safe_use_rect) # Initiation
+                pygame.draw.rect(screen, self.safe_color_c1, self.safe_number_rect_c1) # Color spot 1
+                pygame.draw.rect(screen, self.safe_color_c2, self.safe_number_rect_c2) # Color Spot 2
+
+                # Borders
+                pygame.draw.rect(screen, gs.black, self.safe_number_rect_n1, 2) # Number spot 1
+                pygame.draw.rect(screen, gs.black, self.safe_number_rect_n2, 2) # Number spot 2
+                pygame.draw.rect(screen, gs.black, self.safe_number_rect_n3, 2) # Number spot 3
+                pygame.draw.rect(screen, gs.black, self.safe_number_rect_n4, 2) # Number spot 4
+                pygame.draw.rect(screen, gs.black, self.safe_use_rect, 2) # Initiation
+                pygame.draw.rect(screen, gs.black, self.safe_number_rect_c1, 2) # Color spot 1
+                pygame.draw.rect(screen, gs.black, self.safe_number_rect_c2, 2) # Color Spot 2
+
+
+
+
+
 
 
 
@@ -553,13 +591,12 @@ class Room():
             pygame.draw.circle(screen, gs.silver, (desk_drawer1_opened.center), 7)
             pygame.draw.circle(screen, gs.black, (desk_drawer1_opened.center), 8, 2)
 
-            # todo flathead
+            # Draw Flathead
             self.flathead_surface = pygame.Rect(124, 528, 50, 70)
             self.flathead_rect = flathead.get_rect()
-
-
-
             screen.blit(pygame.transform.smoothscale(flathead, (int(self.flathead_rect[2]/4), int(self.flathead_rect[3]/4))), self.flathead_surface)
+
+            # todo click flathead
 
         else:
             pygame.draw.rect(screen, gs.black, desk_drawer1, 3)
@@ -594,13 +631,22 @@ class Room():
             pygame.draw.polygon(screen, gs.interior_drawer, ((fcd2.topleft), (fcd2.bottomleft), (fcdo2.bottomleft), (fcdo2.topleft)))
             pygame.draw.polygon(screen, gs.black, ((fcd2.topleft), (fcd2.topright), (fcdo2.topright), (fcdo2.topleft)), 2)
             pygame.draw.polygon(screen, gs.black, ((fcd2.topleft), (fcd2.bottomleft), (fcdo2.bottomleft), (fcdo2.topleft)), 2)
+
+            # Blue Book in Drawer
+            self.blue_book_rotated_surface = pygame.Rect(728, 598, 50, 70)
+            self.blue_book_rotated_rect = blue_book_rotated.get_rect()
+            screen.blit(pygame.transform.smoothscale(blue_book_rotated, (int(self.blue_book_rotated_rect[2]/5), int(self.blue_book_rotated_rect[3]/5))), self.blue_book_rotated_surface)
+
+
             pygame.draw.rect(screen, gs.file_cabinet, fcdo2)
             pygame.draw.rect(screen, gs.black, fcdo2, 3)   
             fcd_handle.center = fcdo2.center
             pygame.draw.rect(screen, gs.silver, fcd_handle)
             pygame.draw.rect(screen, gs.black, fcd_handle, 2)
 
-            # todo blue book
+            # todo blue book click
+
+
             
         else:
             pygame.draw.rect(screen, gs.file_cabinet, fcd2)
@@ -619,13 +665,19 @@ class Room():
             pygame.draw.polygon(screen, gs.interior_drawer, ((fcd1.topleft), (fcd1.bottomleft), (fcdo1.bottomleft), (fcdo1.topleft)))
             pygame.draw.polygon(screen, gs.black, ((fcd1.topleft), (fcd1.topright), (fcdo1.topright), (fcdo1.topleft)), 2)
             pygame.draw.polygon(screen, gs.black, ((fcd1.topleft), (fcd1.bottomleft), (fcdo1.bottomleft), (fcdo1.topleft)), 2)
+
+            # Red Book in Drawer
+            self.red_book_rotated_surface = pygame.Rect(728, 500, 50, 70)
+            self.red_book_rotated_rect = red_book_rotated.get_rect()
+            screen.blit(pygame.transform.smoothscale(red_book_rotated, (int(self.red_book_rotated_rect[2]/5), int(self.red_book_rotated_rect[3]/5))), self.red_book_rotated_surface)
+
             pygame.draw.rect(screen, gs.file_cabinet, fcdo1)
             pygame.draw.rect(screen, gs.black, fcdo1, 3)
             fcd_handle.center = fcdo1.center
             pygame.draw.rect(screen, gs.silver, fcd_handle)
             pygame.draw.rect(screen, gs.black, fcd_handle, 2)
 
-            # todo red book
+            # todo red book click
 
         else:
             pygame.draw.rect(screen, gs.file_cabinet, fcd1)

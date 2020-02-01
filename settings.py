@@ -147,6 +147,8 @@ class Settings():
         self.safe_combo_n2 = None  # This number is needed to open the safe
         self.safe_combo_n3 = None  # This number is needed to open the safe
         self.safe_combo_n4 = None  # This number is needed to open the safe
+        self.safe_opened = True # Default = False
+        self.safe_opened_true = False # Default = False // if safe is opened for the first time, this will automatically be true and stay true
 
         
         # Default room view
