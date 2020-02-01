@@ -14,8 +14,31 @@ from pygame.math import Vector3
 import tv_channels
 import numpy as np
 
-hanging_shirt_load = 'images/shirt.png' # Shirt
+# Load images
+hanging_shirt_load = 'images/shirt.png' # Hanging Shirt
+laying_remote_load = 'images/remote_laying.png' # Laying Remote
+laying_paper_load = 'images/laying_paper.png' # Laying Paper
+rotated_batteries_load = 'images/batteries_rotated.png' # Rotated batteries
+laying_power_cord_load = 'images/power_cord.png' # Laying power cord
+red_book_rotated_load = 'images/red_book_rotated.png' # Rotated Red Book
+blue_book_rotated_load = 'images/blue_book_rotated.png' # Rotated Blue Book
+flathead_load = 'images/flathead_rotated.png' # Flathead
+door_key_rotated_load = 'images/door_key_rotated.png' # Rotated Door Key
+green_key_rotated_load = 'images/green_key_rotated.png' # Rotated Green Key
+
 hanging_shirt = pygame.image.load(hanging_shirt_load)
+laying_remote = pygame.image.load(laying_remote_load)
+laying_paper = pygame.image.load(laying_paper_load) # todo figure out .convert_alpha()
+rotated_batteries = pygame.image.load(rotated_batteries_load)
+laying_power_cord = pygame.image.load(laying_power_cord_load)
+red_book_rotated = pygame.image.load(red_book_rotated_load)
+blue_book_rotated = pygame.image.load(blue_book_rotated_load)
+flathead = pygame.image.load(flathead_load)
+door_key_rotated = pygame.image.load(door_key_rotated_load)
+green_key_rotated = pygame.image.load(green_key_rotated_load)
+
+
+
 
 class Room():
     """Class to store the objects of the rooms and the views regarding them"""
@@ -85,6 +108,14 @@ class Room():
         pygame.draw.line(screen, gs.black, (230, 686), (230, 80), 3)
         pygame.draw.line(screen, gs.black, (0, 465), (184, 465), 3)
         pygame.draw.line(screen, gs.black, (0, 153), (184, 153), 3)
+
+        # Draw Remote
+        self.laying_remote_surface = pygame.Rect(380, 493, 50, 70)
+        self.laying_remote_rect = laying_remote.get_rect()
+        screen.blit(pygame.transform.smoothscale(laying_remote, (int(self.laying_remote_rect[2]/4.5), int(self.laying_remote_rect[3]/4.5))), self.laying_remote_surface)
+
+        # todo clickable remote
+
 
         # Required in all views if items are opened during the view.
         if gs.stable_item_opened:
@@ -172,6 +203,12 @@ class Room():
             pygame.draw.rect(screen, gs.door, self.safe_cover)
             pygame.draw.rect(screen, gs.black, self.safe_cover, 2)
 
+        # Draw Papers
+        self.laying_paper_surface = pygame.Rect(380, 475, 100, 100)
+        self.laying_paper_rect = laying_paper.get_rect()
+        screen.blit(pygame.transform.smoothscale(laying_paper, (int(self.laying_paper_rect[2]/2), int(self.laying_paper_rect[3]/2))), self.laying_paper_surface)
+
+        # todo clickable papers
 
 
         # Required in all views if items are opened during the view.
@@ -288,12 +325,16 @@ class Room():
         pygame.draw.circle(screen, gs.black, self.can_opening_rect.center, 250, 3)
         pygame.draw.circle(screen, gs.brown, self.can_opening_rect.center, 149)
         pygame.draw.circle(screen, gs.black, self.can_opening_rect.center, 150, 3)
-
         pygame.draw.rect(screen, gs.bg_color, (0, 0, 1190, 84))
-
         pygame.draw.line(screen, gs.black, (0, 84), (1190, 84), 5)
 
+        # Draw Laying Power Cord
+        self.laying_power_cord_rect = laying_power_cord.get_rect()
+        self.laying_power_cord_scaled = pygame.transform.smoothscale(laying_power_cord, (int(self.laying_power_cord_rect[2]/1.5), int(self.laying_power_cord_rect[3]/1.5)))
+        self.laying_power_cord_scaled_rect = self.laying_power_cord_scaled.get_rect(center = self.can_opening_rect.center)
+        screen.blit(self.laying_power_cord_scaled, self.laying_power_cord_scaled_rect)
 
+        # todo clickable power cord
 
 
 
@@ -358,7 +399,7 @@ class Room():
                 screen.blit(channel_text, ((self.partial_tv_screen_glass.x + 3), self.partial_tv_screen_glass.y))
                 tv_channels.tv_channels(gs, screen)
 
-            # Trash Can todo trash can stuff
+            # Trash Can
             self.top_of_can = pygame.Rect(130, 555, 120, 25)
             bottom_of_can = pygame.Rect(0, 675, 90, 25)
             bottom_of_can.centerx = self.top_of_can.centerx
@@ -455,6 +496,14 @@ class Room():
             pygame.draw.ellipse(screen, gs.dark_gray, (220, 632, 8, 4))
 
             gs.desk_drawer_removed = True
+
+            # Draw Green Key
+            self.green_key_rotated_surface = pygame.Rect(148, 630, 50, 70)
+            self.green_key_rotated_rect = green_key_rotated.get_rect()
+            screen.blit(pygame.transform.smoothscale(green_key_rotated, (int(self.green_key_rotated_rect[2]/22), int(self.green_key_rotated_rect[3]/22))), self.green_key_rotated_surface)
+
+            # todo click green key
+
         
         ########## Desk Drawer 2
         if gs.dd2_opened:
@@ -473,6 +522,13 @@ class Room():
             pygame.draw.rect(screen, gs.black, desk_drawer2_opened, 3)
             pygame.draw.circle(screen, gs.silver, (desk_drawer2_opened.center), 7)
             pygame.draw.circle(screen, gs.black, (desk_drawer2_opened.center), 8, 2)
+
+            # Draw Batteries
+            self.rotated_batteries_surface = pygame.Rect(174, 588, 50, 70)
+            self.rotated_batteries_rect = rotated_batteries.get_rect()
+            screen.blit(pygame.transform.smoothscale(rotated_batteries, (int(self.rotated_batteries_rect[2]/13), int(self.rotated_batteries_rect[3]/13))), self.rotated_batteries_surface)
+
+            # todo click batteries
             
         else:
             pygame.draw.rect(screen, gs.black, desk_drawer2, 3)
@@ -496,7 +552,15 @@ class Room():
             pygame.draw.rect(screen, gs.black, desk_drawer1_opened, 3)
             pygame.draw.circle(screen, gs.silver, (desk_drawer1_opened.center), 7)
             pygame.draw.circle(screen, gs.black, (desk_drawer1_opened.center), 8, 2)
-            
+
+            # todo flathead
+            self.flathead_surface = pygame.Rect(124, 528, 50, 70)
+            self.flathead_rect = flathead.get_rect()
+
+
+
+            screen.blit(pygame.transform.smoothscale(flathead, (int(self.flathead_rect[2]/4), int(self.flathead_rect[3]/4))), self.flathead_surface)
+
         else:
             pygame.draw.rect(screen, gs.black, desk_drawer1, 3)
             pygame.draw.circle(screen, gs.silver, (desk_drawer1.center), 7)
@@ -534,7 +598,9 @@ class Room():
             pygame.draw.rect(screen, gs.black, fcdo2, 3)   
             fcd_handle.center = fcdo2.center
             pygame.draw.rect(screen, gs.silver, fcd_handle)
-            pygame.draw.rect(screen, gs.black, fcd_handle, 2) 
+            pygame.draw.rect(screen, gs.black, fcd_handle, 2)
+
+            # todo blue book
             
         else:
             pygame.draw.rect(screen, gs.file_cabinet, fcd2)
@@ -558,6 +624,8 @@ class Room():
             fcd_handle.center = fcdo1.center
             pygame.draw.rect(screen, gs.silver, fcd_handle)
             pygame.draw.rect(screen, gs.black, fcd_handle, 2)
+
+            # todo red book
 
         else:
             pygame.draw.rect(screen, gs.file_cabinet, fcd1)
