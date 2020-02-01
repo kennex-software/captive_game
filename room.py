@@ -180,6 +180,7 @@ class Room():
         if self.flathead_clicker.collidepoint(event.pos):
             print('flathead found')
             gs.screwdriver_found = True
+            gs.moveable_items_index_list.append(6)
 
     def click_red_book(self, gs, event):
         # function to be able to pick up the red book item
@@ -198,24 +199,28 @@ class Room():
         if self.green_key_clicker.collidepoint(event.pos):
             print('green key found')
             gs.green_key_found = True
+            gs.moveable_items_index_list.append(3)
 
     def click_power_cord(self, gs, event):
         # function to be able to pick up the power cord item
         if self.laying_power_cord_scaled_rect.collidepoint(event.pos):
             print('power cord found')
             gs.power_cord_found = True
+            gs.moveable_items_index_list.append(5)
 
     def click_batteries(self, gs, event):
         # function to be able to pick up the batteries item
         if self.battery_clicker.collidepoint(event.pos):
             gs.batteries_found = True
             print('batteries found')
+            gs.moveable_items_index_list.append(4)
 
     def click_remote(self, gs, event):
         # function to be able to pick up the remote item
         if self.remote_clicker.collidepoint(event.pos):
             print('remote found')
             gs.remote_found = True
+
 
 
         
@@ -385,6 +390,7 @@ class Room():
                         if self.door_key_clicker.collidepoint(event.pos):
                             print('door key found')
                             gs.door_key_found = True
+                            gs.moveable_items_index_list.append(0)
                     elif gf.check_inside_clickbox(self, self.safe_door, ((event.pos), (0, 0))):
                         gs.safe_opened = False
                 else:

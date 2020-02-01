@@ -100,13 +100,15 @@ class Settings():
         self.clickboxcolor = (253, 253, 253)
         
         # Inventory Item Selection
-        self.si = None  # si stands for selected item
+        self.selected_item_index = None
+        self.selected_item = None  # selected_item stands for selected item
         self.offset = None
         self.item_selection_choice = False
-        self.si_start_x = 0
-        self.si_start_y = 0
+        self.selected_item_start_x = 0
+        self.selected_item_start_y = 0
         
         # Inventory Items Found
+        self.all_items_visible = False # Default = False // Allows to toggle all items on or off
         self.door_key_found = False # Default = False
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
@@ -120,6 +122,8 @@ class Settings():
         self.desk_drawer_removed = False # Default = False
         self.shirt_found = False # Default = False
         self.screwdriver_found = False # Default = False
+
+        self.moveable_items_index_list = []
 
         self.door_key_used = False # Default = False
         self.red_key_used = False # Default = False

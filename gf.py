@@ -42,7 +42,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                     room_view.click_remote(gs, event)
 
                         if gs.current_room_view < -1 or gs.current_room_view > 1:  # Fourth wall
-                            if not gs.shirt_found:
+                            if not gs.shirt_found and gs.room_view_drill_down == 0:
                                 room_view.click_shirt(gs, event)
                             if gs.room_view_drill_down == 1:
                                 if gs.safe_uncovered: # Function when safe is uncovered

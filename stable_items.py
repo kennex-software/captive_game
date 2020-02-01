@@ -246,6 +246,7 @@ class Stable_Items():
 
         if gf.check_inside_clickbox(self, self.clickbox_shirt_pocket, ((event.pos), (0, 0))):
             gs.purple_key_found = True
+            gs.moveable_items_index_list.append(2)
             print('found purple key') # todo comment out later
 
     def pull_up_desk_drawer(self, gs, screen):
@@ -358,6 +359,7 @@ class Stable_Items():
             if gs.current_book == 'red_book' and gs.current_page == 4 and not gs.red_key_found and gf.check_inside_clickbox(self, self.red_key_clickbox, ((event.pos), (0, 0))):
                 print('red key found')
                 gs.red_key_found = True
+                gs.moveable_items_index_list.append(1)
             else:
                 gs.current_page += 1
 
