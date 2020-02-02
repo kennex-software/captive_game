@@ -28,6 +28,9 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                             room_view.drill_down_views(gs, screen, game_objects, event)
 
                         if gs.current_room_view == 0:   # Default View
+                            room_view.open_door(gs, event)
+                            if gs.door_opened:
+                                room_view.close_door(gs, event)
                             if gs.room_view_drill_down == 0.1 and not gs.power_cord_found: # Function to click power cord when it's not found
                                 room_view.click_power_cord(gs, event)
 
@@ -75,9 +78,9 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
-                inventory.deselect_items(gs, screen, event)
+                inventory.deselect_items(gs, event)
         elif event.type == pygame.MOUSEMOTION:
-            inventory.item_grabbed(gs, screen, event)
+            inventory.item_grabbed(gs, event)
 
 def update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp):
     """Update images on the screen and flip to the new screen."""

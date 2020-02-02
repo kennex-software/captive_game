@@ -108,7 +108,7 @@ class Settings():
         self.selected_item_start_y = 0
         
         # Inventory Items Found
-        self.all_items_visible = True # Default = False // Allows to toggle all items on or off
+        self.all_items_visible = False # Default = False // Allows to toggle all items on or off
         self.door_key_found = False # Default = False
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
@@ -143,7 +143,7 @@ class Settings():
         # Remote Settings
         self.remote_opened = False  # Default = False
         self.close_remote = False  # Default = False
-        self.batteries_input = True  # Default = False # todo change to false
+        self.batteries_input = False  # Default = False # todo change to false
         self.button_input_list = []
 
         # TV Settings
@@ -151,7 +151,7 @@ class Settings():
         self.current_channel = '3'
 
         # Safe Settings
-        self.safe_uncovered = True # Default = false
+        self.safe_uncovered = False # Default = false
         self.safe_on = True  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo figure out how to turn on safe
         self.safe_initialized = True # Safe can only be opened if a certain channel is on the TV
         self.color_number_1 = None  # This number is needed to open the safe
@@ -194,7 +194,6 @@ class Settings():
 
         # Door Settings
         self.door_opened = False  # Default = False todo change to false
-        self.door_opened_true = False # Default = False // if door is opened for the first time, this will automatically be true and stay true
 
         # Lights Settings
         self.lights_on = True  # Default = False

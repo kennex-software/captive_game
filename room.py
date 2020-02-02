@@ -3,7 +3,7 @@
 import os, pygame, sys, copy
 from settings import Settings
 import gf
-from inventory import Inventory
+import inventory
 #from objects import GameObjects
 from stable_items import Stable_Items
 from pygame.locals import *
@@ -47,7 +47,39 @@ class Room():
         self.gs = gs
         self.screen = screen
         #self.game_obects = game_objects
-        
+
+        global fcd1
+        global fcd2
+        global fcdo1
+        global fcdo2
+        global fcd_handle
+
+        fcd1 = pygame.Rect(690, 474, 150, 98)
+        fcdo1 = fcd1.move(34, 46)
+        fcd2 = fcd1.move(0, 98)
+        fcdo2 = fcd1.move(34, 144)
+        fcd_handle = pygame.Rect(0, 0, 44, 10)
+
+        global desk_drawer1
+        global desk_drawer2
+        global desk_drawer3
+        global desk_drawer1_opened
+        global desk_drawer2_opened
+        global desk_drawer3_opened
+
+        desk_drawer1 = pygame.Rect(100, 492, 160, 40)
+        desk_drawer2 = desk_drawer1.move(0, 59)
+        desk_drawer3 = desk_drawer1.move(0, 118)
+        desk_drawer1_opened = pygame.Rect(46, 543, 185, 40)
+        desk_drawer2_opened = desk_drawer1_opened.move(0, 59)
+        desk_drawer3_opened = desk_drawer1_opened.move(0, 118)
+
+        # Door Settings
+        self.door_handle_rect = None
+        self.main_door = pygame.Rect(390, 160, 225, 440)
+        self.opened_door = [(248, 101), (self.main_door.topleft), (self.main_door.bottomleft), (248, 674)]
+
+        # Window Settings
         self.e_window = pygame.Rect(305, 80, 500, 600)
         self.click_window_int_frame = pygame.Rect(0, self.e_window.top, 12, self.e_window.height)
 
@@ -527,7 +559,7 @@ class Room():
             pygame.draw.line(screen, gs.black, (330, 600), (330,0), 5)
             pygame.draw.line(screen, gs.black, (330, 600), (1100, 600), 5)
 
-            self.main_door = pygame.Rect(390, 160, 225, 440)
+
 
             if gs.door_opened and gs.room_view_drill_down == 0:
                 # Draw Open Door Handle
@@ -535,7 +567,7 @@ class Room():
                 pygame.draw.circle(screen, gs.black, (243, 398), 16, 2)
 
                 # Draw open door
-                self.opened_door = [(248, 101), (self.main_door.topleft), (self.main_door.bottomleft), (248, 674)]
+
                 pygame.draw.polygon(screen, gs.door, self.opened_door)
                 pygame.draw.polygon(screen, gs.black, self.opened_door, 3)
                 pygame.draw.line(screen, gs.black, (250, 101), (250, 674), 8)
@@ -547,7 +579,7 @@ class Room():
                 pygame.draw.rect(screen, gs.door, self.main_door)
                 pygame.draw.rect(screen, gs.black, self.main_door, 3)
                 pygame.draw.circle(screen, gs.dark_gray, (585-3, 390+5), 15)
-                pygame.draw.circle(screen, gs.yellow, (585, 390), 15)
+                self.door_handle_rect = pygame.draw.circle(screen, gs.yellow, (585, 390), 15)
                 pygame.draw.circle(screen, gs.black, (585, 390), 16, 2)
                 pygame.draw.circle(screen, gs.black, (585, 390), 4, 1)
             
@@ -614,19 +646,7 @@ class Room():
         pygame.draw.polygon(screen, gs.wood, ((168, 420), (84, 474), (84, 670), (275, 670), (323, 600), (323, 515), (638, 515), (638, 600), (678, 670), (690, 670), (690, 474), (657, 420)))
         pygame.draw.polygon(screen, gs.black, ((168, 420), (84, 474), (84, 670), (275, 670), (323, 600), (323, 515), (638, 515), (638, 600), (678, 670), (690, 670), (690, 474), (657, 420)), 3)
         
-        global desk_drawer1 
-        global desk_drawer2
-        global desk_drawer3
-        global desk_drawer1_opened
-        global desk_drawer2_opened
-        global desk_drawer3_opened         
-        
-        desk_drawer1 = pygame.Rect(100, 492, 160, 40)
-        desk_drawer2 = desk_drawer1.move(0, 59)
-        desk_drawer3 = desk_drawer1.move(0, 118)
-        desk_drawer1_opened = pygame.Rect(46, 543, 185, 40)
-        desk_drawer2_opened = desk_drawer1_opened.move(0, 59)
-        desk_drawer3_opened = desk_drawer1_opened.move(0, 118)
+
         
         pygame.draw.line(screen, gs.black, (275, 670), (275, 515), 3)
         pygame.draw.line(screen, gs.black, (275, 515), (678, 515), 3)
@@ -741,17 +761,7 @@ class Room():
         pygame.draw.polygon(screen, gs.file_cabinet, ((657, 420), (690, 474), (840, 474), (788, 420)))
         pygame.draw.polygon(screen, gs.black, ((657, 420), (690, 474), (840, 474), (788, 420)), 3)
                
-        global fcd1
-        global fcd2
-        global fcdo1
-        global fcdo2
-        global fcd_handle
-        
-        fcd1 = pygame.Rect(690, 474, 150, 98)
-        fcdo1 = fcd1.move(34, 46)        
-        fcd2 = fcd1.move(0, 98)
-        fcdo2 = fcd1.move(34, 144)
-        fcd_handle = pygame.Rect(0, 0, 44, 10)
+
         
         ##### File Cabinet Drawers Opened
         if gs.fcd2_opened == True:          
@@ -984,6 +994,17 @@ class Room():
             gs.drill_possible = True
             self.room_view_four(gs, screen, stable_item_blocks)
 
+    def open_door(self, gs, event):
+        """Unlocks the door to finish / win the game"""
+        if self.door_handle_rect.collidepoint(event.pos) and gs.door_locked == False:
+            gs.door_opened = True
+
+    def close_door(self, gs, event):
+        """Closes door after it's been opened"""
+        if gf.check_inside_clickbox(self, self.opened_door, ((event.pos), (0, 0))):
+            gs.door_opened = False
+
+
     def move_between_views(self, gs, screen, game_objects, stable_item_blocks, event):
         """Moves player between the various views based on the side that they clicked"""
         # Outer-Most Room Views
@@ -1050,7 +1071,7 @@ class Room():
                         print('FCD2 LOCKED')
             else:
                 if fcd2.collidepoint(event.pos) and not fcdo1.collidepoint(event.pos):
-                    if fcd2_lcoked == False:
+                    if fcd2_locked == False:
                         gs.fcd2_opened = True
                     else:
                         print('FCD2 LOCKED')
@@ -1140,6 +1161,58 @@ class Room():
 
         if gs.desk_drawer_up:
             stable_item_blocks.pull_up_desk_drawer(gs, screen)
+
+    def item_intersection(self, gs, event):
+        """Looks for moveable items that intersect with the room and other items to achieve things"""
+        # Door Key
+        if gs.selected_item_index == 0 and self.door_handle_rect.collidepoint(gs.selected_item.center):
+            gs.door_locked = False
+            gs.door_key_used = True
+            gs.moveable_items_index_list.remove(gs.selected_item_index)
+            print('UNLOCKED DOOR')
+
+        # Red Key
+        if gs.selected_item_index == 1 and desk_drawer3.collidepoint(gs.selected_item.center):
+            gs.dd3_locked = False
+            gs.red_key_used = True
+            gs.moveable_items_index_list.remove(gs.selected_item_index)
+            print('UNLOCKED DD3')
+
+        # Purple Key
+        if gs.selected_item_index == 2 and fcd2.collidepoint(gs.selected_item.center):
+            gs.fcd2_locked = False
+            gs.purple_key_used = True
+            gs.moveable_items_index_list.remove(gs.selected_item_index)
+            print('UNLOCKED DD3')
+
+        # Green Key
+        if gs.selected_item_index == 3 and desk_drawer1.collidepoint(gs.selected_item.center):
+            gs.dd1_locked = False
+            gs.green_key_used = True
+            gs.moveable_items_index_list.remove(gs.selected_item_index)
+            print('UNLOCKED DD1')
+
+        # Batteries
+        if gs.selected_item_index == 4 and gs.remote_found and inventory.inv_items_stable[0].collidepoint(gs.selected_item.center):
+            gs.batteries_input = True
+            gs.batteries_used = True
+            gs.moveable_items_index_list.remove(gs.selected_item_index)
+            print('INPUT BATTERIES')
+
+        # Power Cord
+        if gs.selected_item_index == 5:
+            pass
+
+            #gs.power_cord_used = True
+            #gs.moveable_items_index_list.remove(gs.selected_item_index)
+            print('UNLOCKED DD1')
+
+        # Screwdriver / Flathead
+        if gs.selected_item_index == 6 and self.safe_cover.collidepoint(gs.selected_item.center):
+            gs.safe_uncovered = True
+            gs.screwdriver_used = True
+            gs.moveable_items_index_list.remove(gs.selected_item_index)
+            print('REMOVED SAFE COVER')
 
 
 

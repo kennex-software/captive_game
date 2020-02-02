@@ -170,19 +170,19 @@ class Inventory():
                 self.screen.blit(scaled_drawer, (sdx - scaled_drawer.get_width() // 2, sdy - scaled_drawer.get_height() // 2 ))
 
             ### Moveable Items
-            if gs.door_key_found == True:  # Draw Door Key Inventory Item
+            if gs.door_key_found == True and not gs.door_key_used:  # Draw Door Key Inventory Item
                 self.screen.blit(pygame.transform.smoothscale(door_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[0])
-            if gs.red_key_found == True:  # Draw File Cabinet Key 1 Inventory Item
+            if gs.red_key_found == True and not gs.red_key_used:  # Draw File Cabinet Key 1 Inventory Item
                 self.screen.blit(pygame.transform.smoothscale(red_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[1])
-            if gs.purple_key_found == True:  # Draw File Cabinet Key 2 Inventory Item
+            if gs.purple_key_found == True and not gs.purple_key_used:  # Draw File Cabinet Key 2 Inventory Item
                 self.screen.blit(pygame.transform.smoothscale(purple_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[2])
-            if gs.green_key_found == True:  # Draw Desk Drawer Key Inventory Item
+            if gs.green_key_found == True and not gs.green_key_used:  # Draw Desk Drawer Key Inventory Item
                 self.screen.blit(pygame.transform.smoothscale(green_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[3])
-            if gs.batteries_found == True:  # Draw Batteries Inventory Item
+            if gs.batteries_found == True and not gs.batteries_used:  # Draw Batteries Inventory Item
                 self.screen.blit(pygame.transform.smoothscale(batteries, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[4])
-            if gs.power_cord_found == True:  # Draw Power Cord Inventory Item
+            if gs.power_cord_found == True and not gs.power_cord_used:  # Draw Power Cord Inventory Item
                 self.screen.blit(pygame.transform.smoothscale(power_cord, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[5])
-            if gs.screwdriver_found == True:  # Draw Screwdriver Inventory Item
+            if gs.screwdriver_found == True and not gs.screwdriver_used:  # Draw Screwdriver Inventory Item
                 self.screen.blit(pygame.transform.smoothscale(screwdriver, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[6])
 
 
@@ -210,12 +210,10 @@ class Inventory():
                     gs.selected_item_index = index
                     gs.selected_item_start_x = item.x
                     gs.selected_item_start_y = item.y
-                    print(gs.selected_item_index)  # todo delete me later
 
         for item in inv_items_stable:
             if item.collidepoint(event.pos) and gs.stable_item_opened == False:
                 index = inv_items_stable.index(item)
-                #print(index)  # todo Delete me later
                 if index == 0 and gs.remote_found:
                     gs.stable_item_opened = True  # Turns on stable items.  User cannot move in view until item is closed.
                     gs.remote_opened = not gs.remote_opened
@@ -240,21 +238,24 @@ class Inventory():
                     gs.stable_item_opened = False
                     gf.print_settings(gs)
 
-    def item_grabbed(self, gs, screen, event):  # Referenced from gf
+    def item_grabbed(self, gs, event):  # Referenced from gf
         """Drags items around screen"""
         if gs.selected_item:
             gs.selected_item.topleft = event.pos + gs.offset
     
-    def deselect_items(self, gs, screen, event):  # Referenced from gf
+    def deselect_items(self, gs, event):  # Referenced from gf
         """Returns settings for moving items back to normal state"""
         if gs.selected_item:
             if gs.item_selection_choice == False:
+                self.room_view.item_intersection(gs, event)
                 gs.selected_item.x = gs.selected_item_start_x
                 gs.selected_item.y = gs.selected_item_start_y
             
         gs.selected_item = None
         gs.offset = None
         gs.sleeperticks = True
+
+
 
 
     
