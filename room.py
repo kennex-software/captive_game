@@ -99,18 +99,6 @@ class Room():
         self.safe_hole = self.safe.inflate(90, 60)
         self.safe_cover = self.safe_hole.inflate(10,10)
         self.safe_handle = pygame.Rect(700, 240, 30, 80)
-        self.safe_use_color = gs.black
-
-        if gs.safe_on:
-            self.safe_use_color = gs.red
-            self.safe_status_color_on = gs.green
-            self.safe_status_color_off = gs.black
-            if gs.safe_initialized:
-                self.safe_use_color = gs.green
-        else:
-            self.safe_status_color_on = gs.black
-            self.safe_status_color_off = gs.red
-            self.safe_use_color = gs.black
 
         # Safe Numbers
         self.safe_number_rect_n1 = pygame.Rect((self.safe.topleft[0] + 20), (self.safe.topleft[1] + 20), 70, 100)
@@ -401,6 +389,17 @@ class Room():
                 screen.blit(self.n3_image, self.n3_rect) # n3 blit
                 screen.blit(self.n4_image, self.n4_rect) # n4 blit
 
+                if gs.safe_on:
+                    gs.safe_use_color = gs.red
+                    self.safe_status_color_on = gs.green
+                    self.safe_status_color_off = gs.black
+                    if gs.safe_initialized:
+                        gs.safe_use_color = gs.green
+                else:
+                    self.safe_status_color_on = gs.black
+                    self.safe_status_color_off = gs.red
+                    gs.safe_use_color = gs.black
+
                 # On / Off Settings
                 self.safe_on_block = pygame.Rect(657, 170, 8, 8)
                 self.safe_off_block = self.safe_on_block.move(0, 30)
@@ -417,7 +416,7 @@ class Room():
                 screen.blit(self.off_text, ((self.safe_off_block.x + 20), self.safe_off_block.y - 6))
 
                 # Initialization Block
-                pygame.draw.rect(screen, self.safe_use_color, self.safe_use_rect) # Initiation
+                pygame.draw.rect(screen, gs.safe_use_color, self.safe_use_rect) # Initiation
                 pygame.draw.rect(screen, self.safe_color_c1, self.safe_number_rect_c1) # Color spot 1
                 pygame.draw.rect(screen, self.safe_color_c2, self.safe_number_rect_c2) # Color Spot 2
 
@@ -429,6 +428,8 @@ class Room():
                 pygame.draw.rect(screen, gs.black, self.safe_use_rect, 2) # Initiation
                 pygame.draw.rect(screen, gs.black, self.safe_number_rect_c1, 2) # Color spot 1
                 pygame.draw.rect(screen, gs.black, self.safe_number_rect_c2, 2) # Color Spot 2
+
+
 
         else:  # Safe Panel not removed
             pygame.draw.rect(screen, gs.door, self.safe_cover)
@@ -450,7 +451,7 @@ class Room():
             if gs.safe_on:
                 # This code will open the safe if all the conditions are met
                 # todo update the '1''s for all items to make them correct for the game
-                if gs.safe_initialized == True and gs.color_number_1 == 1 and gs.color_number_2 == 1 and gs.safe_combo_n1 == 1 and gs.safe_combo_n2 == 1 and gs.safe_combo_n3 == 1 and gs.safe_combo_n4 == 1 and self.safe_handle.collidepoint(event.pos):
+                if gs.safe_initialized == True and gs.color_number_1 == 1 and gs.color_number_2 == 1 and gs.safe_combo_n1 == gs.safe_combo[0] and gs.safe_combo_n2 == gs.safe_combo[1] and gs.safe_combo_n3 == gs.safe_combo[2] and gs.safe_combo_n4 == gs.safe_combo[3] and self.safe_handle.collidepoint(event.pos):
                     print('handle clicked')
                     gs.safe_opened = True
                 if gs.safe_opened == True:

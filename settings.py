@@ -81,6 +81,9 @@ class Settings():
         self.dark_gray = (53, 53, 53)
         self.dark_blue = (80, 92, 111) # Interior Walls
         self.dark_brown = (56, 25, 11)
+
+        self.good_green = (198, 239, 206)
+        self.bad_red = (255, 199, 206)
         
         self.carpet = (128, 128, 130)  # Carpet
         self.door = (81, 85, 88)  # Door / Fairly dark gray
@@ -156,11 +159,13 @@ class Settings():
         # TV Settings
         self.tv_on = True  # Default = False
         self.current_channel = '3'
+        self.random_channel = None
 
         # Safe Settings
         self.safe_uncovered = False # Default = false
-        self.safe_on = True  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo figure out how to turn on safe
+        self.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo figure out how to turn on safe
         self.safe_initialized = True # Safe can only be opened if a certain channel is on the TV
+        self.safe_use_color = self.black
         self.color_number_1 = None  # This number is needed to open the safe
         self.color_number_2 = None  # This number is needed to open the safe
         self.safe_combo_n1 = None  # This number is needed to open the safe
@@ -168,6 +173,9 @@ class Settings():
         self.safe_combo_n3 = None  # This number is needed to open the safe
         self.safe_combo_n4 = None  # This number is needed to open the safe
         self.safe_opened = False # Default = False todo change to false
+        self.safe_combo = []
+        self.tv_color_numbers = []
+        self.turn_safe_on_channel = None
         #self.safe_opened_true = False # Default = False // if safe is opened for the first time, this will automatically be true and stay true
 
         

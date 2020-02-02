@@ -86,6 +86,33 @@ def falling_numbers(gs, surface, x, y, h, w):
         y += text_image.get_height()
         x = start
 
+def secret_channel_code(gs, screen, x, y, h, w):
+    """Will give code to turn on Safe"""
+    tv_rect = pygame.Rect(x, y, h, w)
+    text_image = gs.arial60.render(str(gs.turn_safe_on_channel), True, gs.black)
+    text_rect = text_image.get_rect(center = tv_rect.center)
+    screen.blit(text_image, text_rect)
+
+def safe_turned_on(gs, screen, x, y, h, w):
+    """Will give code to turn on Safe"""
+    tv_rect = pygame.Rect(x, y, h, w)
+    text_image = None
+    text_rect = None
+
+    if gs.safe_uncovered:
+        gs.current_tv_screen_color = gs.good_green
+        text_image = gs.arial60.render('SAFE ON', True, gs.black)
+        text_rect = text_image.get_rect(center = tv_rect.center)
+        gs.safe_on = True
+    else:
+        gs.current_tv_screen_color = gs.bad_red
+        text_image = gs.arial60.render('SAFE COVERED', True, gs.black)
+        text_rect = text_image.get_rect(center = tv_rect.center)
+        if gs.close_remote:
+            gs.current_channel = gs.channel_code
+
+    screen.blit(text_image, text_rect)
+
 def tv_channels(gs, screen):
     """
     Function to hold and display all information that could be found on the TV.
@@ -109,12 +136,13 @@ def tv_channels(gs, screen):
     else:
         tv_x = 945
 
+    if gs.current_channel == str(7) and gs.tv_on:
+        gs.safe_initialized = True
+    else:
+        gs.safe_initialized = False
 
-    if gs.current_channel == str(0):  # Whitespace todo need perlin noise?
-        print(gs.current_channel)
-    elif gs.current_channel == str(-1):  # Whitespace todo need perlin noise?
-        print(gs.current_channel)
-    elif gs.current_channel == str(1):  # Powered by Python
+
+    if gs.current_channel == str(1):  # Powered by Python
         gs.current_tv_screen_color = gs.white
         if gs.current_room_view == 1:
             draw_items_full(gs, screen, python_logo, 1.25, 195, 140)
@@ -136,13 +164,20 @@ def tv_channels(gs, screen):
         whitespace(screen, tv_x, tv_y, tv_h, tv_w)
     elif gs.current_channel == str(9):  # Black Screen
         print(gs.current_channel)
-    elif gs.current_channel == str(gs.channel_code):
+
+    # Game Channels
+    elif gs.current_channel == str(gs.channel_code): # Will Give Code to Turn On Safe
+        gs.current_tv_screen_color = gs.white
+        secret_channel_code(gs, screen, tv_x, tv_y, tv_h, tv_w)
+    elif gs.current_channel == str(gs.random_channel): # todo to find another two digit combo of numbers or something for the order of the numbers on safe ???
+        print(gs.current_channel)
+    elif gs.current_channel == str(gs.turn_safe_on_channel): # Turns on Safe
+        safe_turned_on(gs, screen, tv_x, tv_y, tv_h, tv_w)
+
+    # Easter Egg Channels
+    elif gs.current_channel == str(456): # todo easter egg channel for fun
         print(gs.current_channel)
     elif gs.current_channel == str('123456789L0F'): # todo easter egg channel for fun
-        print(gs.current_channel)
-    elif gs.current_channel == str(456): # todo another number channel for fun from diary
-        print(gs.current_channel)
-    elif gs.current_channel == str(456): # todo easter egg channel for fun
         print(gs.current_channel)
     elif gs.current_channel == str(456): # todo easter egg channel for fun
         print(gs.current_channel)

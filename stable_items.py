@@ -47,7 +47,9 @@ class Stable_Items():
                         '7... Nothing?',
                         '8... Nothing?',
                         '9...',
-                        '0 + channel + F + >']
+                        '',
+                        'There are others!',
+                        'Just hit Central Play!']
                 line_spacing = 200
                 text_height = gs.verdana18.get_height()
 
@@ -470,7 +472,7 @@ class Stable_Items():
                         elif box_index >= 4 and box_index <= 13:  # Numbers 1,2,3,4,5,6,7,8,9,0
                             gs.button_input_list.append(box_index)
                         elif box_index == 14:  # L Button
-                            gs.button_input_list.append(box_index)
+                            gs.button_input_list.clear()
                         elif box_index == 15:  # F Button
                             gs.button_input_list.append(box_index)
                         elif box_index == 16:  # Rewind
@@ -486,13 +488,13 @@ class Stable_Items():
                         elif box_index == 21:  # Central Play
                             self.remote_entry(gs)
                         elif box_index == 22:  # Top Arrow
-                            pass
+                            gs.button_input_list.append(box_index)
                         elif box_index == 23:  # Right Arrow
-                            pass
+                            gs.button_input_list.append(box_index)
                         elif box_index == 24:  # Bottom Arrow
-                            pass
+                            gs.button_input_list.append(box_index)
                         elif box_index == 25:  # Left Arrow
-                            pass
+                            gs.button_input_list.append(box_index)
                         elif box_index == 26:  # Power Button
                             gs.tv_on = False
                             gs.current_tv_screen_color = gs.tv_screen
@@ -516,8 +518,11 @@ class Stable_Items():
                               '11': 8,
                               '12': 9,
                               '13': 0,
-                              '14': 'L',
-                              '15': 'F'}
+                              '15': 'F',
+                              '22': 'U',
+                              '23': 'R',
+                              '24': 'D',
+                              '25': 'L'}
         temp_channel = []
         if len(gs.button_input_list) <= 12:
             gs.current_tv_screen_color = gs.tv_screen
@@ -549,6 +554,29 @@ class Stable_Items():
             scaled_papers = gf.aspect_scale(enlarged_papers_top1, 625)
             screen.blit(scaled_papers, (sdx - scaled_papers.get_width() // 2, sdy - scaled_papers.get_height() // 2 ))
 
+            texts = ['',
+                    'open thrice',
+                    '',
+                    'and more',
+                    '',
+                    '',
+                    '',
+                    'check out:', str(gs.random_channel)
+                    ]
+
+            line_spacing = 150
+            x_spacing = 530
+            text_height = gs.verdana22.get_height()
+            angle = 9
+
+            for text in texts:
+                text_image = gs.verdana22.render(text, True, gs.black)
+                text_image = pygame.transform.rotate(text_image, angle)
+                screen.blit(text_image, (x_spacing, line_spacing))
+                line_spacing += text_height
+                x_spacing -= 10
+                angle += 6
+
         if gs.current_paper_in_view == 2:
             # Code to Scale and Draw All Pages
             sdx = gs.gw_width // 2
@@ -565,6 +593,35 @@ class Stable_Items():
             sdy = gs.gw_height // 2
             scaled_papers = gf.aspect_scale(enlarged_papers_top3, 625)
             screen.blit(scaled_papers, (sdx - scaled_papers.get_width() // 2, sdy - scaled_papers.get_height() // 2 ))
+
+            texts = ['',
+                    'SAFE TO SAY: ',
+                    '    LEAVE IT ON SEVEN!',
+                    '',
+                    '',
+                    '',
+                    'Solve.Solve.Add.Enter.',
+                    '',
+                    '  __  __  __  __  > ',
+                    '',
+                    '',
+                    '',
+                    'color by numbers'
+                    ]
+
+            line_spacing = 95
+            x_spacing = 325
+            text_height = gs.verdana22.get_height()
+            angle = 9
+
+            for text in texts:
+                text_image = gs.verdana22.render(text, True, gs.black)
+                text_image = pygame.transform.rotate(text_image, angle)
+                screen.blit(text_image, (x_spacing, line_spacing))
+                line_spacing += text_height
+                x_spacing += 10
+                angle += 2.5
+
 
     def change_papers(self, gs, event):
         """Function to flip through the papers on the screen"""

@@ -173,11 +173,6 @@ def generate_codes(gs):
 
     gs.pua_double_digits = puzzles.double_digits(gs.pua_code)
 
-    # Generate board for Puzzle A Numbers
-    #board = puzzles.get_board(10, pua_double_digits)
-    #print(board)
-
-
     # Puzzle B
     gs.pub_n1 = random.randint(1, 9)
     gs.pub_n3 = random.randint(1, 6)
@@ -190,9 +185,14 @@ def generate_codes(gs):
     gs.pub_n8 = gs.pub_n7 * gs.pub_n9 * 2
     gs.pub_code = int(str(gs.pub_n8)[-3:])
 
-
     # Channel Code
     gs.channel_code = gs.prb_code + gs.pub_code
+    if len(str(gs.channel_code)) != 4:
+        gs.channel_code = '0' + str(gs.channel_code)
+        if len(str(gs.channel_code)) != 4:
+            gs.channel_code = '0' + str(gs.channel_code)
+            if len(str(gs.channel_code)) != 4:
+                gs.channel_code = '0' + str(gs.channel_code)
 
     # Diary Choice Interger
     gs.diary_choice = random.randint(1, 3)
@@ -213,6 +213,32 @@ def generate_codes(gs):
     gs.color_codes['yellow'][0] = number_list_colors[3]
     gs.color_codes['orange'][0] = number_list_colors[4]
     gs.color_codes['red'][0] = number_list_colors[5]
+
+    # Four Digits for Safe Combination
+    while len(gs.safe_combo) < 4:
+        number = random.randint(1, 6)
+        if number not in gs.safe_combo:
+            gs.safe_combo.append(number)
+
+    # Two Colors for TV
+    for n in range(1, 7):
+        if n not in gs.safe_combo:
+            gs.tv_color_numbers.append(n)
+
+    # Random Channel for Papers
+    gs.random_channel = random.randint(44, 99)
+
+    # Turn Safe On Channel
+    random_choice = ['U', 'D', 'L', 'R', 'F', '9']
+    safe_on_channel = []
+    for n in range(1, 9):
+        x = random.choice(random_choice)
+        safe_on_channel.append(x)
+
+    gs.turn_safe_on_channel = ''.join(safe_on_channel)
+
+
+
 
     # Necessary game settings based on settings for development purposes
     if gs.all_items_visible == True:
@@ -239,6 +265,14 @@ def print_settings(gs):
     print("Puzzle A Code: " + str(gs.pua_code))
     print("")
     print("Puzzle B Code: " + str(gs.pub_code))
+    print("")
+    print("Safe Combo: " + str(gs.safe_combo))
+    print("")
+    print("TV Color Numbers: " + str(gs.tv_color_numbers))
+    print("")
+    print("Random Channel: " + str(gs.random_channel))
+    print("")
+    print("Channel to Turn On Safe: " + str(gs.turn_safe_on_channel))
     print("")
     print("Purple: " + str(gs.color_codes['purple'][0]))
     print("Blue: " + str(gs.color_codes['blue'][0]))
