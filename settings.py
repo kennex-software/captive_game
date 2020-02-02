@@ -123,6 +123,10 @@ class Settings():
         self.shirt_found = False # Default = False
         self.screwdriver_found = False # Default = False
 
+        self.power_cord_desk_1 = False
+        self.power_cord_desk_2 = False
+        self.power_cord_window_1 = False
+
         self.moveable_items_index_list = []
 
         self.door_key_used = False # Default = False

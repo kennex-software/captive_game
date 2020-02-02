@@ -26,6 +26,7 @@ flathead_load = 'images/flathead_rotated.png' # Flathead
 door_key_rotated_load = 'images/door_key_rotated.png' # Rotated Door Key
 green_key_rotated_load = 'images/green_key_rotated.png' # Rotated Green Key
 power_cord_plugged_1_load = 'images/power_cord_plugged_one.png' # First plugged power cord
+power_cord_plugged_1_flip_load = 'images/power_cord_plugged_one_flip.png' # First plugged power cord
 power_cord_plugged_2_load = 'images/power_cord_plugged_two.png' # Second plugged power cord
 
 hanging_shirt = pygame.image.load(hanging_shirt_load)
@@ -39,10 +40,8 @@ flathead = pygame.image.load(flathead_load)
 door_key_rotated = pygame.image.load(door_key_rotated_load)
 green_key_rotated = pygame.image.load(green_key_rotated_load)
 power_cord_plugged_1 = pygame.image.load(power_cord_plugged_1_load)
+power_cord_plugged_1_flip = pygame.image.load(power_cord_plugged_1_flip_load)
 power_cord_plugged_2 = pygame.image.load(power_cord_plugged_2_load)
-
-
-
 
 
 class Room():
@@ -141,6 +140,12 @@ class Room():
         self.remote_clicker = self.draw_item_to_screen(gs, screen, laying_remote, 4.5, 380, 493)
         self.door_key_clicker = self.draw_item_to_screen(gs, screen, door_key_rotated, 6, 521, 335)
         self.shirt_surface = pygame.Rect(125, 212, 150, 235)
+
+        # Wall Outlets
+        self.desk_wall_outlet = pygame.Rect(362, 528, 26, 42)
+        self.window_wall_outlet = pygame.Rect(930, 528, 26, 42)
+
+        self.hole_in_floor = None
 
 
 
@@ -245,6 +250,22 @@ class Room():
             gs.power_cord_found = True
             gs.moveable_items_index_list.append(5)
 
+    def pick_power_cord_desk(self, gs, event):
+        # function to be able to pick up plugged power cord
+        if self.power_cord_1_clicker.collidepoint(event.pos):
+            print('power cord picked up')
+            gs.power_cord_used = False
+            gs.power_cord_desk_1 = False
+            gs.moveable_items_index_list.append(5)
+
+    def pick_power_cord_window(self, gs, event):
+        # function to be able to pick up plugged power cord
+        if self.power_cord_window_clicker.collidepoint(event.pos):
+            print('power cord picked up')
+            gs.power_cord_used = False
+            gs.power_cord_window_1 = False
+            gs.moveable_items_index_list.append(5)
+
     def click_batteries(self, gs, event):
         # function to be able to pick up the batteries item
         if self.battery_clicker.collidepoint(event.pos):
@@ -257,6 +278,12 @@ class Room():
         if self.remote_clicker.collidepoint(event.pos):
             print('remote found')
             gs.remote_found = True
+
+    def click_hole_in_floor(self, gs, event):
+        # function to be able to connect camera cable power cord
+        if self.hole_in_floor.collidepoint(event.pos):
+            print('camera connected')
+            gs.power_cord_desk_2 = True
 
 
 
@@ -685,11 +712,10 @@ class Room():
         else:  # This block removes Desk Drawer 3 permanently and places it in the inventory
             pygame.draw.polygon(screen, gs.wood, ((desk_drawer3.bottomleft), (desk_drawer3.topleft), (150, 610)))
             pygame.draw.polygon(screen, gs.carpet, ((desk_drawer3.bottomleft), (150, 610), (desk_drawer3.topright), (desk_drawer3.bottomright)))
-            self.power_cord_2_clicker = self.draw_item_to_screen(gs, screen, power_cord_plugged_2, 3, 216, 548)
             pygame.draw.polygon(screen, gs.black, ((desk_drawer3.bottomleft), (desk_drawer3.topleft), (150, 610)), 2)
             pygame.draw.polygon(screen, gs.black, ((desk_drawer3.bottomleft), (150, 610), (desk_drawer3.topright), (desk_drawer3.bottomright)), 2)
             pygame.draw.line(screen, gs.black, (desk_drawer3.bottomleft), (150, 610), 2)
-            pygame.draw.ellipse(screen, gs.black, (210, 633, 16, 8))
+            self.hole_in_floor = pygame.draw.ellipse(screen, gs.black, (210, 633, 16, 8))
             pygame.draw.ellipse(screen, gs.dark_gray, (214, 635, 8, 4))
 
             gs.desk_drawer_removed = True
@@ -701,8 +727,19 @@ class Room():
             if not gs.green_key_found:
                 self.green_key_clicker = self.draw_item_to_screen(gs, screen, green_key_rotated, 22, 148, 630)
 
-            # todo click green key
+        # Wall Outlet
+        pygame.draw.rect(screen, gs.off_white, self.desk_wall_outlet)
+        pygame.draw.rect(screen, gs.black, (362, 528, 26, 42), 3)
+        pygame.draw.rect(screen, gs.black, (369, 534, 12, 12), 1)
+        pygame.draw.rect(screen, gs.black, (369, 552, 12, 12), 1)
 
+        # todo power cords
+        if gs.power_cord_desk_1:
+            self.power_cord_1_clicker = self.draw_item_to_screen(gs, screen, power_cord_plugged_1, 3, 361, 548)  # THIS IS GOOD for ROOM VIEW 2
+
+        if gs.power_cord_desk_2:
+            gs.power_cord_desk_1 = False
+            self.power_cord_2_clicker = self.draw_item_to_screen(gs, screen, power_cord_plugged_2, 3, 215, 548)
         
         ########## Desk Drawer 2
         if gs.dd2_opened:
@@ -842,15 +879,7 @@ class Room():
             pygame.draw.rect(screen, gs.silver, fcd_handle)
             pygame.draw.rect(screen, gs.black, fcd_handle, 2) 
 
-        # Wall Outlet
-        pygame.draw.rect(screen, gs.off_white, (362, 528, 26, 42))
-        pygame.draw.rect(screen, gs.black, (362, 528, 26, 42), 3)
-        pygame.draw.rect(screen, gs.black, (369, 534, 12, 12), 1)
-        pygame.draw.rect(screen, gs.black, (369, 552, 12, 12), 1)
 
-        # todo power cords
-        self.power_cord_1_clicker = self.draw_item_to_screen(gs, screen, power_cord_plugged_1, 3, 361, 548)  # THIS IS GOOD for ROOM VIEW 2
-        self.power_cord_2_clicker = self.draw_item_to_screen(gs, screen, power_cord_plugged_2, 3, 215, 548)
 
         # Required in all views if items are opened during the view.
         if gs.stable_item_opened:
@@ -951,10 +980,13 @@ class Room():
         pygame.draw.line(screen, gs.black, (365, 632), (332, 618), 3)
         
         # Wall Outlet
-        pygame.draw.rect(screen, gs.off_white, (930, 528, 26, 42))
+        pygame.draw.rect(screen, gs.off_white, self.window_wall_outlet)
         pygame.draw.rect(screen, gs.black, (930, 528, 26, 42), 3)
         pygame.draw.rect(screen, gs.black, (937, 534, 12, 12), 1)
         pygame.draw.rect(screen, gs.black, (937, 552, 12, 12), 1)
+
+        if gs.power_cord_window_1:
+            self.power_cord_window_clicker = self.draw_item_to_screen(gs, screen, power_cord_plugged_1_flip, 3, 818, 548)  # 3, 660, 548
 
         # Closet Items
 
@@ -1209,13 +1241,19 @@ class Room():
             gs.moveable_items_index_list.remove(gs.selected_item_index)
             print('INPUT BATTERIES')
 
-        # Power Cord
-        if gs.selected_item_index == 5:
-            pass
+        # Power Cord - Desk Outlet
+        if gs.selected_item_index == 5 and self.desk_wall_outlet.collidepoint(gs.selected_item.center):
+            gs.power_cord_desk_1 = True
+            gs.power_cord_used = True
+            gs.moveable_items_index_list.remove(gs.selected_item_index)
+            print('POWER CORD PLACE UNDER DESK')
 
-            #gs.power_cord_used = True
-            #gs.moveable_items_index_list.remove(gs.selected_item_index)
-            print('UNLOCKED DD1')
+        # Power Cord - Window Outlet
+        if gs.selected_item_index == 5 and self.window_wall_outlet.collidepoint(gs.selected_item.center):
+            gs.power_cord_window_1 = True
+            gs.power_cord_used = True
+            gs.moveable_items_index_list.remove(gs.selected_item_index)
+            print('POWER CORD PLACE UNDER WINDOW')
 
         # Screwdriver / Flathead
         if gs.selected_item_index == 6 and self.safe_cover.collidepoint(gs.selected_item.center):

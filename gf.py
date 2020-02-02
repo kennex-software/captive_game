@@ -36,8 +36,12 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
                         if gs.current_room_view == -1:  # Left from default
                             room_view.open_drawers(gs, screen, game_objects, event) # See open drawers for click events
+                            if gs.power_cord_desk_1 and not gs.power_cord_desk_2:
+                                room_view.pick_power_cord_desk(gs, event)
                             if gs.desk_drawer_removed and not gs.green_key_found:
                                 room_view.click_green_key(gs, event)
+                            if gs.desk_drawer_removed and gs.power_cord_desk_1:
+                                room_view.click_hole_in_floor(gs, event)
 
                         if gs.current_room_view == 1:  # Right from default
                             if gs.room_view_drill_down == 1:
@@ -45,6 +49,8 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                     room_view.click_remote(gs, event)
 
                         if gs.current_room_view < -1 or gs.current_room_view > 1:  # Fourth wall
+                            if gs.power_cord_window_1 and gs.room_view_drill_down == 0:
+                                room_view.pick_power_cord_window(gs, event)
                             if not gs.shirt_found and gs.room_view_drill_down == 0:
                                 room_view.click_shirt(gs, event)
                             if gs.room_view_drill_down == 1:
