@@ -90,6 +90,10 @@ class Room():
         # Trash Can Opening
         self.can_opening_rect = pygame.Rect(350, 220, 350, 350)
 
+        # TV Settings
+        self.tv_screen_glass = pygame.Rect(195, 140, 470, 296)
+        self.partial_tv_screen_glass = pygame.Rect(945, 140, 470, 296)
+
         # Safe
         self.safe = pygame.Rect(270, 130, 480, 270)
         self.safe_hole = self.safe.inflate(90, 60)
@@ -630,8 +634,7 @@ class Room():
             
             # TV
             pygame.draw.rect(screen, gs.black, (930, 125, 500, 326))
-            self.partial_tv_screen_glass = Rect(945, 140, 470, 296)
-            pygame.draw.rect(screen, gs.tv_screen, self.partial_tv_screen_glass)
+            pygame.draw.rect(screen, gs.current_tv_screen_color, self.partial_tv_screen_glass)
 
             if gs.tv_on:
                 channel_text = gs.verdana16.render(str(gs.current_channel), True, gs.green)
@@ -912,9 +915,9 @@ class Room():
         pygame.draw.rect(screen, gs.black, (120, 530, 620, 100), 3)            
 
         # TV
-        self.tv_screen_glass = pygame.Rect(195, 140, 470, 296)
+
         pygame.draw.rect(screen, gs.black, (180, 125, 500, 326))  # border around the TV
-        pygame.draw.rect(screen, gs.tv_screen, self.tv_screen_glass)
+        pygame.draw.rect(screen, gs.current_tv_screen_color, self.tv_screen_glass)
 
         # If TV is on, display the channel
         if gs.tv_on:

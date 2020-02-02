@@ -456,13 +456,17 @@ class Stable_Items():
                         elif box_index == 2:  # Channel Up
                             if gs.current_channel.isnumeric() and len(gs.current_channel) <= 12:
                                 gs.current_channel = str(int(gs.current_channel)+1)
+                                gs.current_tv_screen_color = gs.tv_screen
                             else:
                                 gs.current_channel = 'INVALID'
+                                gs.current_tv_screen_color = gs.tv_screen
                         elif box_index == 3:  # Channel Down
                             if gs.current_channel.isnumeric():
                                 gs.current_channel = str(int(gs.current_channel)-1)
+                                gs.current_tv_screen_color = gs.tv_screen
                             else:
                                 gs.current_channel = 'INVALID'
+                                gs.current_tv_screen_color = gs.tv_screen
                         elif box_index >= 4 and box_index <= 13:  # Numbers 1,2,3,4,5,6,7,8,9,0
                             gs.button_input_list.append(box_index)
                         elif box_index == 14:  # L Button
@@ -491,6 +495,7 @@ class Stable_Items():
                             pass
                         elif box_index == 26:  # Power Button
                             gs.tv_on = False
+                            gs.current_tv_screen_color = gs.tv_screen
                             print('tv off')
 
         else:
@@ -515,12 +520,14 @@ class Stable_Items():
                               '15': 'F'}
         temp_channel = []
         if len(gs.button_input_list) <= 12:
+            gs.current_tv_screen_color = gs.tv_screen
             for button in gs.button_input_list:
                 temp_channel.append(number_index_dict.get(str(button)))
                 gs.current_channel = ''.join(map(str, temp_channel))
             gs.button_input_list.clear()
         else:
             gs.current_channel = 'INVALID'
+            gs.current_tv_screen_color = gs.tv_screen
             gs.button_input_list.clear()
         # print(gs.current_channel) todo delete later
 

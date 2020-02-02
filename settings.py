@@ -91,6 +91,7 @@ class Settings():
         self.dark_wood = (95, 90, 89)
         self.darker_wood = (69, 64, 63)
         self.tv_screen = (82, 82, 82)
+
         self.safe = (47, 54, 82)
         
         self.red_book_color = (120, 33, 33)  # Red One
@@ -98,6 +99,8 @@ class Settings():
         
         self.transcolor = (254, 254, 254, 0)
         self.clickboxcolor = (253, 253, 253)
+
+        self.current_tv_screen_color = (82, 82, 82)
         
         # Inventory Item Selection
         self.selected_item_index = None
@@ -113,7 +116,7 @@ class Settings():
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
         self.green_key_found = False # Default = False
-        self.remote_found = False # Default = False
+        self.remote_found = True # Default = False todo make false
         self.batteries_found = False # Default = False
         self.power_cord_found = False # Default = False
         self.papers_found = False # Default = False
@@ -147,11 +150,11 @@ class Settings():
         # Remote Settings
         self.remote_opened = False  # Default = False
         self.close_remote = False  # Default = False
-        self.batteries_input = False  # Default = False # todo change to false
+        self.batteries_input = True  # Default = False # todo change to false
         self.button_input_list = []
 
         # TV Settings
-        self.tv_on = False  # Default = False
+        self.tv_on = True  # Default = False
         self.current_channel = '3'
 
         # Safe Settings
