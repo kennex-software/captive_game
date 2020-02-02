@@ -25,6 +25,8 @@ blue_book_rotated_load = 'images/blue_book_rotated.png' # Rotated Blue Book
 flathead_load = 'images/flathead_rotated.png' # Flathead
 door_key_rotated_load = 'images/door_key_rotated.png' # Rotated Door Key
 green_key_rotated_load = 'images/green_key_rotated.png' # Rotated Green Key
+power_cord_plugged_1_load = 'images/power_cord_plugged_one.png' # First plugged power cord
+power_cord_plugged_2_load = 'images/power_cord_plugged_two.png' # Second plugged power cord
 
 hanging_shirt = pygame.image.load(hanging_shirt_load)
 laying_remote = pygame.image.load(laying_remote_load)
@@ -36,6 +38,9 @@ blue_book_rotated = pygame.image.load(blue_book_rotated_load)
 flathead = pygame.image.load(flathead_load)
 door_key_rotated = pygame.image.load(door_key_rotated_load)
 green_key_rotated = pygame.image.load(green_key_rotated_load)
+power_cord_plugged_1 = pygame.image.load(power_cord_plugged_1_load)
+power_cord_plugged_2 = pygame.image.load(power_cord_plugged_2_load)
+
 
 
 
@@ -191,7 +196,7 @@ class Room():
         image_rect = pygame.Rect(x, y, image_surface[0], image_surface[1])
 
         screen.blit(pygame.transform.smoothscale(image, (int(full_rect[2] / factor), int(full_rect[3] / factor))), image_rect)
-        pygame.draw.rect(screen, gs.yellow, image_rect, 3) # todo comment this out
+        #pygame.draw.rect(screen, gs.yellow, image_rect, 3) # todo comment this out
 
         return image_rect
 
@@ -680,11 +685,12 @@ class Room():
         else:  # This block removes Desk Drawer 3 permanently and places it in the inventory
             pygame.draw.polygon(screen, gs.wood, ((desk_drawer3.bottomleft), (desk_drawer3.topleft), (150, 610)))
             pygame.draw.polygon(screen, gs.carpet, ((desk_drawer3.bottomleft), (150, 610), (desk_drawer3.topright), (desk_drawer3.bottomright)))
+            self.power_cord_2_clicker = self.draw_item_to_screen(gs, screen, power_cord_plugged_2, 3, 216, 548)
             pygame.draw.polygon(screen, gs.black, ((desk_drawer3.bottomleft), (desk_drawer3.topleft), (150, 610)), 2)
             pygame.draw.polygon(screen, gs.black, ((desk_drawer3.bottomleft), (150, 610), (desk_drawer3.topright), (desk_drawer3.bottomright)), 2)
             pygame.draw.line(screen, gs.black, (desk_drawer3.bottomleft), (150, 610), 2)
-            pygame.draw.ellipse(screen, gs.black, (216, 630, 16, 8))
-            pygame.draw.ellipse(screen, gs.dark_gray, (220, 632, 8, 4))
+            pygame.draw.ellipse(screen, gs.black, (210, 633, 16, 8))
+            pygame.draw.ellipse(screen, gs.dark_gray, (214, 635, 8, 4))
 
             gs.desk_drawer_removed = True
 
@@ -841,6 +847,10 @@ class Room():
         pygame.draw.rect(screen, gs.black, (362, 528, 26, 42), 3)
         pygame.draw.rect(screen, gs.black, (369, 534, 12, 12), 1)
         pygame.draw.rect(screen, gs.black, (369, 552, 12, 12), 1)
+
+        # todo power cords
+        self.power_cord_1_clicker = self.draw_item_to_screen(gs, screen, power_cord_plugged_1, 3, 361, 548)  # THIS IS GOOD for ROOM VIEW 2
+        self.power_cord_2_clicker = self.draw_item_to_screen(gs, screen, power_cord_plugged_2, 3, 215, 548)
 
         # Required in all views if items are opened during the view.
         if gs.stable_item_opened:
