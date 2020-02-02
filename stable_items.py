@@ -38,7 +38,7 @@ class Stable_Items():
                         'Press Button on Remote',
                         'To go to a Channel',
                         '',
-                        '1... Nothing?',
+                        '1... Brought To You By',
                         '2... Wait for it',
                         '3... Default',
                         '4... Camera 1',

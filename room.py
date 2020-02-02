@@ -638,8 +638,8 @@ class Room():
 
             if gs.tv_on:
                 channel_text = gs.verdana16.render(str(gs.current_channel), True, gs.green)
-                screen.blit(channel_text, ((self.partial_tv_screen_glass.x + 3), self.partial_tv_screen_glass.y))
                 tv_channels.tv_channels(gs, screen)
+                screen.blit(channel_text, ((self.partial_tv_screen_glass.x + 3), self.partial_tv_screen_glass.y))
 
             # Trash Can
             self.top_of_can = pygame.Rect(130, 555, 120, 25)
@@ -922,9 +922,8 @@ class Room():
         # If TV is on, display the channel
         if gs.tv_on:
             channel_text = gs.verdana16.render(str(gs.current_channel), True, gs.green)
-            screen.blit(channel_text, ((self.tv_screen_glass.x + 3), (self.tv_screen_glass.y)))
-
             tv_channels.tv_channels(gs, screen)
+            screen.blit(channel_text, ((self.tv_screen_glass.x + 3), (self.tv_screen_glass.y)))
 
 
 
@@ -1186,6 +1185,7 @@ class Room():
     def switch_light(self, gs, event):
         if self.light_switch.collidepoint(event.pos) and gs.room_view_drill_down == 0:
             gs.lights_on = not gs.lights_on
+            gs.tv_on = False
 
     def find_stable_item_opened(self, gs, screen, stable_item_blocks):
         # Use this area to open all of the stable items in all views
