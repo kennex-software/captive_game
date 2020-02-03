@@ -119,7 +119,7 @@ class Settings():
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
         self.green_key_found = False # Default = False
-        self.remote_found = True # Default = False todo make false
+        self.remote_found = False # Default = False todo make false
         self.batteries_found = False # Default = False
         self.power_cord_found = False # Default = False
         self.papers_found = False # Default = False
@@ -153,11 +153,11 @@ class Settings():
         # Remote Settings
         self.remote_opened = False  # Default = False
         self.close_remote = False  # Default = False
-        self.batteries_input = True  # Default = False # todo change to false
+        self.batteries_input = False  # Default = False # todo change to false
         self.button_input_list = []
 
         # TV Settings
-        self.tv_on = True  # Default = False todo make false
+        self.tv_on = False  # Default = False todo make false
         self.current_channel = '3'
         self.random_channel = None
 

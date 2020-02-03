@@ -210,6 +210,10 @@ class Stable_Items():
                     screen.blit(text_image, text_rect)
                     index += 1
 
+                text = 'ONLY THE LAST 3 DIGITS'
+                text_image = gs.verdana12.render(text, True, gs.black)
+                screen.blit(text_image, (545, 573))
+
             # Page 4 - Colors in random order for Puzzle A based on how they were generated
             elif page == 4:
                 pua_grid_piece = pygame.Rect(500, 250, 150, 30)
@@ -231,6 +235,8 @@ class Stable_Items():
                             x += 15
                             y += 40
                             index += 1
+
+
 
     def open_shirt(self, gs, screen):
         # Open Shirt

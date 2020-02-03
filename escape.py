@@ -73,3 +73,4 @@ TO DO LIST
 # todo create timer
 # todo add text and sounds
 # todo create a way to order safe code
+# todo mention to only use the last 4 digits of the puzzle / problem B

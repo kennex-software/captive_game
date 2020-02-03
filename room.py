@@ -1107,7 +1107,7 @@ class Room():
                         print('FCD2 LOCKED')
             else:
                 if fcd2.collidepoint(event.pos) and not fcdo1.collidepoint(event.pos):
-                    if fcd2_locked == False:
+                    if gs.fcd2_locked == False:
                         gs.fcd2_opened = True
                     else:
                         print('FCD2 LOCKED')
