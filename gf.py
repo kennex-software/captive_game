@@ -105,6 +105,22 @@ def update_screen(gs, screen, inventory, room_view, game_objects, stable_item_bl
     # Make the most recently drawn screen visible.
     pygame.display.flip()
 
+def draw_item_to_screen(gs, screen, image, factor, x, y):
+    """Function to pass item and draw to screen
+    image = loaded image variable
+    factor = scale factor
+    x = x position
+    y = y position
+    """
+    full_rect = image.get_rect()
+    image_surface = (int(full_rect[2] / factor), int(full_rect[3] / factor))
+    image_rect = pygame.Rect(x, y, image_surface[0], image_surface[1])
+
+    screen.blit(pygame.transform.smoothscale(image, (int(full_rect[2] / factor), int(full_rect[3] / factor))), image_rect)
+    #pygame.draw.rect(screen, gs.yellow, image_rect, 3) # todo comment this out
+
+    return image_rect
+
 def aspect_scale(surface, bx):
     """ Scales 'img' to fit into box bx/by.
      This method will retain the original image's aspect ratio

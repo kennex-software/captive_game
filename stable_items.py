@@ -439,7 +439,7 @@ class Stable_Items():
             for box in self.remote_square_buttons_clickbox:
                 if gf.check_inside_clickbox(self, box, ((event.pos), (0, 0))):
                     box_index = self.remote_square_buttons_clickbox.index(box)
-                    print(box_index) # todo comment this out later
+                    # print(box_index) # todo comment this out later
 
                     # Logic for when buttons are pressed on remote and how they interact with the TV
                     if not gs.tv_on:

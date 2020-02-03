@@ -157,14 +157,14 @@ class Settings():
         self.button_input_list = []
 
         # TV Settings
-        self.tv_on = True  # Default = False
+        self.tv_on = True  # Default = False todo make false
         self.current_channel = '3'
         self.random_channel = None
 
         # Safe Settings
         self.safe_uncovered = False # Default = false
         self.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo figure out how to turn on safe
-        self.safe_initialized = True # Safe can only be opened if a certain channel is on the TV
+        self.safe_initialized = False # Safe can only be opened if a certain channel is on the TV
         self.safe_use_color = self.black
         self.color_number_1 = None  # This number is needed to open the safe
         self.color_number_2 = None  # This number is needed to open the safe

@@ -43,6 +43,9 @@ power_cord_plugged_1 = pygame.image.load(power_cord_plugged_1_load)
 power_cord_plugged_1_flip = pygame.image.load(power_cord_plugged_1_flip_load)
 power_cord_plugged_2 = pygame.image.load(power_cord_plugged_2_load)
 
+test_load = 'images/test1.png' # todo delete me
+test_image_load = pygame.image.load(test_load) # todo delete me
+
 
 class Room():
     """Class to store the objects of the rooms and the views regarding them"""
@@ -128,9 +131,9 @@ class Room():
         self.laying_power_cord_scaled = pygame.transform.smoothscale(laying_power_cord, (int(self.laying_power_cord_rect[2]/1.5), int(self.laying_power_cord_rect[3]/1.5)))
         self.laying_power_cord_scaled_rect = self.laying_power_cord_scaled.get_rect(center = self.can_opening_rect.center)
 
-        self.laying_paper_clicker = self.draw_item_to_screen(gs, screen, laying_paper, 2, 380, 475)
-        self.remote_clicker = self.draw_item_to_screen(gs, screen, laying_remote, 4.5, 380, 493)
-        self.door_key_clicker = self.draw_item_to_screen(gs, screen, door_key_rotated, 6, 521, 335)
+        self.laying_paper_clicker = gf.draw_item_to_screen(gs, screen, laying_paper, 2, 380, 475)
+        self.remote_clicker = gf.draw_item_to_screen(gs, screen, laying_remote, 4.5, 380, 493)
+        self.door_key_clicker = gf.draw_item_to_screen(gs, screen, door_key_rotated, 6, 521, 335)
         self.shirt_surface = pygame.Rect(125, 212, 150, 235)
 
         # Wall Outlets
@@ -181,21 +184,7 @@ class Room():
 
 
 
-    def draw_item_to_screen(self, gs, screen, image, factor, x, y):
-        """Function to pass item and draw to screen
-        image = loaded image variable
-        factor = scale factor
-        x = x position
-        y = y position
-        """
-        full_rect = image.get_rect()
-        image_surface = (int(full_rect[2] / factor), int(full_rect[3] / factor))
-        image_rect = pygame.Rect(x, y, image_surface[0], image_surface[1])
 
-        screen.blit(pygame.transform.smoothscale(image, (int(full_rect[2] / factor), int(full_rect[3] / factor))), image_rect)
-        #pygame.draw.rect(screen, gs.yellow, image_rect, 3) # todo comment this out
-
-        return image_rect
 
     def click_papers(self, gs, event):
         # function to be able to pick up the papers item
@@ -306,7 +295,7 @@ class Room():
 
         # Draw Remote
         if not gs.remote_found:
-            self.remote_clicker = self.draw_item_to_screen(gs, screen, laying_remote, 4.5, 380, 493)
+            self.remote_clicker = gf.draw_item_to_screen(gs, screen, laying_remote, 4.5, 380, 493)
 
 
         #screen.blit(pygame.transform.smoothscale(laying_remote, (int(self.laying_remote_full_rect[2] / 4.5), int(self.laying_remote_full_rect[3] / 4.5))), self.laying_remote_rect)
@@ -357,7 +346,7 @@ class Room():
                 if not gs.door_key_found:
                     #screen.blit(pygame.transform.smoothscale(door_key_rotated, (int(self.door_key_rotated_full_rect[2] / 6), int(self.door_key_rotated_full_rect[3] / 6))), self.door_key_rotated_rect)
                     #pygame.draw.rect(screen, gs.yellow, self.door_key_rotated_rect, 3) # todo comment this out
-                    self.door_key_clicker = self.draw_item_to_screen(gs, screen, door_key_rotated, 6, 521, 335)
+                    self.door_key_clicker = gf.draw_item_to_screen(gs, screen, door_key_rotated, 6, 521, 335)
 
             else:
                 # Closed Safe
@@ -439,7 +428,7 @@ class Room():
         if not gs.papers_found:
             #screen.blit(pygame.transform.smoothscale(laying_paper, (int(self.laying_paper_full_rect[2] / 2), int(self.laying_paper_full_rect[3] / 2))), self.laying_paper_rect)
             #pygame.draw.rect(screen, gs.black, self.laying_paper_rect, 3) # todo comment this out
-            self.laying_paper_clicker = self.draw_item_to_screen(gs, screen, laying_paper, 2, 380, 475)
+            self.laying_paper_clicker = gf.draw_item_to_screen(gs, screen, laying_paper, 2, 380, 475)
 
 
         # Required in all views if items are opened during the view.
@@ -451,7 +440,7 @@ class Room():
             if gs.safe_on:
                 # This code will open the safe if all the conditions are met
                 # todo update the '1''s for all items to make them correct for the game
-                if gs.safe_initialized == True and gs.color_number_1 == 1 and gs.color_number_2 == 1 and gs.safe_combo_n1 == gs.safe_combo[0] and gs.safe_combo_n2 == gs.safe_combo[1] and gs.safe_combo_n3 == gs.safe_combo[2] and gs.safe_combo_n4 == gs.safe_combo[3] and self.safe_handle.collidepoint(event.pos):
+                if gs.safe_initialized == True and gs.color_number_1 == gs.tv_color_numbers[0] and gs.color_number_2 == gs.tv_color_numbers[1] and gs.safe_combo_n1 == gs.safe_combo[0] and gs.safe_combo_n2 == gs.safe_combo[1] and gs.safe_combo_n3 == gs.safe_combo[2] and gs.safe_combo_n4 == gs.safe_combo[3] and self.safe_handle.collidepoint(event.pos):
                     print('handle clicked')
                     gs.safe_opened = True
                 if gs.safe_opened == True:
@@ -460,7 +449,7 @@ class Room():
                             print('door key found')
                             gs.door_key_found = True
                             gs.moveable_items_index_list.append(0)
-                    elif gf.check_inside_clickbox(self, self.safe_door, ((event.pos), (0, 0))):
+                    if gf.check_inside_clickbox(self, self.safe_door, ((event.pos), (0, 0))):
                         gs.safe_opened = False
                 else:
                     # Number Button 1
@@ -538,7 +527,9 @@ class Room():
         
     def room_view_four_2_1(self, gs, screen, stable_item_blocks):  # View of outside window todo figure out what to do outside of the window
         # Clear Screen
-        screen.fill(gs.white)
+        screen.fill(gs.green)
+        test_rect = test_image_load.get_rect()
+        screen.blit(pygame.transform.smoothscale(test_image_load, (int(test_image_load.get_width()*2), int(test_image_load.get_height()*2))), test_rect)
 
 
         # Required in all views if items are opened during the view.
@@ -565,7 +556,7 @@ class Room():
         # Draw Laying Power Cord
         if not gs.power_cord_found:
             screen.blit(self.laying_power_cord_scaled, self.laying_power_cord_scaled_rect)
-            pygame.draw.rect(screen, gs.yellow, self.laying_power_cord_scaled_rect, 3) # todo comment this out
+            #pygame.draw.rect(screen, gs.yellow, self.laying_power_cord_scaled_rect, 3)
 
         # Required in all views if items are opened during the view.
         if gs.stable_item_opened:
@@ -729,7 +720,7 @@ class Room():
             #self.green_key_rotated_rect = green_key_rotated.get_rect()
             #screen.blit(pygame.transform.smoothscale(green_key_rotated, (int(self.green_key_rotated_rect[2]/22), int(self.green_key_rotated_rect[3]/22))), self.green_key_rotated_surface)
             if not gs.green_key_found:
-                self.green_key_clicker = self.draw_item_to_screen(gs, screen, green_key_rotated, 22, 148, 630)
+                self.green_key_clicker = gf.draw_item_to_screen(gs, screen, green_key_rotated, 22, 148, 630)
 
         # Wall Outlet
         pygame.draw.rect(screen, gs.off_white, self.desk_wall_outlet)
@@ -739,11 +730,11 @@ class Room():
 
         # todo power cords
         if gs.power_cord_desk_1:
-            self.power_cord_1_clicker = self.draw_item_to_screen(gs, screen, power_cord_plugged_1, 3, 361, 548)  # THIS IS GOOD for ROOM VIEW 2
+            self.power_cord_1_clicker = gf.draw_item_to_screen(gs, screen, power_cord_plugged_1, 3, 361, 548)  # THIS IS GOOD for ROOM VIEW 2
 
         if gs.power_cord_desk_2:
             gs.power_cord_desk_1 = False
-            self.power_cord_2_clicker = self.draw_item_to_screen(gs, screen, power_cord_plugged_2, 3, 215, 548)
+            self.power_cord_2_clicker = gf.draw_item_to_screen(gs, screen, power_cord_plugged_2, 3, 215, 548)
         
         ########## Desk Drawer 2
         if gs.dd2_opened:
@@ -765,7 +756,7 @@ class Room():
 
             # Draw Batteries
             if not gs.batteries_found:
-                self.battery_clicker = self.draw_item_to_screen(gs, screen, rotated_batteries, 13, 174, 588)
+                self.battery_clicker = gf.draw_item_to_screen(gs, screen, rotated_batteries, 13, 174, 588)
             
         else:
             pygame.draw.rect(screen, gs.black, desk_drawer2, 3)
@@ -794,7 +785,7 @@ class Room():
             #screen.blit(pygame.transform.smoothscale(flathead, (int(self.flathead_full_rect[2] / 4), int(self.flathead_full_rect[3] / 4))), self.flathead_rect)
             #pygame.draw.rect(screen, gs.yellow, self.flathead_rect, 3)
             if not gs.screwdriver_found:
-                self.flathead_clicker = self.draw_item_to_screen(gs, screen, flathead, 4, 125, 528)
+                self.flathead_clicker = gf.draw_item_to_screen(gs, screen, flathead, 4, 125, 528)
 
 
             # todo click flathead
@@ -828,7 +819,7 @@ class Room():
             #self.blue_book_rotated_rect = blue_book_rotated.get_rect()
             #screen.blit(pygame.transform.smoothscale(blue_book_rotated, (int(self.blue_book_rotated_rect[2]/5), int(self.blue_book_rotated_rect[3]/5))), self.blue_book_rotated_surface)
             if not gs.blue_book_found:
-                self.blue_book_clicker = self.draw_item_to_screen(gs, screen, blue_book_rotated, 5, 728, 598)
+                self.blue_book_clicker = gf.draw_item_to_screen(gs, screen, blue_book_rotated, 5, 728, 598)
 
 
 
@@ -866,7 +857,7 @@ class Room():
             #self.red_book_rotated_rect = red_book_rotated.get_rect()
             #screen.blit(pygame.transform.smoothscale(red_book_rotated, (int(self.red_book_rotated_rect[2]/5), int(self.red_book_rotated_rect[3]/5))), self.red_book_rotated_surface)
             if not gs.red_book_found:
-                self.red_book_clicker = self.draw_item_to_screen(gs, screen, red_book_rotated, 5, 728, 500)
+                self.red_book_clicker = gf.draw_item_to_screen(gs, screen, red_book_rotated, 5, 728, 500)
 
             pygame.draw.rect(screen, gs.file_cabinet, fcdo1)
             pygame.draw.rect(screen, gs.black, fcdo1, 3)
@@ -931,7 +922,7 @@ class Room():
 
         # Click / Mouseovers
         self.clickbox_tv_stand_side = [(715, 500), (770, 500), (803, 622), (742, 628), (744, 528)]
-        self.clickbox_tv_stand_side_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_tv_stand_side, 1) # todo remove this with a comment
+        # self.clickbox_tv_stand_side_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_tv_stand_side, 1) # todo remove this with a comment
     
         if gs.room_view_drill_down == 1:
             self.room_view_three_1(gs, screen, stable_item_blocks)
@@ -989,7 +980,7 @@ class Room():
         pygame.draw.rect(screen, gs.black, (937, 552, 12, 12), 1)
 
         if gs.power_cord_window_1:
-            self.power_cord_window_clicker = self.draw_item_to_screen(gs, screen, power_cord_plugged_1_flip, 3, 818, 548)  # 3, 660, 548
+            self.power_cord_window_clicker = gf.draw_item_to_screen(gs, screen, power_cord_plugged_1_flip, 3, 818, 548)  # 3, 660, 548
 
         # Closet Items
 
@@ -1000,7 +991,7 @@ class Room():
 
         # Click / Mouseovers
         self.clickbox_closet_right = [(280, 516), (332, 530), (332, 615), (269, 574)]
-        self.clickbox_closet_right_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_closet_right, 1)
+        # self.clickbox_closet_right_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_closet_right, 1)
 
         if gs.room_view_drill_down == 1:
             self.room_view_four_1(gs, screen, stable_item_blocks)

@@ -65,8 +65,11 @@ TO DO LIST
 
 
 """
-# todo draw the safe opened
-# todo draw the shirt sprites
-# todo draw the screwdriver sprites
-# todo draw all sprites that need to be placed somewhere in game
-# todo draw open door
+# todo make credits
+# todo make what happens after you click open door / outro
+# todo draw outside window
+# todo draw cameras
+# todo make intro
+# todo create timer
+# todo add text and sounds
+# todo create a way to order safe code

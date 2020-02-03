@@ -5,9 +5,14 @@ import pygame
 import numpy as np
 import room
 import random
+import gf
 
-i_python_logo = 'images/python.png' # Screwdriver
+
+i_python_logo = 'images/python.png' # Python Logo
+i_diamond = 'images/diamond.png' # Diamond
+
 python_logo = pygame.image.load(i_python_logo)
+diamond = pygame.image.load(i_diamond)
 
 def draw_items_full(gs, screen, image, factor, x, y):
     """Function to pass item and draw to screen
@@ -113,6 +118,32 @@ def safe_turned_on(gs, screen, x, y, h, w):
 
     screen.blit(text_image, text_rect)
 
+def view_diamonds(gs, screen, x, y, h, w):
+    """Will show two diamonds to the screen of varying colors.  These colors are needed for either the safe or to figure out the safe."""
+    gs.current_tv_screen_color = gs.white
+
+    if gs.current_room_view == 1:
+        rect1 = pygame.Rect(310, 220, 146, 162)
+        rect1 = rect1.inflate(-15, -15)
+        rect2 = pygame.Rect(470, 150, 183, 203)
+        rect2 = rect2.inflate(-15, -15)
+        rect1_color = None
+        rect2_color = None
+
+        for v in gs.color_codes.values():
+            if v[0] == gs.tv_color_numbers[1]:
+                rect1_color = v[2]
+        for v in gs.color_codes.values():
+            if v[0] == gs.tv_color_numbers[0]:
+                rect2_color = v[2]
+
+        pygame.draw.rect(screen, rect1_color, rect1)
+        pygame.draw.rect(screen, rect2_color, rect2)
+
+        gf.draw_item_to_screen(gs, screen, diamond, 2.5, 310, 220)
+        gf.draw_item_to_screen(gs, screen, diamond, 2, 470, 150)
+
+
 def tv_channels(gs, screen):
     """
     Function to hold and display all information that could be found on the TV.
@@ -148,20 +179,28 @@ def tv_channels(gs, screen):
             draw_items_full(gs, screen, python_logo, 1.25, 195, 140)
         else:
             draw_items_partial(gs, screen, python_logo, 1.25, 195, 140)
+
     elif gs.current_channel == str(2):  # Flash on screen
         print(gs.current_channel)
+
     elif gs.current_channel == str(3):  # Default channel??
         pass
+
     elif gs.current_channel == str(4):  # Camera 1
         print(gs.current_channel)
+
     elif gs.current_channel == str(5):  # Camera 2
         print(gs.current_channel)
+
     elif gs.current_channel == str(6):  # Camera 3
         print(gs.current_channel)
+
     elif gs.current_channel == str(7):  # Whitespace
         falling_numbers(gs, screen, tv_x, tv_y, tv_h, tv_w)
+
     elif gs.current_channel == str(8):  # Whitespace
         whitespace(screen, tv_x, tv_y, tv_h, tv_w)
+
     elif gs.current_channel == str(9):  # Black Screen
         print(gs.current_channel)
 
@@ -169,20 +208,26 @@ def tv_channels(gs, screen):
     elif gs.current_channel == str(gs.channel_code): # Will Give Code to Turn On Safe
         gs.current_tv_screen_color = gs.white
         secret_channel_code(gs, screen, tv_x, tv_y, tv_h, tv_w)
-    elif gs.current_channel == str(gs.random_channel): # todo to find another two digit combo of numbers or something for the order of the numbers on safe ???
-        print(gs.current_channel)
+
+    elif gs.current_channel == str(gs.random_channel): # Will Show Two Diamonds of different colors // These colors match the safe (bigger one is first)
+        view_diamonds(gs, screen, tv_x, tv_y, tv_h, tv_w)
+
     elif gs.current_channel == str(gs.turn_safe_on_channel): # Turns on Safe
         safe_turned_on(gs, screen, tv_x, tv_y, tv_h, tv_w)
 
     # Easter Egg Channels
     elif gs.current_channel == str(456): # todo easter egg channel for fun
         print(gs.current_channel)
+
     elif gs.current_channel == str('123456789L0F'): # todo easter egg channel for fun
         print(gs.current_channel)
+
     elif gs.current_channel == str(456): # todo easter egg channel for fun
         print(gs.current_channel)
+
     elif gs.current_channel == str(181161693114): # This spells "RAPPICAN" if you put 1-26 next to the alphabet
         print("PAUL'S CHANNEL")
+
     else:  # Whitespace todo perlin noise
         whitespace(screen, tv_x, tv_y, tv_h, tv_w)
 
