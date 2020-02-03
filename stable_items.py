@@ -34,7 +34,7 @@ class Stable_Items():
         if gs.current_book == 'red_book':
             # Page 1
             if page == 1:
-                channels = ['',
+                channels = ['', # todo update channels accordingly
                         'Press Button on Remote',
                         'To go to a Channel',
                         '',
@@ -116,7 +116,7 @@ class Stable_Items():
                 height = inventory.red_key_taped.get_height() // 3
                 if not gs.red_key_found:
                     screen.blit(pygame.transform.smoothscale(inventory.red_key_taped, (width, height)), (540, 380))
-                    pygame.draw.polygon(screen, gs.yellow, self.red_key_clickbox, 1) # todo comment this out
+                    # pygame.draw.polygon(screen, gs.yellow, self.red_key_clickbox, 1) # todo comment this out
                 else:
                     screen.blit(pygame.transform.smoothscale(inventory.ripped_tape, (width // 2, height)), (540, 380))
 

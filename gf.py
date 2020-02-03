@@ -231,15 +231,23 @@ def generate_codes(gs):
     gs.color_codes['red'][0] = number_list_colors[5]
 
     # Four Digits for Safe Combination
-    while len(gs.safe_combo) < 4:
+    while len(gs.safe_combo_random) < 4:
         number = random.randint(1, 6)
-        if number not in gs.safe_combo:
-            gs.safe_combo.append(number)
+        if number not in gs.safe_combo_random:
+            gs.safe_combo_random.append(number)
 
     # Two Colors for TV
     for n in range(1, 7):
-        if n not in gs.safe_combo:
+        if n not in gs.safe_combo_random:
             gs.tv_color_numbers.append(n)
+
+    # Implement safe code in proper order
+    gs.safe_combo = list(map(int, str(gs.pua_code)))
+
+    for n in gs.safe_combo:                 # todo fix the way that the safe combo generates
+        if n in gs.tv_color_numbers:
+            gs.safe_combo.remove(n)
+
 
     # Random Channel for Papers
     gs.random_channel = random.randint(44, 99)

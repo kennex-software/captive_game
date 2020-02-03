@@ -173,6 +173,7 @@ class Settings():
         self.safe_combo_n3 = None  # This number is needed to open the safe
         self.safe_combo_n4 = None  # This number is needed to open the safe
         self.safe_opened = False # Default = False todo change to false
+        self.safe_combo_random = []
         self.safe_combo = []
         self.tv_color_numbers = []
         self.turn_safe_on_channel = None

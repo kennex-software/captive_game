@@ -173,6 +173,8 @@ def tv_channels(gs, screen):
         gs.safe_initialized = False
 
 
+
+
     if gs.current_channel == str(1):  # Powered by Python
         gs.current_tv_screen_color = gs.white
         if gs.current_room_view == 1:
