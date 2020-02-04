@@ -242,11 +242,14 @@ def generate_codes(gs):
             gs.tv_color_numbers.append(n)
 
     # Implement safe code in proper order
-    gs.safe_combo = list(map(int, str(gs.pua_code)))
+    safe_combo_temp = list(map(int, str(gs.pua_code)))
 
-    for n in gs.safe_combo:                 # todo fix the way that the safe combo generates
-        if n in gs.tv_color_numbers:
-            gs.safe_combo.remove(n)
+    for x in safe_combo_temp:
+        if x in gs.safe_combo_random:
+            gs.safe_combo.append(x)
+
+    print(gs.safe_combo_random)
+    print(safe_combo_temp)
 
 
     # Random Channel for Papers
