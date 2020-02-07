@@ -244,7 +244,7 @@ class Stable_Items():
         self.screen.blit(enlarged_shirt, self.shirt_rect)
 
         self.clickbox_shirt_pocket = [(537, 280), (570, 288), (566, 322), (536, 314)]
-        self.clickbox_shirt_pocket_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_shirt_pocket, 1)
+        # self.clickbox_shirt_pocket_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_shirt_pocket, 1) todo clickbox
 
     def shirt_clicks(self, gs, event):
         # Closes shirt if anywhere is clicked but the shirt

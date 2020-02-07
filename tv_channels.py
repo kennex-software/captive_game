@@ -1,18 +1,23 @@
 #kennex
 # TV Channels
 
-import pygame
+import pygame, time, sys
 import numpy as np
 import room
 import random
 import gf
 
 
+
 i_python_logo = 'images/python.png' # Python Logo
 i_diamond = 'images/diamond.png' # Diamond
+i_bricks_scene = 'images/bricks_scene.png' # Bricks Scene
 
 python_logo = pygame.image.load(i_python_logo)
 diamond = pygame.image.load(i_diamond)
+bricks_scene = pygame.image.load(i_bricks_scene)
+
+clock = pygame.time.Clock()
 
 def draw_items_full(gs, screen, image, factor, x, y):
     """Function to pass item and draw to screen
@@ -188,14 +193,28 @@ def tv_channels(gs, screen):
     elif gs.current_channel == str(3):  # Default channel??
         pass
 
+    # Cameras
     elif gs.current_channel == str(4):  # Camera 1
         print(gs.current_channel)
 
-    elif gs.current_channel == str(5):  # Camera 2
-        print(gs.current_channel)
+    elif gs.current_channel == str(5):  # Camera 2 // Only on with power cord
+        if gs.power_cord_desk_2:
+            print('camera 2 plugged in an on')
 
     elif gs.current_channel == str(6):  # Camera 3
-        print(gs.current_channel)
+        gs.current_tv_screen_color = gs.white
+        if gs.current_room_view == 1:
+            draw_items_full(gs, screen, bricks_scene, 1, 195, 140)
+            if gs.power_cord_desk_2:
+                pygame.draw.circle(screen, gs.red, (487, 244), 3) # todo can we make this look like it's blinking slowly
+
+
+
+
+
+        else:
+            draw_items_partial(gs, screen, bricks_scene, 1, 195, 140)
+
 
     elif gs.current_channel == str(7):  # Whitespace
         falling_numbers(gs, screen, tv_x, tv_y, tv_h, tv_w)

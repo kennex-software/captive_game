@@ -43,8 +43,6 @@ power_cord_plugged_1 = pygame.image.load(power_cord_plugged_1_load)
 power_cord_plugged_1_flip = pygame.image.load(power_cord_plugged_1_flip_load)
 power_cord_plugged_2 = pygame.image.load(power_cord_plugged_2_load)
 
-test_load = 'images/test1.png' # todo delete me
-test_image_load = pygame.image.load(test_load) # todo delete me
 
 
 class Room():
@@ -527,9 +525,11 @@ class Room():
         
     def room_view_four_2_1(self, gs, screen, stable_item_blocks):  # View of outside window todo figure out what to do outside of the window
         # Clear Screen
-        screen.fill(gs.green)
-        test_rect = test_image_load.get_rect()
-        screen.blit(pygame.transform.smoothscale(test_image_load, (int(test_image_load.get_width()*2), int(test_image_load.get_height()*2))), test_rect)
+        screen.fill(gs.white)
+
+        camera2 = pygame.Rect(450, 270, 300, 80)
+        pygame.draw.rect(screen, gs.black, camera2)
+
 
 
         # Required in all views if items are opened during the view.
@@ -1177,6 +1177,7 @@ class Room():
     def switch_light(self, gs, event):
         if self.light_switch.collidepoint(event.pos) and gs.room_view_drill_down == 0:
             gs.lights_on = not gs.lights_on
+            gs.current_tv_screen_color = gs.tv_screen
             gs.tv_on = False
 
     def find_stable_item_opened(self, gs, screen, stable_item_blocks):
