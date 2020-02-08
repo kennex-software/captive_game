@@ -31,6 +31,7 @@ class Settings():
         self.arial22 = pygame.font.SysFont("Arial", 22, True)
         self.arial60 = pygame.font.SysFont("Arial", 60, True)
 
+        self.garamond12 = pygame.font.SysFont("Garamond", 16, True)
         self.garamond16 = pygame.font.SysFont("Garamond", 16, True)
         self.garamond22 = pygame.font.SysFont("Garamond", 22, True)
         self.garamond30 = pygame.font.SysFont("Garamond", 30, True)
@@ -84,6 +85,8 @@ class Settings():
 
         self.good_green = (198, 239, 206)
         self.bad_red = (255, 199, 206)
+
+        self.outer_floor = (118, 112, 100)
         
         self.carpet = (128, 128, 130)  # Carpet
         self.door = (81, 85, 88)  # Door / Fairly dark gray
@@ -130,7 +133,7 @@ class Settings():
         self.screwdriver_found = False # Default = False
 
         self.power_cord_desk_1 = False # Default = False todo make false
-        self.power_cord_desk_2 = True # Default = False todo make false
+        self.power_cord_desk_2 = False # Default = False todo make false
         self.power_cord_window_1 = False # Default = False todo make false
 
         self.moveable_items_index_list = []
@@ -210,6 +213,7 @@ class Settings():
 
         # Door Settings
         self.door_opened = False  # Default = False todo change to false
+        self.door_number = None
 
         # Lights Settings
         self.lights_on = True  # Default = False

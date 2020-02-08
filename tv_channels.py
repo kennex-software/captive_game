@@ -123,6 +123,47 @@ def safe_turned_on(gs, screen, x, y, h, w):
 
     screen.blit(text_image, text_rect)
 
+
+def camera_one(gs, screen):
+    sur_cam_one = pygame.Surface((gs.gw_width, gs.gw_height), pygame.SRCALPHA)
+    sur_cam_one.fill((254, 254, 254, 0))
+    sur_cam_one.fill(gs.off_white)
+
+    #tv_rect = pygame.Rect(195, 140, 470, 296)
+
+    # Door Settings
+    main_door = pygame.Rect(390, 160, 225, 440)
+    floor_rect = pygame.Rect(0, 600, 1065, 150)
+    sign = pygame.Rect(268, 220, 90, 55)
+    sign_number_border = pygame.Rect(sign.bottomleft[0], sign.bottomleft[1], 90, 55)
+
+    # Door
+    pygame.draw.rect(sur_cam_one, gs.door, main_door)
+    pygame.draw.rect(sur_cam_one, gs.black, main_door, 3)
+    pygame.draw.circle(sur_cam_one, gs.dark_gray, (425-3, 390+5), 15)
+    door_handle_rect = pygame.draw.circle(sur_cam_one, gs.yellow, (425, 390), 15)
+    pygame.draw.circle(sur_cam_one, gs.black, (425, 390), 16, 2)
+    pygame.draw.circle(sur_cam_one, gs.black, (425, 390), 4, 1)
+
+    pygame.draw.rect(sur_cam_one, gs.outer_floor, floor_rect)
+    pygame.draw.line(sur_cam_one, gs.black, (0, 600), (1065, 600), 3)
+
+    pygame.draw.rect(sur_cam_one, gs.white, sign)
+    pygame.draw.rect(sur_cam_one, gs.white, sign_number_border)
+    pygame.draw.rect(sur_cam_one, gs.black, sign, 2)
+    pygame.draw.rect(sur_cam_one, gs.black, sign_number_border, 2)
+
+    sign_word = gs.garamond12.render('SUBJECT', True, gs.black)
+    sign_number = gs.garamond30.render(str(gs.door_number), True, gs.black)
+    sign_word_rect = sign_word.get_rect(center=sign.center)
+    sign_number_rect = sign_number.get_rect(center=sign_number_border.center)
+    sur_cam_one.blit(sign_word, sign_word_rect)
+    sur_cam_one.blit(sign_number, sign_number_rect)
+
+    new_surface = gf.aspect_scale_wh(sur_cam_one, 470, 296)
+    screen.blit(new_surface, (195, 140))
+
+
 def view_diamonds(gs, screen, x, y, h, w):
     """Will show two diamonds to the screen of varying colors.  These colors are needed for either the safe or to figure out the safe."""
     gs.current_tv_screen_color = gs.white
@@ -195,11 +236,11 @@ def tv_channels(gs, screen):
 
     # Cameras
     elif gs.current_channel == str(4):  # Camera 1
-        print(gs.current_channel)
+        camera_one(gs, screen)
 
     elif gs.current_channel == str(5):  # Camera 2 // Only on with power cord
         if gs.power_cord_desk_2:
-            print('camera 2 plugged in an on')
+            print('camera 2 plugged in and on')
 
     elif gs.current_channel == str(6):  # Camera 3
         gs.current_tv_screen_color = gs.white
@@ -237,6 +278,9 @@ def tv_channels(gs, screen):
         safe_turned_on(gs, screen, tv_x, tv_y, tv_h, tv_w)
 
     # Easter Egg Channels
+    elif gs.current_channel == str(666): # todo Gnarski
+        print(gs.current_channel)
+
     elif gs.current_channel == str(456): # todo easter egg channel for fun
         print(gs.current_channel)
 

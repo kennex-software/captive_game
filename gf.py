@@ -136,6 +136,21 @@ def aspect_scale(surface, bx):
     
     return surface
 
+def aspect_scale_wh(surface, bx, my_h):
+    """ Scales 'img' to fit into box bx/by.
+     This method will retain the original image's aspect ratio
+     surface is the image
+     bx is the width you want
+     """
+    mywidth = bx
+    bw, bh = surface.get_size()
+
+    wpercent = (mywidth/float(bw))
+    hsize = my_h
+    surface = pygame.transform.smoothscale(surface, (mywidth, hsize))
+
+    return surface
+
 def check_inside_clickbox(self, bounding_points, bounding_box_positions):
     """This function will determine whether or not user clicked inside of a polygon or image"""
     """ bounding_points: nodes that make up the polygon.
@@ -264,6 +279,9 @@ def generate_codes(gs):
 
     gs.turn_safe_on_channel = ''.join(safe_on_channel)
 
+    # Random Number for Subject Number
+    gs.door_number = random.randint(10, 100)
+
 
 
 
@@ -280,6 +298,8 @@ def generate_codes(gs):
         self.dd3_locked = False  # Default = True // Unlocked with Red Key
         self.door_locked = False  # Default = True // Unlocked with Door Key (Gold)
 
+
+
 def print_settings(gs):
     # Print specific settings of the game for the use of more easily being able to design
     # Massive hints here
@@ -288,18 +308,13 @@ def print_settings(gs):
     print("Problem A: ")
     print("")
     print("Problem B Code: " + str(gs.prb_code))
-    print("")
     print("Puzzle A Code: " + str(gs.pua_code))
-    print("")
     print("Puzzle B Code: " + str(gs.pub_code))
-    print("")
     print("Safe Combo: " + str(gs.safe_combo))
-    print("")
     print("TV Color Numbers: " + str(gs.tv_color_numbers))
-    print("")
     print("Random Channel: " + str(gs.random_channel))
-    print("")
     print("Channel to Turn On Safe: " + str(gs.turn_safe_on_channel))
+    print("Channel Code: " + str(gs.channel_code))
     print("")
     print("Purple: " + str(gs.color_codes['purple'][0]))
     print("Blue: " + str(gs.color_codes['blue'][0]))
@@ -308,10 +323,25 @@ def print_settings(gs):
     print("Orange: " + str(gs.color_codes['orange'][0]))
     print("Red: " + str(gs.color_codes['red'][0]))
     print("")
-    print("Channel Code: " + str(gs.channel_code))
-    print("")
     print("Diary Choice: " + str(gs.diary_choice))
     print("")
+    print("Channel List:")
+    print("1: Python // Done")
+    print("2: ???")
+    print("3: Default // Done")
+    print("4: Camera 1 ???")
+    print("5: Camera 2 ???")
+    print("6: Camera 3 // Done")
+    print("7: Falling Numbers // Done")
+    print("8: Whitespace // Done")
+    print("123456789L0F: ???")
+    print("FINDCHANNEL: ???")
+    print("FINDCHANNEL: ???")
+    print("181161693114: ???")
+
+
+
+
 
 
 

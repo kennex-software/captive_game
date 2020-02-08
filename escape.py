@@ -68,9 +68,12 @@ TO DO LIST
 # todo make credits
 # todo make what happens after you click open door / outro
 # todo draw outside window
-# todo draw cameras
 # todo make intro
 # todo create timer
 # todo add text and sounds
-# todo create a way to order safe code
 # todo mention to only use the last 4 digits of the puzzle / problem B
+# todo figure out camera 1
+# todo figure out camera 2
+#
+
+

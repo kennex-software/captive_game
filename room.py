@@ -80,7 +80,7 @@ class Room():
         desk_drawer3_opened = desk_drawer1_opened.move(0, 118)
 
         # Door Settings
-        self.door_handle_rect = None
+        self.door_handle_rect = pygame.draw.circle(screen, gs.yellow, (585, 390), 15)
         self.main_door = pygame.Rect(390, 160, 225, 440)
         self.opened_door = [(248, 101), (self.main_door.topleft), (self.main_door.bottomleft), (248, 674)]
 
@@ -139,6 +139,9 @@ class Room():
         self.window_wall_outlet = pygame.Rect(930, 528, 26, 42)
 
         self.hole_in_floor = None
+
+        # Trash Can
+        self.top_of_can = pygame.Rect(130, 555, 120, 25)
 
 
 
@@ -496,7 +499,6 @@ class Room():
                             self.index_color2 += 1
         else:
             pass
-            # todo click to open safe panel with flathead
 
     def room_view_four_2(self, gs, screen, stable_item_blocks):  # View of window
         # Clear Screen
@@ -527,8 +529,6 @@ class Room():
         # Clear Screen
         screen.fill(gs.white)
 
-        camera2 = pygame.Rect(450, 270, 300, 80)
-        pygame.draw.rect(screen, gs.black, camera2)
 
 
 
@@ -634,7 +634,7 @@ class Room():
                 screen.blit(channel_text, ((self.partial_tv_screen_glass.x + 3), self.partial_tv_screen_glass.y))
 
             # Trash Can
-            self.top_of_can = pygame.Rect(130, 555, 120, 25)
+
             bottom_of_can = pygame.Rect(0, 675, 90, 25)
             bottom_of_can.centerx = self.top_of_can.centerx
 
@@ -1069,7 +1069,7 @@ class Room():
         """Moves player between various drill down views on each view already"""        
         # Drill Down Views
         
-        if gs.current_room_view == 0:   # Default View
+        if gs.current_room_view == 0 and gs.lights_on:   # Default View
             if self.top_of_can.collidepoint(event.pos):
                 gs.room_view_drill_down = 0.1
                 #gs.current_room_view = 4.21

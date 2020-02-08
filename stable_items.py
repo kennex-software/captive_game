@@ -434,6 +434,7 @@ class Stable_Items():
                 gs.remote_opened = False
                 gs.stable_item_opened = False
                 gs.close_remote = False
+                gs.button_input_list.clear()
         else:
             print("Need to be on TV view")
             gs.remote_opened = False
