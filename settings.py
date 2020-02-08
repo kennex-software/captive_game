@@ -27,6 +27,7 @@ class Settings():
         self.verdana18 = pygame.font.SysFont("Verdana", 18, True)
         self.verdana22 = pygame.font.SysFont("Verdana", 22, True)
 
+        self.arial12 = pygame.font.SysFont("Arial", 12, True)
         self.arial16 = pygame.font.SysFont("Arial", 16, True)
         self.arial22 = pygame.font.SysFont("Arial", 22, True)
         self.arial60 = pygame.font.SysFont("Arial", 60, True)
@@ -165,21 +166,24 @@ class Settings():
         self.random_channel = None
 
         # Safe Settings
-        self.safe_uncovered = False # Default = false
-        self.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo figure out how to turn on safe
-        self.safe_initialized = False # Safe can only be opened if a certain channel is on the TV
+        self.safe_uncovered = True # Default = false
+        self.safe_on = True  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo figure out how to turn on safe
+        self.safe_initialized = True # Safe can only be opened if a certain channel is on the TV
         self.safe_use_color = self.black
         self.color_number_1 = None  # This number is needed to open the safe
         self.color_number_2 = None  # This number is needed to open the safe
-        self.safe_combo_n1 = None  # This number is needed to open the safe
-        self.safe_combo_n2 = None  # This number is needed to open the safe
-        self.safe_combo_n3 = None  # This number is needed to open the safe
-        self.safe_combo_n4 = None  # This number is needed to open the safe
+        self.safe_combo_n1 = 0  # This number is needed to open the safe
+        self.safe_combo_n2 = 0  # This number is needed to open the safe
+        self.safe_combo_n3 = 0  # This number is needed to open the safe
+        self.safe_combo_n4 = 0  # This number is needed to open the safe
         self.safe_opened = False # Default = False todo change to false
         self.safe_combo_random = []
         self.safe_combo = []
+        self.safe_alpha_pra_answer = None
         self.tv_color_numbers = []
         self.turn_safe_on_channel = None
+        self.safe_alpha_index = 0
+        self.safe_combo_a1 = 1 # This number is needed to open the safe
         #self.safe_opened_true = False # Default = False // if safe is opened for the first time, this will automatically be true and stay true
 
         
@@ -214,9 +218,9 @@ class Settings():
         # Door Settings
         self.door_opened = True  # Default = False todo change to false
         self.door_number = None
-        self.konar_number = None
+        self.konar_number = None # Street sign in Camera 2
         self.cam_two_number = None
-        self.safe_number_extra = None
+
 
 
         # Lights Settings
@@ -272,6 +276,8 @@ class Settings():
                             'orange':[5, 'o', self.orange],
                             'red': [6, 'r', self.red]}
 
+        # Alphabet List
+        self.alphabet_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
         
         

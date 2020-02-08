@@ -229,6 +229,7 @@ def generate_codes(gs):
     gs.diary_choice = random.randint(1, 3)
 
 
+
     # Generate color numbers
     # Shuffle List for Colors
     number_list_colors = []
@@ -263,10 +264,6 @@ def generate_codes(gs):
         if x in gs.safe_combo_random:
             gs.safe_combo.append(x)
 
-    print(gs.safe_combo_random)
-    print(safe_combo_temp)
-
-
     # Random Channel for Papers
     gs.random_channel = random.randint(44, 99)
 
@@ -279,12 +276,13 @@ def generate_codes(gs):
 
     gs.turn_safe_on_channel = ''.join(safe_on_channel)
 
-    # Random Number for Subject Number
-    gs.door_number = random.randint(10, 100)
-    gs.konar_number = random.randint(3, 98)
 
-    gs.cam_two_number = gs.door_number + gs.konar_number
-    gs.safe_number_extra = gs.cam_two_number / 26
+    # Problem A
+    # Random Number for Subject Number
+    gs.door_number = random.randint(10, 101) # this is the subject number on camera 1
+    gs.konar_number = random.randint(3, 98) # this is going to be "hidden" in camera 2   // "street sign"
+
+    gs.safe_alpha_pra_answer = int(round_down(gs.konar_number/gs.door_number*25/10))
 
     # todo your door plus konar number divded by 26 rounded down = this number
 
@@ -301,6 +299,10 @@ def generate_codes(gs):
         self.dd2_locked = False  # Default = False
         self.dd3_locked = False  # Default = True // Unlocked with Red Key
         self.door_locked = False  # Default = True // Unlocked with Door Key (Gold)
+
+def round_down(n, decimals=0):
+    multiplier = 10 ** decimals
+    return math.floor(n * multiplier) / multiplier
 
 
 
@@ -319,6 +321,10 @@ def print_settings(gs):
     print("Random Channel: " + str(gs.random_channel))
     print("Channel to Turn On Safe: " + str(gs.turn_safe_on_channel))
     print("Channel Code: " + str(gs.channel_code))
+    print("Konar Number (street sign): " + str(gs.konar_number))
+    print("Subject Number: " + str(gs.door_number))
+    print("Safe Combo A1: " + str(gs.safe_combo_a1))
+    print("Alpha Code: " + str(gs.safe_alpha_pra_answer) + "; " + str(gs.alphabet_list[gs.safe_alpha_pra_answer]))
     print("")
     print("Purple: " + str(gs.color_codes['purple'][0]))
     print("Blue: " + str(gs.color_codes['blue'][0]))

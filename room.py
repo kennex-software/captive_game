@@ -112,6 +112,10 @@ class Room():
         self.safe_number_n3 = 0
         self.safe_number_n4 = 0
 
+        # Alphabet Code
+        #self.safe_alpha_a1 = gs.alphabet_list[gs.safe_alpha_index]
+        self.safe_alpha_rect_a1 = self.safe_number_rect_n2.move(0, 130)
+
         # Safe Colors
         self.safe_number_rect_c1 = self.safe_number_rect_n3.move(0, 130)
         self.safe_number_rect_c2 = self.safe_number_rect_n4.move(0, 130)
@@ -363,6 +367,7 @@ class Room():
                 pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n2) # Number spot 2
                 pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n3) # Number spot 3
                 pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n4) # Number spot 4
+                pygame.draw.rect(screen, gs.off_white, self.safe_alpha_rect_a1) # Alpha spot 1
 
                 self.n1_image = gs.arial60.render(str(self.safe_number_n1), True, gs.black) # n1 text
                 self.n2_image = gs.arial60.render(str(self.safe_number_n2), True, gs.black) # n2 text
@@ -374,10 +379,14 @@ class Room():
                 self.n3_rect = self.n3_image.get_rect(center=self.safe_number_rect_n3.center) # n3 rect
                 self.n4_rect = self.n4_image.get_rect(center=self.safe_number_rect_n4.center) # n4 rect
 
+                self.a1_image = gs.arial60.render(str(gs.alphabet_list[gs.safe_alpha_index]), True, gs.black) # a1 text
+                self.a1_rect = self.a1_image.get_rect(center=self.safe_alpha_rect_a1.center) # a1 rect
+
                 screen.blit(self.n1_image, self.n1_rect) # n1 blit
                 screen.blit(self.n2_image, self.n2_rect) # n2 blit
                 screen.blit(self.n3_image, self.n3_rect) # n3 blit
                 screen.blit(self.n4_image, self.n4_rect) # n4 blit
+                screen.blit(self.a1_image, self.a1_rect) # a1 blit
 
                 if gs.safe_on:
                     gs.safe_use_color = gs.red
@@ -418,6 +427,7 @@ class Room():
                 pygame.draw.rect(screen, gs.black, self.safe_use_rect, 2) # Initiation
                 pygame.draw.rect(screen, gs.black, self.safe_number_rect_c1, 2) # Color spot 1
                 pygame.draw.rect(screen, gs.black, self.safe_number_rect_c2, 2) # Color Spot 2
+                pygame.draw.rect(screen, gs.black, self.safe_alpha_rect_a1, 2) # Alpha Spot 1
 
 
 
@@ -441,7 +451,7 @@ class Room():
             if gs.safe_on:
                 # This code will open the safe if all the conditions are met
                 # todo update the '1''s for all items to make them correct for the game
-                if gs.safe_initialized == True and gs.color_number_1 == gs.tv_color_numbers[0] and gs.color_number_2 == gs.tv_color_numbers[1] and gs.safe_combo_n1 == gs.safe_combo[0] and gs.safe_combo_n2 == gs.safe_combo[1] and gs.safe_combo_n3 == gs.safe_combo[2] and gs.safe_combo_n4 == gs.safe_combo[3] and self.safe_handle.collidepoint(event.pos):
+                if gs.safe_initialized == True and gs.color_number_1 == gs.tv_color_numbers[0] and gs.color_number_2 == gs.tv_color_numbers[1] and gs.safe_combo_n1 == gs.safe_combo[0] and gs.safe_combo_n2 == gs.safe_combo[1] and gs.safe_combo_n3 == gs.safe_combo[2] and gs.safe_combo_n4 == gs.safe_combo[3] and gs.safe_combo_a1 == gs.safe_alpha_pra_answer and self.safe_handle.collidepoint(event.pos):
                     print('handle clicked')
                     gs.safe_opened = True
                 if gs.safe_opened == True:
@@ -477,6 +487,12 @@ class Room():
                         gs.safe_combo_n4 = self.safe_number_n4
                         if self.safe_number_n4 > 9:
                             self.safe_number_n4 = 0
+                    # Alpha Button 1
+                    if self.safe_alpha_rect_a1.collidepoint(event.pos):
+                        gs.safe_alpha_index += 1
+                        gs.safe_combo_a1 = gs.safe_alpha_index
+                        if gs.safe_alpha_index > 25:
+                            gs.safe_alpha_index = 0
                     # Color Button 1
                     elif self.safe_number_rect_c1.collidepoint(event.pos):
                         for v in gs.color_codes.values():

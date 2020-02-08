@@ -164,6 +164,13 @@ class Stable_Items():
 
             # Page 2 - Two Math Problems (Problems A and B)
             elif page == 2:
+                problem_a_text = "=ROUNDDOWN(STREETSIGN / SUBJECT * 25 / 10,0)"
+                problem_a_text2 = "alpha safe :  A=0"
+                pra_text_image = gs.arial16.render(problem_a_text, True, gs.black)
+                pra_text_image2 = gs.arial16.render(problem_a_text2, True, gs.black)
+                screen.blit(pra_text_image, (440, 280))
+                screen.blit(pra_text_image2, (505, 210))
+
                 problem_b_text = "kn+(2k(3+n))+(k+n)"
                 prb_text_image = gs.verdana22.render(problem_b_text, True, gs.black)
                 prbn1_text_image = gs.verdana16.render("k= " + str(gs.prb_n1), True, gs.black)
