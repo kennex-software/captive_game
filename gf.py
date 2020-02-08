@@ -281,8 +281,12 @@ def generate_codes(gs):
 
     # Random Number for Subject Number
     gs.door_number = random.randint(10, 100)
+    gs.konar_number = random.randint(3, 98)
 
+    gs.cam_two_number = gs.door_number + gs.konar_number
+    gs.safe_number_extra = gs.cam_two_number / 26
 
+    # todo your door plus konar number divded by 26 rounded down = this number
 
 
     # Necessary game settings based on settings for development purposes

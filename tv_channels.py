@@ -163,6 +163,18 @@ def camera_one(gs, screen, x, y):
     new_surface = gf.aspect_scale_wh(sur_cam_one, 470, 296)
     screen.blit(new_surface, (x, y))
 
+def camera_two(gs, screen, x, y):
+    sur_cam_one = pygame.Surface((gs.gw_width, gs.gw_height), pygame.SRCALPHA)
+    sur_cam_one.fill((254, 254, 254, 0))
+    sur_cam_one.fill(gs.off_white)
+
+    #tv_rect = pygame.Rect(195, 140, 470, 296)
+
+    cam_two_num = gs.konar_number + gs.door_number
+
+
+
+
 
 def view_diamonds(gs, screen, x, y, h, w):
     """Will show two diamonds to the screen of varying colors.  These colors are needed for either the safe or to figure out the safe."""
@@ -245,6 +257,12 @@ def tv_channels(gs, screen):
 
     elif gs.current_channel == str(5):  # Camera 2 // Only on with power cord
         if gs.power_cord_desk_2:
+
+            if gs.current_room_view == 1:
+                camera_two(gs, screen, tv_x, tv_y)
+            else:
+                camera_two(gs, screen, tv_x, tv_y)
+
             print('camera 2 plugged in and on')
 
     elif gs.current_channel == str(6):  # Camera 3

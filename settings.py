@@ -212,8 +212,12 @@ class Settings():
         self.all_unlocked = False # Default = False // Unlocks all drawers / doors
 
         # Door Settings
-        self.door_opened = False  # Default = False todo change to false
+        self.door_opened = True  # Default = False todo change to false
         self.door_number = None
+        self.konar_number = None
+        self.cam_two_number = None
+        self.safe_number_extra = None
+
 
         # Lights Settings
         self.lights_on = True  # Default = False
