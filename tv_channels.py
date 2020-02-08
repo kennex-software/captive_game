@@ -123,6 +123,10 @@ def safe_turned_on(gs, screen, x, y, h, w):
 
     screen.blit(text_image, text_rect)
 
+def show_text_on_tv(gs, screen, x, y, text):
+    screen_text = gs.verdana16.render(str(text), True, gs.green)
+    screen.blit(screen_text, ((x + 3), y))
+
 
 def camera_one(gs, screen, x, y):
     sur_cam_one = pygame.Surface((gs.gw_width, gs.gw_height), pygame.SRCALPHA)
@@ -248,37 +252,32 @@ def tv_channels(gs, screen):
 
     # Cameras
     elif gs.current_channel == str(4):  # Camera 1
-        if gs.current_room_view == 1:
-            camera_one(gs, screen, tv_x, tv_y)
-        else:
-            camera_one(gs, screen, tv_x, tv_y)
+        camera_one(gs, screen, tv_x, tv_y)
+        show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 1')
+
 
 
 
     elif gs.current_channel == str(5):  # Camera 2 // Only on with power cord
         if gs.power_cord_desk_2:
-
-            if gs.current_room_view == 1:
-                camera_two(gs, screen, tv_x, tv_y)
-            else:
-                camera_two(gs, screen, tv_x, tv_y)
-
-            print('camera 2 plugged in and on')
+            camera_two(gs, screen, tv_x, tv_y)
+            show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 2')
 
     elif gs.current_channel == str(6):  # Camera 3
         gs.current_tv_screen_color = gs.white
+
         if gs.current_room_view == 1:
             draw_items_full(gs, screen, bricks_scene, 1, 195, 140)
             if gs.power_cord_desk_2:
                 pygame.draw.circle(screen, gs.red, (487, 244), 3) # todo can we make this look like it's blinking slowly
-
+            show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 3')
 
 
 
 
         else:
             draw_items_partial(gs, screen, bricks_scene, 1, 195, 140)
-
+            show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 3')
 
     elif gs.current_channel == str(7):  # Whitespace
         falling_numbers(gs, screen, tv_x, tv_y, tv_h, tv_w)

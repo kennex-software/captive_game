@@ -284,7 +284,6 @@ def generate_codes(gs):
 
     gs.safe_alpha_pra_answer = int(round_down(gs.konar_number/gs.door_number*25/10))
 
-    # todo your door plus konar number divded by 26 rounded down = this number
 
 
     # Necessary game settings based on settings for development purposes
