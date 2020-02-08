@@ -124,7 +124,7 @@ def safe_turned_on(gs, screen, x, y, h, w):
     screen.blit(text_image, text_rect)
 
 
-def camera_one(gs, screen):
+def camera_one(gs, screen, x, y):
     sur_cam_one = pygame.Surface((gs.gw_width, gs.gw_height), pygame.SRCALPHA)
     sur_cam_one.fill((254, 254, 254, 0))
     sur_cam_one.fill(gs.off_white)
@@ -161,7 +161,7 @@ def camera_one(gs, screen):
     sur_cam_one.blit(sign_number, sign_number_rect)
 
     new_surface = gf.aspect_scale_wh(sur_cam_one, 470, 296)
-    screen.blit(new_surface, (195, 140))
+    screen.blit(new_surface, (x, y))
 
 
 def view_diamonds(gs, screen, x, y, h, w):
@@ -236,7 +236,12 @@ def tv_channels(gs, screen):
 
     # Cameras
     elif gs.current_channel == str(4):  # Camera 1
-        camera_one(gs, screen)
+        if gs.current_room_view == 1:
+            camera_one(gs, screen, tv_x, tv_y)
+        else:
+            camera_one(gs, screen, tv_x, tv_y)
+
+
 
     elif gs.current_channel == str(5):  # Camera 2 // Only on with power cord
         if gs.power_cord_desk_2:
