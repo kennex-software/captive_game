@@ -38,8 +38,8 @@ class Stable_Items():
                         'Press Button on Remote',
                         'To go to a Channel',
                         '',
-                        '1... Brought To You By',
-                        '2... Music and Sounds By',
+                        '1... Brought To You By...',
+                        '2... Music and Sounds By...',
                         '3... Default',
                         '4... Camera 1',
                         '5... Camera 2',
@@ -73,7 +73,7 @@ class Stable_Items():
                                 '-You can also enter in channels,',
                                 '   but must press the central',
                                 '   play button afterward.',
-                                '-Some channels may start with 0.',
+                                '-Some channels may start with 0.**',
                                 '-Enjoy your TV!'
                                 ]
                 line_spacing = 200
@@ -180,7 +180,7 @@ class Stable_Items():
                 screen.blit(prbn2_text_image, (680, 515))
                 screen.blit(prb_text_image, (520, 570))
 
-                box = pygame.Rect(430, 483, 388, 144)
+                box = pygame.Rect(430, 483, 400, 144)
                 pygame.draw.rect(screen, gs.black, box, 3)
 
             # Page 3 - Puzzle B (see excel file)
@@ -221,7 +221,7 @@ class Stable_Items():
                     screen.blit(text_image, text_rect)
                     index += 1
 
-                text = 'ONLY THE LAST 3 DIGITS'
+                text = 'ONLY THE LAST 3 DIGITS of ?'
                 text_image = gs.verdana12.render(text, True, gs.black)
                 screen.blit(text_image, (545, 573))
 

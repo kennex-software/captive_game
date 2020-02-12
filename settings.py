@@ -30,11 +30,12 @@ class Settings():
         self.arial12 = pygame.font.SysFont("Arial", 12, True)
         self.arial16 = pygame.font.SysFont("Arial", 16, True)
         self.arial22 = pygame.font.SysFont("Arial", 22, True)
+        self.arial48 = pygame.font.SysFont("Arial", 48, True)
         self.arial60 = pygame.font.SysFont("Arial", 60, True)
 
-        self.garamond12 = pygame.font.SysFont("Garamond", 16, True)
+        self.garamond12 = pygame.font.SysFont("Garamond", 12, True)
         self.garamond16 = pygame.font.SysFont("Garamond", 16, True)
-        self.garamond18 = pygame.font.SysFont("Garamond", 16, True)
+        self.garamond18 = pygame.font.SysFont("Garamond", 18, True)
         self.garamond22 = pygame.font.SysFont("Garamond", 22, True)
         self.garamond30 = pygame.font.SysFont("Garamond", 30, True)
 
@@ -124,7 +125,7 @@ class Settings():
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
         self.green_key_found = False # Default = False
-        self.remote_found = False # Default = False todo make false
+        self.remote_found = True # Default = False todo make false
         self.batteries_found = False # Default = False
         self.power_cord_found = False # Default = False
         self.papers_found = False # Default = False
@@ -135,7 +136,7 @@ class Settings():
         self.screwdriver_found = False # Default = False
 
         self.power_cord_desk_1 = False # Default = False todo make false
-        self.power_cord_desk_2 = False # Default = False todo make false
+        self.power_cord_desk_2 = True # Default = False todo make false
         self.power_cord_window_1 = False # Default = False todo make false
 
         self.moveable_items_index_list = []
@@ -158,7 +159,7 @@ class Settings():
         # Remote Settings
         self.remote_opened = False  # Default = False
         self.close_remote = False  # Default = False
-        self.batteries_input = False  # Default = False # todo change to false
+        self.batteries_input = True  # Default = False # todo change to false
         self.button_input_list = []
 
         # TV Settings
@@ -225,7 +226,7 @@ class Settings():
 
 
         # Lights Settings
-        self.lights_on = False  # Default = False
+        self.lights_on = True  # Default = False todo change to false
         
         # Settings for Red and Blue Book
         self.red_book_opened = False  # Default = False

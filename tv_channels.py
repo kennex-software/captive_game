@@ -13,11 +13,13 @@ i_python_logo = 'images/python.png' # Python Logo
 i_diamond = 'images/diamond.png' # Diamond
 i_bricks_scene = 'images/bricks_scene.png' # Bricks Scene
 i_cam2_view = 'images/cam2_view.png' # View for Camera 2
+i_gnarski_logo = 'images/gnarski_logo.png' # Gnarski Logo
 
 python_logo = pygame.image.load(i_python_logo)
 diamond = pygame.image.load(i_diamond)
 bricks_scene = pygame.image.load(i_bricks_scene)
 camera2_view = pygame.image.load(i_cam2_view)
+gnarski_logo = pygame.image.load(i_gnarski_logo)
 
 clock = pygame.time.Clock()
 
@@ -170,10 +172,6 @@ def camera_one(gs, screen, x, y):
     screen.blit(new_surface, (x, y))
 
 def camera_three(gs, screen, x, y, h, w):
-    sur_cam_one = pygame.Surface((gs.gw_width, gs.gw_height), pygame.SRCALPHA)
-    sur_cam_one.fill((254, 254, 254, 0))
-    sur_cam_one.fill(gs.off_white)
-
     screen.blit(gf.aspect_scale_wh(camera2_view, h, w), (x, y))
     text_image = gs.garamond18.render(str(gs.konar_number), True, gs.black)
     sign_rect = pygame.Rect(437, 225, 37, 19)
@@ -211,11 +209,9 @@ def tv_channels(gs, screen):
     Function to hold and display all information that could be found on the TV.
     channel = channel that is chosen
 
-
         screen.blit(self.n4_image, self.n4_rect)
         screen.blit(pygame.transform.smoothscale(image, (int(full_rect[2] / factor), int(full_rect[3] / factor))), image_rect)
         self.door_key_clicker = self.draw_item_to_screen(gs, screen, door_key_rotated, 6, 521, 335)
-
 
     """
     tv_rect = pygame.Rect(195, 140, 470, 296)
@@ -237,6 +233,8 @@ def tv_channels(gs, screen):
 
 
 
+    # Channels
+
     if gs.current_channel == str(1):  # Powered by Python
         gs.current_tv_screen_color = gs.white
         if gs.current_room_view == 1:
@@ -245,7 +243,11 @@ def tv_channels(gs, screen):
             draw_items_partial(gs, screen, python_logo, 1.25, 195, 140)
 
     elif gs.current_channel == str(2):  # Flash on screen
-        print(gs.current_channel)
+        gs.current_tv_screen_color = gs.white
+        if gs.current_room_view == 1:
+            draw_items_full(gs, screen, gnarski_logo, 1.25, 195, 140)
+        else:
+            draw_items_partial(gs, screen, gnarski_logo, 1.25, 195, 140)
 
     elif gs.current_channel == str(3):  # Default channel??
         pass
@@ -274,11 +276,7 @@ def tv_channels(gs, screen):
 
 
 
-
-
-
-
-    elif gs.current_channel == str(7):  # Whitespace
+    elif gs.current_channel == str(7):  # Falling Numbers
         falling_numbers(gs, screen, tv_x, tv_y, tv_h, tv_w)
 
     elif gs.current_channel == str(8):  # Whitespace
@@ -299,14 +297,18 @@ def tv_channels(gs, screen):
         safe_turned_on(gs, screen, tv_x, tv_y, tv_h, tv_w)
 
     # Easter Egg Channels
-    elif gs.current_channel == str(666): # todo Gnarski
+    elif gs.current_channel == str(456): # todo something
         print(gs.current_channel)
 
     elif gs.current_channel == str(456): # todo easter egg channel for fun
         print(gs.current_channel)
 
-    elif gs.current_channel == str('123456789L0F'): # todo easter egg channel for fun
-        print(gs.current_channel)
+    elif gs.current_channel == str('1234567890F'): # Button Presser
+        text = ''
+        gs.current_tv_screen_color = gs.white
+        text_image = gs.arial22.render("YOU LIKE TO PRESS BUTTONS, DON'T YA?", True, gs.black)
+        text_rect = text_image.get_rect(center = tv_rect.center)
+        screen.blit(text_image, text_rect)
 
     elif gs.current_channel == str(456): # todo easter egg channel for fun
         print(gs.current_channel)
@@ -314,6 +316,6 @@ def tv_channels(gs, screen):
     elif gs.current_channel == str(181161693114): # This spells "RAPPICAN" if you put 1-26 next to the alphabet
         print("PAUL'S CHANNEL")
 
-    else:  # Whitespace todo perlin noise
+    else:  # Whitespace
         whitespace(screen, tv_x, tv_y, tv_h, tv_w)
 
