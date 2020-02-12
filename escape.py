@@ -67,13 +67,17 @@ TO DO LIST
 """
 # todo make credits
 # todo make what happens after you click open door / outro
-# todo draw outside window
 # todo make intro
 # todo create timer
+# todo create stats tracker (i.e. how many times played, hours played, times escaped, etc.)
 # todo add text and sounds
-# todo figure out camera 2  // color scene created
-# todo color skyline for outside the window
-# todo figure out scene directly right outside the door
+# todo figure out what other channels are needed
+# todo figure out if you can scale the whole game
+# todo add sound control to the remote
+# todo are there ways to quickly optimize?
+# todo figure out a title
+# todo create a title logo
+# todo create kennex logo
 
 
 
