@@ -71,9 +71,9 @@ TO DO LIST
 # todo make intro
 # todo create timer
 # todo add text and sounds
-# todo mention to only use the last 4 digits of the puzzle / problem B
-# todo figure out camera 1
-# todo figure out camera 2
-#
+# todo figure out camera 2  // color scene created
+# todo color skyline for outside the window
+# todo figure out scene directly right outside the door
+
 
 

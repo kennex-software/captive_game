@@ -171,6 +171,7 @@ class Stable_Items():
                 screen.blit(pra_text_image, (440, 280))
                 screen.blit(pra_text_image2, (505, 210))
 
+
                 problem_b_text = "kn+(2k(3+n))+(k+n)"
                 prb_text_image = gs.verdana22.render(problem_b_text, True, gs.black)
                 prbn1_text_image = gs.verdana16.render("k= " + str(gs.prb_n1), True, gs.black)
@@ -178,6 +179,9 @@ class Stable_Items():
                 screen.blit(prbn1_text_image, (455, 505))
                 screen.blit(prbn2_text_image, (680, 515))
                 screen.blit(prb_text_image, (520, 570))
+
+                box = pygame.Rect(430, 483, 388, 144)
+                pygame.draw.rect(screen, gs.black, box, 3)
 
             # Page 3 - Puzzle B (see excel file)
             elif page == 3:
@@ -613,7 +617,7 @@ class Stable_Items():
                     '    LEAVE IT ON SEVEN!',
                     '',
                     '',
-                    '',
+                    'Boxed Puzzles SSAE',
                     'Solve.Solve.Add.Enter.',
                     '',
                     '  __  __  __  __  > ',

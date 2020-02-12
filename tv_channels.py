@@ -12,10 +12,12 @@ import gf
 i_python_logo = 'images/python.png' # Python Logo
 i_diamond = 'images/diamond.png' # Diamond
 i_bricks_scene = 'images/bricks_scene.png' # Bricks Scene
+i_cam2_view = 'images/cam2_view.png' # View for Camera 2
 
 python_logo = pygame.image.load(i_python_logo)
 diamond = pygame.image.load(i_diamond)
 bricks_scene = pygame.image.load(i_bricks_scene)
+camera2_view = pygame.image.load(i_cam2_view)
 
 clock = pygame.time.Clock()
 
@@ -167,18 +169,16 @@ def camera_one(gs, screen, x, y):
     new_surface = gf.aspect_scale_wh(sur_cam_one, 470, 296)
     screen.blit(new_surface, (x, y))
 
-def camera_two(gs, screen, x, y):
+def camera_three(gs, screen, x, y, h, w):
     sur_cam_one = pygame.Surface((gs.gw_width, gs.gw_height), pygame.SRCALPHA)
     sur_cam_one.fill((254, 254, 254, 0))
     sur_cam_one.fill(gs.off_white)
 
-    #tv_rect = pygame.Rect(195, 140, 470, 296)
-
-    cam_two_num = gs.konar_number + gs.door_number
-
-
-
-
+    screen.blit(gf.aspect_scale_wh(camera2_view, h, w), (x, y))
+    text_image = gs.garamond18.render(str(gs.konar_number), True, gs.black)
+    sign_rect = pygame.Rect(437, 225, 37, 19)
+    text_rect = text_image.get_rect(center = sign_rect.center)
+    screen.blit(text_image, text_rect)
 
 def view_diamonds(gs, screen, x, y, h, w):
     """Will show two diamonds to the screen of varying colors.  These colors are needed for either the safe or to figure out the safe."""
@@ -255,29 +255,28 @@ def tv_channels(gs, screen):
         camera_one(gs, screen, tv_x, tv_y)
         show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 1')
 
-
-
-
-    elif gs.current_channel == str(5):  # Camera 2 // Only on with power cord
-        if gs.power_cord_desk_2:
-            camera_two(gs, screen, tv_x, tv_y)
-            show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 2')
-
-    elif gs.current_channel == str(6):  # Camera 3
+    elif gs.current_channel == str(5): # Camera 2
         gs.current_tv_screen_color = gs.white
 
         if gs.current_room_view == 1:
             draw_items_full(gs, screen, bricks_scene, 1, 195, 140)
             if gs.power_cord_desk_2:
                 pygame.draw.circle(screen, gs.red, (487, 244), 3) # todo can we make this look like it's blinking slowly
-            show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 3')
-
-
-
-
+            show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 2')
         else:
             draw_items_partial(gs, screen, bricks_scene, 1, 195, 140)
+            show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 2')
+
+    elif gs.current_channel == str(6):  # Camera 3 // Only on with power cord
+        if gs.power_cord_desk_2:
+            camera_three(gs, screen, tv_x, tv_y, tv_h, tv_w)
             show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 3')
+
+
+
+
+
+
 
     elif gs.current_channel == str(7):  # Whitespace
         falling_numbers(gs, screen, tv_x, tv_y, tv_h, tv_w)

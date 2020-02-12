@@ -28,6 +28,7 @@ green_key_rotated_load = 'images/green_key_rotated.png' # Rotated Green Key
 power_cord_plugged_1_load = 'images/power_cord_plugged_one.png' # First plugged power cord
 power_cord_plugged_1_flip_load = 'images/power_cord_plugged_one_flip.png' # First plugged power cord
 power_cord_plugged_2_load = 'images/power_cord_plugged_two.png' # Second plugged power cord
+pittsburgh_load = 'images/pittsburgh.png' # View of Pittsburgh
 
 hanging_shirt = pygame.image.load(hanging_shirt_load)
 laying_remote = pygame.image.load(laying_remote_load)
@@ -42,6 +43,7 @@ green_key_rotated = pygame.image.load(green_key_rotated_load)
 power_cord_plugged_1 = pygame.image.load(power_cord_plugged_1_load)
 power_cord_plugged_1_flip = pygame.image.load(power_cord_plugged_1_flip_load)
 power_cord_plugged_2 = pygame.image.load(power_cord_plugged_2_load)
+pittsburgh = pygame.image.load(pittsburgh_load)
 
 
 
@@ -491,7 +493,7 @@ class Room():
                     if self.safe_alpha_rect_a1.collidepoint(event.pos):
                         gs.safe_alpha_index += 1
                         gs.safe_combo_a1 = gs.safe_alpha_index
-                        if gs.safe_alpha_index > 25:
+                        if gs.safe_alpha_index > 24:
                             gs.safe_alpha_index = 0
                     # Color Button 1
                     elif self.safe_number_rect_c1.collidepoint(event.pos):
@@ -543,10 +545,8 @@ class Room():
         
     def room_view_four_2_1(self, gs, screen, stable_item_blocks):  # View of outside window todo figure out what to do outside of the window
         # Clear Screen
-        screen.fill(gs.white)
-
-
-
+        pittsburgh_scaled = gf.aspect_scale_wh(pittsburgh, int(gs.gw_width*1.05), int(gs.gw_height*1.05))
+        screen.blit(pittsburgh_scaled, (-10, -10))
 
         # Required in all views if items are opened during the view.
         if gs.stable_item_opened:

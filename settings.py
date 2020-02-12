@@ -34,6 +34,7 @@ class Settings():
 
         self.garamond12 = pygame.font.SysFont("Garamond", 16, True)
         self.garamond16 = pygame.font.SysFont("Garamond", 16, True)
+        self.garamond18 = pygame.font.SysFont("Garamond", 16, True)
         self.garamond22 = pygame.font.SysFont("Garamond", 22, True)
         self.garamond30 = pygame.font.SysFont("Garamond", 30, True)
 
@@ -123,7 +124,7 @@ class Settings():
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
         self.green_key_found = False # Default = False
-        self.remote_found = True # Default = False todo make false
+        self.remote_found = False # Default = False todo make false
         self.batteries_found = False # Default = False
         self.power_cord_found = False # Default = False
         self.papers_found = False # Default = False
@@ -157,7 +158,7 @@ class Settings():
         # Remote Settings
         self.remote_opened = False  # Default = False
         self.close_remote = False  # Default = False
-        self.batteries_input = True  # Default = False # todo change to false
+        self.batteries_input = False  # Default = False # todo change to false
         self.button_input_list = []
 
         # TV Settings
@@ -166,9 +167,9 @@ class Settings():
         self.random_channel = None
 
         # Safe Settings
-        self.safe_uncovered = True # Default = false
-        self.safe_on = True  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo figure out how to turn on safe
-        self.safe_initialized = True # Safe can only be opened if a certain channel is on the TV
+        self.safe_uncovered = False # Default = false todo make false
+        self.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
+        self.safe_initialized = False # Safe can only be opened if a certain channel is on the TV todo make false
         self.safe_use_color = self.black
         self.color_number_1 = None  # This number is needed to open the safe
         self.color_number_2 = None  # This number is needed to open the safe
@@ -216,7 +217,7 @@ class Settings():
         self.all_unlocked = False # Default = False // Unlocks all drawers / doors
 
         # Door Settings
-        self.door_opened = True  # Default = False todo change to false
+        self.door_opened = False  # Default = False todo change to false
         self.door_number = None
         self.konar_number = None # Street sign in Camera 2
         self.cam_two_number = None
@@ -224,7 +225,7 @@ class Settings():
 
 
         # Lights Settings
-        self.lights_on = True  # Default = False
+        self.lights_on = False  # Default = False
         
         # Settings for Red and Blue Book
         self.red_book_opened = False  # Default = False

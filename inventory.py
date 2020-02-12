@@ -189,14 +189,14 @@ class Inventory():
 
 
 
-
+        """
         # Draw pick boxes
         for item in inv_items_spaces:
             pygame.draw.rect(screen, gs.black, item, 1)  # <<<<< CHANGE THE # HERE TO -1 TO REMOVE THE ABILITY TO SEE THE BOXES
             
         for item in inv_items_stable:
             pygame.draw.rect(screen, gs.black, item, 1)  # <<<<< CHANGE THE # HERE TO -1 TO REMOVE THE ABILITY TO SEE THE BOXES
-
+        """
             
     def select_item(self, gs, screen, room_view, event):  # Referenced from gf
         """Determines which item is selected"""
