@@ -166,10 +166,11 @@ class Settings():
         self.tv_on = False  # Default = False todo make false
         self.current_channel = '3'
         self.random_channel = None
+        self.tv_sound_play_var = 0
 
         # Safe Settings
-        self.safe_uncovered = False # Default = false todo make false
-        self.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
+        self.safe_uncovered = True # Default = false todo make false
+        self.safe_on = True  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
         self.safe_initialized = False # Safe can only be opened if a certain channel is on the TV todo make false
         self.safe_use_color = self.black
         self.color_number_1 = None  # This number is needed to open the safe
@@ -185,7 +186,7 @@ class Settings():
         self.tv_color_numbers = []
         self.turn_safe_on_channel = None
         self.safe_alpha_index = 0
-        self.safe_combo_a1 = 1 # This number is needed to open the safe
+        self.safe_combo_a1 = 0 # This number is needed to open the safe
         #self.safe_opened_true = False # Default = False // if safe is opened for the first time, this will automatically be true and stay true
 
         

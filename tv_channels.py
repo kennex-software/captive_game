@@ -21,7 +21,12 @@ bricks_scene = pygame.image.load(i_bricks_scene)
 camera2_view = pygame.image.load(i_cam2_view)
 gnarski_logo = pygame.image.load(i_gnarski_logo)
 
+# Sounds
+safe_init_sound = pygame.mixer.Sound('sounds/safe_init.wav')
+
+
 clock = pygame.time.Clock()
+
 
 def draw_items_full(gs, screen, image, factor, x, y):
     """Function to pass item and draw to screen
@@ -203,6 +208,16 @@ def view_diamonds(gs, screen, x, y, h, w):
         gf.draw_item_to_screen(gs, screen, diamond, 2.5, 310, 220)
         gf.draw_item_to_screen(gs, screen, diamond, 2, 470, 150)
 
+def check_channels_for_events(gs):
+    if gs.current_channel == str(7):
+        gs.safe_initialized = True
+        while gs.tv_sound_play_var == 0:
+            pygame.mixer.Sound.play(safe_init_sound) # todo turn down sound file in audition
+            gs.tv_sound_play_var = 1
+    else:
+        gs.safe_initialized = False
+        gs.tv_sound_play_var = 0
+
 
 def tv_channels(gs, screen):
     """
@@ -225,10 +240,7 @@ def tv_channels(gs, screen):
     else:
         tv_x = 945
 
-    if gs.current_channel == str(7) and gs.tv_on:
-        gs.safe_initialized = True
-    else:
-        gs.safe_initialized = False
+    check_channels_for_events(gs)
 
 
 
@@ -276,8 +288,9 @@ def tv_channels(gs, screen):
 
 
 
-    elif gs.current_channel == str(7):  # Falling Numbers
+    elif gs.current_channel == str(7):  # Falling Numbers Channel 7
         falling_numbers(gs, screen, tv_x, tv_y, tv_h, tv_w)
+
 
     elif gs.current_channel == str(8):  # Whitespace
         whitespace(screen, tv_x, tv_y, tv_h, tv_w)

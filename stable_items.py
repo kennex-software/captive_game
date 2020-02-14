@@ -8,6 +8,7 @@ import multiline_text as mt
 import random
 from settings import Settings
 import inventory
+import tv_channels
 
 i_enlarged_remote = 'images/remote_enlarged.png'
 i_big_shirt = 'images/shirt_no_hang.png'
@@ -20,6 +21,12 @@ enlarged_shirt = pygame.image.load(i_big_shirt)
 enlarged_papers_top1 = pygame.image.load(i_enlarged_papers_top1)
 enlarged_papers_top2 = pygame.image.load(i_enlarged_papers_top2)
 enlarged_papers_top3 = pygame.image.load(i_enlarged_papers_top3)
+
+# Load Sounds
+key_sound = pygame.mixer.Sound('sounds/key_jingle.wav')
+flip_page_sound = pygame.mixer.Sound('sounds/flip_page.wav')
+safe_init_sound = pygame.mixer.Sound('sounds/safe_init.wav')
+
 
 class Stable_Items():
     """Class to store all of the information regarding the camera and chair manuals"""
@@ -264,6 +271,7 @@ class Stable_Items():
             gs.stable_item_opened = False
 
         if gf.check_inside_clickbox(self, self.clickbox_shirt_pocket, ((event.pos), (0, 0))):
+            pygame.mixer.Sound.play(key_sound)
             gs.purple_key_found = True
             gs.moveable_items_index_list.append(2)
             print('found purple key') # todo comment out later
@@ -376,11 +384,12 @@ class Stable_Items():
         """Function to change the pages in the manuals"""
         if self.manual_pages.collidepoint(event.pos):
             if gs.current_book == 'red_book' and gs.current_page == 4 and not gs.red_key_found and gf.check_inside_clickbox(self, self.red_key_clickbox, ((event.pos), (0, 0))):
-                print('red key found')
+                pygame.mixer.Sound.play(key_sound)
                 gs.red_key_found = True
                 gs.moveable_items_index_list.append(1)
             else:
                 gs.current_page += 1
+                pygame.mixer.Sound.play(flip_page_sound)
 
     def draw_remote(self, gs, screen):
         """Function to draw the remote when clicked"""
@@ -451,6 +460,7 @@ class Stable_Items():
             gs.remote_opened = False
             gs.stable_item_opened = False
 
+
     def remote_buttons_clicked(self, gs, event):
         """Function to change the TV screen when remote can be opened as well as close the remote"""
         if gs.batteries_input:
@@ -465,6 +475,8 @@ class Stable_Items():
                         if box_index == 26:
                             if gs.current_channel == 'INVALID':
                                 gs.current_channel = '3'
+                            elif gs.current_channel == '7':
+                                pygame.mixer.Sound.play(safe_init_sound)
                             gs.tv_on = True
 
                             print('tv on')
@@ -505,6 +517,7 @@ class Stable_Items():
                             pass
                         elif box_index == 21:  # Central Play
                             self.remote_entry(gs)
+
                         elif box_index == 22:  # Top Arrow
                             gs.button_input_list.append(box_index)
                         elif box_index == 23:  # Right Arrow
@@ -516,6 +529,7 @@ class Stable_Items():
                         elif box_index == 26:  # Power Button
                             gs.tv_on = False
                             gs.current_tv_screen_color = gs.tv_screen
+                            gs.safe_initialized = False
                             print('tv off')
 
         else:
@@ -547,6 +561,7 @@ class Stable_Items():
             for button in gs.button_input_list:
                 temp_channel.append(number_index_dict.get(str(button)))
                 gs.current_channel = ''.join(map(str, temp_channel))
+
             gs.button_input_list.clear()
         else:
             gs.current_channel = 'INVALID'
@@ -645,16 +660,21 @@ class Stable_Items():
         """Function to flip through the papers on the screen"""
 
         if gf.check_inside_clickbox(self, self.papers_page1_list, ((event.pos), (0, 0))) and not gf.check_inside_clickbox(self, self.papers_page2_list, ((event.pos), (0, 0))) and not gf.check_inside_clickbox(self, self.papers_page3_list, ((event.pos), (0, 0))):
+            pygame.mixer.Sound.play(flip_page_sound)
             gs.current_paper_in_view = 1
         if gs.current_paper_in_view == 1:
             if gf.check_inside_clickbox(self, self.papers_page2_list, ((event.pos), (0, 0))) and not gf.check_inside_clickbox(self, self.papers_page1_list, ((event.pos), (0, 0))):
+                pygame.mixer.Sound.play(flip_page_sound)
                 gs.current_paper_in_view = 2
         if gs.current_paper_in_view == 3:
             if gf.check_inside_clickbox(self, self.papers_page2_list, ((event.pos), (0, 0))) and not gf.check_inside_clickbox(self, self.papers_page3_list, ((event.pos), (0, 0))):
+                pygame.mixer.Sound.play(flip_page_sound)
                 gs.current_paper_in_view = 2
         if gf.check_inside_clickbox(self, self.papers_page3_list, ((event.pos), (0, 0))) and not gf.check_inside_clickbox(self, self.papers_page1_list, ((event.pos), (0, 0))) and not gf.check_inside_clickbox(self, self.papers_page2_list, ((event.pos), (0, 0))):
+            pygame.mixer.Sound.play(flip_page_sound)
             gs.current_paper_in_view = 3
         if gs.papers_opened == True and not gf.check_inside_clickbox(self, self.papers_page1_list, ((event.pos), (0, 0))) and not gf.check_inside_clickbox(self, self.papers_page2_list, ((event.pos), (0, 0))) and not gf.check_inside_clickbox(self, self.papers_page3_list, ((event.pos), (0, 0))):
+            pygame.mixer.Sound.play(flip_page_sound)
             gs.papers_opened = False
             gs.stable_item_opened = False
             gs.current_paper_in_view = 1

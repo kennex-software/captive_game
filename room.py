@@ -45,6 +45,13 @@ power_cord_plugged_1_flip = pygame.image.load(power_cord_plugged_1_flip_load)
 power_cord_plugged_2 = pygame.image.load(power_cord_plugged_2_load)
 pittsburgh = pygame.image.load(pittsburgh_load)
 
+# Load Sounds
+key_sound = pygame.mixer.Sound('sounds/key_jingle.wav')
+door_open_sound = pygame.mixer.Sound('sounds/door_open.wav')
+door_close_sound = pygame.mixer.Sound('sounds/door_close.wav')
+paper_found_sound = pygame.mixer.Sound('sounds/pick_paper.wav')
+book_found_sound = pygame.mixer.Sound('sounds/pick_book.wav')
+
 
 
 class Room():
@@ -196,7 +203,7 @@ class Room():
     def click_papers(self, gs, event):
         # function to be able to pick up the papers item
         if self.laying_paper_clicker.collidepoint(event.pos):
-            print('papers found')
+            pygame.mixer.Sound.play(paper_found_sound)
             gs.papers_found = True
 
     def click_shirt(self, gs, event):
@@ -215,19 +222,19 @@ class Room():
     def click_red_book(self, gs, event):
         # function to be able to pick up the red book item
         if self.red_book_clicker.collidepoint(event.pos) and not fcdo1.collidepoint(event.pos):
-            print('red book found')
+            pygame.mixer.Sound.play(book_found_sound)
             gs.red_book_found = True
 
     def click_blue_book(self, gs, event):
         # function to be able to pick up the blue book item
         if self.blue_book_clicker.collidepoint(event.pos) and not fcdo2.collidepoint(event.pos):
-            print('blue book found')
+            pygame.mixer.Sound.play(book_found_sound)
             gs.blue_book_found = True
 
     def click_green_key(self, gs, event):
         # function to be able to pick up the green key item
         if self.green_key_clicker.collidepoint(event.pos):
-            print('green key found')
+            pygame.mixer.Sound.play(key_sound)
             gs.green_key_found = True
             gs.moveable_items_index_list.append(3)
 
@@ -459,7 +466,7 @@ class Room():
                 if gs.safe_opened == True:
                     if not gs.door_key_found:
                         if self.door_key_clicker.collidepoint(event.pos):
-                            print('door key found')
+                            pygame.mixer.Sound.play(key_sound)
                             gs.door_key_found = True
                             gs.moveable_items_index_list.append(0)
                     if gf.check_inside_clickbox(self, self.safe_door, ((event.pos), (0, 0))):
@@ -493,8 +500,9 @@ class Room():
                     if self.safe_alpha_rect_a1.collidepoint(event.pos):
                         gs.safe_alpha_index += 1
                         gs.safe_combo_a1 = gs.safe_alpha_index
-                        if gs.safe_alpha_index > 24:
+                        if gs.safe_alpha_index == 26:
                             gs.safe_alpha_index = 0
+                            gs.safe_combo_a1 = 0
                     # Color Button 1
                     elif self.safe_number_rect_c1.collidepoint(event.pos):
                         for v in gs.color_codes.values():
@@ -1049,11 +1057,13 @@ class Room():
     def open_door(self, gs, event):
         """Unlocks the door to finish / win the game"""
         if self.door_handle_rect.collidepoint(event.pos) and gs.door_locked == False:
+            pygame.mixer.Sound.play(door_open_sound)
             gs.door_opened = True
 
     def close_door(self, gs, event):
         """Closes door after it's been opened"""
         if gf.check_inside_clickbox(self, self.opened_door, ((event.pos), (0, 0))):
+            pygame.mixer.Sound.play(door_close_sound)
             gs.door_opened = False
 
 
@@ -1220,6 +1230,7 @@ class Room():
         """Looks for moveable items that intersect with the room and other items to achieve things"""
         # Door Key
         if gs.selected_item_index == 0 and self.door_handle_rect.collidepoint(gs.selected_item.center):
+            pygame.mixer.Sound.play(key_sound)
             gs.door_locked = False
             gs.door_key_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
@@ -1227,6 +1238,7 @@ class Room():
 
         # Red Key
         if gs.selected_item_index == 1 and desk_drawer3.collidepoint(gs.selected_item.center):
+            pygame.mixer.Sound.play(key_sound)
             gs.dd3_locked = False
             gs.red_key_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
@@ -1234,6 +1246,7 @@ class Room():
 
         # Purple Key
         if gs.selected_item_index == 2 and fcd2.collidepoint(gs.selected_item.center):
+            pygame.mixer.Sound.play(key_sound)
             gs.fcd2_locked = False
             gs.purple_key_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
@@ -1241,6 +1254,7 @@ class Room():
 
         # Green Key
         if gs.selected_item_index == 3 and desk_drawer1.collidepoint(gs.selected_item.center):
+            pygame.mixer.Sound.play(key_sound)
             gs.dd1_locked = False
             gs.green_key_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)

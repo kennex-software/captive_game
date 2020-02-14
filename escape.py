@@ -14,6 +14,7 @@ import time
 
 def run_game():
     # Initialize pygame, settings, and screen object.
+    pygame.mixer.pre_init(44100,-16,2, 1024)
     pygame.init()
     clock = pygame.time.Clock()
     gs = Settings()

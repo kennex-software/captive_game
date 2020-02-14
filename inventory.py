@@ -7,6 +7,7 @@ from pygame.math import Vector2
 import gf
 
 pygame.init()
+pygame.mixer.init()
 
 inv_items_stable = []  # List of inventory that do not move
 inv_items_spaces = []  # List of inventory squares
@@ -42,6 +43,13 @@ screwdriver = pygame.image.load(i_screwdriver)
 
 sur_inv_desk_drawer = pygame.Surface((218, 94), pygame.SRCALPHA)
 sur_inv_desk_drawer.fill((254, 254, 254, 0))
+
+# Load Sounds
+key_sound = pygame.mixer.Sound('sounds/key_jingle.wav')
+flip_page_sound = pygame.mixer.Sound('sounds/flip_page.wav')
+
+
+
 
 # Game Screen
 g_red_key_taped = 'images/red_key_rotated_tape.png' # Red Key with Tape
@@ -154,6 +162,7 @@ class Inventory():
         else:  # Change in settings to False to hide all items
             ### Stable Items
             if gs.remote_found == True:  # Draw Remote Inventory Item
+
                 self.screen.blit(pygame.transform.smoothscale(remote, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[0])
             if gs.papers_found == True:  # Draw Papers Inventory Item
                 self.screen.blit(pygame.transform.smoothscale(papers, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[1])
@@ -220,13 +229,16 @@ class Inventory():
                 if index == 1 and gs.papers_found:
                     gs.stable_item_opened = True  # Turns on stable items.  User cannot move in view until item is closed.
                     gs.papers_opened = not gs.papers_opened
+                    pygame.mixer.Sound.play(flip_page_sound)
                 if index == 2 and gs.red_book_found:
                     gs.stable_item_opened = True  # Turns on stable items.  User cannot move in view until item is closed.
                     gs.red_book_opened = not gs.red_book_opened
+                    pygame.mixer.Sound.play(flip_page_sound)
                     gs.current_book = 'red_book'
                 if index == 3 and gs.blue_book_found:
                     gs.stable_item_opened = True  # Turns on stable items.  User cannot move in view until item is closed.
                     gs.blue_book_opened = not gs.blue_book_opened
+                    pygame.mixer.Sound.play(flip_page_sound)
                     gs.current_book = 'blue_book'
                 if index == 4 and gs.shirt_found:
                     gs.stable_item_opened = True  # Turns on stable items.  User cannot move in view until item is closed.
