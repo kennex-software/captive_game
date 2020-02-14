@@ -135,6 +135,20 @@ class Settings():
         self.shirt_found = False # Default = False
         self.screwdriver_found = False # Default = False
 
+        self.play_found_sound = True # Default = True / Turn off as False
+        self.door_key_sound = True # Default = True
+        self.red_key_sound = True # Default = True
+        self.purple_key_sound = True # Default = True
+        self.green_key_sound = True # Default = True
+        self.remote_sound = True # Default = True
+        self.batteries_sound = True # Default = True
+        self.power_cord_sound = True # Default = True
+        self.papers_sound = True # Default = True
+        self.red_book_sound = True # Default = True
+        self.blue_book_sound = True # Default = True
+        self.shirt_sound = True # Default = True
+        self.screwdriver_sound = True # Default = True
+
         self.power_cord_desk_1 = False # Default = False todo make false
         self.power_cord_desk_2 = True # Default = False todo make false
         self.power_cord_window_1 = False # Default = False todo make false
@@ -171,7 +185,7 @@ class Settings():
         # Safe Settings
         self.safe_uncovered = True # Default = false todo make false
         self.safe_on = True  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
-        self.safe_initialized = False # Safe can only be opened if a certain channel is on the TV todo make false
+        self.safe_initialized = True # Safe can only be opened if a certain channel is on the TV todo make false
         self.safe_use_color = self.black
         self.color_number_1 = None  # This number is needed to open the safe
         self.color_number_2 = None  # This number is needed to open the safe
@@ -179,7 +193,7 @@ class Settings():
         self.safe_combo_n2 = 0  # This number is needed to open the safe
         self.safe_combo_n3 = 0  # This number is needed to open the safe
         self.safe_combo_n4 = 0  # This number is needed to open the safe
-        self.safe_opened = False # Default = False todo change to false
+        self.safe_opened = True # Default = False todo change to false
         self.safe_combo_random = []
         self.safe_combo = []
         self.safe_alpha_pra_answer = None
@@ -223,8 +237,6 @@ class Settings():
         self.door_number = None
         self.konar_number = None # Street sign in Camera 2
         self.cam_two_number = None
-
-
 
         # Lights Settings
         self.lights_on = True  # Default = False todo change to false

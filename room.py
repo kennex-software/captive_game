@@ -51,6 +51,7 @@ door_open_sound = pygame.mixer.Sound('sounds/door_open.wav')
 door_close_sound = pygame.mixer.Sound('sounds/door_close.wav')
 paper_found_sound = pygame.mixer.Sound('sounds/pick_paper.wav')
 book_found_sound = pygame.mixer.Sound('sounds/pick_book.wav')
+clickable_item_seen = pygame.mixer.Sound('sounds/pickable_item_seen.wav')
 
 
 
@@ -141,6 +142,8 @@ class Room():
         self.laying_power_cord_rect = laying_power_cord.get_rect()
         self.laying_power_cord_scaled = pygame.transform.smoothscale(laying_power_cord, (int(self.laying_power_cord_rect[2]/1.5), int(self.laying_power_cord_rect[3]/1.5)))
         self.laying_power_cord_scaled_rect = self.laying_power_cord_scaled.get_rect(center = self.can_opening_rect.center)
+
+
 
         self.laying_paper_clicker = gf.draw_item_to_screen(gs, screen, laying_paper, 2, 380, 475)
         self.remote_clicker = gf.draw_item_to_screen(gs, screen, laying_remote, 4.5, 380, 493)
@@ -309,6 +312,9 @@ class Room():
 
         # Draw Remote
         if not gs.remote_found:
+            while gs.remote_sound and gs.play_found_sound:
+                pygame.mixer.Sound.play(clickable_item_seen)
+                gs.remote_sound = False
             self.remote_clicker = gf.draw_item_to_screen(gs, screen, laying_remote, 4.5, 380, 493)
 
 
@@ -358,6 +364,9 @@ class Room():
 
                 # Draw Door Key
                 if not gs.door_key_found:
+                    while gs.door_key_sound and gs.play_found_sound:
+                        pygame.mixer.Sound.play(clickable_item_seen)
+                        gs.door_key_sound = False
                     #screen.blit(pygame.transform.smoothscale(door_key_rotated, (int(self.door_key_rotated_full_rect[2] / 6), int(self.door_key_rotated_full_rect[3] / 6))), self.door_key_rotated_rect)
                     #pygame.draw.rect(screen, gs.yellow, self.door_key_rotated_rect, 3) # todo comment this out
                     self.door_key_clicker = gf.draw_item_to_screen(gs, screen, door_key_rotated, 6, 521, 335)
@@ -446,6 +455,9 @@ class Room():
 
         # Draw Papers
         if not gs.papers_found:
+            while gs.papers_sound and gs.play_found_sound:
+                pygame.mixer.Sound.play(clickable_item_seen)
+                gs.papers_sound = False
             #screen.blit(pygame.transform.smoothscale(laying_paper, (int(self.laying_paper_full_rect[2] / 2), int(self.laying_paper_full_rect[3] / 2))), self.laying_paper_rect)
             #pygame.draw.rect(screen, gs.black, self.laying_paper_rect, 3) # todo comment this out
             self.laying_paper_clicker = gf.draw_item_to_screen(gs, screen, laying_paper, 2, 380, 475)
@@ -580,6 +592,9 @@ class Room():
         # Draw Laying Power Cord
         if not gs.power_cord_found:
             screen.blit(self.laying_power_cord_scaled, self.laying_power_cord_scaled_rect)
+            while gs.power_cord_sound and gs.play_found_sound:
+                pygame.mixer.Sound.play(clickable_item_seen)
+                gs.power_cord_sound = False
             #pygame.draw.rect(screen, gs.yellow, self.laying_power_cord_scaled_rect, 3)
 
         # Required in all views if items are opened during the view.
@@ -744,6 +759,9 @@ class Room():
             #self.green_key_rotated_rect = green_key_rotated.get_rect()
             #screen.blit(pygame.transform.smoothscale(green_key_rotated, (int(self.green_key_rotated_rect[2]/22), int(self.green_key_rotated_rect[3]/22))), self.green_key_rotated_surface)
             if not gs.green_key_found:
+                while gs.green_key_sound and gs.play_found_sound:
+                    pygame.mixer.Sound.play(clickable_item_seen)
+                    gs.green_key_sound = False
                 self.green_key_clicker = gf.draw_item_to_screen(gs, screen, green_key_rotated, 22, 148, 630)
 
         # Wall Outlet
@@ -780,6 +798,9 @@ class Room():
 
             # Draw Batteries
             if not gs.batteries_found:
+                while gs.batteries_sound and gs.play_found_sound:
+                    pygame.mixer.Sound.play(clickable_item_seen)
+                    gs.batteries_sound = False
                 self.battery_clicker = gf.draw_item_to_screen(gs, screen, rotated_batteries, 13, 174, 588)
             
         else:
@@ -809,6 +830,9 @@ class Room():
             #screen.blit(pygame.transform.smoothscale(flathead, (int(self.flathead_full_rect[2] / 4), int(self.flathead_full_rect[3] / 4))), self.flathead_rect)
             #pygame.draw.rect(screen, gs.yellow, self.flathead_rect, 3)
             if not gs.screwdriver_found:
+                while gs.screwdriver_sound and gs.play_found_sound:
+                    pygame.mixer.Sound.play(clickable_item_seen)
+                    gs.screwdriver_sound = False
                 self.flathead_clicker = gf.draw_item_to_screen(gs, screen, flathead, 4, 125, 528)
 
 
@@ -843,6 +867,9 @@ class Room():
             #self.blue_book_rotated_rect = blue_book_rotated.get_rect()
             #screen.blit(pygame.transform.smoothscale(blue_book_rotated, (int(self.blue_book_rotated_rect[2]/5), int(self.blue_book_rotated_rect[3]/5))), self.blue_book_rotated_surface)
             if not gs.blue_book_found:
+                while gs.blue_book_sound and gs.play_found_sound:
+                    pygame.mixer.Sound.play(clickable_item_seen)
+                    gs.blue_book_sound = False
                 self.blue_book_clicker = gf.draw_item_to_screen(gs, screen, blue_book_rotated, 5, 728, 598)
 
 
@@ -881,6 +908,9 @@ class Room():
             #self.red_book_rotated_rect = red_book_rotated.get_rect()
             #screen.blit(pygame.transform.smoothscale(red_book_rotated, (int(self.red_book_rotated_rect[2]/5), int(self.red_book_rotated_rect[3]/5))), self.red_book_rotated_surface)
             if not gs.red_book_found:
+                while gs.red_book_sound and gs.play_found_sound:
+                    pygame.mixer.Sound.play(clickable_item_seen)
+                    gs.red_book_sound = False
                 self.red_book_clicker = gf.draw_item_to_screen(gs, screen, red_book_rotated, 5, 728, 500)
 
             pygame.draw.rect(screen, gs.file_cabinet, fcdo1)
@@ -1010,6 +1040,9 @@ class Room():
 
         # Shirt in Closet
         if not gs.shirt_found:
+            while gs.shirt_sound and gs.play_found_sound:
+                pygame.mixer.Sound.play(clickable_item_seen)
+                gs.shirt_sound = False
             screen.blit(pygame.transform.smoothscale(hanging_shirt, (150, 235)), self.shirt_surface)
 
 
@@ -1056,7 +1089,7 @@ class Room():
 
     def open_door(self, gs, event):
         """Unlocks the door to finish / win the game"""
-        if self.door_handle_rect.collidepoint(event.pos) and gs.door_locked == False:
+        if self.door_handle_rect.collidepoint(event.pos) and gs.door_locked == False and not gs.door_opened:
             pygame.mixer.Sound.play(door_open_sound)
             gs.door_opened = True
 
