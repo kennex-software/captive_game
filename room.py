@@ -564,6 +564,7 @@ class Room():
             self.find_stable_item_opened(gs, screen, stable_item_blocks)
         
     def room_view_four_2_1(self, gs, screen, stable_item_blocks):  # View of outside window todo figure out what to do outside of the window
+        screen.fill(gs.white)
         # Clear Screen
         pittsburgh_scaled = gf.aspect_scale_wh(pittsburgh, int(gs.gw_width*1.05), int(gs.gw_height*1.05))
         screen.blit(pittsburgh_scaled, (-10, -10))
