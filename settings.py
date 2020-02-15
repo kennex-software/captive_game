@@ -83,6 +83,7 @@ class Settings():
         self.brown = (102, 51, 0)
         self.gray = (173, 168, 168)
         self.dark_gray = (53, 53, 53)
+        self.the_other_gray = (88, 88, 88)
         self.dark_blue = (80, 92, 111) # Interior Walls
         self.dark_brown = (56, 25, 11)
 
@@ -125,7 +126,7 @@ class Settings():
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
         self.green_key_found = False # Default = False
-        self.remote_found = False # Default = False todo make false
+        self.remote_found = True # Default = False todo make false
         self.batteries_found = False # Default = False
         self.power_cord_found = False # Default = False
         self.papers_found = False # Default = False
@@ -136,7 +137,7 @@ class Settings():
         self.screwdriver_found = False # Default = False
 
         self.power_cord_desk_1 = False # Default = False todo make false
-        self.power_cord_desk_2 = False # Default = False todo make false
+        self.power_cord_desk_2 = True # Default = False todo make false
         self.power_cord_window_1 = False # Default = False todo make false
 
         self.moveable_items_index_list = []
@@ -159,7 +160,7 @@ class Settings():
         # Remote Settings
         self.remote_opened = False  # Default = False
         self.close_remote = False  # Default = False
-        self.batteries_input = False  # Default = False # todo change to false
+        self.batteries_input = True  # Default = False # todo change to false
         self.button_input_list = []
 
         # TV Settings
@@ -171,8 +172,8 @@ class Settings():
 
         # Safe Settings
         self.safe_uncovered = True # Default = false todo make false
-        self.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
-        self.safe_initialized = False # Safe can only be opened if a certain channel is on the TV todo make false
+        self.safe_on = True  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
+        self.safe_initialized = True # Safe can only be opened if a certain channel is on the TV todo make false
         self.safe_use_color = self.black
         self.color_number_1 = None  # This number is needed to open the safe
         self.color_number_2 = None  # This number is needed to open the safe
@@ -180,7 +181,7 @@ class Settings():
         self.safe_combo_n2 = 0  # This number is needed to open the safe
         self.safe_combo_n3 = 0  # This number is needed to open the safe
         self.safe_combo_n4 = 0  # This number is needed to open the safe
-        self.safe_opened = False # Default = False todo change to false
+        self.safe_opened = True # Default = False todo change to false
         self.safe_combo_random = []
         self.safe_combo = []
         self.safe_alpha_pra_answer = None
@@ -220,7 +221,7 @@ class Settings():
         self.all_unlocked = False # Default = False // Unlocks all drawers / doors
 
         # Door Settings
-        self.door_opened = False  # Default = False todo change to false
+        self.door_opened = True  # Default = False todo change to false
         self.door_number = None
         self.konar_number = None # Street sign in Camera 2
         self.cam_two_number = None

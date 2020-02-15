@@ -146,8 +146,6 @@ def camera_one(gs, screen, x, y):
     sur_cam_one.fill((254, 254, 254, 0))
     sur_cam_one.fill(gs.off_white)
 
-    #tv_rect = pygame.Rect(195, 140, 470, 296)
-
     # Door Settings
     main_door = pygame.Rect(390, 160, 225, 440)
     floor_rect = pygame.Rect(0, 600, 1065, 150)
@@ -185,7 +183,8 @@ def camera_three(gs, screen, x, y, h, w):
     text_image = gs.garamond18.render(str(gs.konar_number), True, gs.black)
     sign_rect = pygame.Rect(437, 225, 37, 19)
     text_rect = text_image.get_rect(center = sign_rect.center)
-    screen.blit(text_image, text_rect)
+    if gs.current_room_view == 1:
+        screen.blit(text_image, text_rect)
 
 def view_diamonds(gs, screen, x, y, h, w):
     """Will show two diamonds to the screen of varying colors.  These colors are needed for either the safe or to figure out the safe."""
@@ -233,16 +232,18 @@ def tv_channels(gs, screen):
         self.door_key_clicker = self.draw_item_to_screen(gs, screen, door_key_rotated, 6, 521, 335)
 
     """
-    tv_rect = pygame.Rect(195, 140, 470, 296)
-    partial_tv_rect = pygame.Rect(945, 140, 470, 296)
+    #tv_rect = pygame.Rect(195, 140, 470, 296)
+    #partial_tv_rect = pygame.Rect(945, 140, 470, 296)
     tv_y = 140
     tv_w = 296
     tv_h = 470
 
     if gs.current_room_view == 1:
         tv_x = 195
+        tv_rect = pygame.Rect(195, 140, 470, 296)
     else:
         tv_x = 945
+        tv_rect = pygame.Rect(945, 140, 470, 296)
 
     check_channels_for_events(gs)
 
@@ -258,7 +259,7 @@ def tv_channels(gs, screen):
         else:
             draw_items_partial(gs, screen, python_logo, 1.25, 195, 140)
 
-    elif gs.current_channel == str(2):  # Flash on screen
+    elif gs.current_channel == str(2):  # Gnarski
         gs.current_tv_screen_color = gs.white
         if gs.current_room_view == 1:
             draw_items_full(gs, screen, gnarski_logo, 1.25, 195, 140)
@@ -321,7 +322,6 @@ def tv_channels(gs, screen):
         print(gs.current_channel)
 
     elif gs.current_channel == str('1234567890F'): # Button Presser
-        text = ''
         gs.current_tv_screen_color = gs.white
         text_image = gs.arial22.render("YOU LIKE TO PRESS BUTTONS, DON'T YA?", True, gs.black)
         text_rect = text_image.get_rect(center = tv_rect.center)

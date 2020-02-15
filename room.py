@@ -29,6 +29,7 @@ power_cord_plugged_1_load = 'images/power_cord_plugged_one.png' # First plugged 
 power_cord_plugged_1_flip_load = 'images/power_cord_plugged_one_flip.png' # First plugged power cord
 power_cord_plugged_2_load = 'images/power_cord_plugged_two.png' # Second plugged power cord
 pittsburgh_load = 'images/pittsburgh.png' # View of Pittsburgh
+tablevase_load = 'images/tablevase.png' # Table and Vase
 
 hanging_shirt = pygame.image.load(hanging_shirt_load)
 laying_remote = pygame.image.load(laying_remote_load)
@@ -43,7 +44,7 @@ green_key_rotated = pygame.image.load(green_key_rotated_load)
 power_cord_plugged_1 = pygame.image.load(power_cord_plugged_1_load)
 power_cord_plugged_1_flip = pygame.image.load(power_cord_plugged_1_flip_load)
 power_cord_plugged_2 = pygame.image.load(power_cord_plugged_2_load)
-pittsburgh = pygame.image.load(pittsburgh_load)
+tablevase = pygame.image.load(tablevase_load)
 
 # Load Sounds
 key_sound = pygame.mixer.Sound('sounds/key_jingle.wav')
@@ -158,6 +159,7 @@ class Room():
         self.remote_clicker = gf.draw_item_to_screen(gs, screen, laying_remote, 4.5, 380, 493)
         self.door_key_clicker = gf.draw_item_to_screen(gs, screen, door_key_rotated, 6, 521, 335)
         self.shirt_surface = pygame.Rect(125, 212, 150, 235)
+        self.table_surface = pygame.Rect(0, 0, 500, 500) # todo update this accordingly
 
         # Wall Outlets
         self.desk_wall_outlet = pygame.Rect(362, 528, 26, 42)
@@ -617,9 +619,9 @@ class Room():
             pygame.draw.polygon(screen, gs.carpet, ((0, 725), (330, 600), (1070, 600), (1070, 735), (0, 735)))
 
             # Light Switch            
-            pygame.draw.rect(screen, gs.off_white, self.light_switch)
-            pygame.draw.rect(screen, gs.black, self.light_switch, 3)
-            pygame.draw.rect(screen, gs.black, (660, 335, 10, 20), 1)   
+            pygame.draw.rect(screen, gs.off_white, self.light_switch) # light switch body
+            pygame.draw.rect(screen, gs.black, self.light_switch, 3) # light switch border
+            pygame.draw.rect(screen, gs.black, (660, 335, 10, 20), 1) # light switch interior
             
             # Lines
             pygame.draw.line(screen, gs.black, (0, 725), (330, 600), 5)
@@ -627,19 +629,33 @@ class Room():
             pygame.draw.line(screen, gs.black, (330, 600), (1100, 600), 5)
 
 
-
             if gs.door_opened and gs.room_view_drill_down == 0:
+
+
                 # Draw Open Door Handle
                 pygame.draw.circle(screen, gs.yellow, (243, 398), 15)
                 pygame.draw.circle(screen, gs.black, (243, 398), 16, 2)
 
                 # Draw open door
+                pygame.draw.rect(screen, gs.white, self.main_door)
+
+
+                pygame.draw.rect(screen, gs.dark_blue, ((self.main_door.x, self.main_door.y), (self.main_door.width, 486 - self.main_door.y)))
+                pygame.draw.rect(screen, gs.the_other_gray, ((self.main_door.x, 486), (self.main_door.width, (self.main_door.y + self.main_door.height - 486))))
+                pygame.draw.line(screen, gs.black, (self.main_door.x, 486), (self.main_door.x + self.main_door.width, 486), 3)
+
+                tablevase_scaled = gf.aspect_scale(tablevase, 180) # table and vase scaled
+                screen.blit(tablevase_scaled, (370, 395))
 
                 pygame.draw.polygon(screen, gs.door, self.opened_door)
                 pygame.draw.polygon(screen, gs.black, self.opened_door, 3)
                 pygame.draw.line(screen, gs.black, (250, 101), (250, 674), 8)
-                pygame.draw.rect(screen, gs.white, self.main_door)
+
                 pygame.draw.rect(screen, gs.black, self.main_door, 3)
+
+
+
+
 
             else:
                 # Door
@@ -677,11 +693,12 @@ class Room():
             bottom_of_can = pygame.Rect(0, 675, 90, 25)
             bottom_of_can.centerx = self.top_of_can.centerx
 
-
+            pygame.draw.ellipse(screen, gs.dark_gray, (bottom_of_can.x - 18, bottom_of_can.y + 2, bottom_of_can.width, bottom_of_can.height))
             pygame.draw.polygon(screen, gs.brown, ((self.top_of_can.midleft), (self.top_of_can.midright), (bottom_of_can.midright), (bottom_of_can.midleft)))
 
             pygame.draw.polygon(screen, gs.black, ((self.top_of_can.midleft), (self.top_of_can.midright), (bottom_of_can.midright), (bottom_of_can.midleft)), 3)
             pygame.draw.ellipse(screen, gs.brown, bottom_of_can)
+
 
             pygame.draw.ellipse(screen, gs.dark_brown, self.top_of_can)
 
