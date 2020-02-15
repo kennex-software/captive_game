@@ -10,7 +10,6 @@ from stable_items import Stable_Items
 from control_panel import Control_Panel
 from room import Room
 from pygame.locals import *
-import time
 
 def run_game():
     # Initialize pygame, settings, and screen object.
@@ -30,13 +29,10 @@ def run_game():
     cp = Control_Panel(gs, screen)
 
 
-
-    pygame.time.Clock()
-
     while True:
         gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
         gf.update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
-        
+        gf.game_clock(gs, screen, clock)
         
         if gs.sleeperticks:
             pygame.time.wait(100)  # Leave this at 100 or less
@@ -69,9 +65,9 @@ TO DO LIST
 # todo make credits
 # todo make what happens after you click open door / outro
 # todo make intro
-# todo create timer
 # todo create stats tracker (i.e. how many times played, hours played, times escaped, etc.)
-# todo add text and sounds
+# todo add text
+# todo add music
 # todo figure out what other channels are needed
 # todo figure out if you can scale the whole game
 # todo add sound control to the remote
@@ -79,7 +75,6 @@ TO DO LIST
 # todo figure out a title
 # todo create a title logo
 # todo create kennex logo
-# todo need to add sound to every item
 
 
 

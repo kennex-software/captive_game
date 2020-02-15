@@ -26,9 +26,6 @@ safe_init_sound = pygame.mixer.Sound('sounds/safe_init.wav')
 safe_on_sound = pygame.mixer.Sound('sounds/safe_on.wav')
 
 
-clock = pygame.time.Clock()
-
-
 def draw_items_full(gs, screen, image, factor, x, y):
     """Function to pass item and draw to screen
     image = loaded image variable
@@ -87,6 +84,7 @@ def whitespace(surface, x, y, h, w):
         x = start
 
 def falling_numbers(gs, surface, x, y, h, w):
+    #pygame.time.Clock().tick(10)
     gs.current_tv_screen_color = gs.white
 
     range_num = 11
@@ -177,6 +175,10 @@ def camera_one(gs, screen, x, y):
 
     new_surface = gf.aspect_scale_wh(sur_cam_one, 470, 296)
     screen.blit(new_surface, (x, y))
+
+
+
+
 
 def camera_three(gs, screen, x, y, h, w):
     screen.blit(gf.aspect_scale_wh(camera2_view, h, w), (x, y))
@@ -301,7 +303,14 @@ def tv_channels(gs, screen):
         whitespace(screen, tv_x, tv_y, tv_h, tv_w)
 
     elif gs.current_channel == str(9):  # Black Screen
-        print(gs.current_channel)
+        pass
+
+    elif gs.current_channel == str(12):  # Black Screen
+        gs.current_tv_screen_color = gs.off_white
+        clock_value = gf.get_game_clock(gs, screen)
+        clock_text = gs.verdana55.render(clock_value, True, gs.red)
+        clock_text_rect = clock_text.get_rect(center = tv_rect.center)
+        screen.blit(clock_text, clock_text_rect)
 
     # Game Channels
     elif gs.current_channel == str(gs.channel_code): # Will Give Code to Turn On Safe

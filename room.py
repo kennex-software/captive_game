@@ -44,6 +44,7 @@ green_key_rotated = pygame.image.load(green_key_rotated_load)
 power_cord_plugged_1 = pygame.image.load(power_cord_plugged_1_load)
 power_cord_plugged_1_flip = pygame.image.load(power_cord_plugged_1_flip_load)
 power_cord_plugged_2 = pygame.image.load(power_cord_plugged_2_load)
+pittsburgh = pygame.image.load(pittsburgh_load)
 tablevase = pygame.image.load(tablevase_load)
 
 # Load Sounds
@@ -615,6 +616,9 @@ class Room():
             pygame.draw.rect(screen, gs.black, (660, 335, 10, 20), 1)
 
         else:
+
+
+
             # Carpet
             pygame.draw.polygon(screen, gs.carpet, ((0, 725), (330, 600), (1070, 600), (1070, 735), (0, 735)))
 
@@ -1094,8 +1098,8 @@ class Room():
 
     def win_game(self, gs, event):
         """Click the main door when it's open to win!"""
-        if self.main_door.collidepoint(event.pos):
-            gs.text = 'Fuck You Konar.'
+        if self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0:
+            gs.text = "I'm Free..."
             print('you win')
 
     def close_door(self, gs, event):

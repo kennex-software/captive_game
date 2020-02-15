@@ -1,12 +1,12 @@
 #kennex
 
-import sys, pygame, random
+import sys, pygame, random, time
 from pygame.math import Vector2
 import math
+import datetime
 from objects import GameObjects
 import puzzles
 from room import Room
-from text import GameText
 from stable_items import Stable_Items
 from inventory import Inventory
 from PIL import ImageFont
@@ -95,7 +95,7 @@ def update_screen(gs, screen, inventory, room_view, game_objects, stable_item_bl
     screen.fill(gs.bg_color)
     room_view.current_view(gs, screen, stable_item_blocks)
     GameObjects(gs, screen, inventory)
-    GameText(gs, screen)
+    game_status_text(gs, screen)
     if gs.control_panel_on:
         cp.draw_control_panel(gs, screen)
         if cp.selected == 1:
@@ -304,6 +304,31 @@ def round_down(n, decimals=0):
     multiplier = 10 ** decimals
     return math.floor(n * multiplier) / multiplier
 
+def game_status_text(gs, screen):
+    """ Function to display text at the bottom bar of the game """
+
+    # Text box parameters
+    text_box_w = (gs.gw_width - (gs.gw_border * 2))/2
+    text_box_h = (gs.screen_height + gs.gw_height + gs.gw_border*3)/2
+
+    # Text image
+    bottom_text_image = gs.verdana16.render(gs.text, True, gs.white)
+
+    # ONE LINE - Draw text that is only one line
+    bti_rect = bottom_text_image.get_rect(center=(text_box_w, text_box_h))
+
+    # Draw text to screen
+    screen.blit(bottom_text_image, bti_rect)
+
+def game_clock(gs, screen, clock):
+    """Function to display and continuously update the game clock / timer that will be displayed on a channel."""
+    gs.current_time = pygame.time.get_ticks()
+
+def get_game_clock(gs, screen):
+    """ Returns the current value of the game clock"""
+    pygame.time.Clock().tick(60)
+    clock_output = str(datetime.timedelta(seconds = gs.current_time // 1000))
+    return clock_output
 
 
 def print_settings(gs):

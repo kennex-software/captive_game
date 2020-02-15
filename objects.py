@@ -24,7 +24,7 @@ class GameObjects():
         self.text_box = pygame.draw.rect(screen, gs.black, (gs.text_box_x, gs.text_box_y, gs.text_box_w, gs.text_box_h))
                   
         # Clock / Save Area
-        # self.clock_controls = pygame.draw.rect(screen, gs.black, (gs.sidebar_x, gs.clock_box_y, gs.sidebar_w, gs.clock_box_h))
+        #self.clock_controls = pygame.draw.rect(screen, gs.black, (gs.sidebar_x, gs.clock_box_y, gs.sidebar_w, gs.clock_box_h))
         
         # Inventory Window Area
         self.inventory_window = pygame.draw.rect(screen, gs.silver, (gs.sidebar_x, 0, gs.sidebar_w, gs.inventory_h))
@@ -48,4 +48,7 @@ class GameObjects():
         self.text_image = self.viewfont.render(self.strtodisplay, True, gs.black)
         self.text_image_rect = self.text_image.get_rect()
         self.screen.blit(self.text_image, self.text_image_rect)
+
+
+
 

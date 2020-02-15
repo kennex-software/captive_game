@@ -15,17 +15,24 @@ class Settings():
         self.screen_width = 1200
         self.screen_height = 800
         self.bg_color = (107, 126, 156)  # Walls
+
+        # Clock
+        self.current_time = 0
+        self.frame_rate = 60
         
         # Game window Settings
         self.gw_width = self.screen_width * .88  # Default is .88
         self.gw_height = self.screen_height * .90  # Default is .90
         self.gw_border = 5
 
+
         # Fonts
         self.verdana12 = pygame.font.SysFont("Verdana", 12, True)
         self.verdana16 = pygame.font.SysFont("Verdana", 16, True)
         self.verdana18 = pygame.font.SysFont("Verdana", 18, True)
         self.verdana22 = pygame.font.SysFont("Verdana", 22, True)
+        self.verdana40 = pygame.font.SysFont("Verdana", 40, True)
+        self.verdana55 = pygame.font.SysFont("Verdana", 55, True)
 
         self.arial12 = pygame.font.SysFont("Arial", 12, True)
         self.arial16 = pygame.font.SysFont("Arial", 16, True)
@@ -166,8 +173,8 @@ class Settings():
         self.button_input_list = []
 
         # TV Settings
-        self.tv_on = False  # Default = False todo make false
-        self.current_channel = '3'
+        self.tv_on = True  # Default = False todo make false
+        self.current_channel = '9' # Default = '3' todo make '3'
         self.random_channel = None
         self.tv_sound_play_var = 0
         self.safe_on_sound_var = 0
