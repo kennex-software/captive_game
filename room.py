@@ -172,6 +172,7 @@ class Room():
 
         # Trash Can
         self.top_of_can = pygame.Rect(130, 555, 120, 25)
+        self.trash_can_clickbox = pygame.Rect(149, 582, 82, 101)
 
 
 
@@ -215,6 +216,13 @@ class Room():
 
 
 
+    def click_desk_wall_outlet(self, gs, event):
+        if self.desk_wall_outlet.collidepoint(event.pos):
+            gs.text = "It's a wall outlet..."
+
+    def click_window_wall_outlet(self, gs, event):
+        if self.window_wall_outlet.collidepoint(event.pos):
+            gs.text = "It's a wall outlet..."
 
 
     def click_papers(self, gs, event):
@@ -304,10 +312,14 @@ class Room():
 
     def click_hole_in_floor(self, gs, event):
         # function to be able to connect camera cable power cord
-        if self.hole_in_floor.collidepoint(event.pos):
+        if self.hole_in_floor.collidepoint(event.pos) and gs.power_cord_desk_1:
             gs.text = 'The power cord was able to be plugged into this hole!'
             pygame.mixer.Sound.play(light_sound)
             gs.power_cord_desk_2 = True
+        elif self.hole_in_floor.collidepoint(event.pos) and gs.power_cord_desk_2:
+            gs.text = 'The power cord is plugged in. What does it do?'
+        elif self.hole_in_floor.collidepoint(event.pos) and not gs.power_cord_desk_1:
+            gs.text = "There seems to be a hole in the floor here..."
 
 
 
@@ -616,7 +628,7 @@ class Room():
         self.light_switch = pygame.Rect(650, 325, 30, 40)
                 
         if gs.lights_on == False:
-        
+
             screen.fill(gs.black)
             # Light Switch
             pygame.draw.rect(screen, gs.yellowish, self.light_switch)
@@ -703,6 +715,7 @@ class Room():
             # Trash Can
 
             bottom_of_can = pygame.Rect(0, 675, 90, 25)
+
             bottom_of_can.centerx = self.top_of_can.centerx
 
             pygame.draw.ellipse(screen, gs.dark_gray, (bottom_of_can.x - 18, bottom_of_can.y + 2, bottom_of_can.width, bottom_of_can.height))
@@ -742,7 +755,7 @@ class Room():
         pygame.draw.polygon(screen, gs.black, ((168, 420), (84, 474), (84, 670), (275, 670), (323, 600), (323, 515), (638, 515), (638, 600), (678, 670), (690, 670), (690, 474), (657, 420)), 3)
         
 
-        
+
         pygame.draw.line(screen, gs.black, (275, 670), (275, 515), 3)
         pygame.draw.line(screen, gs.black, (275, 515), (678, 515), 3)
         pygame.draw.line(screen, gs.black, (678, 515), (678, 670), 3)
@@ -782,7 +795,6 @@ class Room():
             pygame.draw.ellipse(screen, gs.dark_gray, (214, 635, 8, 4))
 
             gs.desk_drawer_removed = True
-            gs.text = 'I was able to remove this drawer and there is something down here!'
 
 
             # Draw Green Key
@@ -1097,6 +1109,8 @@ class Room():
             gs.text = 'I opened the door!'
             pygame.mixer.Sound.play(door_open_sound)
             gs.door_opened = True
+        elif self.door_handle_rect.collidepoint(event.pos) or self.main_door.collidepoint(event.pos) and gs.door_locked == True and not gs.door_opened:
+            gs.text = 'The door is locked...'
 
     def win_game(self, gs, event):
         """Click the main door when it's open to win!"""
@@ -1213,14 +1227,15 @@ class Room():
                         pygame.mixer.Sound.play(drawer_open_sound)
                         gs.dd3_open_attempts += 1
                         gs.dd3_opened = True
+
                     else:
                         gs.text = 'This drawer is locked.'
             else:
                 if desk_drawer3.collidepoint(event.pos) and not desk_drawer2_opened.collidepoint(event.pos):
                     if gs.dd3_locked == False:
-                        pygame.mixer.Sound.play(drawer_open_sound)
-                        gs.dd3_opened = True
-                        gs.dd3_open_attempts += 1
+                            pygame.mixer.Sound.play(drawer_open_sound)
+                            gs.dd3_opened = True
+                            gs.dd3_open_attempts += 1
                     else:
                         gs.text = 'This drawer is locked.'
 
@@ -1265,7 +1280,29 @@ class Room():
             gs.lights_on = not gs.lights_on
             gs.current_tv_screen_color = gs.tv_screen
             gs.tv_on = False
-            gs.text = 'The light turned off and the TV turned off... Weird...'
+            if not gs.lights_on and gs.tv_on:
+                gs.text = 'The light turned off and the TV turned off... Weird...'
+            elif not gs.lights_on:
+                gs.text = 'The light turned off...'
+            elif gs.lights_on:
+                gs.text = "Now we have light!"
+
+    def click_tv(self, gs, event):
+        if gs.current_room_view == 0:
+            if self.partial_tv_screen_glass.collidepoint(event.pos) and not gs.tv_on:
+                gs.text = "It's a TV. I need to turn it on..."
+            elif self.partial_tv_screen_glass.collidepoint(event.pos) and gs.tv_on:
+                gs.text = 'The TV is on.'
+        if gs.current_room_view == 1:
+            if self.tv_screen_glass.collidepoint(event.pos) and not gs.tv_on:
+                gs.text = "It's a TV. I need to turn it on..."
+            elif self.tv_screen_glass.collidepoint(event.pos) and gs.tv_on:
+                gs.text = 'The TV is on.'
+
+    def click_trash_can(self, gs, event):
+        if self.trash_can_clickbox.collidepoint(event.pos):
+            gs.text = "It's a trash can..."
+
 
     def find_stable_item_opened(self, gs, screen, stable_item_blocks):
         # Use this area to open all of the stable items in all views

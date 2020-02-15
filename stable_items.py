@@ -130,6 +130,7 @@ class Stable_Items():
 
         elif gs.current_book == 'blue_book':
             if page == 1:
+                gs.text = 'An interesting diary...'
                 # Page 1 - Pages to a diary
                 if gs.diary_choice == 1:
                     diary = "words1"
@@ -169,6 +170,7 @@ class Stable_Items():
 
             # Page 2 - Two Math Problems (Problems A and B)
             elif page == 2:
+                gs.text = 'Some ... Math problems???'
                 problem_a_text = "=ROUNDDOWN(STREETSIGN / SUBJECT * 25 / 10,0)"
                 problem_a_text2 = "alpha safe :  A=0"
                 pra_text_image = gs.arial16.render(problem_a_text, True, gs.black)
@@ -190,6 +192,7 @@ class Stable_Items():
 
             # Page 3 - Puzzle B (see excel file)
             elif page == 3:
+                gs.text = '.......'
                 pub_grid_piece = pygame.Rect(500, 250, 100, 100)
                 pub_grid_piece.centerx = page_area.centerx
                 pub_grid_piece.centery = page_area.centery
@@ -232,6 +235,7 @@ class Stable_Items():
 
             # Page 4 - Colors in random order for Puzzle A based on how they were generated
             elif page == 4:
+                gs.text = 'Colors?'
                 pua_grid_piece = pygame.Rect(500, 250, 150, 30)
 
                 width = 150

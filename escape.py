@@ -28,6 +28,8 @@ def run_game():
     game_objects = GameObjects(gs, screen, inventory)
     cp = Control_Panel(gs, screen)
 
+    gs.text = "Where am I?"
+
 
     while True:
         gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)

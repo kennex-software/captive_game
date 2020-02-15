@@ -30,6 +30,8 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
                         if gs.current_room_view == 0:   # Default View
                             room_view.open_door(gs, event)
+                            room_view.click_tv(gs, event)
+                            room_view.click_trash_can(gs, event)
                             if gs.door_opened:
                                 room_view.close_door(gs, event)
                                 room_view.win_game(gs, event)
@@ -38,19 +40,22 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
                         if gs.current_room_view == -1:  # Left from default
                             room_view.open_drawers(gs, screen, game_objects, event) # See open drawers for click events
+                            room_view.click_desk_wall_outlet(gs, event)
                             if gs.power_cord_desk_1 and not gs.power_cord_desk_2:
                                 room_view.pick_power_cord_desk(gs, event)
                             if gs.desk_drawer_removed and not gs.green_key_found:
                                 room_view.click_green_key(gs, event)
-                            if gs.desk_drawer_removed and gs.power_cord_desk_1:
+                            if gs.desk_drawer_removed:
                                 room_view.click_hole_in_floor(gs, event)
 
-                        if gs.current_room_view == 1:  # Right from default
+                        if gs.current_room_view == 1:  # Right from default // View with TV
+                            room_view.click_tv(gs, event)
                             if gs.room_view_drill_down == 1:
                                 if not gs.remote_found: # Function to click remote when it's not found
                                     room_view.click_remote(gs, event)
 
                         if gs.current_room_view < -1 or gs.current_room_view > 1:  # Fourth wall
+                            room_view.click_window_wall_outlet(gs, event)
                             if gs.power_cord_window_1 and gs.room_view_drill_down == 0:
                                 room_view.pick_power_cord_window(gs, event)
                             if not gs.shirt_found and gs.room_view_drill_down == 0:
