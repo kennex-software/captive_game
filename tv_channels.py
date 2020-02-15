@@ -23,6 +23,7 @@ gnarski_logo = pygame.image.load(i_gnarski_logo)
 
 # Sounds
 safe_init_sound = pygame.mixer.Sound('sounds/safe_init.wav')
+safe_on_sound = pygame.mixer.Sound('sounds/safe_on.wav')
 
 
 clock = pygame.time.Clock()
@@ -119,6 +120,9 @@ def safe_turned_on(gs, screen, x, y, h, w):
     text_rect = None
 
     if gs.safe_uncovered:
+        while gs.safe_on_sound_var == 0:
+            pygame.mixer.Sound.play(safe_on_sound)
+            gs.safe_on_sound_var = 1
         gs.current_tv_screen_color = gs.good_green
         text_image = gs.arial60.render('SAFE ON', True, gs.black)
         text_rect = text_image.get_rect(center = tv_rect.center)

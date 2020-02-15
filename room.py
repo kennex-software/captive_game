@@ -51,7 +51,16 @@ door_open_sound = pygame.mixer.Sound('sounds/door_open.wav')
 door_close_sound = pygame.mixer.Sound('sounds/door_close.wav')
 paper_found_sound = pygame.mixer.Sound('sounds/pick_paper.wav')
 book_found_sound = pygame.mixer.Sound('sounds/pick_book.wav')
-clickable_item_seen = pygame.mixer.Sound('sounds/pickable_item_seen.wav')
+input_battery_sound = pygame.mixer.Sound('sounds/input_battery.wav')
+battery_found_sound = pygame.mixer.Sound('sounds/battery_found.wav')
+drawer_open_sound = pygame.mixer.Sound('sounds/drawer_open.wav')
+drawer_close_sound = pygame.mixer.Sound('sounds/drawer_close.wav')
+file_cabinet_open_sound = pygame.mixer.Sound('sounds/file_cabinet_open.wav')
+file_cabinet_close_sound = pygame.mixer.Sound('sounds/file_cabinet_close.wav')
+item_picked = pygame.mixer.Sound('sounds/item_picked.wav')
+light_sound = pygame.mixer.Sound('sounds/light_switch.wav')
+shirt_sound = pygame.mixer.Sound('sounds/pick_shirt.wav')
+safe_door = pygame.mixer.Sound('sounds/safe_door.wav')
 
 
 
@@ -212,13 +221,13 @@ class Room():
     def click_shirt(self, gs, event):
         # function to be able to pick up the shirt item
         if self.shirt_surface.collidepoint(event.pos):
-            print('shirt found')
+            pygame.mixer.Sound.play(shirt_sound)
             gs.shirt_found = True
 
     def click_flathead(self, gs, event):
         # function to be able to pick up the flathead item
         if self.flathead_clicker.collidepoint(event.pos):
-            print('flathead found')
+            pygame.mixer.Sound.play(item_picked)
             gs.screwdriver_found = True
             gs.moveable_items_index_list.append(6)
 
@@ -244,14 +253,14 @@ class Room():
     def click_power_cord(self, gs, event):
         # function to be able to pick up the power cord item
         if self.laying_power_cord_scaled_rect.collidepoint(event.pos):
-            print('power cord found')
+            pygame.mixer.Sound.play(item_picked)
             gs.power_cord_found = True
             gs.moveable_items_index_list.append(5)
 
     def pick_power_cord_desk(self, gs, event):
         # function to be able to pick up plugged power cord
         if self.power_cord_1_clicker.collidepoint(event.pos):
-            print('power cord picked up')
+            pygame.mixer.Sound.play(item_picked)
             gs.power_cord_used = False
             gs.power_cord_desk_1 = False
             gs.moveable_items_index_list.append(5)
@@ -259,7 +268,7 @@ class Room():
     def pick_power_cord_window(self, gs, event):
         # function to be able to pick up plugged power cord
         if self.power_cord_window_clicker.collidepoint(event.pos):
-            print('power cord picked up')
+            pygame.mixer.Sound.play(item_picked)
             gs.power_cord_used = False
             gs.power_cord_window_1 = False
             gs.moveable_items_index_list.append(5)
@@ -267,20 +276,20 @@ class Room():
     def click_batteries(self, gs, event):
         # function to be able to pick up the batteries item
         if self.battery_clicker.collidepoint(event.pos):
+            pygame.mixer.Sound.play(battery_found_sound)
             gs.batteries_found = True
-            print('batteries found')
             gs.moveable_items_index_list.append(4)
 
     def click_remote(self, gs, event):
         # function to be able to pick up the remote item
         if self.remote_clicker.collidepoint(event.pos):
-            print('remote found')
+            pygame.mixer.Sound.play(item_picked)
             gs.remote_found = True
 
     def click_hole_in_floor(self, gs, event):
         # function to be able to connect camera cable power cord
         if self.hole_in_floor.collidepoint(event.pos):
-            print('camera connected')
+            pygame.mixer.Sound.play(light_sound)
             gs.power_cord_desk_2 = True
 
 
@@ -312,9 +321,6 @@ class Room():
 
         # Draw Remote
         if not gs.remote_found:
-            while gs.remote_sound and gs.play_found_sound:
-                pygame.mixer.Sound.play(clickable_item_seen)
-                gs.remote_sound = False
             self.remote_clicker = gf.draw_item_to_screen(gs, screen, laying_remote, 4.5, 380, 493)
 
 
@@ -364,9 +370,6 @@ class Room():
 
                 # Draw Door Key
                 if not gs.door_key_found:
-                    while gs.door_key_sound and gs.play_found_sound:
-                        pygame.mixer.Sound.play(clickable_item_seen)
-                        gs.door_key_sound = False
                     #screen.blit(pygame.transform.smoothscale(door_key_rotated, (int(self.door_key_rotated_full_rect[2] / 6), int(self.door_key_rotated_full_rect[3] / 6))), self.door_key_rotated_rect)
                     #pygame.draw.rect(screen, gs.yellow, self.door_key_rotated_rect, 3) # todo comment this out
                     self.door_key_clicker = gf.draw_item_to_screen(gs, screen, door_key_rotated, 6, 521, 335)
@@ -455,9 +458,6 @@ class Room():
 
         # Draw Papers
         if not gs.papers_found:
-            while gs.papers_sound and gs.play_found_sound:
-                pygame.mixer.Sound.play(clickable_item_seen)
-                gs.papers_sound = False
             #screen.blit(pygame.transform.smoothscale(laying_paper, (int(self.laying_paper_full_rect[2] / 2), int(self.laying_paper_full_rect[3] / 2))), self.laying_paper_rect)
             #pygame.draw.rect(screen, gs.black, self.laying_paper_rect, 3) # todo comment this out
             self.laying_paper_clicker = gf.draw_item_to_screen(gs, screen, laying_paper, 2, 380, 475)
@@ -474,6 +474,7 @@ class Room():
                 # todo update the '1''s for all items to make them correct for the game
                 if gs.safe_initialized == True and gs.color_number_1 == gs.tv_color_numbers[0] and gs.color_number_2 == gs.tv_color_numbers[1] and gs.safe_combo_n1 == gs.safe_combo[0] and gs.safe_combo_n2 == gs.safe_combo[1] and gs.safe_combo_n3 == gs.safe_combo[2] and gs.safe_combo_n4 == gs.safe_combo[3] and gs.safe_combo_a1 == gs.safe_alpha_pra_answer and self.safe_handle.collidepoint(event.pos):
                     print('handle clicked')
+                    pygame.mixer.Sound.play(safe_door)
                     gs.safe_opened = True
                 if gs.safe_opened == True:
                     if not gs.door_key_found:
@@ -482,6 +483,7 @@ class Room():
                             gs.door_key_found = True
                             gs.moveable_items_index_list.append(0)
                     if gf.check_inside_clickbox(self, self.safe_door, ((event.pos), (0, 0))):
+                        pygame.mixer.Sound.play(safe_door)
                         gs.safe_opened = False
                 else:
                     # Number Button 1
@@ -593,9 +595,6 @@ class Room():
         # Draw Laying Power Cord
         if not gs.power_cord_found:
             screen.blit(self.laying_power_cord_scaled, self.laying_power_cord_scaled_rect)
-            while gs.power_cord_sound and gs.play_found_sound:
-                pygame.mixer.Sound.play(clickable_item_seen)
-                gs.power_cord_sound = False
             #pygame.draw.rect(screen, gs.yellow, self.laying_power_cord_scaled_rect, 3)
 
         # Required in all views if items are opened during the view.
@@ -760,9 +759,6 @@ class Room():
             #self.green_key_rotated_rect = green_key_rotated.get_rect()
             #screen.blit(pygame.transform.smoothscale(green_key_rotated, (int(self.green_key_rotated_rect[2]/22), int(self.green_key_rotated_rect[3]/22))), self.green_key_rotated_surface)
             if not gs.green_key_found:
-                while gs.green_key_sound and gs.play_found_sound:
-                    pygame.mixer.Sound.play(clickable_item_seen)
-                    gs.green_key_sound = False
                 self.green_key_clicker = gf.draw_item_to_screen(gs, screen, green_key_rotated, 22, 148, 630)
 
         # Wall Outlet
@@ -799,9 +795,6 @@ class Room():
 
             # Draw Batteries
             if not gs.batteries_found:
-                while gs.batteries_sound and gs.play_found_sound:
-                    pygame.mixer.Sound.play(clickable_item_seen)
-                    gs.batteries_sound = False
                 self.battery_clicker = gf.draw_item_to_screen(gs, screen, rotated_batteries, 13, 174, 588)
             
         else:
@@ -831,9 +824,6 @@ class Room():
             #screen.blit(pygame.transform.smoothscale(flathead, (int(self.flathead_full_rect[2] / 4), int(self.flathead_full_rect[3] / 4))), self.flathead_rect)
             #pygame.draw.rect(screen, gs.yellow, self.flathead_rect, 3)
             if not gs.screwdriver_found:
-                while gs.screwdriver_sound and gs.play_found_sound:
-                    pygame.mixer.Sound.play(clickable_item_seen)
-                    gs.screwdriver_sound = False
                 self.flathead_clicker = gf.draw_item_to_screen(gs, screen, flathead, 4, 125, 528)
 
 
@@ -868,9 +858,6 @@ class Room():
             #self.blue_book_rotated_rect = blue_book_rotated.get_rect()
             #screen.blit(pygame.transform.smoothscale(blue_book_rotated, (int(self.blue_book_rotated_rect[2]/5), int(self.blue_book_rotated_rect[3]/5))), self.blue_book_rotated_surface)
             if not gs.blue_book_found:
-                while gs.blue_book_sound and gs.play_found_sound:
-                    pygame.mixer.Sound.play(clickable_item_seen)
-                    gs.blue_book_sound = False
                 self.blue_book_clicker = gf.draw_item_to_screen(gs, screen, blue_book_rotated, 5, 728, 598)
 
 
@@ -909,9 +896,6 @@ class Room():
             #self.red_book_rotated_rect = red_book_rotated.get_rect()
             #screen.blit(pygame.transform.smoothscale(red_book_rotated, (int(self.red_book_rotated_rect[2]/5), int(self.red_book_rotated_rect[3]/5))), self.red_book_rotated_surface)
             if not gs.red_book_found:
-                while gs.red_book_sound and gs.play_found_sound:
-                    pygame.mixer.Sound.play(clickable_item_seen)
-                    gs.red_book_sound = False
                 self.red_book_clicker = gf.draw_item_to_screen(gs, screen, red_book_rotated, 5, 728, 500)
 
             pygame.draw.rect(screen, gs.file_cabinet, fcdo1)
@@ -1041,9 +1025,6 @@ class Room():
 
         # Shirt in Closet
         if not gs.shirt_found:
-            while gs.shirt_sound and gs.play_found_sound:
-                pygame.mixer.Sound.play(clickable_item_seen)
-                gs.shirt_sound = False
             screen.blit(pygame.transform.smoothscale(hanging_shirt, (150, 235)), self.shirt_surface)
 
 
@@ -1162,18 +1143,21 @@ class Room():
             if gs.fcd1_opened == False:
                 if fcd2.collidepoint(event.pos):
                     if gs.fcd2_locked == False:
+                        pygame.mixer.Sound.play(file_cabinet_open_sound)
                         gs.fcd2_opened = True
                     else:
                         print('FCD2 LOCKED')
             else:
                 if fcd2.collidepoint(event.pos) and not fcdo1.collidepoint(event.pos):
                     if gs.fcd2_locked == False:
+                        pygame.mixer.Sound.play(file_cabinet_open_sound)
                         gs.fcd2_opened = True
                     else:
                         print('FCD2 LOCKED')
 
         elif gs.fcd2_opened:
             if fcdo2.collidepoint(event.pos):
+                pygame.mixer.Sound.play(file_cabinet_close_sound)
                 gs.fcd2_opened = False
             if not gs.blue_book_found and gs.fcd1_opened == False:
                 self.click_blue_book(gs, event)
@@ -1181,9 +1165,11 @@ class Room():
         
         if gs.fcd1_opened == False:
             if fcd1.collidepoint(event.pos):
+                pygame.mixer.Sound.play(file_cabinet_open_sound)
                 gs.fcd1_opened = True
         elif gs.fcd1_opened:
             if fcdo1.collidepoint(event.pos):
+                pygame.mixer.Sound.play(file_cabinet_close_sound)
                 gs.fcd1_opened = False
             if not gs.red_book_found:
                 self.click_red_book(gs, event)
@@ -1193,6 +1179,7 @@ class Room():
             if gs.dd2_opened == False:
                 if desk_drawer3.collidepoint(event.pos):
                     if gs.dd3_locked == False:
+                        pygame.mixer.Sound.play(drawer_open_sound)
                         gs.dd3_open_attempts += 1
                         gs.dd3_opened = True
                     else:
@@ -1200,6 +1187,7 @@ class Room():
             else:
                 if desk_drawer3.collidepoint(event.pos) and not desk_drawer2_opened.collidepoint(event.pos):
                     if gs.dd3_locked == False:
+                        pygame.mixer.Sound.play(drawer_open_sound)
                         gs.dd3_opened = True
                         gs.dd3_open_attempts += 1
                     else:
@@ -1207,17 +1195,21 @@ class Room():
 
         elif gs.dd3_opened == True:
             if desk_drawer3_opened.collidepoint(event.pos):
+                pygame.mixer.Sound.play(drawer_close_sound)
                 gs.dd3_opened = False
                 
         if gs.dd2_opened == False:
             if gs.dd1_opened == False:
                 if desk_drawer2.collidepoint(event.pos):
+                    pygame.mixer.Sound.play(drawer_open_sound)
                     gs.dd2_opened = True
             else:
                 if desk_drawer2.collidepoint(event.pos) and not desk_drawer1_opened.collidepoint(event.pos):
+                    pygame.mixer.Sound.play(drawer_open_sound)
                     gs.dd2_opened = True
         elif gs.dd2_opened == True:
             if desk_drawer2_opened.collidepoint(event.pos):
+                pygame.mixer.Sound.play(drawer_close_sound)
                 gs.dd2_opened = False
             if not gs.batteries_found:
                 self.click_batteries(gs, event) # will add batteries to inventory
@@ -1225,17 +1217,20 @@ class Room():
         if gs.dd1_opened == False:
             if desk_drawer1.collidepoint(event.pos):
                 if gs.dd1_locked == False:
+                    pygame.mixer.Sound.play(drawer_open_sound)
                     gs.dd1_opened = True
                 else:
                     print('DD1 LOCKED') # todo state locked to user
         elif gs.dd1_opened == True:
             if desk_drawer1_opened.collidepoint(event.pos):
+                pygame.mixer.Sound.play(drawer_close_sound)
                 gs.dd1_opened = False
             if not gs.screwdriver_found:
                 self.click_flathead(gs, event) # will add flathead to inventory
 
     def switch_light(self, gs, event):
         if self.light_switch.collidepoint(event.pos) and gs.room_view_drill_down == 0:
+            pygame.mixer.Sound.play(light_sound)
             gs.lights_on = not gs.lights_on
             gs.current_tv_screen_color = gs.tv_screen
             gs.tv_on = False
@@ -1296,6 +1291,7 @@ class Room():
 
         # Batteries
         if gs.selected_item_index == 4 and gs.remote_found and inventory.inv_items_stable[0].collidepoint(gs.selected_item.center):
+            pygame.mixer.Sound.play(input_battery_sound)
             gs.batteries_input = True
             gs.batteries_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
@@ -1303,6 +1299,7 @@ class Room():
 
         # Power Cord - Desk Outlet
         if gs.selected_item_index == 5 and self.desk_wall_outlet.collidepoint(gs.selected_item.center):
+            pygame.mixer.Sound.play(light_sound)
             gs.power_cord_desk_1 = True
             gs.power_cord_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
@@ -1310,6 +1307,7 @@ class Room():
 
         # Power Cord - Window Outlet
         if gs.selected_item_index == 5 and self.window_wall_outlet.collidepoint(gs.selected_item.center):
+            pygame.mixer.Sound.play(light_sound)
             gs.power_cord_window_1 = True
             gs.power_cord_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
@@ -1317,6 +1315,7 @@ class Room():
 
         # Screwdriver / Flathead
         if gs.selected_item_index == 6 and self.safe_cover.collidepoint(gs.selected_item.center):
+            pygame.mixer.Sound.play(safe_door)
             gs.safe_uncovered = True
             gs.screwdriver_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)

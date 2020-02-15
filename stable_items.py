@@ -26,7 +26,6 @@ enlarged_papers_top3 = pygame.image.load(i_enlarged_papers_top3)
 key_sound = pygame.mixer.Sound('sounds/key_jingle.wav')
 flip_page_sound = pygame.mixer.Sound('sounds/flip_page.wav')
 safe_init_sound = pygame.mixer.Sound('sounds/safe_init.wav')
-clickable_item_seen = pygame.mixer.Sound('sounds/pickable_item_seen.wav')
 
 
 class Stable_Items():
@@ -123,9 +122,6 @@ class Stable_Items():
                 width = inventory.red_key_taped.get_width() // 3
                 height = inventory.red_key_taped.get_height() // 3
                 if not gs.red_key_found:
-                    while gs.red_key_sound and gs.play_found_sound:
-                        pygame.mixer.Sound.play(clickable_item_seen)
-                        gs.red_key_sound = False
                     screen.blit(pygame.transform.smoothscale(inventory.red_key_taped, (width, height)), (540, 380))
                     # pygame.draw.polygon(screen, gs.yellow, self.red_key_clickbox, 1) # todo comment this out
                 else:

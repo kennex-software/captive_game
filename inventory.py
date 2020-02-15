@@ -47,6 +47,7 @@ sur_inv_desk_drawer.fill((254, 254, 254, 0))
 # Load Sounds
 key_sound = pygame.mixer.Sound('sounds/key_jingle.wav')
 flip_page_sound = pygame.mixer.Sound('sounds/flip_page.wav')
+shirt_sound = pygame.mixer.Sound('sounds/pick_shirt.wav')
 
 
 
@@ -243,6 +244,7 @@ class Inventory():
                 if index == 4 and gs.shirt_found:
                     gs.stable_item_opened = True  # Turns on stable items.  User cannot move in view until item is closed.
                     gs.shirt_opened = not gs.shirt_opened
+                    pygame.mixer.Sound.play(shirt_sound)
                 if index == 5 and gs.desk_drawer_removed:
                     gs.stable_item_opened = True  # Turns on stable items.  User cannot move in view until item is closed.
                     gs.desk_drawer_up = not gs.desk_drawer_up
