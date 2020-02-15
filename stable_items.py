@@ -41,6 +41,7 @@ class Stable_Items():
         if gs.current_book == 'red_book':
             # Page 1
             if page == 1:
+                gs.text = None
                 channels = ['', # todo update channels accordingly
                         'Press Button on Remote',
                         'To go to a Channel',
@@ -126,9 +127,6 @@ class Stable_Items():
                     # pygame.draw.polygon(screen, gs.yellow, self.red_key_clickbox, 1) # todo comment this out
                 else:
                     screen.blit(pygame.transform.smoothscale(inventory.ripped_tape, (width // 2, height)), (540, 380))
-
-
-                # todo figure out how to turn this into a clickbox and select the key
 
         elif gs.current_book == 'blue_book':
             if page == 1:
@@ -274,7 +272,7 @@ class Stable_Items():
             pygame.mixer.Sound.play(key_sound)
             gs.purple_key_found = True
             gs.moveable_items_index_list.append(2)
-            print('found purple key') # todo comment out later
+            gs.text = 'I found a purple key!'
 
     def pull_up_desk_drawer(self, gs, screen):
         # Pull up drawer
@@ -384,6 +382,7 @@ class Stable_Items():
         """Function to change the pages in the manuals"""
         if self.manual_pages.collidepoint(event.pos):
             if gs.current_book == 'red_book' and gs.current_page == 4 and not gs.red_key_found and gf.check_inside_clickbox(self, self.red_key_clickbox, ((event.pos), (0, 0))):
+                gs.text = 'Hey! A red key! What does it go to?'
                 pygame.mixer.Sound.play(key_sound)
                 gs.red_key_found = True
                 gs.moveable_items_index_list.append(1)
@@ -456,7 +455,7 @@ class Stable_Items():
                 gs.close_remote = False
                 gs.button_input_list.clear()
         else:
-            print("Need to be on TV view")
+            gs.text = 'I need to point the remote at the TV...'
             gs.remote_opened = False
             gs.stable_item_opened = False
 
@@ -479,7 +478,7 @@ class Stable_Items():
                                 pygame.mixer.Sound.play(safe_init_sound)
                             gs.tv_on = True
 
-                            print('tv on')
+                            gs.text = 'I turned on the TV.'
                     elif gs.tv_on:
                         if box_index == 0:  # Volume Up todo figure out how sounds work in pygame
                             pass
@@ -530,10 +529,10 @@ class Stable_Items():
                             gs.tv_on = False
                             gs.current_tv_screen_color = gs.tv_screen
                             gs.safe_initialized = False
-                            print('tv off')
+                            gs.text = 'I turned off the TV.'
 
         else:
-            print('tv off')
+            gs.text = "The remote isn't working right now..."
 
         # Closes remote if anywhere is clicked but the remote
         if gs.remote_opened == True and not self.remote_rect.collidepoint(event.pos):
@@ -581,6 +580,7 @@ class Stable_Items():
         #self.papers_page3_clickbox = pygame.draw.polygon(screen, gs.clickboxcolor, papers_page3_list, 1)
 
         if gs.current_paper_in_view == 1:
+            gs.text = 'What does this stuff mean?'
             # Code to Scale and Draw All Pages
             sdx = gs.gw_width // 2
             sdy = gs.gw_height // 2
@@ -611,6 +611,7 @@ class Stable_Items():
                 angle += 6
 
         if gs.current_paper_in_view == 2:
+            gs.text = 'Is this a puzzle?'
             # Code to Scale and Draw All Pages
             sdx = gs.gw_width // 2
             sdy = gs.gw_height // 2
@@ -620,7 +621,7 @@ class Stable_Items():
             board = puzzles.get_board(gs, screen, 10, gs.pua_double_digits)
 
         if gs.current_paper_in_view == 3:
-
+            gs.text = 'What?'
             # Code to Scale and Draw All Pages
             sdx = gs.gw_width // 2
             sdy = gs.gw_height // 2

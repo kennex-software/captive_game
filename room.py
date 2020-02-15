@@ -1,6 +1,6 @@
 #kennex
 
-import os, pygame, sys, copy
+import os, pygame, sys, copy, datetime
 from settings import Settings
 import gf
 import inventory
@@ -11,6 +11,8 @@ from math import pi
 from pygame.math import Vector2
 from pygame.math import Vector3
 #from noise import pnoise2
+from time import monotonic as timer
+import time
 import tv_channels
 import numpy as np
 
@@ -218,18 +220,21 @@ class Room():
     def click_papers(self, gs, event):
         # function to be able to pick up the papers item
         if self.laying_paper_clicker.collidepoint(event.pos):
+            gs.text = 'Papers with writing on them!'
             pygame.mixer.Sound.play(paper_found_sound)
             gs.papers_found = True
 
     def click_shirt(self, gs, event):
         # function to be able to pick up the shirt item
         if self.shirt_surface.collidepoint(event.pos):
+            gs.text = "If I get out of here, I'm wearing this shirt!"
             pygame.mixer.Sound.play(shirt_sound)
             gs.shirt_found = True
 
     def click_flathead(self, gs, event):
         # function to be able to pick up the flathead item
         if self.flathead_clicker.collidepoint(event.pos):
+            gs.text = 'A normal screwdriver!'
             pygame.mixer.Sound.play(item_picked)
             gs.screwdriver_found = True
             gs.moveable_items_index_list.append(6)
@@ -237,18 +242,21 @@ class Room():
     def click_red_book(self, gs, event):
         # function to be able to pick up the red book item
         if self.red_book_clicker.collidepoint(event.pos) and not fcdo1.collidepoint(event.pos):
+            gs.text = "A red book! What's inside?"
             pygame.mixer.Sound.play(book_found_sound)
             gs.red_book_found = True
 
     def click_blue_book(self, gs, event):
         # function to be able to pick up the blue book item
         if self.blue_book_clicker.collidepoint(event.pos) and not fcdo2.collidepoint(event.pos):
+            gs.text = 'Wow! A blue book was in this drawer!'
             pygame.mixer.Sound.play(book_found_sound)
             gs.blue_book_found = True
 
     def click_green_key(self, gs, event):
         # function to be able to pick up the green key item
         if self.green_key_clicker.collidepoint(event.pos):
+            gs.text = 'I found a green key!'
             pygame.mixer.Sound.play(key_sound)
             gs.green_key_found = True
             gs.moveable_items_index_list.append(3)
@@ -256,6 +264,7 @@ class Room():
     def click_power_cord(self, gs, event):
         # function to be able to pick up the power cord item
         if self.laying_power_cord_scaled_rect.collidepoint(event.pos):
+            gs.text = 'A power cord! What can this be used for?'
             pygame.mixer.Sound.play(item_picked)
             gs.power_cord_found = True
             gs.moveable_items_index_list.append(5)
@@ -263,6 +272,7 @@ class Room():
     def pick_power_cord_desk(self, gs, event):
         # function to be able to pick up plugged power cord
         if self.power_cord_1_clicker.collidepoint(event.pos):
+            gs.text = "Maybe it doesn't go here..."
             pygame.mixer.Sound.play(item_picked)
             gs.power_cord_used = False
             gs.power_cord_desk_1 = False
@@ -271,6 +281,7 @@ class Room():
     def pick_power_cord_window(self, gs, event):
         # function to be able to pick up plugged power cord
         if self.power_cord_window_clicker.collidepoint(event.pos):
+            gs.text = "Maybe it doesn't go here..."
             pygame.mixer.Sound.play(item_picked)
             gs.power_cord_used = False
             gs.power_cord_window_1 = False
@@ -279,6 +290,7 @@ class Room():
     def click_batteries(self, gs, event):
         # function to be able to pick up the batteries item
         if self.battery_clicker.collidepoint(event.pos):
+            gs.text = 'Batteries! What can these be for?'
             pygame.mixer.Sound.play(battery_found_sound)
             gs.batteries_found = True
             gs.moveable_items_index_list.append(4)
@@ -286,12 +298,14 @@ class Room():
     def click_remote(self, gs, event):
         # function to be able to pick up the remote item
         if self.remote_clicker.collidepoint(event.pos):
+            gs.text = 'A remote!  I can probably use this on the TV...'
             pygame.mixer.Sound.play(item_picked)
             gs.remote_found = True
 
     def click_hole_in_floor(self, gs, event):
         # function to be able to connect camera cable power cord
         if self.hole_in_floor.collidepoint(event.pos):
+            gs.text = 'The power cord was able to be plugged into this hole!'
             pygame.mixer.Sound.play(light_sound)
             gs.power_cord_desk_2 = True
 
@@ -474,15 +488,15 @@ class Room():
         if gs.safe_uncovered:
             if gs.safe_on:
                 # This code will open the safe if all the conditions are met
-                # todo update the '1''s for all items to make them correct for the game
                 if gs.safe_initialized == True and gs.color_number_1 == gs.tv_color_numbers[0] and gs.color_number_2 == gs.tv_color_numbers[1] and gs.safe_combo_n1 == gs.safe_combo[0] and gs.safe_combo_n2 == gs.safe_combo[1] and gs.safe_combo_n3 == gs.safe_combo[2] and gs.safe_combo_n4 == gs.safe_combo[3] and gs.safe_combo_a1 == gs.safe_alpha_pra_answer and self.safe_handle.collidepoint(event.pos):
-                    print('handle clicked')
                     pygame.mixer.Sound.play(safe_door)
                     gs.safe_opened = True
                 if gs.safe_opened == True:
+                    gs.text = 'WOW! I opened the safe!'
                     if not gs.door_key_found:
                         if self.door_key_clicker.collidepoint(event.pos):
                             pygame.mixer.Sound.play(key_sound)
+                            gs.text = 'I found a gold key!'
                             gs.door_key_found = True
                             gs.moveable_items_index_list.append(0)
                     if gf.check_inside_clickbox(self, self.safe_door, ((event.pos), (0, 0))):
@@ -568,17 +582,11 @@ class Room():
         if gs.stable_item_opened:
             self.find_stable_item_opened(gs, screen, stable_item_blocks)
         
-    def room_view_four_2_1(self, gs, screen, stable_item_blocks):  # View of outside window todo figure out what to do outside of the window
+    def room_view_four_2_1(self, gs, screen, stable_item_blocks):  # View of outside window
         screen.fill(gs.white)
         # Clear Screen
         pittsburgh_scaled = gf.aspect_scale_wh(pittsburgh, int(gs.gw_width*1.05), int(gs.gw_height*1.05))
         screen.blit(pittsburgh_scaled, (-10, -10))
-
-        # Required in all views if items are opened during the view.
-        if gs.stable_item_opened:
-            self.find_stable_item_opened(gs, screen, stable_item_blocks)
-        # Window
-        """ Change the code here to whatever needs to happen outside of the window"""
 
         # Required in all views if items are opened during the view.
         if gs.stable_item_opened:
@@ -774,6 +782,8 @@ class Room():
             pygame.draw.ellipse(screen, gs.dark_gray, (214, 635, 8, 4))
 
             gs.desk_drawer_removed = True
+            gs.text = 'I was able to remove this drawer and there is something down here!'
+
 
             # Draw Green Key
             #self.green_key_rotated_surface = pygame.Rect(148, 630, 50, 70)
@@ -788,7 +798,6 @@ class Room():
         pygame.draw.rect(screen, gs.black, (369, 534, 12, 12), 1)
         pygame.draw.rect(screen, gs.black, (369, 552, 12, 12), 1)
 
-        # todo power cords
         if gs.power_cord_desk_1:
             self.power_cord_1_clicker = gf.draw_item_to_screen(gs, screen, power_cord_plugged_1, 3, 361, 548)  # THIS IS GOOD for ROOM VIEW 2
 
@@ -848,8 +857,6 @@ class Room():
                 self.flathead_clicker = gf.draw_item_to_screen(gs, screen, flathead, 4, 125, 528)
 
 
-            # todo click flathead
-
         else:
             pygame.draw.rect(screen, gs.black, desk_drawer1, 3)
             pygame.draw.circle(screen, gs.silver, (desk_drawer1.center), 7)
@@ -890,10 +897,6 @@ class Room():
             pygame.draw.rect(screen, gs.silver, fcd_handle)
             pygame.draw.rect(screen, gs.black, fcd_handle, 2)
 
-            # todo blue book click
-
-
-            
         else:
             pygame.draw.rect(screen, gs.file_cabinet, fcd2)
             pygame.draw.rect(screen, gs.black, fcd2, 3)
@@ -925,8 +928,6 @@ class Room():
             pygame.draw.rect(screen, gs.silver, fcd_handle)
             pygame.draw.rect(screen, gs.black, fcd_handle, 2)
 
-            # todo red book click
-
         else:
             pygame.draw.rect(screen, gs.file_cabinet, fcd1)
             pygame.draw.rect(screen, gs.black, fcd1, 3)
@@ -940,7 +941,7 @@ class Room():
         if gs.stable_item_opened:
             self.find_stable_item_opened(gs, screen, stable_item_blocks)
     
-    def room_view_three(self, gs, screen, stable_item_blocks):  # View with TV / TV Stand todo need to figure out what to do with the tv
+    def room_view_three(self, gs, screen, stable_item_blocks):  # View with TV / TV Stand
         #Carpet
         pygame.draw.polygon(screen, gs.carpet, ((0, 600), (770, 600), (1050, 738), (0, 738), (0,600)))
         
@@ -1093,6 +1094,7 @@ class Room():
     def open_door(self, gs, event):
         """Unlocks the door to finish / win the game"""
         if self.door_handle_rect.collidepoint(event.pos) and gs.door_locked == False and not gs.door_opened:
+            gs.text = 'I opened the door!'
             pygame.mixer.Sound.play(door_open_sound)
             gs.door_opened = True
 
@@ -1156,9 +1158,11 @@ class Room():
                 if gf.check_inside_clickbox(self, self.clickbox_closet_right, ((event.pos), (0, 0))):
                     gs.room_view_drill_down = 1
                 if self.window.collidepoint(event.pos):
+                    gs.text = 'This window shows something outside...'
                     gs.room_view_drill_down = 2
                     #gs.current_room_view = 4.2
             if self.click_window_int_frame.collidepoint(event.pos) and gs.room_view_drill_down == 2:
+                gs.text = 'It is a city skyline...'
                 gs.room_view_drill_down = 2.1
                 #gs.current_room_view = 4.21
 
@@ -1173,14 +1177,14 @@ class Room():
                         pygame.mixer.Sound.play(file_cabinet_open_sound)
                         gs.fcd2_opened = True
                     else:
-                        print('FCD2 LOCKED')
+                        gs.text = 'This drawer is locked.'
             else:
                 if fcd2.collidepoint(event.pos) and not fcdo1.collidepoint(event.pos):
                     if gs.fcd2_locked == False:
                         pygame.mixer.Sound.play(file_cabinet_open_sound)
                         gs.fcd2_opened = True
                     else:
-                        print('FCD2 LOCKED')
+                        gs.text = 'This drawer is locked.'
 
         elif gs.fcd2_opened:
             if fcdo2.collidepoint(event.pos):
@@ -1210,7 +1214,7 @@ class Room():
                         gs.dd3_open_attempts += 1
                         gs.dd3_opened = True
                     else:
-                        print('DD3 LOCKED')
+                        gs.text = 'This drawer is locked.'
             else:
                 if desk_drawer3.collidepoint(event.pos) and not desk_drawer2_opened.collidepoint(event.pos):
                     if gs.dd3_locked == False:
@@ -1218,7 +1222,7 @@ class Room():
                         gs.dd3_opened = True
                         gs.dd3_open_attempts += 1
                     else:
-                        print('DD3 LOCKED')
+                        gs.text = 'This drawer is locked.'
 
         elif gs.dd3_opened == True:
             if desk_drawer3_opened.collidepoint(event.pos):
@@ -1247,7 +1251,7 @@ class Room():
                     pygame.mixer.Sound.play(drawer_open_sound)
                     gs.dd1_opened = True
                 else:
-                    print('DD1 LOCKED') # todo state locked to user
+                    gs.text = 'This drawer is locked.'
         elif gs.dd1_opened == True:
             if desk_drawer1_opened.collidepoint(event.pos):
                 pygame.mixer.Sound.play(drawer_close_sound)
@@ -1261,6 +1265,7 @@ class Room():
             gs.lights_on = not gs.lights_on
             gs.current_tv_screen_color = gs.tv_screen
             gs.tv_on = False
+            gs.text = 'The light turned off and the TV turned off... Weird...'
 
     def find_stable_item_opened(self, gs, screen, stable_item_blocks):
         # Use this area to open all of the stable items in all views
@@ -1290,7 +1295,9 @@ class Room():
             gs.door_locked = False
             gs.door_key_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
-            print('UNLOCKED DOOR')
+            gs.text = 'The door is unlocked!'
+        #elif gs.selected_item_index == 0 and not self.door_handle_rect.collidepoint(gs.selected_item.center):
+        #    gs.text = "This doesn't go here..."
 
         # Red Key
         if gs.selected_item_index == 1 and desk_drawer3.collidepoint(gs.selected_item.center):
@@ -1298,7 +1305,9 @@ class Room():
             gs.dd3_locked = False
             gs.red_key_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
-            print('UNLOCKED DD3')
+            gs.text = 'The drawer unlocked!'
+        #elif gs.selected_item_index == 1 and not desk_drawer3.collidepoint(gs.selected_item.center):
+        #    gs.text = "This doesn't go here..."
 
         # Purple Key
         if gs.selected_item_index == 2 and fcd2.collidepoint(gs.selected_item.center):
@@ -1306,7 +1315,9 @@ class Room():
             gs.fcd2_locked = False
             gs.purple_key_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
-            print('UNLOCKED DD3')
+            gs.text = 'The drawer unlocked!'
+        #elif gs.selected_item_index == 2 and not fcd2.collidepoint(gs.selected_item.center):
+        #    gs.text = "This doesn't go here..."
 
         # Green Key
         if gs.selected_item_index == 3 and desk_drawer1.collidepoint(gs.selected_item.center):
@@ -1314,7 +1325,9 @@ class Room():
             gs.dd1_locked = False
             gs.green_key_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
-            print('UNLOCKED DD1')
+            gs.text = 'The drawer unlocked!'
+        #elif gs.selected_item_index == 3 and not desk_drawer1.collidepoint(gs.selected_item.center):
+        #    gs.text = "This doesn't go here..."
 
         # Batteries
         if gs.selected_item_index == 4 and gs.remote_found and inventory.inv_items_stable[0].collidepoint(gs.selected_item.center):
@@ -1322,7 +1335,10 @@ class Room():
             gs.batteries_input = True
             gs.batteries_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
-            print('INPUT BATTERIES')
+            gs.text = 'I put the batteries in the remote!'
+
+        #elif gs.selected_item_index == 4 and not inventory.inv_items_stable[0].collidepoint(gs.selected_item.center):
+        #    gs.text = "This doesn't go here..."
 
         # Power Cord - Desk Outlet
         if gs.selected_item_index == 5 and self.desk_wall_outlet.collidepoint(gs.selected_item.center):
@@ -1330,15 +1346,18 @@ class Room():
             gs.power_cord_desk_1 = True
             gs.power_cord_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
-            print('POWER CORD PLACE UNDER DESK')
+            gs.text = 'I plugged in the power cord!'
 
         # Power Cord - Window Outlet
-        if gs.selected_item_index == 5 and self.window_wall_outlet.collidepoint(gs.selected_item.center):
+        elif gs.selected_item_index == 5 and self.window_wall_outlet.collidepoint(gs.selected_item.center):
             pygame.mixer.Sound.play(light_sound)
             gs.power_cord_window_1 = True
             gs.power_cord_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
-            print('POWER CORD PLACE UNDER WINDOW')
+            gs.text = 'I plugged in the power cord!'
+
+        #elif gs.selected_item_index == 5 and not self.desk_wall_outlet.collidepoint(gs.selected_item.center) or not self.window_wall_outlet.collidepoint(gs.selected_item.center):
+        #    gs.text = "This doesn't go here..."
 
         # Screwdriver / Flathead
         if gs.selected_item_index == 6 and self.safe_cover.collidepoint(gs.selected_item.center):
@@ -1346,10 +1365,6 @@ class Room():
             gs.safe_uncovered = True
             gs.screwdriver_used = True
             gs.moveable_items_index_list.remove(gs.selected_item_index)
-            print('REMOVED SAFE COVER')
-
-
-
-
-
-
+            gs.text = 'WOW! There is a safe back here! What is the code?'
+        #elif gs.selected_item_index == 6 and not self.safe_cover.collidepoint(gs.selected_item.center):
+        #    gs.text = "This doesn't go here..."

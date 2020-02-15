@@ -1,11 +1,12 @@
 #kennex
 
-import sys, pygame, random, time
+import sys, pygame, random, time, threading
 from pygame.math import Vector2
 import math
 import datetime
 from objects import GameObjects
 import puzzles
+import sched
 from room import Room
 from stable_items import Stable_Items
 from inventory import Inventory
@@ -95,6 +96,7 @@ def update_screen(gs, screen, inventory, room_view, game_objects, stable_item_bl
     screen.fill(gs.bg_color)
     room_view.current_view(gs, screen, stable_item_blocks)
     GameObjects(gs, screen, inventory)
+
     game_status_text(gs, screen)
     if gs.control_panel_on:
         cp.draw_control_panel(gs, screen)
@@ -310,15 +312,27 @@ def game_status_text(gs, screen):
     # Text box parameters
     text_box_w = (gs.gw_width - (gs.gw_border * 2))/2
     text_box_h = (gs.screen_height + gs.gw_height + gs.gw_border*3)/2
-
     # Text image
     bottom_text_image = gs.verdana16.render(gs.text, True, gs.white)
-
     # ONE LINE - Draw text that is only one line
     bti_rect = bottom_text_image.get_rect(center=(text_box_w, text_box_h))
 
-    # Draw text to screen
     screen.blit(bottom_text_image, bti_rect)
+
+    """if gs.text != None and gs.text_seconds > 0:
+        time_stop = datetime.datetime.now()
+        print(time_stop)
+
+
+
+        
+
+        gs.text_seconds -= 1
+
+    else:
+        gs.text = None
+        gs.text_seconds = gs.default_seconds # will display text for this many iterations, then text will do away
+    """
 
 def game_clock(gs, screen, clock):
     """Function to display and continuously update the game clock / timer that will be displayed on a channel."""

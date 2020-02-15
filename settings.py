@@ -76,6 +76,9 @@ class Settings():
         self.text_box_y = self.gw_height + self.gw_border*3
 
         self.text = None
+        self.current_text = None
+        self.default_seconds = 62
+        self.text_seconds = self.default_seconds
         
         # Colors
         self.white = (255, 255, 255)
@@ -146,7 +149,7 @@ class Settings():
         self.screwdriver_found = False # Default = False
 
         self.power_cord_desk_1 = False # Default = False todo make false
-        self.power_cord_desk_2 = True # Default = False todo make false
+        self.power_cord_desk_2 = False # Default = False todo make false
         self.power_cord_window_1 = False # Default = False todo make false
 
         self.moveable_items_index_list = []
