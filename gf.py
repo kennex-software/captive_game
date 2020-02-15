@@ -31,6 +31,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                             room_view.open_door(gs, event)
                             if gs.door_opened:
                                 room_view.close_door(gs, event)
+                                room_view.win_game(gs, event)
                             if gs.room_view_drill_down == 0.1 and not gs.power_cord_found: # Function to click power cord when it's not found
                                 room_view.click_power_cord(gs, event)
 

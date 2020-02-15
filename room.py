@@ -636,7 +636,7 @@ class Room():
                 pygame.draw.circle(screen, gs.yellow, (243, 398), 15)
                 pygame.draw.circle(screen, gs.black, (243, 398), 16, 2)
 
-                # Draw open door
+                # Draw Open door
                 pygame.draw.rect(screen, gs.white, self.main_door)
 
 
@@ -1092,6 +1092,12 @@ class Room():
             pygame.mixer.Sound.play(door_open_sound)
             gs.door_opened = True
 
+    def win_game(self, gs, event):
+        """Click the main door when it's open to win!"""
+        if self.main_door.collidepoint(event.pos):
+            gs.text = 'Fuck You Konar.'
+            print('you win')
+
     def close_door(self, gs, event):
         """Closes door after it's been opened"""
         if gf.check_inside_clickbox(self, self.opened_door, ((event.pos), (0, 0))):
@@ -1246,7 +1252,7 @@ class Room():
                 self.click_flathead(gs, event) # will add flathead to inventory
 
     def switch_light(self, gs, event):
-        if self.light_switch.collidepoint(event.pos) and gs.room_view_drill_down == 0:
+        if self.light_switch.collidepoint(event.pos) and gs.room_view_drill_down == 0 and not gs.door_opened:
             pygame.mixer.Sound.play(light_sound)
             gs.lights_on = not gs.lights_on
             gs.current_tv_screen_color = gs.tv_screen

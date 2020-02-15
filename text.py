@@ -16,9 +16,9 @@ class GameText():
         self.myfont = pygame.font.SysFont("Verdana", 16)
         
         # Text to display based on the point in the game
-        oneline = 'This text should easily still be centered on the green box'
+        #oneline = 'This text should easily still be centered on the green box'
        
-        self.text_to_display = oneline
+        self.text_to_display = gs.text
         
         # Text box parameters      
         text_box_w = (gs.gw_width - (gs.gw_border * 2))/2

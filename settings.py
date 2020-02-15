@@ -67,6 +67,8 @@ class Settings():
         self.text_box_h = self.screen_height - self.gw_height - (self.gw_border * 3)
         self.text_box_x = 0
         self.text_box_y = self.gw_height + self.gw_border*3
+
+        self.text = None
         
         # Colors
         self.white = (255, 255, 255)
