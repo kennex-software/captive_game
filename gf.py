@@ -61,8 +61,8 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                             if not gs.shirt_found and gs.room_view_drill_down == 0:
                                 room_view.click_shirt(gs, event)
                             if gs.room_view_drill_down == 1:
-                                if gs.safe_uncovered: # Function when safe is uncovered
-                                    room_view.safe_controls(gs, screen, event)
+                                #if gs.safe_uncovered: # Function when safe is uncovered
+                                room_view.safe_controls(gs, screen, event)
                                 if not gs.papers_found: # Function to click papers when they're not found
                                     room_view.click_papers(gs, event)
 

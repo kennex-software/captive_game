@@ -77,6 +77,8 @@ TO DO LIST
 # todo figure out a title
 # todo create a title logo
 # todo create kennex logo
+# todo fix everything that the tv is saying for the text below. everything is currently there no matter what else is clicked in both views
+
 
 
 

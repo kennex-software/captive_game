@@ -85,7 +85,8 @@ def whitespace(surface, x, y, h, w):
 
 def falling_numbers(gs, surface, x, y, h, w):
     #pygame.time.Clock().tick(10)
-    gs.text = 'What was that noise?'
+    if gs.current_room_view == 1:
+        gs.text = 'What was that noise?'
     gs.current_tv_screen_color = gs.white
 
     range_num = 11
@@ -256,7 +257,8 @@ def tv_channels(gs, screen):
     # Channels
 
     if gs.current_channel == str(1):  # Powered by Python
-        gs.text = 'Wow! This whole game was made with Python?'
+        if gs.current_room_view == 1:
+            gs.text = 'Wow! This whole game was made with Python?'
         gs.current_tv_screen_color = gs.white
         if gs.current_room_view == 1:
             draw_items_full(gs, screen, python_logo, 1.25, 195, 140)
@@ -267,6 +269,7 @@ def tv_channels(gs, screen):
         gs.current_tv_screen_color = gs.white
         if gs.current_room_view == 1:
             draw_items_full(gs, screen, gnarski_logo, 1.25, 195, 140)
+            gs.text = 'Gnarski!?'
         else:
             draw_items_partial(gs, screen, gnarski_logo, 1.25, 195, 140)
 
@@ -277,13 +280,15 @@ def tv_channels(gs, screen):
     elif gs.current_channel == str(4):  # Camera 1
         camera_one(gs, screen, tv_x, tv_y)
         show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 1')
-        gs.text = "It's a camera? Is this of my room?"
+        if gs.current_room_view == 1:
+            gs.text = "It's a camera? Is this of my room?"
 
     elif gs.current_channel == str(5): # Camera 2
         gs.current_tv_screen_color = gs.white
         if gs.current_room_view == 1:
             draw_items_full(gs, screen, bricks_scene, 1, 195, 140)
-            gs.text = 'A camera of a camera? What?'
+            if gs.current_room_view == 1:
+                gs.text = 'A camera of a camera? What?'
             if gs.power_cord_desk_2:
                 pygame.draw.circle(screen, gs.red, (487, 244), 3) # todo can we make this look like it's blinking slowly
             show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 2')
@@ -295,9 +300,11 @@ def tv_channels(gs, screen):
         if gs.power_cord_desk_2:
             camera_three(gs, screen, tv_x, tv_y, tv_h, tv_w)
             show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 3')
-            gs.text = 'Oh! Another camera!'
+            if gs.current_room_view == 1:
+                gs.text = 'Oh! Another camera!'
         else:
-            gs.text = 'There seems to be nothing here...'
+            if gs.current_room_view == 1:
+                gs.text = 'There seems to be nothing here...'
 
 
 
@@ -308,7 +315,8 @@ def tv_channels(gs, screen):
 
     elif gs.current_channel == str(8):  # Whitespace
         whitespace(screen, tv_x, tv_y, tv_h, tv_w)
-        gs.text = 'This is a great channel.'
+        if gs.current_room_view == 1:
+            gs.text = 'This is a great channel.'
 
     elif gs.current_channel == str(9):  # Black Screen
         pass
@@ -319,21 +327,25 @@ def tv_channels(gs, screen):
         clock_text = gs.verdana55.render(clock_value, True, gs.red)
         clock_text_rect = clock_text.get_rect(center = tv_rect.center)
         screen.blit(clock_text, clock_text_rect)
-        gs.text = 'What is this clock?'
+        if gs.current_room_view == 1:
+            gs.text = 'What is this clock?'
 
     # Game Channels
     elif gs.current_channel == str(gs.channel_code): # Will Give Code to Turn On Safe
         gs.current_tv_screen_color = gs.white
         secret_channel_code(gs, screen, tv_x, tv_y, tv_h, tv_w)
-        gs.text = 'Some odd code...'
+        if gs.current_room_view == 1:
+            gs.text = 'Some odd code...'
 
     elif gs.current_channel == str(gs.random_channel): # Will Show Two Diamonds of different colors // These colors match the safe (bigger one is first)
         view_diamonds(gs, screen, tv_x, tv_y, tv_h, tv_w)
-        gs.text = 'Diamonds? What do these mean?'
+        if gs.current_room_view == 1:
+            gs.text = 'Diamonds? What do these mean?'
 
     elif gs.current_channel == str(gs.turn_safe_on_channel): # Turns on Safe
         safe_turned_on(gs, screen, tv_x, tv_y, tv_h, tv_w)
-        gs.text = 'I turned on the safe!'
+        if gs.current_room_view == 1:
+            gs.text = 'I turned on the safe!'
 
     # Easter Egg Channels
     elif gs.current_channel == str(456): # todo something
@@ -347,13 +359,15 @@ def tv_channels(gs, screen):
         text_image = gs.arial22.render("YOU LIKE TO PRESS BUTTONS, DON'T YA?", True, gs.black)
         text_rect = text_image.get_rect(center = tv_rect.center)
         screen.blit(text_image, text_rect)
-        gs.text = 'I DO LIKE BUTTONS! HAHA!'
+        if gs.current_room_view == 1:
+            gs.text = 'I DO LIKE BUTTONS! HAHA!'
 
     elif gs.current_channel == str(456): # todo easter egg channel for fun
         print(gs.current_channel)
 
     elif gs.current_channel == str(181161693114): # This spells "RAPPICAN" if you put 1-26 next to the alphabet
-        print("PAUL'S CHANNEL")
+        if gs.current_room_view == 1:
+            gs.text = "Paul's Channel..."
 
     else:  # Whitespace
         whitespace(screen, tv_x, tv_y, tv_h, tv_w)

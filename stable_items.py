@@ -268,11 +268,14 @@ class Stable_Items():
 
     def shirt_clicks(self, gs, event):
         # Closes shirt if anywhere is clicked but the shirt
+        if gs.shirt_opened:
+            gs.text = 'A nice shirt.'
         if gs.shirt_opened == True and not self.shirt_rect.collidepoint(event.pos):
             gs.shirt_opened = False
             gs.stable_item_opened = False
+            gs.text = None
 
-        if gf.check_inside_clickbox(self, self.clickbox_shirt_pocket, ((event.pos), (0, 0))):
+        if gf.check_inside_clickbox(self, self.clickbox_shirt_pocket, ((event.pos), (0, 0))) and not gs.purple_key_found:
             pygame.mixer.Sound.play(key_sound)
             gs.purple_key_found = True
             gs.moveable_items_index_list.append(2)
@@ -286,6 +289,7 @@ class Stable_Items():
         self.scaled_drawer = gf.aspect_scale(inventory.sur_inv_desk_drawer, 400)
         self.drawer_rect = self.scaled_drawer.get_rect(center = screen.get_rect().center)
         self.screen.blit(self.scaled_drawer, (sdx - self.scaled_drawer.get_width() // 2, sdy - self.scaled_drawer.get_height() // 2 ))
+        gs.text = "This is the drawer I pulled out of the desk. I think it's useless now, but I'll carry it..."
 
     def pull_up_desk_drawer_clicks(self, gs, event):
         # Closes drawer if anywhere is clicked but the drawer
@@ -293,6 +297,7 @@ class Stable_Items():
         if gs.desk_drawer_up == True and not self.drawer_rect.collidepoint(event.pos):
             gs.desk_drawer_up = False
             gs.stable_item_opened = False
+            gs.text = None
 
 
 
@@ -379,6 +384,7 @@ class Stable_Items():
             gs.red_book_opened = False
             gs.blue_book_opened = False
             gs.stable_item_opened = False
+            gs.text = None
             color_cover = None
             gs.current_page = 1
 
@@ -682,6 +688,7 @@ class Stable_Items():
             pygame.mixer.Sound.play(flip_page_sound)
             gs.papers_opened = False
             gs.stable_item_opened = False
+            gs.text = None
             gs.current_paper_in_view = 1
 
 
