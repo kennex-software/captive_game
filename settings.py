@@ -31,6 +31,7 @@ class Settings():
         self.verdana16 = pygame.font.SysFont("Verdana", 16, True)
         self.verdana18 = pygame.font.SysFont("Verdana", 18, True)
         self.verdana22 = pygame.font.SysFont("Verdana", 22, True)
+        self.verdana32 = pygame.font.SysFont("Verdana", 32, True)
         self.verdana40 = pygame.font.SysFont("Verdana", 40, True)
         self.verdana55 = pygame.font.SysFont("Verdana", 55, True)
 
@@ -39,12 +40,14 @@ class Settings():
         self.arial22 = pygame.font.SysFont("Arial", 22, True)
         self.arial48 = pygame.font.SysFont("Arial", 48, True)
         self.arial60 = pygame.font.SysFont("Arial", 60, True)
+        self.arial88 = pygame.font.SysFont("Arial", 88, True)
 
         self.garamond12 = pygame.font.SysFont("Garamond", 12, True)
         self.garamond16 = pygame.font.SysFont("Garamond", 16, True)
         self.garamond18 = pygame.font.SysFont("Garamond", 18, True)
         self.garamond22 = pygame.font.SysFont("Garamond", 22, True)
         self.garamond30 = pygame.font.SysFont("Garamond", 30, True)
+        self.garamond90 = pygame.font.SysFont("Garamond", 90, True)
 
 
         # Sleep Ticker
