@@ -276,10 +276,12 @@ class Stable_Items():
             gs.text = None
 
         if gf.check_inside_clickbox(self, self.clickbox_shirt_pocket, ((event.pos), (0, 0))) and not gs.purple_key_found:
+            gs.text = 'I found a purple key!'
             pygame.mixer.Sound.play(key_sound)
             gs.purple_key_found = True
             gs.moveable_items_index_list.append(2)
-            gs.text = 'I found a purple key!'
+
+
 
     def pull_up_desk_drawer(self, gs, screen):
         # Pull up drawer

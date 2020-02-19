@@ -219,7 +219,7 @@ class Room():
             gs.text = 'There seems to be something here...'
 
     def click_safe_while_off(self, gs, event):
-        if gf.check_inside_clickbox(self, self.safe_door, ((event.pos), (0, 0))) and gs.room_view_drill_down == 1 and gs.current_room_view == 2 or gs.current_room_view == -2:
+        if self.safe.collidepoint(event.pos) and gs.room_view_drill_down == 1 and gs.current_room_view == 2 or gs.current_room_view == -2:
             gs.text = 'The safe says, "OFF".'
 
     def click_desk_wall_outlet(self, gs, event):
@@ -795,6 +795,8 @@ class Room():
                 pygame.draw.circle(screen, gs.black, (desk_drawer3.center), 8, 2)
                 
         else:  # This block removes Desk Drawer 3 permanently and places it in the inventory
+            if not gs.desk_drawer_removed:
+                gs.text = 'Wow! There is something under here!'
             pygame.draw.polygon(screen, gs.wood, ((desk_drawer3.bottomleft), (desk_drawer3.topleft), (150, 610)))
             pygame.draw.polygon(screen, gs.carpet, ((desk_drawer3.bottomleft), (150, 610), (desk_drawer3.topright), (desk_drawer3.bottomright)))
             pygame.draw.polygon(screen, gs.black, ((desk_drawer3.bottomleft), (desk_drawer3.topleft), (150, 610)), 2)
@@ -1157,6 +1159,7 @@ class Room():
         if game_objects.go_back.collidepoint(event.pos) and gs.stable_item_opened == False:
             gs.room_view_drill_down = 0
             gs.current_room_view = int(gs.current_room_view // 1)
+            gs.text = None
 
     def drill_down_views(self, gs, screen, game_objects, event):
         """Moves player between various drill down views on each view already"""        
@@ -1286,15 +1289,17 @@ class Room():
     def switch_light(self, gs, event):
         if self.light_switch.collidepoint(event.pos) and gs.room_view_drill_down == 0 and not gs.door_opened:
             pygame.mixer.Sound.play(light_sound)
+
+            if gs.lights_on and gs.tv_on:
+                gs.text = 'The light turned off and the TV turned off... Weird...'
+            elif gs.lights_on:
+                gs.text = 'The light turned off...'
+            elif not gs.lights_on:
+                gs.text = "Now we have light!"
+
             gs.lights_on = not gs.lights_on
             gs.current_tv_screen_color = gs.tv_screen
             gs.tv_on = False
-            if not gs.lights_on and gs.tv_on:
-                gs.text = 'The light turned off and the TV turned off... Weird...'
-            elif not gs.lights_on:
-                gs.text = 'The light turned off...'
-            elif gs.lights_on:
-                gs.text = "Now we have light!"
 
     def click_tv(self, gs, event):
         if gs.current_room_view == 0:
@@ -1336,7 +1341,7 @@ class Room():
     def item_intersection(self, gs, event):
         """Looks for moveable items that intersect with the room and other items to achieve things"""
         # Door Key
-        if gs.selected_item_index == 0 and self.door_handle_rect.collidepoint(gs.selected_item.center):
+        if gs.selected_item_index == 0 and self.door_handle_rect.collidepoint(gs.selected_item.center) and gs.current_room_view == 0 and gs.room_view_drill_down == 0:
             pygame.mixer.Sound.play(key_sound)
             gs.door_locked = False
             gs.door_key_used = True
@@ -1346,7 +1351,7 @@ class Room():
         #    gs.text = "This doesn't go here..."
 
         # Red Key
-        if gs.selected_item_index == 1 and desk_drawer3.collidepoint(gs.selected_item.center):
+        if gs.selected_item_index == 1 and desk_drawer3.collidepoint(gs.selected_item.center) and gs.current_room_view == -1 and gs.room_view_drill_down == 0:
             pygame.mixer.Sound.play(key_sound)
             gs.dd3_locked = False
             gs.red_key_used = True
@@ -1356,7 +1361,7 @@ class Room():
         #    gs.text = "This doesn't go here..."
 
         # Purple Key
-        if gs.selected_item_index == 2 and fcd2.collidepoint(gs.selected_item.center):
+        if gs.selected_item_index == 2 and fcd2.collidepoint(gs.selected_item.center) and gs.current_room_view == -1 and gs.room_view_drill_down == 0:
             pygame.mixer.Sound.play(key_sound)
             gs.fcd2_locked = False
             gs.purple_key_used = True
@@ -1366,7 +1371,7 @@ class Room():
         #    gs.text = "This doesn't go here..."
 
         # Green Key
-        if gs.selected_item_index == 3 and desk_drawer1.collidepoint(gs.selected_item.center):
+        if gs.selected_item_index == 3 and desk_drawer1.collidepoint(gs.selected_item.center) and gs.current_room_view == -1 and gs.room_view_drill_down == 0:
             pygame.mixer.Sound.play(key_sound)
             gs.dd1_locked = False
             gs.green_key_used = True
@@ -1387,7 +1392,7 @@ class Room():
         #    gs.text = "This doesn't go here..."
 
         # Power Cord - Desk Outlet
-        if gs.selected_item_index == 5 and self.desk_wall_outlet.collidepoint(gs.selected_item.center):
+        if gs.selected_item_index == 5 and self.desk_wall_outlet.collidepoint(gs.selected_item.center) and gs.current_room_view == -1 and gs.room_view_drill_down == 0:
             pygame.mixer.Sound.play(light_sound)
             gs.power_cord_desk_1 = True
             gs.power_cord_used = True
@@ -1395,7 +1400,7 @@ class Room():
             gs.text = 'I plugged in the power cord!'
 
         # Power Cord - Window Outlet
-        elif gs.selected_item_index == 5 and self.window_wall_outlet.collidepoint(gs.selected_item.center):
+        elif gs.selected_item_index == 5 and self.window_wall_outlet.collidepoint(gs.selected_item.center) and gs.room_view_drill_down == 0 and gs.current_room_view == -2 or gs.current_room_view == 2:
             pygame.mixer.Sound.play(light_sound)
             gs.power_cord_window_1 = True
             gs.power_cord_used = True
@@ -1406,7 +1411,7 @@ class Room():
         #    gs.text = "This doesn't go here..."
 
         # Screwdriver / Flathead
-        if gs.selected_item_index == 6 and self.safe_cover.collidepoint(gs.selected_item.center):
+        if gs.selected_item_index == 6 and self.safe_cover.collidepoint(gs.selected_item.center) and gs.room_view_drill_down == 1 and gs.current_room_view == -2 or gs.current_room_view == 2:
             pygame.mixer.Sound.play(safe_door)
             gs.safe_uncovered = True
             gs.screwdriver_used = True
@@ -1414,3 +1419,11 @@ class Room():
             gs.text = 'WOW! There is a safe back here! What is the code?'
         #elif gs.selected_item_index == 6 and not self.safe_cover.collidepoint(gs.selected_item.center):
         #    gs.text = "This doesn't go here..."
+
+        # Screwdriver in Desk Outlet
+        if gs.selected_item_index == 6 and self.desk_wall_outlet.collidepoint(gs.selected_item.center) and gs.current_room_view == -1 and gs.room_view_drill_down == 0:
+            gs.text = "That wouldn't be a good idea!"
+
+        # Screwdriver in Window Outlet
+        elif gs.selected_item_index == 6 and self.window_wall_outlet.collidepoint(gs.selected_item.center) and gs.room_view_drill_down == 0 and gs.current_room_view == -2 or gs.current_room_view == 2:
+            gs.text = "That wouldn't be a good idea!"

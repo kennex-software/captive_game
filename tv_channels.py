@@ -274,7 +274,8 @@ def tv_channels(gs, screen):
             draw_items_partial(gs, screen, gnarski_logo, 1.25, 195, 140)
 
     elif gs.current_channel == str(3):  # Default channel??
-        pass
+        if gs.current_room_view == 1:
+                gs.text = 'I think this is the default channel...'
 
     # Cameras
     elif gs.current_channel == str(4):  # Camera 1
@@ -306,12 +307,8 @@ def tv_channels(gs, screen):
             if gs.current_room_view == 1:
                 gs.text = 'There seems to be nothing here...'
 
-
-
-
     elif gs.current_channel == str(7):  # Falling Numbers Channel 7
         falling_numbers(gs, screen, tv_x, tv_y, tv_h, tv_w)
-
 
     elif gs.current_channel == str(8):  # Whitespace
         whitespace(screen, tv_x, tv_y, tv_h, tv_w)
@@ -319,7 +316,8 @@ def tv_channels(gs, screen):
             gs.text = 'This is a great channel.'
 
     elif gs.current_channel == str(9):  # Black Screen
-        pass
+        if gs.current_room_view == 1:
+            gs.text = 'This channel was intentionally left blank.'
 
     elif gs.current_channel == str(12):  # Black Screen
         gs.current_tv_screen_color = gs.off_white
@@ -371,4 +369,6 @@ def tv_channels(gs, screen):
 
     else:  # Whitespace
         whitespace(screen, tv_x, tv_y, tv_h, tv_w)
+        if gs.current_room_view == 1:
+            gs.text = 'It does not have a signal...'
 
