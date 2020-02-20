@@ -19,7 +19,7 @@ gs = Settings()
 screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF) # add ability to resize window
 pygame.display.set_caption("Captive | Kennex")
 
-intro_music = pygame.mixer.Sound('sounds/intro.wav')
+intro_music = pygame.mixer.Sound('sounds/intro.wav') # todo change to intro.wav
 
 
 def title_menu():
@@ -228,16 +228,16 @@ def run_game():
         gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
         gf.update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
         gf.game_clock(gs, screen, clock)
-        
+
         if gs.sleeperticks:
             pygame.time.wait(100)  # Leave this at 100 or less
 
 
 
 
-title_menu()
+#title_menu()
 #game_menu()
-#run_game()
+run_game()
 
 
 

@@ -27,6 +27,9 @@ class Settings():
         self.gw_height = self.screen_height * .90  # Default is .90
         self.gw_border = 5
 
+        # Win Game
+        self.won_game = False
+
 
         # Fonts
         self.verdana12 = pygame.font.SysFont("Verdana", 12, True)
@@ -240,6 +243,7 @@ class Settings():
 
         # Door Settings
         self.door_opened = False  # Default = False todo change to false
+        self.leave = False
         self.door_number = None
         self.konar_number = None # Street sign in Camera 2
         self.cam_two_number = None

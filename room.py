@@ -1118,28 +1118,30 @@ class Room():
     def open_door(self, gs, event):
         """Unlocks the door to finish / win the game"""
         if self.door_handle_rect.collidepoint(event.pos) and gs.door_locked == False and not gs.door_opened:
-            gs.text = 'I opened the door!'
+            gs.text = "I opened the door! I'm free... I think..."
             pygame.mixer.Sound.play(door_open_sound)
             gs.door_opened = True
+            #gs.leave = True
         elif self.door_handle_rect.collidepoint(event.pos) or self.main_door.collidepoint(event.pos) and gs.door_locked == True and not gs.door_opened:
             gs.text = 'The door is locked...'
 
     def win_game(self, gs, event):
         """Click the main door when it's open to win!"""
-        if self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0 and gs.door_opened:
-            gs.text = "I'm free... I think..."
-            leave = False
+        if not gs.leave:
             if self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0 and gs.door_opened:
-                leave = True
-                if leave:
-                    print('you win')
-                    credits.credits_menu()
+                print('clicked door')
+                gs.leave = True
+
+        elif gs.leave and self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0 and gs.door_opened:
+            print('you win')
+            credits.credits_menu(gs)
 
     def close_door(self, gs, event):
         """Closes door after it's been opened"""
         if gf.check_inside_clickbox(self, self.opened_door, ((event.pos), (0, 0))):
             pygame.mixer.Sound.play(door_close_sound)
             gs.door_opened = False
+            gs.leave = False
 
 
     def move_between_views(self, gs, screen, game_objects, stable_item_blocks, event):

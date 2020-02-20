@@ -19,66 +19,69 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
             sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                if not gs.stable_item_opened:
-                    room_view.switch_light(gs, event)
-                    if gs.lights_on:
-                        room_view.move_between_views(gs, screen, game_objects, stable_item_blocks, event)
-                        inventory.select_item(gs, screen, room_view, event)
+                if not gs.won_game:
+                    if not gs.stable_item_opened:
+                        room_view.switch_light(gs, event)
+                        if gs.lights_on:
+                            room_view.move_between_views(gs, screen, game_objects, stable_item_blocks, event)
+                            inventory.select_item(gs, screen, room_view, event)
 
-                        if gs.drill_possible:
-                            room_view.drill_down_views(gs, screen, game_objects, event)
+                            if gs.drill_possible:
+                                room_view.drill_down_views(gs, screen, game_objects, event)
 
-                        if gs.current_room_view == 0:   # Default View
-                            room_view.open_door(gs, event)
-                            room_view.click_tv(gs, event)
-                            room_view.click_trash_can(gs, event)
-                            if gs.door_opened:
-                                room_view.close_door(gs, event)
-
-                                room_view.win_game(gs, event)
-                            if gs.room_view_drill_down == 0.1 and not gs.power_cord_found: # Function to click power cord when it's not found
-                                room_view.click_power_cord(gs, event)
-
-                        if gs.current_room_view == -1:  # Left from default
-                            room_view.open_drawers(gs, screen, game_objects, event) # See open drawers for click events
-                            room_view.click_desk_wall_outlet(gs, event)
-                            if gs.power_cord_desk_1 and not gs.power_cord_desk_2:
-                                room_view.pick_power_cord_desk(gs, event)
-                            if gs.desk_drawer_removed and not gs.green_key_found:
-                                room_view.click_green_key(gs, event)
-                            if gs.desk_drawer_removed:
-                                room_view.click_hole_in_floor(gs, event)
-
-                        if gs.current_room_view == 1:  # Right from default // View with TV
-                            room_view.click_tv(gs, event)
-                            if gs.room_view_drill_down == 1:
-                                if not gs.remote_found: # Function to click remote when it's not found
-                                    room_view.click_remote(gs, event)
-
-                        if gs.current_room_view < -1 or gs.current_room_view > 1:  # Fourth wall
-                            room_view.click_window_wall_outlet(gs, event)
-                            if gs.power_cord_window_1 and gs.room_view_drill_down == 0:
-                                room_view.pick_power_cord_window(gs, event)
-                            if not gs.shirt_found and gs.room_view_drill_down == 0:
-                                room_view.click_shirt(gs, event)
-                            if gs.room_view_drill_down == 1:
-                                #if gs.safe_uncovered: # Function when safe is uncovered
-                                room_view.safe_controls(gs, screen, event)
-                                if not gs.papers_found: # Function to click papers when they're not found
-                                    room_view.click_papers(gs, event)
+                            if gs.current_room_view == 0:   # Default View
+                                room_view.open_door(gs, event)
+                                room_view.click_tv(gs, event)
+                                room_view.click_trash_can(gs, event)
+                                if gs.door_opened:
+                                    room_view.close_door(gs, event)
+                                    room_view.win_game(gs, event)
+                                if gs.room_view_drill_down == 0.1 and not gs.power_cord_found: # Function to click power cord when it's not found
+                                    room_view.click_power_cord(gs, event)
 
 
+                            if gs.current_room_view == -1:  # Left from default
+                                room_view.open_drawers(gs, screen, game_objects, event) # See open drawers for click events
+                                room_view.click_desk_wall_outlet(gs, event)
+                                if gs.power_cord_desk_1 and not gs.power_cord_desk_2:
+                                    room_view.pick_power_cord_desk(gs, event)
+                                if gs.desk_drawer_removed and not gs.green_key_found:
+                                    room_view.click_green_key(gs, event)
+                                if gs.desk_drawer_removed:
+                                    room_view.click_hole_in_floor(gs, event)
+
+                            if gs.current_room_view == 1:  # Right from default // View with TV
+                                room_view.click_tv(gs, event)
+                                if gs.room_view_drill_down == 1:
+                                    if not gs.remote_found: # Function to click remote when it's not found
+                                        room_view.click_remote(gs, event)
+
+                            if gs.current_room_view < -1 or gs.current_room_view > 1:  # Fourth wall
+                                room_view.click_window_wall_outlet(gs, event)
+                                if gs.power_cord_window_1 and gs.room_view_drill_down == 0:
+                                    room_view.pick_power_cord_window(gs, event)
+                                if not gs.shirt_found and gs.room_view_drill_down == 0:
+                                    room_view.click_shirt(gs, event)
+                                if gs.room_view_drill_down == 1:
+                                    #if gs.safe_uncovered: # Function when safe is uncovered
+                                    room_view.safe_controls(gs, screen, event)
+                                    if not gs.papers_found: # Function to click papers when they're not found
+                                        room_view.click_papers(gs, event)
+
+
+                    else:
+                        if gs.red_book_opened or gs.blue_book_opened:
+                            stable_item_blocks.change_manual_pages(gs, event)
+                        if gs.remote_opened:
+                            stable_item_blocks.remote_buttons_clicked(gs, event)
+                        if gs.papers_opened:
+                            stable_item_blocks.change_papers(gs, event)
+                        if gs.shirt_opened:
+                            stable_item_blocks.shirt_clicks(gs, event)
+                        if gs.desk_drawer_up:
+                            stable_item_blocks.pull_up_desk_drawer_clicks(gs, event)
                 else:
-                    if gs.red_book_opened or gs.blue_book_opened:
-                        stable_item_blocks.change_manual_pages(gs, event)
-                    if gs.remote_opened:
-                        stable_item_blocks.remote_buttons_clicked(gs, event)
-                    if gs.papers_opened:
-                        stable_item_blocks.change_papers(gs, event)
-                    if gs.shirt_opened:
-                        stable_item_blocks.shirt_clicks(gs, event)
-                    if gs.desk_drawer_up:
-                        stable_item_blocks.pull_up_desk_drawer_clicks(gs, event)
+                    print('game is won')
                 if gs.control_panel_on:
                     cp.check_clicked_setting(gs, screen, event)
                     if cp.selected == 1:
