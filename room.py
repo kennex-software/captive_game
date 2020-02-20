@@ -1126,13 +1126,14 @@ class Room():
 
     def win_game(self, gs, event):
         """Click the main door when it's open to win!"""
-        leave = False
         if self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0 and gs.door_opened:
             gs.text = "I'm free... I think..."
-            leave = True
-            if self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0 and gs.door_opened and leave:
-                print('you win')
-                credits.credits_menu()
+            leave = False
+            if self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0 and gs.door_opened:
+                leave = True
+                if leave:
+                    print('you win')
+                    credits.credits_menu()
 
     def close_door(self, gs, event):
         """Closes door after it's been opened"""
