@@ -17,7 +17,10 @@ pygame.init()
 clock = pygame.time.Clock()
 gs = Settings()
 screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF) # add ability to resize window
-pygame.display.set_caption("Escape the Room | Kennex")
+pygame.display.set_caption("Captive | Kennex")
+
+intro_music = pygame.mixer.Sound('sounds/intro.wav')
+
 
 def title_menu():
 
@@ -31,12 +34,15 @@ def title_menu():
 
     while True:
         # Events
+        pygame.mixer.Sound.play(intro_music, -1)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    sys.exit()
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    game_menu()
+
+
 
         # Draw Menu
         #screen.fill(gs.white)
@@ -85,51 +91,121 @@ def game_menu():
     game_title_rect = game_title.get_rect()
     game_title_rect.centerx = gs.screen_width//2
 
-    button_color = gs.gray
+    button_color1 = gs.gray
+    button_color2 = gs.gray
+    button_color3 = gs.gray
+    button_color4 = gs.gray
+    button_color5 = gs.gray
+
+    button1 = pygame.Rect(0, 600, 190, 80)
+    button1.centerx = gs.screen_width//2
+    button2 = button1.move(-button1.width - 30, 0)
+    button3 = button2.move(-button2.width - 30, 0)
+    button4 = button1.move(button1.width + 30, 0)
+    button5 = button4.move(button4.width + 30, 0)
 
     while True:
         # Events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == K_ESCAPE:
-                    sys.exit()
-            if event.type == pygame.MOUSEMOTION:
-                #button_color = gs.red
-                pass
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if button1.collidepoint(event.pos):
+                        print('scores')
+                    if button2.collidepoint(event.pos):
+                        print('load game')
+                    if button3.collidepoint(event.pos):
+                        print('run game')
+                        pygame.time.delay(2000)
+                        pygame.mixer.Sound.stop(intro_music)
+                        run_game()
+                    if button4.collidepoint(event.pos):
+                        print('settings')
+                    if button5.collidepoint(event.pos):
+                        print('credits')
+
 
 
         screen.fill((gs.bg_color))
         screen.blit(game_title, (game_title_rect.x, 200))
 
-        button1 = pygame.Rect(0, 600, 190, 80)
-        button1.centerx = gs.screen_width//2
-        button2 = button1.move(-button1.width - 30, 0)
-        button3 = button2.move(-button2.width - 30, 0)
-        button4 = button1.move(button1.width + 30, 0)
-        button5 = button4.move(button4.width + 30, 0)
-
-        pygame.draw.rect(screen, button_color, button1)
-        pygame.draw.rect(screen, button_color, button2)
-        pygame.draw.rect(screen, button_color, button3)
-        pygame.draw.rect(screen, button_color, button4)
-        pygame.draw.rect(screen, button_color, button5)
 
 
-        # play
-        # load
-        # settings
-        # scores
-        # credits
+        pygame.draw.rect(screen, button_color1, button1)
+        pygame.draw.rect(screen, button_color2, button2)
+        pygame.draw.rect(screen, button_color3, button3)
+        pygame.draw.rect(screen, button_color4, button4)
+        pygame.draw.rect(screen, button_color5, button5)
+
+        pygame.draw.rect(screen, gs.black, button1, 3)
+        pygame.draw.rect(screen, gs.black, button2, 3)
+        pygame.draw.rect(screen, gs.black, button3, 3)
+        pygame.draw.rect(screen, gs.black, button4, 3)
+        pygame.draw.rect(screen, gs.black, button5, 3)
+
+        b1_text = gs.arial32.render('PLAY', True, gs.black)
+        b2_text = gs.arial32.render('LOAD', True, gs.black)
+        b3_text = gs.arial32.render('SCORES', True, gs.black)
+        b4_text = gs.arial32.render('SETTINGS', True, gs.black)
+        b5_text = gs.arial32.render('CREDITS', True, gs.black)
+
+        b1_text_rect = b1_text.get_rect(center = button3.center)
+        b2_text_rect = b2_text.get_rect(center = button2.center)
+        b3_text_rect = b3_text.get_rect(center = button1.center)
+        b4_text_rect = b4_text.get_rect(center = button4.center)
+        b5_text_rect = b5_text.get_rect(center = button5.center)
+
+        screen.blit(b1_text, b1_text_rect)
+        screen.blit(b2_text, b2_text_rect)
+        screen.blit(b3_text, b3_text_rect)
+        screen.blit(b4_text, b4_text_rect)
+        screen.blit(b5_text, b5_text_rect)
+
+        if button1.collidepoint(pygame.mouse.get_pos()):
+            button_color1 = gs.dark_gray
+            button_color2 = gs.gray
+            button_color3 = gs.gray
+            button_color4 = gs.gray
+            button_color5 = gs.gray
+        elif button2.collidepoint(pygame.mouse.get_pos()):
+            button_color2 = gs.dark_gray
+            button_color1 = gs.gray
+            button_color3 = gs.gray
+            button_color4 = gs.gray
+            button_color5 = gs.gray
+        elif button3.collidepoint(pygame.mouse.get_pos()):
+            button_color3 = gs.dark_gray
+            button_color2 = gs.gray
+            button_color1 = gs.gray
+            button_color4 = gs.gray
+            button_color5 = gs.gray
+        elif button4.collidepoint(pygame.mouse.get_pos()):
+            button_color4 = gs.dark_gray
+            button_color2 = gs.gray
+            button_color3 = gs.gray
+            button_color1 = gs.gray
+            button_color5 = gs.gray
+        elif button5.collidepoint(pygame.mouse.get_pos()):
+            button_color5 = gs.dark_gray
+            button_color2 = gs.gray
+            button_color3 = gs.gray
+            button_color4 = gs.gray
+            button_color1 = gs.gray
+        else:
+            button_color1 = gs.gray
+            button_color2 = gs.gray
+            button_color3 = gs.gray
+            button_color4 = gs.gray
+            button_color5 = gs.gray
+
+
 
 
 
         # Update
         pygame.display.flip()
         clock.tick(30)
-
-
 
 def run_game():
 
@@ -143,7 +219,9 @@ def run_game():
     game_objects = GameObjects(gs, screen, inventory)
     cp = Control_Panel(gs, screen)
 
-    gs.text = "Where am I?"
+    gs.game_started = True
+
+    gs.text = "What the...?  Where am I?"
 
 
     while True:
@@ -153,9 +231,15 @@ def run_game():
         
         if gs.sleeperticks:
             pygame.time.wait(100)  # Leave this at 100 or less
-            
-game_menu()
+
+
+
+
+title_menu()
+#game_menu()
 #run_game()
+
+
 
 
 """

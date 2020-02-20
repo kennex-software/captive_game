@@ -19,6 +19,8 @@ class Settings():
         # Clock
         self.current_time = 0
         self.frame_rate = 60
+        self.game_started = False
+
         
         # Game window Settings
         self.gw_width = self.screen_width * .88  # Default is .88
@@ -38,6 +40,7 @@ class Settings():
         self.arial12 = pygame.font.SysFont("Arial", 12, True)
         self.arial16 = pygame.font.SysFont("Arial", 16, True)
         self.arial22 = pygame.font.SysFont("Arial", 22, True)
+        self.arial32 = pygame.font.SysFont("Arial", 32, True)
         self.arial48 = pygame.font.SysFont("Arial", 48, True)
         self.arial60 = pygame.font.SysFont("Arial", 60, True)
         self.arial88 = pygame.font.SysFont("Arial", 88, True)
@@ -137,7 +140,7 @@ class Settings():
         
         # Inventory Items Found
         self.all_items_visible = False # Default = False // Allows to toggle all items on or off
-        self.door_key_found = False # Default = False
+        self.door_key_found = True # Default = False
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
         self.green_key_found = False # Default = False
@@ -155,7 +158,7 @@ class Settings():
         self.power_cord_desk_2 = False # Default = False todo make false
         self.power_cord_window_1 = False # Default = False todo make false
 
-        self.moveable_items_index_list = []
+        self.moveable_items_index_list = [0]
 
         self.door_key_used = False # Default = False
         self.red_key_used = False # Default = False

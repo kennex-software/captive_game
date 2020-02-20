@@ -34,6 +34,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                             room_view.click_trash_can(gs, event)
                             if gs.door_opened:
                                 room_view.close_door(gs, event)
+
                                 room_view.win_game(gs, event)
                             if gs.room_view_drill_down == 0.1 and not gs.power_cord_found: # Function to click power cord when it's not found
                                 room_view.click_power_cord(gs, event)
@@ -341,13 +342,15 @@ def game_status_text(gs, screen):
 
 def game_clock(gs, screen, clock):
     """Function to display and continuously update the game clock / timer that will be displayed on a channel."""
-    gs.current_time = pygame.time.get_ticks()
+    if gs.game_started:
+        gs.current_time = pygame.time.get_ticks()
 
 def get_game_clock(gs, screen):
     """ Returns the current value of the game clock"""
-    pygame.time.Clock().tick(60)
-    clock_output = str(datetime.timedelta(seconds = gs.current_time // 1000))
-    return clock_output
+    if gs.game_started:
+        pygame.time.Clock().tick(60)
+        clock_output = str(datetime.timedelta(seconds = gs.current_time // 1000))
+        return clock_output
 
 
 def print_settings(gs):
