@@ -6,6 +6,7 @@ import math
 import datetime
 from objects import GameObjects
 import puzzles
+import credits
 import sched
 from room import Room
 from stable_items import Stable_Items
@@ -105,8 +106,11 @@ def update_screen(gs, screen, inventory, room_view, game_objects, stable_item_bl
     screen.fill(gs.bg_color)
     room_view.current_view(gs, screen, stable_item_blocks)
     GameObjects(gs, screen, inventory)
-
     game_status_text(gs, screen)
+
+    if gs.won_game:
+        credits.credits_screen(gs, screen)
+
     if gs.control_panel_on:
         cp.draw_control_panel(gs, screen)
         if cp.selected == 1:

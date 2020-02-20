@@ -67,6 +67,7 @@ light_sound = pygame.mixer.Sound('sounds/light_switch.wav')
 shirt_sound = pygame.mixer.Sound('sounds/pick_shirt.wav')
 safe_door = pygame.mixer.Sound('sounds/safe_door.wav')
 
+#credits_music = pygame.mixer.Sound('sounds/credits.wav') # todo change to credits.wav
 
 
 class Room():
@@ -1134,7 +1135,7 @@ class Room():
 
         elif gs.leave and self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0 and gs.door_opened:
             print('you win')
-            credits.credits_menu(gs)
+            self.credits_sound_events(gs, event)
 
     def close_door(self, gs, event):
         """Closes door after it's been opened"""
@@ -1435,3 +1436,9 @@ class Room():
         # Screwdriver in Window Outlet
         elif gs.selected_item_index == 6 and self.window_wall_outlet.collidepoint(gs.selected_item.center) and gs.room_view_drill_down == 0 and gs.current_room_view == -2 or gs.current_room_view == 2:
             gs.text = "That wouldn't be a good idea!"
+
+    def credits_sound_events(self, gs, event):
+        gs.won_game = True
+        # pygame.mixer.Sound.play(credits_music, 1)
+
+

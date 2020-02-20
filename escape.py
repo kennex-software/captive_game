@@ -19,7 +19,7 @@ gs = Settings()
 screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF) # add ability to resize window
 pygame.display.set_caption("Captive | Kennex")
 
-intro_music = pygame.mixer.Sound('sounds/intro.wav') # todo change to intro.wav
+#intro_music = pygame.mixer.Sound('sounds/intro.wav')
 
 
 def title_menu():
@@ -118,7 +118,7 @@ def game_menu():
                     if button3.collidepoint(event.pos):
                         print('run game')
                         pygame.time.delay(2000)
-                        pygame.mixer.Sound.stop(intro_music)
+                        #pygame.mixer.Sound.stop(intro_music)
                         run_game()
                     if button4.collidepoint(event.pos):
                         print('settings')

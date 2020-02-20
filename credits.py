@@ -1,8 +1,21 @@
 import pygame
 
 
-credits_music = pygame.mixer.Sound('sounds/credits.wav') # todo change to credits.wav
+def credits_screen(gs, screen):
+    #screen.fill((gs.black))
 
-def credits_menu(gs):
-    gs.won_game = True
-    pygame.mixer.Sound.play(credits_music, 1)
+    fade(gs, screen, gs.screen_width, gs.screen_height)
+
+def fade(gs, screen, width, height):
+    fade = pygame.Surface((width, height))
+    fade.fill((gs.black))
+    for alpha in range(0, 300):
+        fade.set_alpha(alpha)
+        screen.blit(fade, (0, 0))
+        pygame.display.update()
+        pygame.time.delay(100)
+
+
+
+
+
