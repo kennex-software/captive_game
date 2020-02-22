@@ -67,7 +67,7 @@ light_sound = pygame.mixer.Sound('sounds/light_switch.wav')
 shirt_sound = pygame.mixer.Sound('sounds/pick_shirt.wav')
 safe_door = pygame.mixer.Sound('sounds/safe_door.wav')
 
-#credits_music = pygame.mixer.Sound('sounds/credits.wav') # todo change to credits.wav
+credits_music = pygame.mixer.Sound('sounds/credits.wav') # todo change to credits.wav
 
 
 class Room():
@@ -1439,6 +1439,6 @@ class Room():
 
     def credits_sound_events(self, gs, event):
         gs.won_game = True
-        # pygame.mixer.Sound.play(credits_music, 1)
+        pygame.mixer.Sound.play(credits_music, 1)
 
 
