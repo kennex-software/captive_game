@@ -69,6 +69,9 @@ safe_door = pygame.mixer.Sound('sounds/safe_door.wav')
 
 credits_music = pygame.mixer.Sound('sounds/credits.wav') # todo change to credits.wav
 
+pygame.init()
+pygame.font.init()
+
 
 class Room():
     """Class to store the objects of the rooms and the views regarding them"""
@@ -620,6 +623,8 @@ class Room():
 
     def room_view_zero_1(self, gs, screen, stable_item_blocks):  # View of inside trash can
         # Clear Screen
+        gs.text = None
+
         screen.fill(gs.carpet)
 
         pygame.draw.circle(screen, gs.dark_brown, self.can_opening_rect.center, 250)
@@ -1011,7 +1016,7 @@ class Room():
 
         # Click / Mouseovers
         self.clickbox_tv_stand_side = [(715, 500), (770, 500), (803, 622), (742, 628), (744, 528)]
-        # self.clickbox_tv_stand_side_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_tv_stand_side, 1) # todo remove this with a comment
+        self.clickbox_tv_stand_side_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_tv_stand_side, 1) # todo remove this with a comment
     
         if gs.room_view_drill_down == 1:
             self.room_view_three_1(gs, screen, stable_item_blocks)
@@ -1080,7 +1085,7 @@ class Room():
 
         # Click / Mouseovers
         self.clickbox_closet_right = [(280, 516), (332, 530), (332, 615), (269, 574)]
-        # self.clickbox_closet_right_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_closet_right, 1)
+        self.clickbox_closet_right_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_closet_right, 1)
 
         if gs.room_view_drill_down == 1:
             self.room_view_four_1(gs, screen, stable_item_blocks)

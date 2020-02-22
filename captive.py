@@ -14,6 +14,7 @@ from pygame.locals import *
 # Initialize pygame, settings, and screen object.
 pygame.mixer.pre_init(44100,-16,2, 2048)
 pygame.init()
+pygame.font.init()
 clock = pygame.time.Clock()
 gs = Settings()
 screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF) # add ability to resize window
@@ -236,9 +237,9 @@ def run_game():
 
 
 
-#title_menu()
+title_menu()
 #game_menu()
-run_game()
+#run_game()
 
 
 
@@ -251,6 +252,10 @@ TO DO LIST
 14. Need to create an intro.
 15. Need to create an outro.
 20. Need to figure out if scaling the entire game is possible based on how it's drawn.
+
+
+
+pyinstaller --onefile -w captive.py control_panel.py credits.py gf.py inventory.py multiline_text.py objects.py puzzles.py room.py scale_points_list.py settings.py stable_items.py tv_channels.py whitespace.py
 
 
 """

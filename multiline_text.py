@@ -2,8 +2,10 @@
 
 from PIL import ImageFont
 import pygame
+pygame.init()
+pygame.font.init()
 
-def multiline_text(text, width, font):
+def multiline_text(text, width, font1):
     """
     *** Required: from PIL import ImageFont if it's not pygame
 
@@ -23,7 +25,7 @@ def multiline_text(text, width, font):
 #    print("")  # remove if needed
     text_list = text.split()
 
-    total_size = font.size(text)
+    total_size = font1.size(text)
     #total_size = font_pass.getsize(text) # normal python
     lines = ((total_size[0] + 10) // width) + 1
     line_width = 0
@@ -35,7 +37,7 @@ def multiline_text(text, width, font):
         all_lines.append([])
 
     for word in text_list:
-        size = font.size(word)
+        size = font1.size(word)
         word_width = size[0]
         line_width += word_width
 

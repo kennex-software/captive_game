@@ -13,6 +13,9 @@ from stable_items import Stable_Items
 from inventory import Inventory
 from PIL import ImageFont
 
+pygame.init()
+pygame.font.init()
+
 def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp):
     """Response to mouse events."""
     for event in pygame.event.get():

@@ -1,5 +1,9 @@
 import pygame
 
+pygame.init()
+pygame.font.init()
+
+
 
 def credits_screen(gs, screen):
     #screen.fill((gs.black))

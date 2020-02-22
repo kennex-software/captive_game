@@ -25,6 +25,9 @@ gnarski_logo = pygame.image.load(i_gnarski_logo)
 safe_init_sound = pygame.mixer.Sound('sounds/safe_init.wav')
 safe_on_sound = pygame.mixer.Sound('sounds/safe_on.wav')
 
+pygame.init()
+pygame.font.init()
+
 
 def draw_items_full(gs, screen, image, factor, x, y):
     """Function to pass item and draw to screen

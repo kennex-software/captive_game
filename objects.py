@@ -1,11 +1,12 @@
 #kennex
 
 import pygame, sys
-import pygame.font
+#import pygame.font
 from inventory import Inventory
 import time
 
 pygame.init()
+pygame.font.init()
 
 class GameObjects():
     """Class to store the objects in the game"""
@@ -37,23 +38,22 @@ class GameObjects():
         # Draw the 'Change Screen' Windows
         ### Left
         self.go_left = pygame.Rect(gs.gw_border, gs.gw_border, gs.gw_move_w, gs.gw_height)
-        #pygame.draw.rect(screen, gs.yellow, self.go_left, 1)
+        pygame.draw.rect(screen, gs.yellow, self.go_left, 1)
         ### Right
         self.go_right = pygame.Rect(gs.gw_right_x, gs.gw_border, gs.gw_move_w, gs.gw_height)
-        #pygame.draw.rect(screen, gs.yellow, self.go_right, 1)
+        pygame.draw.rect(screen, gs.yellow, self.go_right, 1)
         ### Top/Up
         self.go_up = pygame.Rect((gs.gw_move_w+gs.gw_border*2, 0, (gs.gw_width-gs.gw_move_w*2-gs.gw_border*4), gs.gw_move_w))
-        #pygame.draw.rect(screen, gs.yellow, self.go_up, 1)
+        pygame.draw.rect(screen, gs.yellow, self.go_up, 1)
         ### Back/Bottom
         self.go_back = pygame.Rect(gs.gw_move_w+gs.gw_border*2, gs.gw_height-gs.gw_move_w/2, (gs.gw_width-gs.gw_move_w*2-gs.gw_border*4), gs.gw_move_w)
-        #pygame.draw.rect(screen, gs.yellow, self.go_back, 1)
+        pygame.draw.rect(screen, gs.yellow, self.go_back, 1)
 
         pygame.draw.rect(screen, gs.black, (0, 0, gs.screen_width, gs.screen_height), 3)
 
 
         """
         # Room View (top left corner)
-        self.viewfont = pygame.font.SysFont(None, 60)
         self.strtodisplay = "r" + str(gs.current_room_view) + " d" + str(gs.room_view_drill_down)
         self.text_image = self.viewfont.render(self.strtodisplay, True, gs.black)
         self.text_image_rect = self.text_image.get_rect()

@@ -2,6 +2,9 @@
 
 import pygame
 
+pygame.init()
+pygame.font.init()
+
 class Settings():
     """A class to store settings for Escape the Room.
     
@@ -48,12 +51,12 @@ class Settings():
         self.arial60 = pygame.font.SysFont("Arial", 60, True)
         self.arial88 = pygame.font.SysFont("Arial", 88, True)
 
-        self.garamond12 = pygame.font.SysFont("Garamond", 12, True)
-        self.garamond16 = pygame.font.SysFont("Garamond", 16, True)
-        self.garamond18 = pygame.font.SysFont("Garamond", 18, True)
-        self.garamond22 = pygame.font.SysFont("Garamond", 22, True)
-        self.garamond30 = pygame.font.SysFont("Garamond", 30, True)
-        self.garamond90 = pygame.font.SysFont("Garamond", 90, True)
+        self.garamond12 = pygame.font.SysFont("Cambria", 12, True)
+        self.garamond16 = pygame.font.SysFont("Cambria", 16, True)
+        self.garamond18 = pygame.font.SysFont("Cambria", 18, True)
+        self.garamond22 = pygame.font.SysFont("Cambria", 22, True)
+        self.garamond30 = pygame.font.SysFont("Cambria", 30, True)
+        self.garamond90 = pygame.font.SysFont("Cambria", 90, True)
 
 
         # Sleep Ticker

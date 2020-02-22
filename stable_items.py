@@ -2,7 +2,7 @@
 
 import pygame, time
 import gf
-import pygame.font
+#import pygame.font
 import puzzles
 import multiline_text as mt
 import random
@@ -26,6 +26,9 @@ enlarged_papers_top3 = pygame.image.load(i_enlarged_papers_top3)
 key_sound = pygame.mixer.Sound('sounds/key_jingle.wav')
 flip_page_sound = pygame.mixer.Sound('sounds/flip_page.wav')
 safe_init_sound = pygame.mixer.Sound('sounds/safe_init.wav')
+
+pygame.init()
+pygame.font.init()
 
 
 class Stable_Items():

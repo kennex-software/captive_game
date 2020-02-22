@@ -3,6 +3,9 @@
 #
 import pygame
 
+pygame.init()
+pygame.font.init()
+
 
 class Control_Panel():
     """A class to store the control panel for the drawing editor."""

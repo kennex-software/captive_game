@@ -7,6 +7,7 @@ from pygame.math import Vector2
 import gf
 
 pygame.init()
+pygame.font.init()
 pygame.mixer.init()
 
 inv_items_stable = []  # List of inventory that do not move
