@@ -143,7 +143,7 @@ class Settings():
         
         # Inventory Items Found
         self.all_items_visible = False # Default = False // Allows to toggle all items on or off
-        self.door_key_found = True # Default = False
+        self.door_key_found = False # Default = False
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
         self.green_key_found = False # Default = False
@@ -161,7 +161,7 @@ class Settings():
         self.power_cord_desk_2 = False # Default = False todo make false
         self.power_cord_window_1 = False # Default = False todo make false
 
-        self.moveable_items_index_list = [0]
+        self.moveable_items_index_list = []
 
         self.door_key_used = False # Default = False
         self.red_key_used = False # Default = False
