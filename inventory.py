@@ -266,6 +266,7 @@ class Inventory():
                 gs.selected_item.y = gs.selected_item_start_y
             
         gs.selected_item = None
+        gs.selected_item_index = None
         gs.offset = None
         gs.sleeperticks = True
 

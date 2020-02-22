@@ -32,7 +32,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
                             if gs.current_room_view == 0:   # Default View
                                 room_view.open_door(gs, event)
-                                room_view.click_tv(gs, event)
+                                room_view.click_tv(gs, event, game_objects)
                                 room_view.click_trash_can(gs, event)
                                 if gs.door_opened:
                                     room_view.close_door(gs, event)
@@ -52,7 +52,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                     room_view.click_hole_in_floor(gs, event)
 
                             if gs.current_room_view == 1:  # Right from default // View with TV
-                                room_view.click_tv(gs, event)
+                                room_view.click_tv(gs, event, game_objects)
                                 if gs.room_view_drill_down == 1:
                                     if not gs.remote_found: # Function to click remote when it's not found
                                         room_view.click_remote(gs, event)

@@ -27,8 +27,9 @@ class GameObjects():
         #self.clock_controls = pygame.draw.rect(screen, gs.black, (gs.sidebar_x, gs.clock_box_y, gs.sidebar_w, gs.clock_box_h))
         
         # Inventory Window Area
-        self.inventory_window = pygame.draw.rect(screen, gs.silver, (gs.sidebar_x, 0, gs.sidebar_w, gs.inventory_h))
-        pygame.draw.rect(screen, gs.black, (gs.sidebar_x, 0, gs.sidebar_w, gs.inventory_h), 3)
+        self.inventory_window = pygame.Rect(gs.sidebar_x, 0, gs.sidebar_w, gs.inventory_h)
+        pygame.draw.rect(screen, gs.silver, self.inventory_window)
+        pygame.draw.rect(screen, gs.black, self.inventory_window, 3)
 
         # Define and Draw inventory items
         inventory.draw_items(gs, screen)    

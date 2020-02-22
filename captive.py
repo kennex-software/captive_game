@@ -117,7 +117,7 @@ def game_menu():
                         print('load game')
                     if button3.collidepoint(event.pos):
                         print('run game')
-                        pygame.time.delay(2000)
+                        pygame.time.wait(2000)
                         pygame.mixer.Sound.stop(intro_music)
                         run_game()
                     if button4.collidepoint(event.pos):
@@ -236,9 +236,9 @@ def run_game():
 
 
 
-title_menu()
+#title_menu()
 #game_menu()
-#run_game()
+run_game()
 
 
 

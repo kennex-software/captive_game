@@ -133,7 +133,7 @@ class Stable_Items():
                 gs.text = 'An interesting diary...'
                 # Page 1 - Pages to a diary
                 if gs.diary_choice == 1:
-                    diary = "words1"
+                    diary = "I'm not sure how long I've been in this room. I'm not sure how long I've been in this room. I'm not sure how long I've been in this room. I'm not sure how long I've been in this room. I'm not sure how long I've been in this room. I'm not sure how long I've been in this room. I'm not sure how long I've been in this room. I'm not sure how long I've been in this room."
                     diary = mt.multiline_text(diary, 210, gs.garamond22)
                     text_height = gs.garamond22.get_height()
 
@@ -145,7 +145,7 @@ class Stable_Items():
                         line_spacing += text_height
 
                 elif gs.diary_choice == 2:
-                    diary = "words2"
+                    diary = "Once you've seen darkness, you probably don't see light.  But a good way to look into the future, is to see it with open eyes.  If you ever feel like you're alone, remember I'm by your side.  If you ever feel like you're alone, don't close your eyes at night..."
                     diary = mt.multiline_text(diary, 210, gs.garamond22)
                     text_height = gs.garamond22.get_height()
 
@@ -157,7 +157,7 @@ class Stable_Items():
                         line_spacing += text_height
 
                 elif gs.diary_choice == 3:
-                    diary = "words3"
+                    diary = "Day 17: I think I know why I'm in here.  I noticed the TV was flickering and I couldn't explain the sounds.  I think I have lost my lunch.  I also realize that there is no food or bathroom here... So I must leave at once..."
                     diary = mt.multiline_text(diary, 210, gs.garamond22)
                     text_height = gs.garamond22.get_height()
 
