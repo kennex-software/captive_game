@@ -237,9 +237,9 @@ def run_game():
 
 
 
-title_menu()
+#title_menu()
 #game_menu()
-#run_game()
+run_game()
 
 
 

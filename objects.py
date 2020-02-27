@@ -16,7 +16,8 @@ class GameObjects():
         super().__init__()
         self.gs = gs
         self.screen = screen     
-        self.inventory = inventory  
+        self.inventory = inventory
+        self.screen_directions = pygame.Surface((gs.gw_width, gs.gw_height), pygame.SRCALPHA)
     
         # Game Window Area
         # self.game_window_with_border = pygame.draw.rect(screen, gs.white, (gs.gw_border, gs.gw_border, gs.gw_width-(gs.gw_border*2), gs.gw_height))
@@ -38,7 +39,8 @@ class GameObjects():
         # Draw the 'Change Screen' Windows
         ### Left
         self.go_left = pygame.Rect(gs.gw_border, gs.gw_border, gs.gw_move_w, gs.gw_height)
-        pygame.draw.rect(screen, gs.yellow, self.go_left, 1)
+        pygame.draw.rect(self.screen_directions, gs.yellow_transparent, self.go_left)
+        screen.blit(self.screen_directions, (0,0))
         ### Right
         self.go_right = pygame.Rect(gs.gw_right_x, gs.gw_border, gs.gw_move_w, gs.gw_height)
         pygame.draw.rect(screen, gs.yellow, self.go_right, 1)
