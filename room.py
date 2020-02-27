@@ -1084,7 +1084,7 @@ class Room():
 
 
         # Click / Mouseovers
-        self.clickbox_closet_right = [(280, 516), (332, 530), (332, 615), (269, 574)]
+        self.clickbox_closet_right = [(220, 460), (332, 488), (332, 615), (220, 561)]
         self.clickbox_closet_right_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_closet_right, 1)
 
         if gs.room_view_drill_down == 1:
