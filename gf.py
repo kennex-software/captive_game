@@ -1,6 +1,6 @@
 #kennex
 
-import sys, pygame, random, time, threading
+import sys, pygame, random, time, threading, pickle
 from pygame.math import Vector2
 import math
 import datetime
@@ -23,6 +23,10 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
             sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
+                if game_objects.save_button.collidepoint(event.pos):
+                    save_settings(gs)
+                if game_objects.load_button.collidepoint(event.pos):
+                    load_settings(gs)
                 if not gs.won_game:
                     if not gs.stable_item_opened:
                         room_view.switch_light(gs, event)
@@ -354,17 +358,256 @@ def game_status_text(gs, screen):
         gs.text_seconds = gs.default_seconds # will display text for this many iterations, then text will do away
     """
 
-def game_clock(gs, screen, clock):
-    """Function to display and continuously update the game clock / timer that will be displayed on a channel."""
-    if gs.game_started:
-        gs.current_time = pygame.time.get_ticks()
 
 def get_game_clock(gs, screen):
     """ Returns the current value of the game clock"""
     if gs.game_started:
         pygame.time.Clock().tick(60)
+        gs.current_time = pygame.time.get_ticks() - gs.game_start_time
         clock_output = str(datetime.timedelta(seconds = gs.current_time // 1000))
         return clock_output
+
+def update_settings_dictionary(gs):
+    gs.settings_dictionary = {
+                                'text': gs.text,
+                                'current_text': gs.current_text,
+                                'current_time': gs.current_time,
+                                'frame_rate': gs.frame_rate,
+                                'game_started': gs.game_started,
+                                'game_start_time': gs.game_start_time,
+                                'won_game': gs.won_game,
+                                'all_items_visible': gs.all_items_visible,
+                                'door_key_found': gs.door_key_found,
+                                'red_key_found': gs.red_key_found,
+                                'purple_key_found': gs.purple_key_found,
+                                'green_key_found': gs.green_key_found,
+                                'remote_found': gs.remote_found,
+                                'batteries_found': gs.batteries_found,
+                                'power_cord_found': gs.power_cord_found,
+                                'papers_found': gs.papers_found,
+                                'red_book_found': gs.red_book_found,
+                                'blue_book_found': gs.blue_book_found,
+                                'desk_drawer_removed': gs.desk_drawer_removed,
+                                'shirt_found': gs.shirt_found,
+                                'screwdriver_found': gs.screwdriver_found,
+                                'power_cord_desk_1': gs.power_cord_desk_1,
+                                'power_cord_desk_2': gs.power_cord_desk_2,
+                                'power_cord_window_1': gs.power_cord_window_1,
+                                'moveable_items_index_list': gs.moveable_items_index_list,
+                                'door_key_used': gs.door_key_used,
+                                'red_key_used': gs.red_key_used,
+                                'purple_key_used': gs.purple_key_used,
+                                'green_key_used': gs.green_key_used,
+                                'batteries_used': gs.batteries_used,
+                                'power_cord_used': gs.power_cord_used,
+                                'screwdriver_used': gs.screwdriver_used,
+                                'stable_item_opened': gs.stable_item_opened,
+                                'shirt_opened': gs.shirt_opened,
+                                'remote_opened': gs.remote_opened,
+                                'close_remote': gs.close_remote,
+                                'batteries_input': gs.batteries_input,
+                                'button_input_list': gs.button_input_list,
+                                'entered_buttons': gs.entered_buttons,
+                                'tv_on': gs.tv_on,
+                                'current_channel': gs.current_channel,
+                                'random_channel': gs.random_channel,
+                                'tv_sound_play_var': gs.tv_sound_play_var,
+                                'safe_on_sound_var': gs.safe_on_sound_var,
+                                'current_tv_screen_color': gs.current_tv_screen_color,
+                                'safe_uncovered': gs.safe_uncovered,
+                                'safe_on': gs.safe_on,
+                                'safe_initialized': gs.safe_initialized,
+                                'safe_use_color': gs.safe_use_color,
+                                'color_number_1': gs.color_number_1,
+                                'color_number_2': gs.color_number_2,
+                                'safe_combo_n1': gs.safe_combo_n1,
+                                'safe_combo_n2': gs.safe_combo_n2,
+                                'safe_combo_n3': gs.safe_combo_n3,
+                                'safe_combo_n4': gs.safe_combo_n4,
+                                'safe_opened': gs.safe_opened,
+                                'safe_combo_random': gs.safe_combo_random,
+                                'safe_combo': gs.safe_combo,
+                                'safe_alpha_pra_answer': gs.safe_alpha_pra_answer,
+                                'tv_color_numbers': gs.tv_color_numbers,
+                                'turn_safe_on_channel': gs.turn_safe_on_channel,
+                                'safe_alpha_index': gs.safe_alpha_index,
+                                'safe_combo_a1': gs.safe_combo_a1,
+                                'fourth_wall': gs.fourth_wall,
+                                'current_room_view': gs.current_room_view,
+                                'drill_possible': gs.drill_possible,
+                                'room_view_drill_down': gs.room_view_drill_down,
+                                'fcd1_opened': gs.fcd1_opened,
+                                'fcd2_opened': gs.fcd2_opened,
+                                'dd1_opened': gs.dd1_opened,
+                                'dd2_opened': gs.dd2_opened,
+                                'dd3_opened': gs.dd3_opened,
+                                'dd3_open_attempts': gs.dd3_open_attempts,
+                                'desk_drawer_up': gs.desk_drawer_up,
+                                'fcd1_locked': gs.fcd1_locked,
+                                'fcd2_locked': gs.fcd2_locked,
+                                'dd1_locked': gs.dd1_locked,
+                                'dd2_locked': gs.dd2_locked,
+                                'dd3_locked': gs.dd3_locked,
+                                'door_locked': gs.door_locked,
+                                'all_unlocked': gs.all_unlocked,
+                                'door_opened': gs.door_opened,
+                                'leave': gs.leave,
+                                'door_number': gs.door_number,
+                                'konar_number': gs.konar_number,
+                                'cam_two_number': gs.cam_two_number,
+                                'lights_on': gs.lights_on,
+                                'red_book_opened': gs.red_book_opened,
+                                'blue_book_opened': gs.blue_book_opened,
+                                'current_page': gs.current_page,
+                                'current_book': gs.current_book,
+                                'diary_choice': gs.diary_choice,
+                                'papers_opened': gs.papers_opened,
+                                'current_paper_in_view': gs.current_paper_in_view,
+                                'prb_n1': gs.prb_n1,
+                                'prb_n2': gs.prb_n2,
+                                'prb_code': gs.prb_code,
+                                'pua_code': gs.pua_code,
+                                'pua_double_digits': gs.pua_double_digits,
+                                'pub_n1': gs.pub_n1,
+                                'pub_n3': gs.pub_n3,
+                                'pub_n2': gs.pub_n2,
+                                'pub_n4': gs.pub_n4,
+                                'pub_n5': gs.pub_n5,
+                                'pub_n6': gs.pub_n6,
+                                'pub_n7': gs.pub_n7,
+                                'pub_n8': gs.pub_n8,
+                                'pub_n9': gs.pub_n9,
+                                'pub_code': gs.pub_code
+
+        }
+
+def update_settings_from_save_file(gs):
+    gs.text = gs.settings_dictionary['text']
+    gs.current_text = gs.settings_dictionary['current_text']
+    gs.current_time = gs.settings_dictionary['current_time']
+    gs.frame_rate = gs.settings_dictionary['frame_rate']
+    gs.game_started = gs.settings_dictionary['game_started']
+    gs.game_start_time = gs.settings_dictionary['game_start_time']
+    gs.won_game = gs.settings_dictionary['won_game']
+    gs.all_items_visible = gs.settings_dictionary['all_items_visible']
+    gs.door_key_found = gs.settings_dictionary['door_key_found']
+    gs.red_key_found = gs.settings_dictionary['red_key_found']
+    gs.purple_key_found = gs.settings_dictionary['purple_key_found']
+    gs.green_key_found = gs.settings_dictionary['green_key_found']
+    gs.remote_found = gs.settings_dictionary['remote_found']
+    gs.batteries_found = gs.settings_dictionary['batteries_found']
+    gs.power_cord_found = gs.settings_dictionary['power_cord_found']
+    gs.papers_found = gs.settings_dictionary['papers_found']
+    gs.red_book_found = gs.settings_dictionary['red_book_found']
+    gs.blue_book_found = gs.settings_dictionary['blue_book_found']
+    gs.desk_drawer_removed = gs.settings_dictionary['desk_drawer_removed']
+    gs.shirt_found = gs.settings_dictionary['shirt_found']
+    gs.screwdriver_found = gs.settings_dictionary['screwdriver_found']
+    gs.power_cord_desk_1 = gs.settings_dictionary['power_cord_desk_1']
+    gs.power_cord_desk_2 = gs.settings_dictionary['power_cord_desk_2']
+    gs.power_cord_window_1 = gs.settings_dictionary['power_cord_window_1']
+    gs.moveable_items_index_list = gs.settings_dictionary['moveable_items_index_list']
+    gs.door_key_used = gs.settings_dictionary['door_key_used']
+    gs.red_key_used = gs.settings_dictionary['red_key_used']
+    gs.purple_key_used = gs.settings_dictionary['purple_key_used']
+    gs.green_key_used = gs.settings_dictionary['green_key_used']
+    gs.batteries_used = gs.settings_dictionary['batteries_used']
+    gs.power_cord_used = gs.settings_dictionary['power_cord_used']
+    gs.screwdriver_used = gs.settings_dictionary['screwdriver_used']
+    gs.stable_item_opened = gs.settings_dictionary['stable_item_opened']
+    gs.shirt_opened = gs.settings_dictionary['shirt_opened']
+    gs.remote_opened = gs.settings_dictionary['remote_opened']
+    gs.close_remote = gs.settings_dictionary['close_remote']
+    gs.batteries_input = gs.settings_dictionary['batteries_input']
+    gs.button_input_list = gs.settings_dictionary['button_input_list']
+    gs.entered_buttons = gs.settings_dictionary['entered_buttons']
+    gs.tv_on = gs.settings_dictionary['tv_on']
+    gs.current_channel = gs.settings_dictionary['current_channel']
+    gs.random_channel = gs.settings_dictionary['random_channel']
+    gs.tv_sound_play_var = gs.settings_dictionary['tv_sound_play_var']
+    gs.safe_on_sound_var = gs.settings_dictionary['safe_on_sound_var']
+    gs.current_tv_screen_color = gs.settings_dictionary['current_tv_screen_color']
+    gs.safe_uncovered = gs.settings_dictionary['safe_uncovered']
+    gs.safe_on = gs.settings_dictionary['safe_on']
+    gs.safe_initialized = gs.settings_dictionary['safe_initialized']
+    gs.safe_use_color = gs.settings_dictionary['safe_use_color']
+    gs.color_number_1 = gs.settings_dictionary['color_number_1']
+    gs.color_number_2 = gs.settings_dictionary['color_number_2']
+    gs.safe_combo_n1 = gs.settings_dictionary['safe_combo_n1']
+    gs.safe_combo_n2 = gs.settings_dictionary['safe_combo_n2']
+    gs.safe_combo_n3 = gs.settings_dictionary['safe_combo_n3']
+    gs.safe_combo_n4 = gs.settings_dictionary['safe_combo_n4']
+    gs.safe_opened = gs.settings_dictionary['safe_opened']
+    gs.safe_combo_random = gs.settings_dictionary['safe_combo_random']
+    gs.safe_combo = gs.settings_dictionary['safe_combo']
+    gs.safe_alpha_pra_answer = gs.settings_dictionary['safe_alpha_pra_answer']
+    gs.tv_color_numbers = gs.settings_dictionary['tv_color_numbers']
+    gs.turn_safe_on_channel = gs.settings_dictionary['turn_safe_on_channel']
+    gs.safe_alpha_index = gs.settings_dictionary['safe_alpha_index']
+    gs.safe_combo_a1 = gs.settings_dictionary['safe_combo_a1']
+    gs.fourth_wall = gs.settings_dictionary['fourth_wall']
+    gs.current_room_view = gs.settings_dictionary['current_room_view']
+    gs.drill_possible = gs.settings_dictionary['drill_possible']
+    gs.room_view_drill_down = gs.settings_dictionary['room_view_drill_down']
+    gs.fcd1_opened = gs.settings_dictionary['fcd1_opened']
+    gs.fcd2_opened = gs.settings_dictionary['fcd2_opened']
+    gs.dd1_opened = gs.settings_dictionary['dd1_opened']
+    gs.dd2_opened = gs.settings_dictionary['dd2_opened']
+    gs.dd3_opened = gs.settings_dictionary['dd3_opened']
+    gs.dd3_open_attempts = gs.settings_dictionary['dd3_open_attempts']
+    gs.desk_drawer_up = gs.settings_dictionary['desk_drawer_up']
+    gs.fcd1_locked = gs.settings_dictionary['fcd1_locked']
+    gs.fcd2_locked = gs.settings_dictionary['fcd2_locked']
+    gs.dd1_locked = gs.settings_dictionary['dd1_locked']
+    gs.dd2_locked = gs.settings_dictionary['dd2_locked']
+    gs.dd3_locked = gs.settings_dictionary['dd3_locked']
+    gs.door_locked = gs.settings_dictionary['door_locked']
+    gs.all_unlocked = gs.settings_dictionary['all_unlocked']
+    gs.door_opened = gs.settings_dictionary['door_opened']
+    gs.leave = gs.settings_dictionary['leave']
+    gs.door_number = gs.settings_dictionary['door_number']
+    gs.konar_number = gs.settings_dictionary['konar_number']
+    gs.cam_two_number = gs.settings_dictionary['cam_two_number']
+    gs.lights_on = gs.settings_dictionary['lights_on']
+    gs.red_book_opened = gs.settings_dictionary['red_book_opened']
+    gs.blue_book_opened = gs.settings_dictionary['blue_book_opened']
+    gs.current_page = gs.settings_dictionary['current_page']
+    gs.current_book = gs.settings_dictionary['current_book']
+    gs.diary_choice = gs.settings_dictionary['diary_choice']
+    gs.papers_opened = gs.settings_dictionary['papers_opened']
+    gs.current_paper_in_view = gs.settings_dictionary['current_paper_in_view']
+    gs.prb_n1 = gs.settings_dictionary['prb_n1']
+    gs.prb_n2 = gs.settings_dictionary['prb_n2']
+    gs.prb_code = gs.settings_dictionary['prb_code']
+    gs.pua_code = gs.settings_dictionary['pua_code']
+    gs.pua_double_digits = gs.settings_dictionary['pua_double_digits']
+    gs.pub_n1 = gs.settings_dictionary['pub_n1']
+    gs.pub_n3 = gs.settings_dictionary['pub_n3']
+    gs.pub_n2 = gs.settings_dictionary['pub_n2']
+    gs.pub_n4 = gs.settings_dictionary['pub_n4']
+    gs.pub_n5 = gs.settings_dictionary['pub_n5']
+    gs.pub_n6 = gs.settings_dictionary['pub_n6']
+    gs.pub_n7 = gs.settings_dictionary['pub_n7']
+    gs.pub_n8 = gs.settings_dictionary['pub_n8']
+    gs.pub_n9 = gs.settings_dictionary['pub_n9']
+    gs.pub_code = gs.settings_dictionary['pub_code']
+
+
+
+def save_settings(gs):
+    print('save game')
+    update_settings_dictionary(gs)
+    pickle_out = open('saves/settings.dat', 'wb')
+    pickle.dump(gs.settings_dictionary, pickle_out)
+    pickle_out.close()
+
+
+def load_settings(gs):
+    pickle_in = open('saves/settings.dat', 'rb')
+    gs.settings_dictionary = pickle.load(pickle_in)
+    pickle_in.close()
+    update_settings_from_save_file(gs)
+    print('settings loaded')
 
 
 def print_settings(gs):

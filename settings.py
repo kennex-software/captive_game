@@ -16,6 +16,7 @@ class Settings():
         """Initialize the game's static settings."""
         # Game Version
         self.game_version = '0.2.2'
+        self.start_game_from_load = False
         """
         Use this area to discuss versioning:
         
@@ -24,26 +25,19 @@ class Settings():
         
         """
 
+        # Static Game Settings
 
         # Screen Settings
         self.screen_width = 1200
         self.screen_height = 800
-        self.bg_color = (107, 126, 156)  # Walls
 
-        # Clock
-        self.current_time = 0
-        self.frame_rate = 60
-        self.game_started = False
+        # Alphabet List
+        self.alphabet_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
-        
         # Game window Settings
         self.gw_width = self.screen_width * .88  # Default is .88
         self.gw_height = self.screen_height * .90  # Default is .90
         self.gw_border = 5
-
-        # Win Game
-        self.won_game = False
-
 
         # Fonts
         self.verdana12 = pygame.font.SysFont("Verdana", 12, True)
@@ -70,29 +64,29 @@ class Settings():
         self.cambria30 = pygame.font.SysFont("Cambria", 30, True)
         self.cambria48 = pygame.font.SysFont("Cambria", 48, True)
         self.cambria90 = pygame.font.SysFont("Cambria", 90, True)
-
+        self.cambria150 = pygame.font.SysFont("Cambria", 150, True)
 
         # Sleep Ticker
         self.sleeperticks = True
-        
+
         # Sidebar Settings
         self.sidebar_w = self.screen_width - self.gw_width
         self.sidebar_x = self.gw_width #- self.gw_border
-        
+
         # Movement Settings in Game Window
         self.gw_move_w = self.gw_width * .03
         self.gw_right_x = self.sidebar_x - self.gw_move_w - self.gw_border
-        
+
         # Clock / Save Area Settings
         #self.clock_box_h = ((self.screen_height - self.gw_height) * 2)
         #self.clock_box_y = self.screen_height - self.clock_box_h
-        
+
         # Inventory Area Settings
         self.inventory_h = self.screen_height #- self.clock_box_h
         self.inv_item_w = self.sidebar_w / 2 * .8
         self.inv_item_h = self.sidebar_w / 2 * .8
         self.item_offset_w = self.gw_border * 2
-        self.item_offset_h = self.gw_border * 2.5   
+        self.item_offset_h = self.gw_border * 2.5
 
         # Textbox Area Settings
         self.text_box_w = self.gw_width
@@ -100,12 +94,8 @@ class Settings():
         self.text_box_x = 0
         self.text_box_y = self.gw_height + self.gw_border*3
 
-        self.text = None
-        self.current_text = None
-        self.default_seconds = 62
-        self.text_seconds = self.default_seconds
-        
         # Colors
+        self.bg_color = (107, 126, 156)  # Walls
         self.white = (255, 255, 255)
         self.silver = (192, 192, 192)
         self.green = (0, 255, 0)
@@ -124,12 +114,9 @@ class Settings():
         self.the_other_gray = (88, 88, 88)
         self.dark_blue = (80, 92, 111) # Interior Walls
         self.dark_brown = (56, 25, 11)
-
         self.good_green = (198, 239, 206)
         self.bad_red = (255, 199, 206)
-
         self.outer_floor = (118, 112, 100)
-        
         self.carpet = (128, 128, 130)  # Carpet
         self.door = (81, 85, 88)  # Door / Fairly dark gray
         self.off_white = (226, 226, 224)
@@ -139,17 +126,12 @@ class Settings():
         self.dark_wood = (95, 90, 89)
         self.darker_wood = (69, 64, 63)
         self.tv_screen = (82, 82, 82)
-
         self.safe = (47, 54, 82)
-        
         self.red_book_color = (120, 33, 33)  # Red One
         self.blue_book_color = (66, 72, 158)  # Blue one
-        
         self.transcolor = (254, 254, 254, 0)
         self.clickboxcolor = (253, 253, 253)
 
-        self.current_tv_screen_color = (82, 82, 82)
-        
         # Inventory Item Selection
         self.selected_item_index = None
         self.selected_item = None  # selected_item stands for selected item
@@ -157,7 +139,23 @@ class Settings():
         self.item_selection_choice = False
         self.selected_item_start_x = 0
         self.selected_item_start_y = 0
-        
+
+        # ----------------------------------------------------------------------------------------------------------
+        # All Variable Settings that need to be saved
+
+        # Text
+        self.text = None
+        self.current_text = None
+
+        # Clock
+        self.current_time = 0
+        self.frame_rate = 60
+        self.game_started = False
+        self.game_start_time = None
+
+        # Win Game
+        self.won_game = False
+
         # Inventory Items Found
         self.all_items_visible = False # Default = False // Allows to toggle all items on or off
         self.door_key_found = False # Default = False
@@ -208,9 +206,10 @@ class Settings():
         self.random_channel = None
         self.tv_sound_play_var = 0
         self.safe_on_sound_var = 0
+        self.current_tv_screen_color = (82, 82, 82)
 
         # Safe Settings
-        self.safe_uncovered = False # Default = false todo make false
+        self.safe_uncovered = True # Default = false todo make false
         self.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
         self.safe_initialized = False # Safe can only be opened if a certain channel is on the TV todo make false
         self.safe_use_color = self.black
@@ -228,9 +227,7 @@ class Settings():
         self.turn_safe_on_channel = None
         self.safe_alpha_index = 0
         self.safe_combo_a1 = 0 # This number is needed to open the safe
-        #self.safe_opened_true = False # Default = False // if safe is opened for the first time, this will automatically be true and stay true
 
-        
         # Default room view
         self.fourth_wall = False  # Default = False
         self.current_room_view = 0
@@ -238,14 +235,14 @@ class Settings():
         # Default Drill Down Room Views
         self.drill_possible = False  # Default = False
         self.room_view_drill_down = 0  # Default = 0
-        
+
         # Drawer Opened Settings
         self.fcd1_opened = False  # Default = False
         self.fcd2_opened = True  # Default = False
         self.dd1_opened = True  # Default = False
         self.dd2_opened = False  # Default = False
         self.dd3_opened = False  # Default = False
-        
+
         self.dd3_open_attempts = 0  # Default = 0
         self.desk_drawer_up = False
 
@@ -319,12 +316,9 @@ class Settings():
                             'orange':[5, 'o', self.orange],
                             'red': [6, 'r', self.red]}
 
-        # Alphabet List
-        self.alphabet_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
-        
-        
-        
-        
+
+
+        self.settings_dictionary = {}
     
     

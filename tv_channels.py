@@ -450,9 +450,6 @@ def tv_channels(gs, screen):
         if gs.current_room_view == 1:
             gs.text = 'What is this clock?'
 
-
-
-
     # Game Channels // These channels will change on each new instance of the game
     # Channel Code
     elif gs.current_channel == str(gs.channel_code): # Will Give Code to Turn On Safe

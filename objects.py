@@ -39,7 +39,14 @@ class GameObjects():
         pygame.draw.rect(screen, gs.black, self.inventory_window, 3)
 
         # Define and Draw inventory items
-        inventory.draw_items(gs, screen)    
+        inventory.draw_items(gs, screen)
+
+        # Draw Save Button
+        self.save_button = pygame.Rect(self.inventory_window.x + 20, self.inventory_window.bottom - 100, self.inventory_window.width - 50, 30)
+        pygame.draw.rect(screen, gs.black, self.save_button)
+
+        self.load_button = pygame.Rect(self.inventory_window.x + 20, self.inventory_window.bottom - 50, self.inventory_window.width - 50, 30)
+        pygame.draw.rect(screen, gs.black, self.load_button)
         
         # Draw the 'Change Screen' Windows
         if gs.lights_on:

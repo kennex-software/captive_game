@@ -88,7 +88,7 @@ def title_menu():
         clock.tick(30)
 
 def game_menu():
-    game_title = gs.cambria90.render('CAPTIVE', True, gs.black)
+    game_title = gs.cambria150.render('CAPTIVE', True, gs.black)
     game_title_rect = game_title.get_rect()
     game_title_rect.centerx = gs.screen_width//2
 
@@ -116,6 +116,7 @@ def game_menu():
                         print('scores')
                     if button2.collidepoint(event.pos):
                         print('load game')
+                        gs.start_game_from_load = True
                     if button3.collidepoint(event.pos):
                         print('run game')
                         pygame.time.wait(2000)
@@ -212,7 +213,9 @@ def run_game():
 
 
 
-    gf.generate_codes(gs) # generates numbers for problems and puzzles
+    if not gs.start_game_from_load:
+        gf.generate_codes(gs) # generates numbers for problems and puzzles
+        gf.update_settings_dictionary(gs) # Generates the ability to save the settings generated in the generate codes
 
     stable_item_blocks = Stable_Items(gs, screen)
     room_view = Room(gs, screen, stable_item_blocks)
@@ -220,6 +223,7 @@ def run_game():
     game_objects = GameObjects(gs, screen, inventory)
     cp = Control_Panel(gs, screen)
 
+    gs.game_start_time = pygame.time.get_ticks()
     gs.game_started = True
 
 
@@ -229,7 +233,7 @@ def run_game():
     while True:
         gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
         gf.update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
-        gf.game_clock(gs, screen, clock)
+
 
         if gs.sleeperticks:
             pygame.time.wait(100)  # Leave this at 100 or less
