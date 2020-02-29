@@ -418,6 +418,19 @@ class Room():
                     self.door_key_clicker = gf.draw_item_to_screen(gs, screen, door_key_rotated, 6, 521, 335)
 
             else:
+                if gs.safe_on:
+                    gs.safe_use_color = gs.red
+                    self.safe_back_color = gs.off_white
+                    self.safe_status_color_on = gs.green
+                    self.safe_status_color_off = gs.black
+                    if gs.safe_initialized:
+                        gs.safe_use_color = gs.green
+                else:
+                    self.safe_status_color_on = gs.black
+                    self.safe_status_color_off = gs.red
+                    self.safe_back_color = gs.black
+                    gs.safe_use_color = gs.black
+
                 # Closed Safe
                 pygame.draw.rect(screen, gs.safe, self.safe)
                 pygame.draw.rect(screen, gs.black, self.safe, 4)
@@ -427,11 +440,11 @@ class Room():
                 pygame.draw.rect(screen, gs.black, self.safe_handle, 3)
 
                 # Numbers
-                pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n1) # Number spot 1
-                pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n2) # Number spot 2
-                pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n3) # Number spot 3
-                pygame.draw.rect(screen, gs.off_white, self.safe_number_rect_n4) # Number spot 4
-                pygame.draw.rect(screen, gs.off_white, self.safe_alpha_rect_a1) # Alpha spot 1
+                pygame.draw.rect(screen, self.safe_back_color, self.safe_number_rect_n1) # Number spot 1
+                pygame.draw.rect(screen, self.safe_back_color, self.safe_number_rect_n2) # Number spot 2
+                pygame.draw.rect(screen, self.safe_back_color, self.safe_number_rect_n3) # Number spot 3
+                pygame.draw.rect(screen, self.safe_back_color, self.safe_number_rect_n4) # Number spot 4
+                pygame.draw.rect(screen, self.safe_back_color, self.safe_alpha_rect_a1) # Alpha spot 1
 
                 self.n1_image = gs.arial60.render(str(self.safe_number_n1), True, gs.black) # n1 text
                 self.n2_image = gs.arial60.render(str(self.safe_number_n2), True, gs.black) # n2 text
@@ -452,16 +465,7 @@ class Room():
                 screen.blit(self.n4_image, self.n4_rect) # n4 blit
                 screen.blit(self.a1_image, self.a1_rect) # a1 blit
 
-                if gs.safe_on:
-                    gs.safe_use_color = gs.red
-                    self.safe_status_color_on = gs.green
-                    self.safe_status_color_off = gs.black
-                    if gs.safe_initialized:
-                        gs.safe_use_color = gs.green
-                else:
-                    self.safe_status_color_on = gs.black
-                    self.safe_status_color_off = gs.red
-                    gs.safe_use_color = gs.black
+
 
                 # On / Off Settings
                 self.safe_on_block = pygame.Rect(657, 170, 8, 8)
