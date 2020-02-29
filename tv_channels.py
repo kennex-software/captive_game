@@ -12,13 +12,13 @@ import gf
 i_python_logo = 'images/python.png' # Python Logo
 i_diamond = 'images/diamond.png' # Diamond
 i_bricks_scene = 'images/bricks_scene.png' # Bricks Scene
-i_cam2_view = 'images/cam2_view.png' # View for Camera 2
+i_cam3_view = 'images/cam3_view.png' # View for Camera 3
 i_gnarski_logo = 'images/gnarski_logo.png' # Gnarski Logo
 
 python_logo = pygame.image.load(i_python_logo)
 diamond = pygame.image.load(i_diamond)
 bricks_scene = pygame.image.load(i_bricks_scene)
-camera2_view = pygame.image.load(i_cam2_view)
+camera3_view = pygame.image.load(i_cam3_view)
 gnarski_logo = pygame.image.load(i_gnarski_logo)
 
 # Sounds
@@ -68,7 +68,9 @@ def draw_items_partial(gs, screen, image, factor, x, y):
 
     #return image_rect
 
-def whitespace(surface, x, y, h, w):
+
+"""
+def whitespace(surface, x, y, w, h):
     pixel_size = 4
     pixel_length = w / pixel_size
     pixel_height = h / pixel_size
@@ -85,8 +87,28 @@ def whitespace(surface, x, y, h, w):
             x += pixel_size
         y += pixel_size
         x = start
+"""
+def whitespace(surface, rect):
+    #def whitespace(surface, x, y, w, h):
+    pixel_size = 4
+    pixel_length = rect.h / pixel_size
+    pixel_height = rect.w / pixel_size
+    start = rect.x
 
-def falling_numbers(gs, surface, x, y, h, w):
+    pixel_grid = [[1]*int(pixel_height) for n in range(int(pixel_length))]
+
+    colors = [(255, 255, 255), (205, 205, 205), (155, 155, 155), (100, 100, 100)]
+
+    for row in pixel_grid:
+        for col in row:
+            color = random.randint(0, 3)
+            surface.fill(colors[color], ((rect.x, rect.y), (pixel_size, pixel_size)))
+            rect.x += pixel_size
+        rect.y += pixel_size
+        rect.x = start
+
+'''
+def falling_numbers(gs, surface, x, y, w, h):
     #pygame.time.Clock().tick(10)
     if gs.current_room_view == 1:
         gs.text = 'What was that noise?'
@@ -108,17 +130,39 @@ def falling_numbers(gs, surface, x, y, h, w):
             x += text_image.get_width() + factor
         y += text_image.get_height()
         x = start
+'''
+def falling_numbers(gs, surface, rect):
+    #pygame.time.Clock().tick(10)
+    if gs.current_room_view == 1:
+        gs.text = 'What was that noise?'
+    gs.current_tv_screen_color = gs.white
 
-def secret_channel_code(gs, screen, x, y, h, w):
+    range_num = 16
+    factor = rect.h / (range_num + 2)
+    start = rect.x
+
+    number_grid = [range(1, range_num) for n in range(14)]
+    colors = [(gs.white), (gs.black), (gs.red), (gs.blue)]
+
+    for row in number_grid:
+        for col in row:
+            color = random.randint(0, 2)
+            text_image = gs.verdana16.render(str(col), True, colors[color])
+            surface.blit(text_image, (rect.x, rect.y))
+
+            rect.x += text_image.get_width() + factor
+        rect.y += text_image.get_height()
+        rect.x = start
+
+def secret_channel_code(gs, screen, rect):
     """Will give code to turn on Safe"""
-    tv_rect = pygame.Rect(x, y, h, w)
     text_image = gs.arial60.render(str(gs.turn_safe_on_channel), True, gs.black)
-    text_rect = text_image.get_rect(center = tv_rect.center)
+    text_rect = text_image.get_rect(center = rect.center)
     screen.blit(text_image, text_rect)
 
-def safe_turned_on(gs, screen, x, y, h, w):
+def safe_turned_on(gs, screen, rect):
     """Will give code to turn on Safe"""
-    tv_rect = pygame.Rect(x, y, h, w)
+    #tv_rect = pygame.Rect(x, y, h, w)
     text_image = None
     text_rect = None
 
@@ -128,12 +172,12 @@ def safe_turned_on(gs, screen, x, y, h, w):
             gs.safe_on_sound_var = 1
         gs.current_tv_screen_color = gs.good_green
         text_image = gs.arial60.render('SAFE ON', True, gs.black)
-        text_rect = text_image.get_rect(center = tv_rect.center)
+        text_rect = text_image.get_rect(center = rect.center)
         gs.safe_on = True
     else:
         gs.current_tv_screen_color = gs.bad_red
         text_image = gs.arial60.render('SAFE COVERED', True, gs.black)
-        text_rect = text_image.get_rect(center = tv_rect.center)
+        text_rect = text_image.get_rect(center = rect.center)
         if gs.close_remote:
             gs.current_channel = gs.channel_code
 
@@ -181,19 +225,15 @@ def camera_one(gs, screen, x, y):
     new_surface = gf.aspect_scale_wh(sur_cam_one, 470, 296)
     screen.blit(new_surface, (x, y))
 
-
-
-
-
-def camera_three(gs, screen, x, y, h, w):
-    screen.blit(gf.aspect_scale_wh(camera2_view, h, w), (x, y))
+def camera_three(gs, screen, x, y, w, h):
+    screen.blit(gf.aspect_scale_wh(camera3_view, w, h), (x, y))
     text_image = gs.cambria20.render(str(gs.konar_number), True, gs.black)
     sign_rect = pygame.Rect(437, 225, 37, 19)
     text_rect = text_image.get_rect(center = sign_rect.center)
     if gs.current_room_view == 1:
         screen.blit(text_image, text_rect)
 
-def view_diamonds(gs, screen, x, y, h, w):
+def view_diamonds(gs, screen):
     """Will show two diamonds to the screen of varying colors.  These colors are needed for either the safe or to figure out the safe."""
     gs.current_tv_screen_color = gs.white
 
@@ -228,6 +268,78 @@ def check_channels_for_events(gs):
         gs.safe_initialized = False
         gs.tv_sound_play_var = 0
 
+def blue_book_hint(gs, screen, rect):
+    size = 40
+    pub_grid_piece = pygame.Rect(500, 250, size, size)
+    pub_grid_piece.centerx = rect.centerx - 150
+    pub_grid_piece.centery = rect.centery
+
+    width = size
+    height = size
+    grid = [(((pub_grid_piece.x - width)/size), ((pub_grid_piece.y - height)/size)), # Grid 1 // index 0
+            (((pub_grid_piece.x + width)/size), ((pub_grid_piece.y - height)/size)), # Grid 3 // index 1
+            ((pub_grid_piece.x/size), ((pub_grid_piece.y - height)/size)), # Grid 2 >> 2 is after 3 because of how the grid calcs // index 2
+            (((pub_grid_piece.x - width)/size), (pub_grid_piece.y/size)), # Grid 4 // index 3
+            ((pub_grid_piece.x/size), (pub_grid_piece.y/size)), # Grid 5 *** Same as grid piece // index 4
+            (((pub_grid_piece.x + width)/size), (pub_grid_piece.y/size)), # Grid 6 // index 5
+            (((pub_grid_piece.x - width)/size), ((pub_grid_piece.y + height)/size)), # Grid 7 // index 6
+            ((pub_grid_piece.x/size), ((pub_grid_piece.y + height)/size)), # Grid 8 // index 7
+            (((pub_grid_piece.x + width)/size), ((pub_grid_piece.y + height)/size)), # Grid 9 // index 8
+            ]
+
+    index = 0
+
+    for column, row in grid:
+
+        x = column * width
+        y = row * height
+        dist = 150
+        current_grid = pygame.Rect(x, y, width, height)
+        current_grid2 = pygame.Rect(x+dist, y, width, height)
+        current_grid3 = pygame.Rect(x+(dist*2), y, width, height)
+        if index == 0:
+            pygame.draw.rect(screen, gs.red, current_grid)
+            pygame.draw.rect(screen, gs.black, current_grid, 3)
+
+            pygame.draw.rect(screen, gs.red, current_grid2)
+            pygame.draw.rect(screen, gs.black, current_grid2, 3)
+
+            text_image = gs.cambria30.render('X  2', True, gs.black)
+            text_image_rect = text_image.get_rect()
+            text_image_rect.center = current_grid3.center
+            screen.blit(text_image, text_image_rect)
+
+
+
+        elif index == 1:
+            pygame.draw.rect(screen, gs.green, current_grid)
+            pygame.draw.rect(screen, gs.black, current_grid, 3)
+
+            pygame.draw.rect(screen, gs.green, current_grid2)
+            pygame.draw.rect(screen, gs.black, current_grid2, 3)
+
+            pygame.draw.rect(screen, gs.blue_book_color, current_grid3)
+            pygame.draw.rect(screen, gs.black, current_grid3, 3)
+
+        elif index == 2:
+            pygame.draw.rect(screen, gs.blue_book_color, current_grid)
+            pygame.draw.rect(screen, gs.black, current_grid, 3)
+
+            text_image = gs.cambria30.render('X', True, gs.black)
+            text_image_rect = text_image.get_rect()
+            text_image_rect.center = current_grid2.center
+            screen.blit(text_image, text_image_rect)
+
+            text_image = gs.cambria30.render('=', True, gs.black)
+            text_image_rect = text_image.get_rect()
+            text_image_rect.center = current_grid3.center
+            screen.blit(text_image, text_image_rect)
+
+        else:
+            pygame.draw.rect(screen, gs.black, current_grid, 3)
+
+        index += 1
+
 
 def tv_channels(gs, screen):
     """
@@ -242,23 +354,20 @@ def tv_channels(gs, screen):
     #tv_rect = pygame.Rect(195, 140, 470, 296)
     #partial_tv_rect = pygame.Rect(945, 140, 470, 296)
     tv_y = 140
-    tv_w = 296
-    tv_h = 470
+    tv_w = 470
+    tv_h = 296
 
     if gs.current_room_view == 1:
         tv_x = 195
-        tv_rect = pygame.Rect(195, 140, 470, 296)
+        #tv_rect = pygame.Rect(195, 140, 470, 296)
     else:
         tv_x = 945
-        tv_rect = pygame.Rect(945, 140, 470, 296)
 
+    tv_rect = pygame.Rect(tv_x, tv_y, tv_w, tv_h)
     check_channels_for_events(gs)
 
-
-
-
     # Channels
-
+    # Channel 1
     if gs.current_channel == str(1):  # Powered by Python
         if gs.current_room_view == 1:
             gs.text = 'Wow! This whole game was made with Python?'
@@ -268,6 +377,7 @@ def tv_channels(gs, screen):
         else:
             draw_items_partial(gs, screen, python_logo, 1.25, 195, 140)
 
+    # Channel 2
     elif gs.current_channel == str(2):  # Gnarski
         gs.current_tv_screen_color = gs.white
         if gs.current_room_view == 1:
@@ -276,17 +386,20 @@ def tv_channels(gs, screen):
         else:
             draw_items_partial(gs, screen, gnarski_logo, 1.25, 195, 140)
 
+    # Channel 3
     elif gs.current_channel == str(3):  # Default channel??
         if gs.current_room_view == 1:
                 gs.text = 'I think this is the default channel...'
 
+    # Channel 4
     # Cameras
     elif gs.current_channel == str(4):  # Camera 1
         camera_one(gs, screen, tv_x, tv_y)
         show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 1')
         if gs.current_room_view == 1:
-            gs.text = "It's a camera? Is this of my room?"
+            gs.text = "It's a camera? Is this outside of this room?"
 
+    # Channel 5
     elif gs.current_channel == str(5): # Camera 2
         gs.current_tv_screen_color = gs.white
         if gs.current_room_view == 1:
@@ -300,9 +413,10 @@ def tv_channels(gs, screen):
             draw_items_partial(gs, screen, bricks_scene, 1, 195, 140)
             show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 2')
 
+    # Channel 6
     elif gs.current_channel == str(6):  # Camera 3 // Only on with power cord
         if gs.power_cord_desk_2:
-            camera_three(gs, screen, tv_x, tv_y, tv_h, tv_w)
+            camera_three(gs, screen, tv_x, tv_y, tv_w, tv_h)
             show_text_on_tv(gs, screen, tv_x, 415, 'CAMERA 3')
             if gs.current_room_view == 1:
                 gs.text = 'Oh! Another camera!'
@@ -310,19 +424,24 @@ def tv_channels(gs, screen):
             if gs.current_room_view == 1:
                 gs.text = 'There seems to be nothing here...'
 
+    # Channel 7
     elif gs.current_channel == str(7):  # Falling Numbers Channel 7
-        falling_numbers(gs, screen, tv_x, tv_y, tv_h, tv_w)
+        falling_numbers(gs, screen, tv_rect)
 
+    # Channel 8
     elif gs.current_channel == str(8):  # Whitespace
-        whitespace(screen, tv_x, tv_y, tv_h, tv_w)
+        #whitespace(screen, tv_x, tv_y, tv_w, tv_h)
+        whitespace(screen, tv_rect)
         if gs.current_room_view == 1:
             gs.text = 'This is a great channel.'
 
+    # Channel 9
     elif gs.current_channel == str(9):  # Black Screen
         if gs.current_room_view == 1:
             gs.text = 'This channel was intentionally left blank.'
 
-    elif gs.current_channel == str(12):  # Black Screen
+    # Channel 12
+    elif gs.current_channel == str(12):  # Clock
         gs.current_tv_screen_color = gs.off_white
         clock_value = gf.get_game_clock(gs, screen)
         clock_text = gs.verdana55.render(clock_value, True, gs.red)
@@ -331,22 +450,38 @@ def tv_channels(gs, screen):
         if gs.current_room_view == 1:
             gs.text = 'What is this clock?'
 
-    # Game Channels
+
+
+
+    # Game Channels // These channels will change on each new instance of the game
+    # Channel Code
     elif gs.current_channel == str(gs.channel_code): # Will Give Code to Turn On Safe
         gs.current_tv_screen_color = gs.white
-        secret_channel_code(gs, screen, tv_x, tv_y, tv_h, tv_w)
+        secret_channel_code(gs, screen, tv_rect)
         if gs.current_room_view == 1:
             gs.text = 'Some odd code...'
 
-    elif gs.current_channel == str(gs.random_channel): # Will Show Two Diamonds of different colors // These colors match the safe (bigger one is first)
-        view_diamonds(gs, screen, tv_x, tv_y, tv_h, tv_w)
+    # Blue Book Hint
+    elif gs.current_channel == str(gs.pub_n7): # Blue book hint
+        gs.current_tv_screen_color = gs.white
+        blue_book_hint(gs, screen, tv_rect)
+        if gs.current_room_view == 1:
+            gs.text = "I think I've seen this before..."
+
+    # Will Show Two Diamonds of different colors // These colors match the safe (bigger one is first)
+    elif gs.current_channel == str(gs.random_channel):
+        view_diamonds(gs, screen)
         if gs.current_room_view == 1:
             gs.text = 'Diamonds? What do these mean?'
 
+    # Safe Channel
     elif gs.current_channel == str(gs.turn_safe_on_channel): # Turns on Safe
-        safe_turned_on(gs, screen, tv_x, tv_y, tv_h, tv_w)
+        safe_turned_on(gs, screen, tv_rect)
         if gs.current_room_view == 1:
             gs.text = 'I turned on the safe!'
+
+
+
 
     # Easter Egg Channels
     elif gs.current_channel == str(456): # todo something
@@ -363,15 +498,12 @@ def tv_channels(gs, screen):
         if gs.current_room_view == 1:
             gs.text = 'I DO LIKE BUTTONS! HAHA!'
 
-    elif gs.current_channel == str(456): # todo easter egg channel for fun
-        print(gs.current_channel)
-
     elif gs.current_channel == str(181161693114): # This spells "RAPPICAN" if you put 1-26 next to the alphabet
         if gs.current_room_view == 1:
             gs.text = "Paul's Channel..."
 
     else:  # Whitespace
-        whitespace(screen, tv_x, tv_y, tv_h, tv_w)
+        whitespace(screen, tv_rect)
         if gs.current_room_view == 1:
             gs.text = 'It does not have a signal...'
 

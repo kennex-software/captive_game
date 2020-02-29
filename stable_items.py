@@ -220,7 +220,7 @@ class Stable_Items():
 
             # Page 3 - Puzzle B (see excel file)
             elif page == 3:
-                gs.text = '.......'
+                gs.text = '...Is there a pattern to be found?'
                 pub_grid_piece = pygame.Rect(500, 250, 100, 100)
                 pub_grid_piece.centerx = page_area.centerx
                 pub_grid_piece.centery = page_area.centery
@@ -249,7 +249,11 @@ class Stable_Items():
                     x = column * width
                     y = row * height
                     current_grid = pygame.Rect(x, y, width, height)
-                    pygame.draw.rect(screen, gs.black, current_grid, 3)
+                    if index == 6:
+                        pygame.draw.rect(screen, gs.blue_book_color, current_grid)
+                        pygame.draw.rect(screen, gs.black, current_grid, 3)
+                    else:
+                        pygame.draw.rect(screen, gs.black, current_grid, 3)
 
                     text_image = gs.verdana22.render(str(pub_grid_numbers[index]), True, gs.black)
                     text_rect = text_image.get_rect(center = current_grid.center)
@@ -687,8 +691,8 @@ class Stable_Items():
                     '',
                     '',
                     '',
-                    'boxI + boxII',
-                    '  __  __  __  __  > ',
+                    'solve, then',
+                    'boxIboxII >',
                     '',
                     '',
                     '',

@@ -216,8 +216,8 @@ def generate_codes(gs):
     # Problem A
 
     # Problem B
-    gs.prb_n1 = random.randint(1, 13)
-    gs.prb_n2 = random.randint(1, 22)
+    gs.prb_n1 = random.randint(1, 13) # k
+    gs.prb_n2 = random.randint(1, 22) # n
     gs.prb_code = gs.prb_n1*gs.prb_n2+(2*gs.prb_n1*(3+gs.prb_n2))+(gs.prb_n1+gs.prb_n2)
 
     # Puzzle A
@@ -231,7 +231,7 @@ def generate_codes(gs):
     gs.pua_double_digits = puzzles.double_digits(gs.pua_code)
 
     # Puzzle B
-    gs.pub_n1 = random.randint(1, 9)
+    gs.pub_n1 = random.randint(2, 9)
     gs.pub_n3 = random.randint(1, 6)
     gs.pub_n2 = gs.pub_n1 * gs.pub_n3 * 2
     gs.pub_n4 = gs.pub_n1 + gs.pub_n2
@@ -243,13 +243,8 @@ def generate_codes(gs):
     gs.pub_code = int(str(gs.pub_n8)[-3:])
 
     # Channel Code
-    gs.channel_code = gs.prb_code + gs.pub_code
-    if len(str(gs.channel_code)) != 4:
-        gs.channel_code = '0' + str(gs.channel_code)
-        if len(str(gs.channel_code)) != 4:
-            gs.channel_code = '0' + str(gs.channel_code)
-            if len(str(gs.channel_code)) != 4:
-                gs.channel_code = '0' + str(gs.channel_code)
+    gs.channel_code = str(gs.prb_code) + str(gs.pub_code)
+
 
     # Diary Choice Interger
     gs.diary_choice = random.randint(1, 3)
@@ -292,6 +287,8 @@ def generate_codes(gs):
 
     # Random Channel for Papers
     gs.random_channel = random.randint(44, 99)
+    if gs.random_channel == gs.pub_n7:
+        gs.random_channel += 3
 
     # Turn Safe On Channel
     random_choice = ['U', 'D', 'L', 'R', 'F', '9']
@@ -401,14 +398,20 @@ def print_settings(gs):
     print("")
     print("Channel List:")
     print("1: Python // Done")
-    print("2: ???")
+    print("2: Gnarski // Done")
     print("3: Default // Done")
-    print("4: Camera 1 ???")
-    print("5: Camera 2 ???")
+    print("4: Camera 1 // Done")
+    print("5: Camera 2 // Done")
     print("6: Camera 3 // Done")
     print("7: Falling Numbers // Done")
     print("8: Whitespace // Done")
-    print("123456789L0F: ???")
+    print("9: Blank // Done")
+    print("12: Game Clock // Done")
+    print("1234567890F: Button Presser // Done")
+    print(str(gs.pub_n7) + ": Blue Book Hint // Not Done")
+    print(str(gs.channel_code) + ": Code to Turn on Safe // Done")
+    print(str(gs.random_channel) + ": Diamond Channel // Done")
+    print(str(gs.turn_safe_on_channel) + ": Turn Safe On Channel // Done")
     print("FINDCHANNEL: ???")
     print("FINDCHANNEL: ???")
     print("181161693114: ???")
