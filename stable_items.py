@@ -137,7 +137,10 @@ class Stable_Items():
                     line_spacing += text_height
             # Page 4
             if page == 4:
-                surface = pygame.Surface((100,100))
+                #surface = pygame.Surface((100,100))
+
+                text_image = gs.cambria18.render('closets hold secrets', True, gs.gray)
+                screen.blit(text_image, (655, 170))
 
                 width = inventory.red_key_taped.get_width() // 3
                 height = inventory.red_key_taped.get_height() // 3
@@ -190,11 +193,11 @@ class Stable_Items():
             # Page 2 - Two Math Problems (Problems A and B)
             elif page == 2:
                 gs.text = 'Some ... Math problems???'
-                problem_a_text = "=ROUNDDOWN(STREETSIGN / SUBJECT * 25 / 10,0)"
-                problem_a_text2 = "alpha safe :  A=0"
+                problem_a_text = "safe_alpha=ROUNDDOWN(STREETSIGN / SUBJECT * 25 / 10,0)"
+                problem_a_text2 = "IF A=0...then:"
                 pra_text_image = gs.arial16.render(problem_a_text, True, gs.black)
                 pra_text_image2 = gs.arial16.render(problem_a_text2, True, gs.black)
-                screen.blit(pra_text_image, (440, 280))
+                screen.blit(pra_text_image, (440, 240))
                 screen.blit(pra_text_image2, (505, 210))
 
 
@@ -202,12 +205,18 @@ class Stable_Items():
                 prb_text_image = gs.verdana22.render(problem_b_text, True, gs.black)
                 prbn1_text_image = gs.verdana16.render("k= " + str(gs.prb_n1), True, gs.black)
                 prbn2_text_image = gs.verdana16.render("n= " + str(gs.prb_n2), True, gs.black)
+                box_text_image = gs.cambria20.render("Box I", True, gs.black)
                 screen.blit(prbn1_text_image, (455, 505))
                 screen.blit(prbn2_text_image, (680, 515))
                 screen.blit(prb_text_image, (520, 570))
 
+
                 box = pygame.Rect(430, 483, 400, 144)
                 pygame.draw.rect(screen, gs.black, box, 3)
+
+                box_text_image_rect = box_text_image.get_rect()
+                box_text_image_rect.center = box.center
+                screen.blit(box_text_image, (box_text_image_rect.x, 455))
 
             # Page 3 - Puzzle B (see excel file)
             elif page == 3:
@@ -248,9 +257,16 @@ class Stable_Items():
                     screen.blit(text_image, text_rect)
                     index += 1
 
+                box_text_image = gs.cambria20.render("Box II", True, gs.black)
+                box_text_image_rect = box_text_image.get_rect()
+                box_text_image_rect.center = pub_grid_piece.center
+                screen.blit(box_text_image, (box_text_image_rect.x, 195))
+
                 text = 'ONLY THE LAST 3 DIGITS of ?'
-                text_image = gs.verdana12.render(text, True, gs.black)
-                screen.blit(text_image, (545, 573))
+                text_image = gs.cambria18.render(text, True, gs.black)
+                text_image_rect = text_image.get_rect()
+                text_image_rect.center = pub_grid_piece.center
+                screen.blit(text_image, (text_image_rect.x, 573))
 
             # Page 4 - Colors in random order for Puzzle A based on how they were generated
             elif page == 4:
@@ -670,20 +686,19 @@ class Stable_Items():
                     '    LEAVE IT ON SEVEN!',
                     '',
                     '',
-                    'Boxed Puzzles SSAE',
-                    'Solve.Solve.Add.Enter.',
                     '',
+                    'boxI + boxII',
                     '  __  __  __  __  > ',
                     '',
                     '',
                     '',
-                    'color by numbers'
+                    'colors are numbered'
                     ]
 
             line_spacing = 95
             x_spacing = 325
             text_height = gs.verdana22.get_height()
-            angle = 9
+            angle = 8
 
             for text in texts:
                 text_image = gs.verdana22.render(text, True, gs.black)

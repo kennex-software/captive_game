@@ -109,6 +109,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                 else:
                     print('escape key pressed, run menu')
 
+
 def update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp):
     """Update images on the screen and flip to the new screen."""
     # Redraw the screen during each pass through the loop

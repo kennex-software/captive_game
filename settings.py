@@ -241,7 +241,7 @@ class Settings():
         
         # Drawer Opened Settings
         self.fcd1_opened = False  # Default = False
-        self.fcd2_opened = False  # Default = False
+        self.fcd2_opened = True  # Default = False
         self.dd1_opened = False  # Default = False
         self.dd2_opened = False  # Default = False
         self.dd3_opened = False  # Default = False
