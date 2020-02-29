@@ -152,14 +152,14 @@ def camera_one(gs, screen, x, y):
     # Door Settings
     main_door = pygame.Rect(390, 160, 225, 440)
     floor_rect = pygame.Rect(0, 600, 1065, 150)
-    sign = pygame.Rect(268, 220, 90, 55)
-    sign_number_border = pygame.Rect(sign.bottomleft[0], sign.bottomleft[1], 90, 55)
+    sign = pygame.Rect(225, 220, 135, 55)
+    sign_number_border = pygame.Rect(sign.bottomleft[0], sign.bottomleft[1], 135, 68)
 
     # Door
     pygame.draw.rect(sur_cam_one, gs.door, main_door)
     pygame.draw.rect(sur_cam_one, gs.black, main_door, 3)
     pygame.draw.circle(sur_cam_one, gs.dark_gray, (425-3, 390+5), 15)
-    door_handle_rect = pygame.draw.circle(sur_cam_one, gs.yellow, (425, 390), 15)
+    pygame.draw.circle(sur_cam_one, gs.yellow, (425, 390), 15)
     pygame.draw.circle(sur_cam_one, gs.black, (425, 390), 16, 2)
     pygame.draw.circle(sur_cam_one, gs.black, (425, 390), 4, 1)
 
@@ -171,8 +171,8 @@ def camera_one(gs, screen, x, y):
     pygame.draw.rect(sur_cam_one, gs.black, sign, 2)
     pygame.draw.rect(sur_cam_one, gs.black, sign_number_border, 2)
 
-    sign_word = gs.garamond12.render('SUBJECT', True, gs.black)
-    sign_number = gs.garamond30.render(str(gs.door_number), True, gs.black)
+    sign_word = gs.cambria30.render('SUBJECT', True, gs.black)
+    sign_number = gs.cambria48.render(str(gs.door_number), True, gs.black)
     sign_word_rect = sign_word.get_rect(center=sign.center)
     sign_number_rect = sign_number.get_rect(center=sign_number_border.center)
     sur_cam_one.blit(sign_word, sign_word_rect)
@@ -187,7 +187,7 @@ def camera_one(gs, screen, x, y):
 
 def camera_three(gs, screen, x, y, h, w):
     screen.blit(gf.aspect_scale_wh(camera2_view, h, w), (x, y))
-    text_image = gs.garamond18.render(str(gs.konar_number), True, gs.black)
+    text_image = gs.cambria20.render(str(gs.konar_number), True, gs.black)
     sign_rect = pygame.Rect(437, 225, 37, 19)
     text_rect = text_image.get_rect(center = sign_rect.center)
     if gs.current_room_view == 1:

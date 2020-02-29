@@ -62,12 +62,14 @@ class Settings():
         self.arial60 = pygame.font.SysFont("Arial", 60, True)
         self.arial88 = pygame.font.SysFont("Arial", 88, True)
 
-        self.garamond12 = pygame.font.SysFont("Cambria", 12, True)
-        self.garamond16 = pygame.font.SysFont("Cambria", 16, True)
-        self.garamond18 = pygame.font.SysFont("Cambria", 18, True)
-        self.garamond22 = pygame.font.SysFont("Cambria", 22, True)
-        self.garamond30 = pygame.font.SysFont("Cambria", 30, True)
-        self.garamond90 = pygame.font.SysFont("Cambria", 90, True)
+        self.cambria12 = pygame.font.SysFont("Cambria", 12, True)
+        self.cambria16 = pygame.font.SysFont("Cambria", 16, True)
+        self.cambria18 = pygame.font.SysFont("Cambria", 18, True)
+        self.cambria20 = pygame.font.SysFont("Cambria", 20, True)
+        self.cambria22 = pygame.font.SysFont("Cambria", 22, True)
+        self.cambria30 = pygame.font.SysFont("Cambria", 30, True)
+        self.cambria48 = pygame.font.SysFont("Cambria", 48, True)
+        self.cambria90 = pygame.font.SysFont("Cambria", 90, True)
 
 
         # Sleep Ticker

@@ -25,7 +25,7 @@ intro_music = pygame.mixer.Sound('sounds/intro.wav')
 
 def title_menu():
 
-    title = gs.garamond90.render('CAPTIVE', True, gs.black)
+    title = gs.cambria90.render('CAPTIVE', True, gs.black)
     author = gs.verdana32.render('Kennex Presents:', True, gs.black)
     alpha_title_surface = pygame.Surface(title.get_size(), pygame.SRCALPHA)
     alpha_author_surface = pygame.Surface(author.get_size(), pygame.SRCALPHA)
@@ -88,7 +88,7 @@ def title_menu():
         clock.tick(30)
 
 def game_menu():
-    game_title = gs.garamond90.render('CAPTIVE', True, gs.black)
+    game_title = gs.cambria90.render('CAPTIVE', True, gs.black)
     game_title_rect = game_title.get_rect()
     game_title_rect.centerx = gs.screen_width//2
 

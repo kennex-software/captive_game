@@ -64,7 +64,7 @@ class Stable_Items():
                 line_spacing = 200
                 text_height = gs.verdana18.get_height()
 
-                heading_image = gs.garamond30.render('CHANNELS', True, gs.black)
+                heading_image = gs.cambria30.render('CHANNELS', True, gs.black)
                 screen.blit(heading_image, ((self.page_area.centerx-(heading_image.get_width()/2)), (line_spacing-25)))
 
                 for channel in channels:
@@ -90,7 +90,7 @@ class Stable_Items():
                 line_spacing = 200
                 text_height = gs.verdana18.get_height()
 
-                heading_image = gs.garamond30.render('TELEVISION', True, gs.black)
+                heading_image = gs.cambria30.render('TELEVISION', True, gs.black)
                 screen.blit(heading_image, ((self.page_area.centerx-(heading_image.get_width()/2)), (line_spacing-25)))
 
                 for instruction in instructions:
@@ -112,7 +112,7 @@ class Stable_Items():
                 line_spacing = 200
                 text_height = gs.verdana18.get_height()
 
-                heading_image = gs.garamond30.render('CAMERAS', True, gs.black)
+                heading_image = gs.cambria30.render('CAMERAS', True, gs.black)
                 screen.blit(heading_image, ((self.page_area.centerx-(heading_image.get_width()/2)), (line_spacing-25)))
 
                 for instruction in instructions:
@@ -137,37 +137,37 @@ class Stable_Items():
                 # Page 1 - Pages to a diary
                 if gs.diary_choice == 1:
                     diary = "I'm not sure how long I've been in this room. I'm not sure how long I've been in this room. I'm not sure how long I've been in this room. I'm not sure how long I've been in this room. I'm not sure how long I've been in this room. I'm not sure how long I've been in this room. I'm not sure how long I've been in this room. I'm not sure how long I've been in this room."
-                    diary = mt.multiline_text(diary, 210, gs.garamond22)
-                    text_height = gs.garamond22.get_height()
+                    diary = mt.multiline_text(diary, 210, gs.cambria22)
+                    text_height = gs.cambria22.get_height()
 
                     line_spacing = 200
 
                     for line in diary:
-                        text_image = gs.garamond22.render(line, True, gs.black)
+                        text_image = gs.cambria22.render(line, True, gs.black)
                         screen.blit(text_image, (465, line_spacing))
                         line_spacing += text_height
 
                 elif gs.diary_choice == 2:
                     diary = "Once you've seen darkness, you probably don't see light.  But a good way to look into the future, is to see it with open eyes.  If you ever feel like you're alone, remember I'm by your side.  If you ever feel like you're alone, don't close your eyes at night..."
-                    diary = mt.multiline_text(diary, 210, gs.garamond22)
-                    text_height = gs.garamond22.get_height()
+                    diary = mt.multiline_text(diary, 210, gs.cambria22)
+                    text_height = gs.cambria22.get_height()
 
                     line_spacing = 200
 
                     for line in diary:
-                        text_image = gs.garamond22.render(line, True, gs.black)
+                        text_image = gs.cambria22.render(line, True, gs.black)
                         screen.blit(text_image, (465, line_spacing))
                         line_spacing += text_height
 
                 elif gs.diary_choice == 3:
                     diary = "Day 17: I think I know why I'm in here.  I noticed the TV was flickering and I couldn't explain the sounds.  I think I have lost my lunch.  I also realize that there is no food or bathroom here... So I must leave at once..."
-                    diary = mt.multiline_text(diary, 210, gs.garamond22)
-                    text_height = gs.garamond22.get_height()
+                    diary = mt.multiline_text(diary, 210, gs.cambria22)
+                    text_height = gs.cambria22.get_height()
 
                     line_spacing = 200
 
                     for line in diary:
-                        text_image = gs.garamond22.render(line, True, gs.black)
+                        text_image = gs.cambria22.render(line, True, gs.black)
                         screen.blit(text_image, (465, line_spacing))
                         line_spacing += text_height
 
@@ -480,7 +480,6 @@ class Stable_Items():
             gs.text = 'I need to point the remote at the TV...'
             gs.remote_opened = False
             gs.stable_item_opened = False
-
 
     def remote_buttons_clicked(self, gs, event):
         """Function to change the TV screen when remote can be opened as well as close the remote"""
