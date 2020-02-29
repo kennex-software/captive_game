@@ -200,6 +200,7 @@ class Settings():
         self.close_remote = False  # Default = False
         self.batteries_input = False  # Default = False # todo change to false
         self.button_input_list = []
+        self.entered_buttons = None
 
         # TV Settings
         self.tv_on = False  # Default = False todo make false

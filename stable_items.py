@@ -40,6 +40,22 @@ class Stable_Items():
         self.red_key_clickbox = [(637, 546), (655, 531), (666, 448), (680, 411), (661, 377),
                                 (635, 371), (595, 395), (598, 437), (611, 479), (616, 527), (637, 548)]
 
+        self.number_index_dict = {'4': 1,
+                                  '5': 2,
+                                  '6': 3,
+                                  '7': 4,
+                                  '8': 5,
+                                  '9': 6,
+                                  '10': 7,
+                                  '11': 8,
+                                  '12': 9,
+                                  '13': 0,
+                                  '15': 'F',
+                                  '22': 'U',
+                                  '23': 'R',
+                                  '24': 'D',
+                                  '25': 'L'}
+
     def book_page_content(self, gs, screen, page, page_area):
         if gs.current_book == 'red_book':
             # Page 1
@@ -521,10 +537,12 @@ class Stable_Items():
                                 gs.current_tv_screen_color = gs.tv_screen
                         elif box_index >= 4 and box_index <= 13:  # Numbers 1,2,3,4,5,6,7,8,9,0
                             gs.button_input_list.append(box_index)
+                            self.enter_button(gs)
                         elif box_index == 14:  # L Button
                             gs.button_input_list.clear()
                         elif box_index == 15:  # F Button
                             gs.button_input_list.append(box_index)
+                            self.enter_button(gs)
                         elif box_index == 16:  # Rewind
                             pass # todo print something in text stating that nothing happened
                         elif box_index == 17:  # Play
@@ -540,12 +558,16 @@ class Stable_Items():
 
                         elif box_index == 22:  # Top Arrow
                             gs.button_input_list.append(box_index)
+                            self.enter_button(gs)
                         elif box_index == 23:  # Right Arrow
                             gs.button_input_list.append(box_index)
+                            self.enter_button(gs)
                         elif box_index == 24:  # Bottom Arrow
                             gs.button_input_list.append(box_index)
+                            self.enter_button(gs)
                         elif box_index == 25:  # Left Arrow
                             gs.button_input_list.append(box_index)
+                            self.enter_button(gs)
                         elif box_index == 26:  # Power Button
                             gs.tv_on = False
                             gs.current_tv_screen_color = gs.tv_screen
@@ -559,27 +581,22 @@ class Stable_Items():
         if gs.remote_opened == True and not self.remote_rect.collidepoint(event.pos):
             gs.close_remote = True
 
+    def enter_button(self, gs):
+        temp_channel = []
+        if len(gs.button_input_list) <= 12:
+            for button in gs.button_input_list:
+                temp_channel.append(self.number_index_dict.get(str(button)))
+                gs.entered_buttons = ''.join(map(str, temp_channel))
+        else:
+            gs.current_channel = 'INVALID'
+            gs.button_input_list.clear()
+
     def remote_entry(self, gs):
-        number_index_dict = {'4': 1,
-                              '5': 2,
-                              '6': 3,
-                              '7': 4,
-                              '8': 5,
-                              '9': 6,
-                              '10': 7,
-                              '11': 8,
-                              '12': 9,
-                              '13': 0,
-                              '15': 'F',
-                              '22': 'U',
-                              '23': 'R',
-                              '24': 'D',
-                              '25': 'L'}
         temp_channel = []
         if len(gs.button_input_list) <= 12:
             gs.current_tv_screen_color = gs.tv_screen
             for button in gs.button_input_list:
-                temp_channel.append(number_index_dict.get(str(button)))
+                temp_channel.append(self.number_index_dict.get(str(button)))
                 gs.current_channel = ''.join(map(str, temp_channel))
 
             gs.button_input_list.clear()
@@ -587,7 +604,6 @@ class Stable_Items():
             gs.current_channel = 'INVALID'
             gs.current_tv_screen_color = gs.tv_screen
             gs.button_input_list.clear()
-        # print(gs.current_channel) todo delete later
 
     def draw_papers(self, gs, screen):
         """Function to draw the papers to the screen"""

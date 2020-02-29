@@ -1007,12 +1007,13 @@ class Room():
 
         # If TV is on, display the channel
         if gs.tv_on:
-            channel_text = gs.verdana16.render(str(gs.current_channel), True, gs.green)
+            if not gs.button_input_list:
+                channel_text = gs.verdana16.render(str(gs.current_channel), True, gs.green)
+            else:
+                channel_text = gs.verdana16.render(str(gs.entered_buttons), True, gs.green)
+            #channel_text = gs.verdana16.render(str(gs.current_channel), True, gs.green)
             tv_channels.tv_channels(gs, screen)
             screen.blit(channel_text, ((self.tv_screen_glass.x + 3), (self.tv_screen_glass.y)))
-
-
-
 
         # Click / Mouseovers
         self.clickbox_tv_stand_side = [(715, 500), (770, 500), (803, 622), (742, 628), (744, 528)]
