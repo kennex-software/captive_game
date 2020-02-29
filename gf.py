@@ -102,6 +102,12 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                 inventory.deselect_items(gs, event)
         elif event.type == pygame.MOUSEMOTION:
             inventory.item_grabbed(gs, event)
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                if gs.room_view_drill_down != 0:
+                    gs.room_view_drill_down = 0
+                else:
+                    print('escape key pressed, run menu')
 
 def update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp):
     """Update images on the screen and flip to the new screen."""

@@ -245,40 +245,10 @@ run_game()
 
 
 """
-TO DO LIST
-
-8. Need to create a logo for Kennex for the beginning.
-9. Need to figure out what is going to go at the bottom of the inventory window.
-14. Need to create an intro.
-15. Need to create an outro.
-20. Need to figure out if scaling the entire game is possible based on how it's drawn.
-
-
+Batch this:
 
 pyinstaller --onefile -w captive.py control_panel.py credits.py gf.py inventory.py multiline_text.py objects.py puzzles.py room.py scale_points_list.py settings.py stable_items.py tv_channels.py whitespace.py
 
 
 """
-# todo make credits
-# todo make what happens after you click open door / outro
-# todo make intro
-# todo create stats tracker (i.e. how many times played, hours played, times escaped, etc.)
-# todo add text
-# todo add music
-# todo figure out what other channels are needed
-# todo figure out if you can scale the whole game
-# todo add sound control to the remote
-# todo are there ways to quickly optimize?
-# todo figure out a title
-# todo create a title logo
-# todo create kennex logo
-
-
-# menu to do's
-# todo create menu
-# todo what's on the menu?
-# buttons, logs, settings
-
-
-
 

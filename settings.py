@@ -102,7 +102,7 @@ class Settings():
         self.purple = (106, 13, 173)
         self.black = (0, 0, 0)
         self.yellow = (207, 181, 52)
-        self.yellow_transparent = (207, 181, 52, 200)
+        self.gray_transparent = (173, 168, 168, 75)
         self.yellowish = (207, 181, 62)
         self.bright_yellow = (255, 255, 0)
         self.brown = (102, 51, 0)

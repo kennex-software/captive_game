@@ -1156,27 +1156,28 @@ class Room():
     def move_between_views(self, gs, screen, game_objects, stable_item_blocks, event):
         """Moves player between the various views based on the side that they clicked"""
         # Outer-Most Room Views
-        if game_objects.go_left.collidepoint(event.pos) and gs.room_view_drill_down == 0 and gs.stable_item_opened == False:  # Doesn't allow player to go left/right in drill down views
-            if gs.fourth_wall:
-                gs.current_room_view = 1
-                self.current_view(gs, screen, stable_item_blocks)
-            else:
-                gs.current_room_view -= 1
-                self.current_view(gs, screen, stable_item_blocks)
-            
-        if game_objects.go_right.collidepoint(event.pos) and gs.room_view_drill_down == 0 and gs.stable_item_opened == False:  # Doesn't allow player to go left/right in drill down views
-            if gs.fourth_wall:
-                gs.current_room_view = -1
-                self.current_view(gs, screen, stable_item_blocks)
-            else:
-                gs.current_room_view += 1
-                self.current_view(gs, screen, stable_item_blocks)
-                
-        ### Back button
-        if game_objects.go_back.collidepoint(event.pos) and gs.stable_item_opened == False:
-            gs.room_view_drill_down = 0
-            gs.current_room_view = int(gs.current_room_view // 1)
-            gs.text = None
+        if gs.lights_on:
+            if game_objects.go_left.collidepoint(event.pos) and gs.room_view_drill_down == 0 and gs.stable_item_opened == False:  # Doesn't allow player to go left/right in drill down views
+                if gs.fourth_wall:
+                    gs.current_room_view = 1
+                    self.current_view(gs, screen, stable_item_blocks)
+                else:
+                    gs.current_room_view -= 1
+                    self.current_view(gs, screen, stable_item_blocks)
+
+            if game_objects.go_right.collidepoint(event.pos) and gs.room_view_drill_down == 0 and gs.stable_item_opened == False:  # Doesn't allow player to go left/right in drill down views
+                if gs.fourth_wall:
+                    gs.current_room_view = -1
+                    self.current_view(gs, screen, stable_item_blocks)
+                else:
+                    gs.current_room_view += 1
+                    self.current_view(gs, screen, stable_item_blocks)
+
+            ### Back button
+            if gs.room_view_drill_down and game_objects.go_back.collidepoint(event.pos) and gs.stable_item_opened == False:
+                gs.room_view_drill_down = 0
+                gs.current_room_view = int(gs.current_room_view // 1)
+                gs.text = None
 
     def drill_down_views(self, gs, screen, game_objects, event):
         """Moves player between various drill down views on each view already"""        

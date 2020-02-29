@@ -18,6 +18,11 @@ class GameObjects():
         self.screen = screen     
         self.inventory = inventory
         self.screen_directions = pygame.Surface((gs.gw_width, gs.gw_height), pygame.SRCALPHA)
+
+        self.go_left = pygame.Rect(gs.gw_border, gs.gw_border, gs.gw_move_w, gs.gw_height)
+        self.go_right = pygame.Rect(gs.gw_right_x, gs.gw_border, gs.gw_move_w, gs.gw_height)
+        self.go_back = pygame.Rect(gs.gw_move_w+gs.gw_border*2, gs.gw_height-gs.gw_move_w, (gs.gw_width-gs.gw_move_w*2-gs.gw_border*4), gs.gw_move_w)
+        #self.go_up = pygame.Rect((gs.gw_move_w+gs.gw_border*2, 0, (gs.gw_width-gs.gw_move_w*2-gs.gw_border*4), gs.gw_move_w))
     
         # Game Window Area
         # self.game_window_with_border = pygame.draw.rect(screen, gs.white, (gs.gw_border, gs.gw_border, gs.gw_width-(gs.gw_border*2), gs.gw_height))
@@ -37,20 +42,24 @@ class GameObjects():
         inventory.draw_items(gs, screen)    
         
         # Draw the 'Change Screen' Windows
-        ### Left
-        self.go_left = pygame.Rect(gs.gw_border, gs.gw_border, gs.gw_move_w, gs.gw_height)
-        pygame.draw.rect(self.screen_directions, gs.yellow_transparent, self.go_left)
-        screen.blit(self.screen_directions, (0,0))
-        ### Right
-        self.go_right = pygame.Rect(gs.gw_right_x, gs.gw_border, gs.gw_move_w, gs.gw_height)
-        pygame.draw.rect(screen, gs.yellow, self.go_right, 1)
-        ### Top/Up
-        self.go_up = pygame.Rect((gs.gw_move_w+gs.gw_border*2, 0, (gs.gw_width-gs.gw_move_w*2-gs.gw_border*4), gs.gw_move_w))
-        pygame.draw.rect(screen, gs.yellow, self.go_up, 1)
-        ### Back/Bottom
-        self.go_back = pygame.Rect(gs.gw_move_w+gs.gw_border*2, gs.gw_height-gs.gw_move_w/2, (gs.gw_width-gs.gw_move_w*2-gs.gw_border*4), gs.gw_move_w)
-        pygame.draw.rect(screen, gs.yellow, self.go_back, 1)
+        if gs.lights_on:
+            if not gs.room_view_drill_down: # Only shows if drill down is not current
+                ### Left
+                pygame.draw.rect(self.screen_directions, gs.gray_transparent, self.go_left)
+                ### Right
+                pygame.draw.rect(self.screen_directions, gs.gray_transparent, self.go_right)
 
+            ### Top/Up
+            #pygame.draw.rect(self.screen_directions, gs.gray_transparent, self.go_up, 1)
+
+            ### Back/Bottom
+            #self.go_back = pygame.Rect(gs.gw_move_w+gs.gw_border*2, gs.gw_height-gs.gw_move_w/2, (gs.gw_width-gs.gw_move_w*2-gs.gw_border*4), gs.gw_move_w)  # No longer used
+            #pygame.draw.rect(self.screen_directions, gs.gray_transparent, self.go_back)  # No longer used
+
+            else:
+                pygame.draw.rect(self.screen_directions, gs.gray_transparent, self.go_back)
+
+            screen.blit(self.screen_directions, (0,0))
         pygame.draw.rect(screen, gs.black, (0, 0, gs.screen_width, gs.screen_height), 3)
 
 
