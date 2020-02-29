@@ -404,6 +404,13 @@ class Stable_Items():
             else:
                 gs.current_page += 1
                 pygame.mixer.Sound.play(flip_page_sound)
+        else:
+            gs.red_book_opened = False
+            gs.blue_book_opened = False
+            gs.stable_item_opened = False
+            gs.text = None
+            color_cover = None
+            gs.current_page = 1
 
     def draw_remote(self, gs, screen):
         """Function to draw the remote when clicked"""

@@ -1016,7 +1016,7 @@ class Room():
 
         # Click / Mouseovers
         self.clickbox_tv_stand_side = [(715, 500), (770, 500), (803, 622), (742, 628), (744, 528)]
-        self.clickbox_tv_stand_side_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_tv_stand_side, 1) # todo remove this with a comment
+        #self.clickbox_tv_stand_side_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_tv_stand_side, 1) # todo remove this with a comment
     
         if gs.room_view_drill_down == 1:
             self.room_view_three_1(gs, screen, stable_item_blocks)
@@ -1085,7 +1085,7 @@ class Room():
 
         # Click / Mouseovers
         self.clickbox_closet_right = [(220, 460), (332, 488), (332, 615), (220, 561)]
-        self.clickbox_closet_right_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_closet_right, 1)
+        #self.clickbox_closet_right_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_closet_right, 1) # todo comment this out
 
         if gs.room_view_drill_down == 1:
             self.room_view_four_1(gs, screen, stable_item_blocks)
