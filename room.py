@@ -1310,7 +1310,7 @@ class Room():
                 self.click_flathead(gs, event) # will add flathead to inventory
 
     def switch_light(self, gs, event):
-        if self.light_switch.collidepoint(event.pos) and gs.room_view_drill_down == 0 and not gs.door_opened:
+        if self.light_switch.collidepoint(event.pos) and gs.room_view_drill_down == 0 and gs.current_room_view == 0 and not gs.door_opened:
             pygame.mixer.Sound.play(light_sound)
 
             if gs.lights_on and gs.tv_on:
@@ -1459,5 +1459,4 @@ class Room():
     def credits_sound_events(self, gs, event):
         gs.won_game = True
         pygame.mixer.Sound.play(credits_music, 1)
-
 

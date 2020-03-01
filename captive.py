@@ -356,6 +356,12 @@ def options_menu():
 
 def run_game():
 
+
+
+
+
+
+
     if gs.new_game:
         gf.generate_codes(gs) # generates numbers for problems and puzzles
         gf.update_settings_dictionary(gs) # Generates the ability to save the settings generated in the generate codes
