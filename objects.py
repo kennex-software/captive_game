@@ -41,13 +41,22 @@ class GameObjects():
         # Define and Draw inventory items
         inventory.draw_items(gs, screen)
 
+        """
         # Draw Save Button
-        self.save_button = pygame.Rect(self.inventory_window.x + 20, self.inventory_window.bottom - 100, self.inventory_window.width - 50, 30)
-        pygame.draw.rect(screen, gs.black, self.save_button)
+        self.save_button = pygame.Rect(0, self.inventory_window.bottom - 55, 110, 40)
+        self.save_button.centerx = self.inventory_window.centerx
+        pygame.draw.rect(screen, gs.gray, self.save_button)
+        pygame.draw.rect(screen, gs.black, self.save_button, 2)
+        self.save_text = gs.cambria30.render('SAVE', True, gs.black)
+        self.save_text_rect = self.save_text.get_rect()
+        self.save_text_rect.center = self.save_button.center
+        screen.blit(self.save_text, self.save_text_rect)
 
-        self.load_button = pygame.Rect(self.inventory_window.x + 20, self.inventory_window.bottom - 50, self.inventory_window.width - 50, 30)
+        self.load_button = pygame.Rect(self.inventory_window.x + 80, self.inventory_window.bottom - 150, 50, 50)
         pygame.draw.rect(screen, gs.black, self.load_button)
         
+        """
+
         # Draw the 'Change Screen' Windows
         if gs.lights_on:
             if not gs.room_view_drill_down: # Only shows if drill down is not current
@@ -66,8 +75,10 @@ class GameObjects():
             else:
                 pygame.draw.rect(self.screen_directions, gs.gray_transparent, self.go_back)
 
-            screen.blit(self.screen_directions, (0,0))
+        screen.blit(self.screen_directions, (0,0))
         pygame.draw.rect(screen, gs.black, (0, 0, gs.screen_width, gs.screen_height), 3)
+
+
 
 
         """
@@ -78,5 +89,7 @@ class GameObjects():
         self.screen.blit(self.text_image, self.text_image_rect)
         
         """
+
+
 
 

@@ -340,9 +340,6 @@ class Stable_Items():
             gs.stable_item_opened = False
             gs.text = None
 
-
-
-
     def draw_manual(self, gs, screen):  # Defines and draws the manuals when they are clicked todo figure out what needs to go in the manuals
         """Function to draw the manuals to the screen based on the inputs given, i.e. which color/which one is clicked"""
 

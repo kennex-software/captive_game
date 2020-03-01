@@ -27,6 +27,10 @@ class Settings():
 
         # Static Game Settings
 
+        # Save and Load Filename Settings
+        self.save_filename = None
+        self.options_menu_up = False
+
         # Screen Settings
         self.screen_width = 1200
         self.screen_height = 800
@@ -132,16 +136,15 @@ class Settings():
         self.transcolor = (254, 254, 254, 0)
         self.clickboxcolor = (253, 253, 253)
 
-        # Inventory Item Selection
-        self.selected_item_index = None
-        self.selected_item = None  # selected_item stands for selected item
-        self.offset = None
-        self.item_selection_choice = False
-        self.selected_item_start_x = 0
-        self.selected_item_start_y = 0
+
+
+        self.game_started = False
 
         # ----------------------------------------------------------------------------------------------------------
         # All Variable Settings that need to be saved
+
+        # Game
+        self.new_game = True
 
         # Text
         self.text = None
@@ -150,7 +153,7 @@ class Settings():
         # Clock
         self.current_time = 0
         self.frame_rate = 60
-        self.game_started = False
+
         self.game_start_time = None
 
         # Win Game
@@ -162,7 +165,7 @@ class Settings():
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
         self.green_key_found = False # Default = False
-        self.remote_found = True # Default = False todo make false
+        self.remote_found = False # Default = False todo make false
         self.batteries_found = False # Default = False
         self.power_cord_found = False # Default = False
         self.papers_found = False # Default = False
@@ -173,7 +176,7 @@ class Settings():
         self.screwdriver_found = False # Default = False
 
         self.power_cord_desk_1 = False # Default = False todo make false
-        self.power_cord_desk_2 = True # Default = False todo make false
+        self.power_cord_desk_2 = False # Default = False todo make false
         self.power_cord_window_1 = False # Default = False todo make false
 
         self.moveable_items_index_list = []
@@ -196,12 +199,12 @@ class Settings():
         # Remote Settings
         self.remote_opened = False  # Default = False
         self.close_remote = False  # Default = False
-        self.batteries_input = True  # Default = False # todo change to false
+        self.batteries_input = False  # Default = False # todo change to false
         self.button_input_list = []
         self.entered_buttons = None
 
         # TV Settings
-        self.tv_on = True  # Default = False todo make false
+        self.tv_on = False  # Default = False todo make false
         self.current_channel = '3' # Default = '3' todo make '3'
         self.random_channel = None
         self.tv_sound_play_var = 0
@@ -209,7 +212,7 @@ class Settings():
         self.current_tv_screen_color = (82, 82, 82)
 
         # Safe Settings
-        self.safe_uncovered = True # Default = false todo make false
+        self.safe_uncovered = False # Default = false todo make false
         self.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
         self.safe_initialized = False # Safe can only be opened if a certain channel is on the TV todo make false
         self.safe_use_color = self.black
@@ -238,8 +241,8 @@ class Settings():
 
         # Drawer Opened Settings
         self.fcd1_opened = False  # Default = False
-        self.fcd2_opened = True  # Default = False
-        self.dd1_opened = True  # Default = False
+        self.fcd2_opened = False  # Default = False
+        self.dd1_opened = False  # Default = False
         self.dd2_opened = False  # Default = False
         self.dd3_opened = False  # Default = False
 
@@ -264,7 +267,7 @@ class Settings():
         self.cam_two_number = None
 
         # Lights Settings
-        self.lights_on = True  # Default = False todo change to false
+        self.lights_on = False  # Default = False todo change to false
         
         # Settings for Red and Blue Book
         self.red_book_opened = False  # Default = False
@@ -320,5 +323,13 @@ class Settings():
 
 
         self.settings_dictionary = {}
+
+        # Inventory Item Selection
+        self.selected_item_index = None
+        self.selected_item = None  # selected_item stands for selected item
+        self.offset = None
+        self.item_selection_choice = False
+        self.selected_item_start_x = 0
+        self.selected_item_start_y = 0
     
     

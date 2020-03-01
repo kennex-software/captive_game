@@ -211,6 +211,7 @@ class Inventory():
             
     def select_item(self, gs, screen, room_view, event):  # Referenced from gf
         """Determines which item is selected"""
+
         gs.sleeperticks = False
         for item in inv_items_spaces:
             index = inv_items_spaces.index(item)

@@ -1318,7 +1318,7 @@ class Room():
             elif gs.lights_on:
                 gs.text = 'The light turned off...'
             elif not gs.lights_on:
-                gs.text = "I turned on the light swtich!"
+                gs.text = "I turned on the light switch!"
 
             gs.lights_on = not gs.lights_on
             gs.current_tv_screen_color = gs.tv_screen
