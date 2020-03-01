@@ -30,7 +30,7 @@ cp = Control_Panel(gs, screen)
 
 intro_music = pygame.mixer.Sound('sounds/intro.wav')
 
-#gs.game_started = True # todo delete this
+
 
 
 def title_menu():
@@ -393,8 +393,8 @@ def run_game():
         gf.update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
 
 
-        if gs.sleeperticks:
-            pygame.time.wait(100)  # Leave this at 100 or less
+        #if gs.sleeperticks:
+        #    pygame.time.wait(100)  # Leave this at 100 or less
 
         clock.tick(60)
         gf.clock_timer(gs)
@@ -403,16 +403,16 @@ def run_game():
 
     while gs.options_menu_up:
         gf.clock_timer(gs)
-        print(gs.pause_time)
         options_menu()
 
 
 
 
-
-title_menu()
+gs.game_started = True # todo delete this
+run_game()
+#title_menu()
 #game_menu()
-#run_game()
+
 
 
 

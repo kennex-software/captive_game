@@ -80,13 +80,13 @@ class GameObjects():
         pygame.draw.rect(screen, gs.black, (0, 0, gs.screen_width, gs.screen_height), 3)
 
 
-        """
+
         
         #### Displays clock on screen
         clock_value = gf.get_game_clock(gs, screen)
         clock_text = gs.verdana18.render(clock_value, True, gs.black)
         screen.blit(clock_text, (0,0))
-
+        """
         ##### Room View (top left corner)
         self.strtodisplay = "r" + str(gs.current_room_view) + " d" + str(gs.room_view_drill_down)
         self.text_image = self.viewfont.render(self.strtodisplay, True, gs.black)

@@ -1,6 +1,6 @@
 #kennex
 
-import pygame, sys
+import pygame, sys, time
 import pygame.font
 from pygame.sprite import Sprite
 from pygame.math import Vector2
@@ -212,7 +212,6 @@ class Inventory():
     def select_item(self, gs, screen, room_view, event):  # Referenced from gf
         """Determines which item is selected"""
 
-        gs.sleeperticks = False
         for item in inv_items_spaces:
             index = inv_items_spaces.index(item)
             if index in gs.moveable_items_index_list:
@@ -270,7 +269,6 @@ class Inventory():
         gs.selected_item = None
         gs.selected_item_index = None
         gs.offset = None
-        gs.sleeperticks = True
 
 
 

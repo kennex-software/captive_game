@@ -7,6 +7,8 @@ import room
 import random
 import gf
 
+ws_cnt = 0
+
 
 
 i_python_logo = 'images/python.png' # Python Logo
@@ -27,6 +29,11 @@ safe_on_sound = pygame.mixer.Sound('sounds/safe_on.wav')
 
 pygame.init()
 pygame.font.init()
+clock = pygame.time.Clock()
+
+
+
+
 
 
 def draw_items_full(gs, screen, image, factor, x, y):
@@ -68,28 +75,8 @@ def draw_items_partial(gs, screen, image, factor, x, y):
 
     #return image_rect
 
+"""def whitespace(surface, rect):
 
-"""
-def whitespace(surface, x, y, w, h):
-    pixel_size = 4
-    pixel_length = w / pixel_size
-    pixel_height = h / pixel_size
-    start = x
-
-    pixel_grid = [[1]*int(pixel_height) for n in range(int(pixel_length))]
-
-    colors = [(255, 255, 255), (205, 205, 205), (155, 155, 155), (100, 100, 100)]
-
-    for row in pixel_grid:
-        for col in row:
-            color = random.randint(0, 3)
-            surface.fill(colors[color], ((x, y), (pixel_size, pixel_size)))
-            x += pixel_size
-        y += pixel_size
-        x = start
-"""
-def whitespace(surface, rect):
-    #def whitespace(surface, x, y, w, h):
     pixel_size = 4
     pixel_length = rect.h / pixel_size
     pixel_height = rect.w / pixel_size
@@ -105,33 +92,13 @@ def whitespace(surface, rect):
             surface.fill(colors[color], ((rect.x, rect.y), (pixel_size, pixel_size)))
             rect.x += pixel_size
         rect.y += pixel_size
-        rect.x = start
+        rect.x = start"""
 
-'''
-def falling_numbers(gs, surface, x, y, w, h):
-    #pygame.time.Clock().tick(10)
-    if gs.current_room_view == 1:
-        gs.text = 'What was that noise?'
-    gs.current_tv_screen_color = gs.white
 
-    range_num = 11
-    factor = h / (range_num + 1.75)
-    start = x
 
-    number_grid = [range(1, range_num) for n in range(14)]
-    colors = [(gs.white), (gs.black), (gs.red), (gs.blue)]
 
-    for row in number_grid:
-        for col in row:
-            color = random.randint(0, 2)
-            text_image = gs.verdana16.render(str(col), True, colors[color])
-            surface.blit(text_image, (x, y))
-
-            x += text_image.get_width() + factor
-        y += text_image.get_height()
-        x = start
-'''
 def falling_numbers(gs, surface, rect):
+
     if gs.current_room_view == 1:
         gs.text = 'What was that noise?'
     gs.current_tv_screen_color = gs.white
@@ -185,7 +152,6 @@ def safe_turned_on(gs, screen, rect):
 def show_text_on_tv(gs, screen, x, y, text):
     screen_text = gs.verdana16.render(str(text), True, gs.green)
     screen.blit(screen_text, ((x + 3), y))
-
 
 def camera_one(gs, screen, x, y):
     sur_cam_one = pygame.Surface((gs.gw_width, gs.gw_height), pygame.SRCALPHA)
@@ -356,6 +322,9 @@ def tv_channels(gs, screen):
     tv_w = 470
     tv_h = 296
 
+    global ws_surf
+
+
     if gs.current_room_view == 1:
         tv_x = 195
         #tv_rect = pygame.Rect(195, 140, 470, 296)
@@ -429,7 +398,6 @@ def tv_channels(gs, screen):
 
     # Channel 8
     elif gs.current_channel == str(8):  # Whitespace
-        #whitespace(screen, tv_x, tv_y, tv_w, tv_h)
         whitespace(screen, tv_rect)
         if gs.current_room_view == 1:
             gs.text = 'This is a great channel.'
@@ -500,6 +468,58 @@ def tv_channels(gs, screen):
 
     else:  # Whitespace
         whitespace(screen, tv_rect)
+
+        """        if gs.whitespace_count == 0:
+            ws_surf = create_whitespace(screen, tv_rect)
+        gs.whitespace_count += 1
+        if gs.whitespace_count > 5: # 5 is just an example
+            gs.whitespace_count = 0
+        draw_whitespace(screen, create_whitespace(screen, tv_rect), tv_rect)"""
+
+
         if gs.current_room_view == 1:
             gs.text = 'It does not have a signal...'
 
+
+def whitespace(surface, rect):
+
+    pixel_size = 4
+    pixel_length = rect.h / pixel_size
+    pixel_height = rect.w / pixel_size
+    start = rect.x
+
+    pixel_grid = [[1]*int(pixel_height) for n in range(int(pixel_length))]
+
+    colors = [(255, 255, 255), (205, 205, 205), (155, 155, 155), (100, 100, 100)]
+
+    for row in pixel_grid:
+        for col in row:
+            color = random.randint(0, 3)
+            surface.fill(colors[color], ((rect.x, rect.y), (pixel_size, pixel_size)))
+            rect.x += pixel_size
+        rect.y += pixel_size
+        rect.x = start
+
+"""def create_whitespace(surface, rect):
+
+    pixel_size = 4
+    pixel_length = rect.h / pixel_size
+    pixel_height = rect.w / pixel_size
+    start = rect.x
+
+    pixel_grid = [[1]*int(pixel_height) for n in range(int(pixel_length))]
+
+    colors = [(255, 255, 255), (205, 205, 205), (155, 155, 155), (100, 100, 100)]
+
+    for row in pixel_grid:
+        for col in row:
+            color = random.randint(0, 3)
+            surface.fill(colors[color], (rect.x, rect.y, pixel_size, pixel_size))
+            rect.x += pixel_size
+        rect.y += pixel_size
+        rect.x = start
+    return surface
+
+def draw_whitespace(screen, ws_surf, rect):
+    screen.blit(ws_surf, rect)
+"""

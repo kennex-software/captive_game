@@ -38,6 +38,9 @@ class Settings():
         # Alphabet List
         self.alphabet_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
+        # WhiteSpace
+        self.whitespace_count = 0
+
         # Game window Settings
         self.gw_width = self.screen_width * .88  # Default is .88
         self.gw_height = self.screen_height * .90  # Default is .90
@@ -71,7 +74,7 @@ class Settings():
         self.cambria150 = pygame.font.SysFont("Cambria", 150, True)
 
         # Sleep Ticker
-        self.sleeperticks = True
+        #self.sleeperticks = True
 
         # Sidebar Settings
         self.sidebar_w = self.screen_width - self.gw_width
@@ -173,7 +176,7 @@ class Settings():
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
         self.green_key_found = False # Default = False
-        self.remote_found = False # Default = False todo make false
+        self.remote_found = True # Default = False todo make false
         self.batteries_found = False # Default = False
         self.power_cord_found = False # Default = False
         self.papers_found = False # Default = False
@@ -207,12 +210,12 @@ class Settings():
         # Remote Settings
         self.remote_opened = False  # Default = False
         self.close_remote = False  # Default = False
-        self.batteries_input = False  # Default = False # todo change to false
+        self.batteries_input = True  # Default = False # todo change to false
         self.button_input_list = []
         self.entered_buttons = None
 
         # TV Settings
-        self.tv_on = False  # Default = False todo make false
+        self.tv_on = True  # Default = False todo make false
         self.current_channel = '3' # Default = '3' todo make '3'
         self.random_channel = None
         self.tv_sound_play_var = 0
