@@ -19,6 +19,9 @@ clock = pygame.time.Clock()
 gs = Settings()
 screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF) # add ability to resize window
 pygame.display.set_caption("Captive | Kennex")
+icon = pygame.image.load('images/key_icon.ico') # should be 32 x 32
+game_logo = pygame.image.load('images/key_logo.png')
+pygame.display.set_icon(icon)
 stable_item_blocks = Stable_Items(gs, screen)
 room_view = Room(gs, screen, stable_item_blocks)
 inventory = Inventory(gs, screen, room_view)
@@ -27,7 +30,7 @@ cp = Control_Panel(gs, screen)
 
 intro_music = pygame.mixer.Sound('sounds/intro.wav')
 
-gs.game_started = True # todo delete this
+#gs.game_started = True # todo delete this
 
 
 def title_menu():
@@ -96,6 +99,8 @@ def game_menu():
     game_title = gs.cambria150.render('CAPTIVE', True, gs.black)
     game_title_rect = game_title.get_rect()
     game_title_rect.centerx = gs.screen_width//2
+    game_logo_rect = game_logo.get_rect()
+    game_logo_rect.centerx = gs.screen_width//2
 
     button_color1 = gs.gray
     button_color2 = gs.gray
@@ -136,12 +141,18 @@ def game_menu():
                     if button4.collidepoint(event.pos):
                         print('settings')
                     if button5.collidepoint(event.pos):
-                        print('credits')
+                        sys.exit()
+                        print('quit')
 
 
 
         screen.fill((gs.bg_color))
-        screen.blit(game_title, (game_title_rect.x, 200))
+        screen.blit(game_logo, (game_logo_rect.x, game_title_rect.bottom + 175))
+        screen.blit(game_title, (game_title_rect.x, 175))
+
+
+
+
 
 
 
@@ -161,7 +172,7 @@ def game_menu():
         b2_text = gs.arial32.render('LOAD', True, gs.black)
         b3_text = gs.arial32.render('SCORES', True, gs.black)
         b4_text = gs.arial32.render('SETTINGS', True, gs.black)
-        b5_text = gs.arial32.render('CREDITS', True, gs.black)
+        b5_text = gs.arial32.render('QUIT', True, gs.black)
 
         b1_text_rect = b1_text.get_rect(center = button3.center)
         b2_text_rect = b2_text.get_rect(center = button2.center)
@@ -247,6 +258,8 @@ def options_menu():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     gs.options_menu_up = False
+                    gs.resume_time = pygame.time.get_ticks()
+                    gs.stoppage_time = gs.stoppage_time + (gs.resume_time - gs.pause_time)
                     gs.game_started = True
                     run_game()
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -256,10 +269,14 @@ def options_menu():
                         gf.load_settings(gs)
                         pygame.time.wait(500)
                         gs.options_menu_up = False
+                        gs.resume_time = pygame.time.get_ticks()
+                        gs.stoppage_time = gs.stoppage_time + (gs.resume_time - gs.pause_time)
                         gs.game_started = True
                         run_game()
                     if button2.collidepoint(event.pos):
                         print('save game')
+                        gs.resume_time = pygame.time.get_ticks()
+                        gs.stoppage_time = gs.stoppage_time + (gs.resume_time - gs.pause_time)
                         gf.save_settings(gs)
                         pygame.time.wait(500)
                         gs.options_menu_up = False
@@ -268,6 +285,8 @@ def options_menu():
                     if button3.collidepoint(event.pos):
                         print('run game')
                         gs.options_menu_up = False
+                        gs.resume_time = pygame.time.get_ticks()
+                        gs.stoppage_time = gs.stoppage_time + (gs.resume_time - gs.pause_time)
                         gs.game_started = True
                         run_game()
                     if button4.collidepoint(event.pos):
@@ -377,8 +396,14 @@ def run_game():
         if gs.sleeperticks:
             pygame.time.wait(100)  # Leave this at 100 or less
 
+        clock.tick(60)
+        gf.clock_timer(gs)
+
+
 
     while gs.options_menu_up:
+        gf.clock_timer(gs)
+        print(gs.pause_time)
         options_menu()
 
 

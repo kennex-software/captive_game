@@ -151,10 +151,18 @@ class Settings():
         self.current_text = None
 
         # Clock
-        self.current_time = 0
         self.frame_rate = 60
 
+
         self.game_start_time = None
+        self.current_time = 0
+        self.save_time = 0
+        self.pause_time = 0
+        self.resume_time = 0
+        self.stoppage_time = 0
+        self.end_time = 0
+
+
 
         # Win Game
         self.won_game = False

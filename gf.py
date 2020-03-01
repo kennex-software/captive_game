@@ -122,6 +122,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                     gs.room_view_drill_down = 0
                 else:
                     gs.options_menu_up = True
+                    gs.pause_time = pygame.time.get_ticks()
                     gs.game_started = False
 
 
@@ -372,12 +373,15 @@ def game_status_text(gs, screen):
 
 
 def get_game_clock(gs, screen):
-    """ Returns the current value of the game clock"""
+    """ Returns a string value of the game clock"""
+    clock_output = str(datetime.timedelta(seconds = gs.current_time // 1000))
+    return clock_output
+
+def clock_timer(gs):
     if gs.game_started:
-        pygame.time.Clock().tick(60)
-        gs.current_time = pygame.time.get_ticks() - gs.game_start_time
-        clock_output = str(datetime.timedelta(seconds = gs.current_time // 1000))
-        return clock_output
+        gs.current_time = pygame.time.get_ticks() - gs.game_start_time - gs.stoppage_time
+
+
 
 def update_settings_dictionary(gs):
     gs.settings_dictionary = {
@@ -385,6 +389,11 @@ def update_settings_dictionary(gs):
                                 'text': gs.text,
                                 'current_text': gs.current_text,
                                 'current_time': gs.current_time,
+                                'save_time': gs.save_time,
+                                'pause_time': gs.pause_time,
+                                'resume_time': gs.resume_time,
+                                'stoppage_time': gs.stoppage_time,
+                                'end_time': gs.end_time,
                                 'frame_rate': gs.frame_rate,
                                 'game_start_time': gs.game_start_time,
                                 'won_game': gs.won_game,
@@ -498,6 +507,11 @@ def update_settings_from_save_file(gs):
     gs.text = gs.settings_dictionary['text']
     gs.current_text = gs.settings_dictionary['current_text']
     gs.current_time = gs.settings_dictionary['current_time']
+    gs.save_time = gs.settings_dictionary['save_time']
+    gs.pause_time = gs.settings_dictionary['pause_time']
+    gs.resume_time = gs.settings_dictionary['resume_time']
+    gs.stoppage_time = gs.settings_dictionary['stoppage_time']
+    gs.end_time = gs.settings_dictionary['end_time']
     gs.frame_rate = gs.settings_dictionary['frame_rate']
     gs.game_start_time = gs.settings_dictionary['game_start_time']
     gs.won_game = gs.settings_dictionary['won_game']
@@ -609,6 +623,7 @@ def update_settings_from_save_file(gs):
 def save_settings(gs):
 
     if gs.save_filename == None:
+        gs.save_time = gs.current_time - gs.game_start_time
         gs.save_filename = asksaveasfilename(parent=root, initialdir="./saves/", title="Save File", filetypes=[("Data Files", "*.dat")], defaultextension=".dat")
         update_settings_dictionary(gs)
         pickle_out = open(gs.save_filename, 'wb')
@@ -633,7 +648,7 @@ def load_settings(gs):
         update_settings_from_save_file(gs)
         filename = None
         print('settings loaded')
-    gs.start_game_from_load = True
+        gs.start_game_from_load = True
 
 
 def print_settings(gs):

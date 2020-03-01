@@ -132,7 +132,6 @@ def falling_numbers(gs, surface, x, y, w, h):
         x = start
 '''
 def falling_numbers(gs, surface, rect):
-    #pygame.time.Clock().tick(10)
     if gs.current_room_view == 1:
         gs.text = 'What was that noise?'
     gs.current_tv_screen_color = gs.white
