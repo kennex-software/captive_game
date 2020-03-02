@@ -108,11 +108,11 @@ def falling_numbers(gs, surface, rect):
     start = rect.x
 
     number_grid = [range(1, range_num) for n in range(14)]
-    colors = [(gs.white), (gs.black), (gs.red), (gs.blue)]
+    colors = [(gs.white), (gs.black), (gs.red)]
 
     for row in number_grid:
         for col in row:
-            color = random.randint(0, 2)
+            color = random.randint(0, (len(colors)-1))
             text_image = gs.verdana16.render(str(col), True, colors[color])
             surface.blit(text_image, (rect.x, rect.y))
 
