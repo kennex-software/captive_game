@@ -571,7 +571,13 @@ class Stable_Items():
                         elif box_index == 19:  # Fast Forward
                             pass # todo print something in text stating that nothing happened
                         elif box_index == 20:  # Mute todo figure out how sounds work in pygame
-                            pass
+                            if not gs.muted:
+                                gs.volume = message_sound.get_volume()
+                                message_sound.set_volume(0)
+                                gs.muted = True
+                            else:
+                                message_sound.set_volume(gs.volume)
+                                gs.muted = False
                         elif box_index == 21:  # Central Play
                             self.remote_entry(gs)
 

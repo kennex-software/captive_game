@@ -213,6 +213,8 @@ class Settings():
         self.batteries_input = True  # Default = False # todo change to false
         self.button_input_list = []
         self.entered_buttons = None
+        self.muted = False
+        self.volume = None
 
         # TV Settings
         self.tv_on = True  # Default = False todo make false
