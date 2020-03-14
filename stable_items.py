@@ -26,6 +26,7 @@ enlarged_papers_top3 = pygame.image.load(i_enlarged_papers_top3)
 key_sound = pygame.mixer.Sound('sounds/key_jingle.wav')
 flip_page_sound = pygame.mixer.Sound('sounds/flip_page.wav')
 safe_init_sound = pygame.mixer.Sound('sounds/safe_init.wav')
+message_sound = pygame.mixer.Sound('sounds/message.wav')
 
 pygame.init()
 pygame.font.init()
@@ -563,9 +564,10 @@ class Stable_Items():
                         elif box_index == 16:  # Rewind
                             pass # todo print something in text stating that nothing happened
                         elif box_index == 17:  # Play
-                            pass # todo print something in text stating that nothing happened
+                            if gs.current_channel == str(11):
+                                pygame.mixer.Sound.play(message_sound, loops=0)
                         elif box_index == 18:  # Pause
-                            pass # todo print something in text stating that nothing happened
+                            pygame.mixer.pause()
                         elif box_index == 19:  # Fast Forward
                             pass # todo print something in text stating that nothing happened
                         elif box_index == 20:  # Mute todo figure out how sounds work in pygame
@@ -589,6 +591,7 @@ class Stable_Items():
                             gs.tv_on = False
                             gs.current_tv_screen_color = gs.tv_screen
                             gs.safe_initialized = False
+                            pygame.mixer.stop()
                             gs.text = 'I turned off the TV.'
 
         else:
@@ -597,6 +600,8 @@ class Stable_Items():
         # Closes remote if anywhere is clicked but the remote
         if gs.remote_opened == True and not self.remote_rect.collidepoint(event.pos):
             gs.close_remote = True
+            gs.message_channel_play = False
+            pygame.mixer.stop()
 
     def enter_button(self, gs):
         temp_channel = []

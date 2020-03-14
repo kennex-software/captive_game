@@ -221,6 +221,7 @@ class Settings():
         self.tv_sound_play_var = 0
         self.safe_on_sound_var = 0
         self.current_tv_screen_color = (82, 82, 82)
+        self.message_channel_play = False
 
         # Safe Settings
         self.safe_uncovered = False # Default = false todo make false

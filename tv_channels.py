@@ -27,6 +27,7 @@ gnarski_logo = pygame.image.load(i_gnarski_logo)
 safe_init_sound = pygame.mixer.Sound('sounds/safe_init.wav')
 safe_on_sound = pygame.mixer.Sound('sounds/safe_on.wav')
 
+
 pygame.init()
 pygame.font.init()
 clock = pygame.time.Clock()
@@ -132,6 +133,7 @@ def message_channel(gs, screen, rect):
     text_image = gs.arial60.render('Press Play', True, gs.black)
     text_rect = text_image.get_rect(center = rect.center)
     screen.blit(text_image, text_rect)
+
 
 def safe_turned_on(gs, screen, rect):
     """Will give code to turn on Safe"""
