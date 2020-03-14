@@ -108,12 +108,15 @@ def falling_numbers(gs, surface, rect):
     factor = rect.h / (range_num + 2)
     start = rect.x
 
+    clock.tick(30)
+
     number_grid = [range(1, range_num) for n in range(14)]
-    colors = [(gs.white), (gs.black), (gs.red), (gs.blue)]
+    colors = [(gs.white), (gs.white), (gs.white), (gs.white), (gs.white), (gs.black), (gs.red)]
 
     for row in number_grid:
         for col in row:
-            color = random.randint(0, 2)
+
+            color = random.randint(0, (len(colors)-1))
             text_image = gs.verdana16.render(str(col), True, colors[color])
             surface.blit(text_image, (rect.x, rect.y))
 
@@ -503,12 +506,15 @@ def whitespace(surface, rect):
     pixel_height = rect.w / pixel_size
     start = rect.x
 
+    clock.tick(30)
+
     pixel_grid = [[1]*int(pixel_height) for n in range(int(pixel_length))]
 
     colors = [(255, 255, 255), (205, 205, 205), (155, 155, 155), (100, 100, 100)]
 
     for row in pixel_grid:
         for col in row:
+
             color = random.randint(0, 3)
             surface.fill(colors[color], ((rect.x, rect.y), (pixel_size, pixel_size)))
             rect.x += pixel_size
