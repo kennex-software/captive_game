@@ -1147,7 +1147,6 @@ class Room():
                 gs.leave = True
 
         elif gs.leave and self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0 and gs.door_opened:
-            print('you win')
             self.credits_sound_events(gs, event)
 
     def close_door(self, gs, event):

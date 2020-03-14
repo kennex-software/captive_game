@@ -274,14 +274,14 @@ class Settings():
         self.all_unlocked = False # Default = False // Unlocks all drawers / doors
 
         # Door Settings
-        self.door_opened = False  # Default = False todo change to false
+        self.door_opened = True  # Default = False todo change to false
         self.leave = False
         self.door_number = None
         self.konar_number = None # Street sign in Camera 2
         self.cam_two_number = None
 
         # Lights Settings
-        self.lights_on = False  # Default = False todo change to false
+        self.lights_on = True  # Default = False todo change to false
         self.lights_beginning = True
         
         # Settings for Red and Blue Book
