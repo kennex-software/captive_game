@@ -1317,7 +1317,10 @@ class Room():
                 gs.text = 'The light turned off and the TV turned off... Weird...'
             elif gs.lights_on:
                 gs.text = 'The light turned off...'
-            elif not gs.lights_on:
+            elif not gs.lights_on and gs.lights_beginning:
+                gs.text = "I turned on the light switch!  I need to get out of here..."
+                gs.lights_beginning = False
+            elif not gs.lights_on and not gs.lights_beginning:
                 gs.text = "I turned on the light switch!"
 
             gs.lights_on = not gs.lights_on

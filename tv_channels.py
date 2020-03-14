@@ -126,6 +126,13 @@ def secret_channel_code(gs, screen, rect):
     text_rect = text_image.get_rect(center = rect.center)
     screen.blit(text_image, text_rect)
 
+def message_channel(gs, screen, rect):
+    """Will display a message to the screen."""
+    gs.current_tv_screen_color = gs.off_white
+    text_image = gs.arial60.render('Press Play', True, gs.black)
+    text_rect = text_image.get_rect(center = rect.center)
+    screen.blit(text_image, text_rect)
+
 def safe_turned_on(gs, screen, rect):
     """Will give code to turn on Safe"""
     #tv_rect = pygame.Rect(x, y, h, w)
@@ -406,6 +413,12 @@ def tv_channels(gs, screen):
     elif gs.current_channel == str(9):  # Black Screen
         if gs.current_room_view == 1:
             gs.text = 'This channel was intentionally left blank.'
+
+    # Channel 11
+    elif gs.current_channel == str(11):
+        message_channel(gs, screen, tv_rect)
+        if gs.current_room_view == 1:
+            gs.text = None
 
     # Channel 12
     elif gs.current_channel == str(12):  # Clock

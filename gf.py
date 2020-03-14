@@ -477,6 +477,7 @@ def update_settings_dictionary(gs):
                                 'konar_number': gs.konar_number,
                                 'cam_two_number': gs.cam_two_number,
                                 'lights_on': gs.lights_on,
+                                'lights_beginning': gs.lights_beginning,
                                 'red_book_opened': gs.red_book_opened,
                                 'blue_book_opened': gs.blue_book_opened,
                                 'current_page': gs.current_page,
@@ -595,6 +596,7 @@ def update_settings_from_save_file(gs):
     gs.konar_number = gs.settings_dictionary['konar_number']
     gs.cam_two_number = gs.settings_dictionary['cam_two_number']
     gs.lights_on = gs.settings_dictionary['lights_on']
+    gs.lights_beginning = gs.settings_dictionary['lights_beginning']
     gs.red_book_opened = gs.settings_dictionary['red_book_opened']
     gs.blue_book_opened = gs.settings_dictionary['blue_book_opened']
     gs.current_page = gs.settings_dictionary['current_page']

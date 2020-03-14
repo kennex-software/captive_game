@@ -279,6 +279,7 @@ class Settings():
 
         # Lights Settings
         self.lights_on = False  # Default = False todo change to false
+        self.lights_beginning = True
         
         # Settings for Red and Blue Book
         self.red_book_opened = False  # Default = False
