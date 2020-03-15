@@ -2,7 +2,7 @@ import pygame
 
 pygame.init()
 pygame.font.init()
-
+import time
 
 
 def credits_screen(gs, screen):
@@ -16,7 +16,7 @@ def credits_screen(gs, screen):
 
     #credits_surface = pygame.Surface(game_over_text.get_size(), pygame.SRCALPHA)
     fade(gs, screen, fade_surface_alpha, game_over_text, 2, alpha)
-    screen.blit(game_over_text, (gs.screen_width//2, gs.screen_height//2))
+    #screen.blit(game_over_text, (gs.screen_width//2, gs.screen_height//2))
 
 def fade(gs, screen, fs_alpha, text, time, alpha):
     """Function to fade the screen"""
@@ -26,18 +26,24 @@ def fade(gs, screen, fs_alpha, text, time, alpha):
 
     screen.fill(gs.white)
 
+    gs.game_started = False
+    gs.game_ended = True
 
-    if seconds > time:
-        if alpha >= 0 and alpha <= 254:
-            alpha = max(alpha+2, 0)
-            fade_surface = text.copy()
-            fs_alpha.fill((0, 0, 0, alpha))
-            fade_surface.blit(fs_alpha, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+    while gs.game_ended:
+        if seconds > time:
+            if alpha >= 0 and alpha <= 254:
+                alpha = max(alpha+2, 0)
+                fade_surface = text.copy()
+                fs_alpha.fill((0, 0, 0, alpha))
+                fade_surface.blit(fs_alpha, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
-            if alpha >= 254:
-                alpha = 255
+                if alpha >= 254:
+                    alpha = 255
 
-        screen.blit(fade_surface, (gs.screen_width//2, gs.screen_height//2))
+            screen.blit(fade_surface, (gs.screen_width//2, gs.screen_height//2))
+
+        pygame.display.flip()
+        pygame.time.Clock().tick(60)
 
 
 def credits_text(gs, screen):

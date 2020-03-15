@@ -142,6 +142,7 @@ class Settings():
 
 
         self.game_started = False
+        self.game_ended = False
 
         # ----------------------------------------------------------------------------------------------------------
         # All Variable Settings that need to be saved

@@ -30,8 +30,48 @@ cp = Control_Panel(gs, screen)
 
 intro_music = pygame.mixer.Sound('sounds/intro.wav')
 
+def credits():
+    game_over_text = gs.arial60.render(str("to be continued..."), True, gs.black)
+    fade_surface_alpha = pygame.Surface(game_over_text.get_size(), pygame.SRCALPHA)
+    alpha = 0
 
+    while True:
+        # Events
+        #pygame.mixer.Sound.play(intro_music, -1)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    pass#game_menu()
+        screen.fill((gs.white))
+        #credits_surface = pygame.Surface(game_over_text.get_size(), pygame.SRCALPHA)
+        #fade(gs, screen, fade_surface_alpha, game_over_text, 2, alpha)
+        screen.blit(game_over_text, (gs.screen_width//2, gs.screen_height//2))
 
+def fade(gs, screen, fs_alpha, text, time, alpha):
+    """Function to fade the screen"""
+
+    start_ticks = pygame.time.get_ticks()
+    seconds = (pygame.time.get_ticks() - start_ticks)/1000
+
+    screen.fill(gs.white)
+
+    gs.game_started = False
+    gs.game_ended = True
+
+    while gs.game_ended:
+        if seconds > time:
+            if alpha >= 0 and alpha <= 254:
+                alpha = max(alpha+2, 0)
+                fade_surface = text.copy()
+                fs_alpha.fill((0, 0, 0, alpha))
+                fade_surface.blit(fs_alpha, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                if alpha >= 254:
+                    alpha = 255
+
+            screen.blit(fade_surface, (gs.screen_width//2, gs.screen_height//2))
 
 def title_menu():
 
@@ -375,12 +415,6 @@ def options_menu():
 
 def run_game():
 
-
-
-
-
-
-
     if gs.new_game:
         gf.generate_codes(gs) # generates numbers for problems and puzzles
         gf.update_settings_dictionary(gs) # Generates the ability to save the settings generated in the generate codes
@@ -404,6 +438,10 @@ def run_game():
     while gs.options_menu_up:
         gf.clock_timer(gs)
         options_menu()
+
+    while gs.won_game:
+        credits()
+
 
 
 

@@ -99,7 +99,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                 stable_item_blocks.pull_up_desk_drawer_clicks(gs, event)
 
                     else:
-                        print('game is won')
+                        print("won game")
                     if gs.control_panel_on:
                         cp.check_clicked_setting(gs, screen, event)
                         if cp.selected == 1:
@@ -134,9 +134,6 @@ def update_screen(gs, screen, inventory, room_view, game_objects, stable_item_bl
     room_view.current_view(gs, screen, stable_item_blocks)
     GameObjects(gs, screen, inventory)
     game_status_text(gs, screen)
-
-    if gs.won_game:
-        credits.credits_screen(gs, screen)
 
     if gs.control_panel_on:
         cp.draw_control_panel(gs, screen)

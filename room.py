@@ -1145,9 +1145,13 @@ class Room():
             if self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0 and gs.door_opened:
                 print('clicked door')
                 gs.leave = True
+                gs.won_game = True
+                #gs.end_time = pygame.time.get_ticks()
+                gs.game_started = False
+                pygame.mixer.Sound.play(credits_music, 1)
 
-        elif gs.leave and self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0 and gs.door_opened:
-            self.credits_sound_events(gs, event)
+        #elif gs.leave and self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0 and gs.door_opened:
+
 
     def close_door(self, gs, event):
         """Closes door after it's been opened"""
@@ -1457,8 +1461,4 @@ class Room():
             gs.text = "That doesn't go there."
 
 
-
-    def credits_sound_events(self, gs, event):
-        gs.won_game = True
-        pygame.mixer.Sound.play(credits_music, 1)
 
