@@ -1,21 +1,20 @@
 #kennex
 
-import os, pygame, sys, copy, datetime
-from settings import Settings
+import pygame#, os, sys, copy, datetime
+#from settings import Settings
 import gf
 import inventory
 #import objects
-from stable_items import Stable_Items
-from pygame.locals import *
+#from stable_items import Stable_Items
+#from pygame.locals import *
 from math import pi
-from pygame.math import Vector2
-from pygame.math import Vector3
+#from pygame.math import Vector2
+#from pygame.math import Vector3
 #from noise import pnoise2
-from time import monotonic as timer
-import time
+#from time import monotonic as timer
+#import time
 import tv_channels
-import numpy as np
-import credits
+#import numpy as np
 
 # Load images
 hanging_shirt_load = 'images/shirt.png' # Hanging Shirt
@@ -66,8 +65,6 @@ item_picked = pygame.mixer.Sound('sounds/item_picked.wav')
 light_sound = pygame.mixer.Sound('sounds/light_switch.wav')
 shirt_sound = pygame.mixer.Sound('sounds/pick_shirt.wav')
 safe_door = pygame.mixer.Sound('sounds/safe_door.wav')
-
-credits_music = pygame.mixer.Sound('sounds/credits.wav') # todo change to credits.wav
 
 pygame.init()
 pygame.font.init()
@@ -1135,22 +1132,9 @@ class Room():
             gs.text = "I opened the door! I'm free... I think..."
             pygame.mixer.Sound.play(door_open_sound)
             gs.door_opened = True
-            #gs.leave = True
+
         elif self.door_handle_rect.collidepoint(event.pos) or self.main_door.collidepoint(event.pos) and gs.door_locked == True and not gs.door_opened:
             gs.text = 'The door is locked...'
-
-    def win_game(self, gs, event):
-        """Click the main door when it's open to win!"""
-        if not gs.leave:
-            if self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0 and gs.door_opened:
-                print('clicked door')
-                gs.leave = True
-                gs.won_game = True
-                #gs.end_time = pygame.time.get_ticks()
-                gs.game_started = False
-                pygame.mixer.Sound.play(credits_music, 1)
-
-        #elif gs.leave and self.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0 and gs.door_opened:
 
 
     def close_door(self, gs, event):
@@ -1158,8 +1142,6 @@ class Room():
         if gf.check_inside_clickbox(self, self.opened_door, ((event.pos), (0, 0))):
             pygame.mixer.Sound.play(door_close_sound)
             gs.door_opened = False
-            gs.leave = False
-
 
     def move_between_views(self, gs, screen, game_objects, stable_item_blocks, event):
         """Moves player between the various views based on the side that they clicked"""

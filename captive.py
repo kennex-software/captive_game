@@ -1,9 +1,8 @@
 #kennex
 
-import os, pygame, sys, datetime
+import pygame, sys#, datetime, os
 from settings import Settings
 import gf
-import puzzles
 from inventory import Inventory
 from objects import GameObjects
 from stable_items import Stable_Items
@@ -29,49 +28,48 @@ game_objects = GameObjects(gs, screen, inventory)
 cp = Control_Panel(gs, screen)
 
 intro_music = pygame.mixer.Sound('sounds/intro.wav')
+credits_music = pygame.mixer.Sound('sounds/credits.wav')
 
 def credits():
-    game_over_text = gs.arial60.render(str("to be continued..."), True, gs.black)
-    fade_surface_alpha = pygame.Surface(game_over_text.get_size(), pygame.SRCALPHA)
-    alpha = 0
+    title = gs.arial60.render('to be continued...', True, gs.black)
+    alpha_title_surface = pygame.Surface(title.get_size(), pygame.SRCALPHA)
+    alpha_t = 0
+    start_ticks = pygame.time.get_ticks()
+
 
     while True:
+
+        pygame.mixer.Sound.play(credits_music, 1)
+        screen.fill((gs.white))
         # Events
-        #pygame.mixer.Sound.play(intro_music, -1)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     pass#game_menu()
-        screen.fill((gs.white))
-        #credits_surface = pygame.Surface(game_over_text.get_size(), pygame.SRCALPHA)
-        #fade(gs, screen, fade_surface_alpha, game_over_text, 2, alpha)
-        screen.blit(game_over_text, (gs.screen_width//2, gs.screen_height//2))
 
-def fade(gs, screen, fs_alpha, text, time, alpha):
-    """Function to fade the screen"""
+        seconds = (pygame.time.get_ticks() - start_ticks)/1000
 
-    start_ticks = pygame.time.get_ticks()
-    seconds = (pygame.time.get_ticks() - start_ticks)/1000
+        if seconds > 2:
+            if alpha_t >= 0 and alpha_t <= 254:
+                alpha_t = max(alpha_t+2, 0)
+                title_surface = title.copy()
+                alpha_title_surface.fill((0, 0, 0, alpha_t))
+                title_surface.blit(alpha_title_surface, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
-    screen.fill(gs.white)
+                if alpha_t >= 254:
+                    alpha_t = 255
 
-    gs.game_started = False
-    gs.game_ended = True
 
-    while gs.game_ended:
-        if seconds > time:
-            if alpha >= 0 and alpha <= 254:
-                alpha = max(alpha+2, 0)
-                fade_surface = text.copy()
-                fs_alpha.fill((0, 0, 0, alpha))
-                fade_surface.blit(fs_alpha, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+            screen.blit(title_surface, (gs.screen_width//2, gs.screen_height//2))
 
-                if alpha >= 254:
-                    alpha = 255
 
-            screen.blit(fade_surface, (gs.screen_width//2, gs.screen_height//2))
+        # Update
+        pygame.display.flip()
+        clock.tick(30)
+
+
 
 def title_menu():
 
@@ -93,11 +91,8 @@ def title_menu():
                 if event.button == 1:
                     game_menu()
 
-
-
         # Draw Menu
         screen.fill((gs.white))
-
         seconds = (pygame.time.get_ticks() - start_ticks)/1000
 
         if seconds > 2:
@@ -433,14 +428,13 @@ def run_game():
         clock.tick(60)
         gf.clock_timer(gs)
 
-
-
     while gs.options_menu_up:
         gf.clock_timer(gs)
         options_menu()
 
     while gs.won_game:
         credits()
+
 
 
 

@@ -276,7 +276,6 @@ class Settings():
 
         # Door Settings
         self.door_opened = True  # Default = False todo change to false
-        self.leave = False
         self.door_number = None
         self.konar_number = None # Street sign in Camera 2
         self.cam_two_number = None

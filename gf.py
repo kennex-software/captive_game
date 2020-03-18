@@ -25,6 +25,8 @@ root.wm_attributes('-topmost', 1)
 root.withdraw()
 
 
+
+
 def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp):
     """Response to mouse events."""
     for event in pygame.event.get():
@@ -53,7 +55,13 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                     room_view.click_trash_can(gs, event)
                                     if gs.door_opened:
                                         room_view.close_door(gs, event)
-                                        room_view.win_game(gs, event)
+                                        if room_view.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0:
+                                            gs.won_game = True
+                                            gs.end_time = pygame.time.get_ticks()
+                                            print('clicked door')
+                                            gs.game_started = False
+
+
                                     if gs.room_view_drill_down == 0.1 and not gs.power_cord_found: # Function to click power cord when it's not found
                                         room_view.click_power_cord(gs, event)
 
@@ -469,7 +477,6 @@ def update_settings_dictionary(gs):
                                 'door_locked': gs.door_locked,
                                 'all_unlocked': gs.all_unlocked,
                                 'door_opened': gs.door_opened,
-                                'leave': gs.leave,
                                 'door_number': gs.door_number,
                                 'konar_number': gs.konar_number,
                                 'cam_two_number': gs.cam_two_number,
@@ -588,7 +595,6 @@ def update_settings_from_save_file(gs):
     gs.door_locked = gs.settings_dictionary['door_locked']
     gs.all_unlocked = gs.settings_dictionary['all_unlocked']
     gs.door_opened = gs.settings_dictionary['door_opened']
-    gs.leave = gs.settings_dictionary['leave']
     gs.door_number = gs.settings_dictionary['door_number']
     gs.konar_number = gs.settings_dictionary['konar_number']
     gs.cam_two_number = gs.settings_dictionary['cam_two_number']
