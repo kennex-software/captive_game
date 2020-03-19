@@ -35,11 +35,12 @@ def credits():
     alpha_title_surface = pygame.Surface(title.get_size(), pygame.SRCALPHA)
     alpha_t = 0
     start_ticks = pygame.time.get_ticks()
+    max_alpha_reached = False
 
 
     while True:
 
-        pygame.mixer.Sound.play(credits_music, 1)
+        #pygame.mixer.Sound.play(credits_music, 1)
         screen.fill((gs.white))
         # Events
         for event in pygame.event.get():
@@ -52,17 +53,31 @@ def credits():
         seconds = (pygame.time.get_ticks() - start_ticks)/1000
 
         if seconds > 2:
-            if alpha_t >= 0 and alpha_t <= 254:
-                alpha_t = max(alpha_t+2, 0)
+            if not max_alpha_reached:
+                if alpha_t >= 0 and alpha_t <= 254:
+                    alpha_t = max(alpha_t+2, 0)
+                    title_surface = title.copy()
+                    alpha_title_surface.fill((0, 0, 0, alpha_t))
+                    title_surface.blit(alpha_title_surface, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+                    if alpha_t >= 254:
+                        alpha_t = 255
+                        max_alpha_reached = True
+
+            if max_alpha_reached:
+                alpha_t = max(alpha_t-2, 0)
                 title_surface = title.copy()
                 alpha_title_surface.fill((0, 0, 0, alpha_t))
                 title_surface.blit(alpha_title_surface, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
 
-                if alpha_t >= 254:
-                    alpha_t = 255
+                if alpha_t <= 1:
+                    alpha_t = 0
 
 
             screen.blit(title_surface, (gs.screen_width//2, gs.screen_height//2))
+
+        if seconds > 12:
+            print('is it gone yet?')
 
 
         # Update
