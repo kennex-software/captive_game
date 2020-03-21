@@ -15,7 +15,7 @@ class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Game Version
-        self.game_version = '0.2.2'
+        self.game_version = '0.8.3'
         self.start_game_from_load = False
         """
         Use this area to discuss versioning:
