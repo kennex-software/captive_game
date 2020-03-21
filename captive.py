@@ -38,20 +38,49 @@ def credits():
     max_alpha_reached = False
     run_tbc = True
     run_credits = True
-    credits_full = """
-    created by : kennex
-    music by : gnarski
-    special thanks to : bigheadbrett for play testing
-    tech with tim for inspiring me to code
-    happy chuck programming for help with scrolling text
-    Ted Klein Bergman for help with the tv static
-    
-    
-    
-    and you.  thanks for playing
-    
-    
-    CAPTIVE
+    credits_full ="""
+Coding, Artwork, and Writing By:
+Kennex
+
+Music By:
+Gnarski
+
+
+Thank you to the Play Testers:
+Ami <3
+Gnarski
+BigHeadBrett
+Rappican
+Mr. Green
+
+
+A Special Thanks To:
+Takagism for making the Crimson Room
+No Starch Press for teaching me to code
+Tech With Tim for inspiring me to code
+Happy Chuck Programming for help with scrolling text
+Ted Klein Bergman for help with the tv static
+The Stackoverflow Community
+The Python Community
+The Python Subreddits
+
+
+And a Big Thanks to YOU.
+Thank You For Playing
+
+I hope you enjoyed the game as much as I
+enjoyed making it and learning how to code.
+
+
+
+
+
+
+
+
+
+
+CAPTIVE
     """
     scrolling_centerx, scrolling_centery = screen.get_rect().centerx, screen.get_rect().centery
     delta = scrolling_centery
@@ -59,7 +88,7 @@ def credits():
 
     while gs.won_game:
 
-        pygame.mixer.Sound.play(credits_music, 1)
+        pygame.mixer.Sound.play(credits_music, 0)
         screen.fill((gs.white))
         # Events
         for event in pygame.event.get():
@@ -528,7 +557,7 @@ def options_menu():
 def run_game():
 
     if gs.new_game:
-        gf.default_settings(gs)
+        #gf.default_settings(gs)
         gf.generate_codes(gs) # generates numbers for problems and puzzles
         gf.update_settings_dictionary(gs) # Generates the ability to save the settings generated in the generate codes
         gs.text = "What the...?  Where am I?"
@@ -558,9 +587,13 @@ def run_game():
     pygame.mixer.Sound.stop(credits_music)
     game_menu()
 
-#credits()
+
+#gs.game_started = True # Need to run only game // todo delete me or comment out
+gs.won_game = True # Needed to run only credits // todo delete me or comment out
+
+credits()
 #run_game()
-title_menu()
+#title_menu()
 #game_menu()
 
 

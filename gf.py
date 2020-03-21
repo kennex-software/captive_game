@@ -56,10 +56,13 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                     if gs.door_opened:
                                         room_view.close_door(gs, event)
                                         if room_view.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0:
-                                            gs.won_game = True
-                                            gs.end_time = pygame.time.get_ticks()
-                                            print('clicked door')
-                                            gs.game_started = False
+                                            if gs.leave:
+                                                gs.won_game = True
+                                                gs.end_time = pygame.time.get_ticks()
+                                                print('clicked door')
+                                                gs.game_started = False
+                                            else:
+                                                gs.leave = True
 
 
                                     if gs.room_view_drill_down == 0.1 and not gs.power_cord_found: # Function to click power cord when it's not found
@@ -393,6 +396,7 @@ def update_settings_dictionary(gs):
     gs.settings_dictionary = {
                                 'new_game': gs.new_game,
                                 'text': gs.text,
+                                'leave': gs.leave,
                                 'current_text': gs.current_text,
                                 'current_time': gs.current_time,
                                 'save_time': gs.save_time,
@@ -512,6 +516,7 @@ def update_settings_from_save_file(gs):
     """Function to update settings from a save file."""
     gs.new_game = gs.settings_dictionary['new_game']
     gs.text = gs.settings_dictionary['text']
+    gs.leave = gs.settings_dictionary['leave']
     gs.current_text = gs.settings_dictionary['current_text']
     gs.current_time = gs.settings_dictionary['current_time']
     gs.save_time = gs.settings_dictionary['save_time']
@@ -675,6 +680,7 @@ def default_settings(gs):
     gs.options_menu_up = False
     gs.quit_menu_up = False
     gs.game_ended = False
+    gs.leave = False
     gs.text = None
     gs.current_text = None
     gs.frame_rate = 60
@@ -863,14 +869,8 @@ def scrolling_credits(gs, screen, credits_full, scrolling_centerx, scrolling_cen
     line_spacing = 0
     credits_list = []
     position_list = []
-    delta_y -= 20  # Default value = 20
+    delta_y -= 30  # Default value = 20
 
-    """for item in list:
-        text_image = gs.arial48.render(item, True, gs.black)
-        screen.blit(text_image, (gs.screen_width//2, line_spacing))
-        line_spacing += text_height"""
-
-    #text = 'created by : kennex'
     for line in credits_full.split('\n'):
         text_image = gs.arial48.render(line, True, gs.black)
         credits_list.append(text_image)

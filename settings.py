@@ -18,7 +18,18 @@ class Settings():
         self.game_version = '0.8.3'
         self.start_game_from_load = False
         """
-        Use this area to discuss versioning:
+        Use this area to discuss version:
+        
+        -Version 0.9.6 --->   3/21/2020
+        -New Features
+            -Added quit menu with ability to quit with or without saving
+            -Will automatically install game into C: drive
+            -Added area to work on versions (here)
+            -Added credits and got them to roll up, like a movie
+        -Fixes
+            -Save and Load were updated for error handling
+            -Updated the ability to leave and run the credits
+            
         
         
         
@@ -172,7 +183,8 @@ class Settings():
 
 
         # Win Game
-        self.won_game = False # Dfeault = False todo make false
+        self.won_game = False # Default = False todo make false
+        self.leave = False # Default = False
 
         # Inventory Items Found
         self.all_items_visible = False # Default = False // Allows to toggle all items on or off
