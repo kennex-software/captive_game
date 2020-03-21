@@ -560,8 +560,8 @@ def run_game():
 
 #credits()
 #run_game()
-#title_menu()
-game_menu()
+title_menu()
+#game_menu()
 
 
 
