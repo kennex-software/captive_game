@@ -145,7 +145,7 @@ class Settings():
         self.game_ended = False
 
         # ----------------------------------------------------------------------------------------------------------
-        # All Variable Settings that need to be saved
+        # All Variable Settings that need to be saved and reset
 
         # Game
         self.new_game = True
@@ -169,7 +169,7 @@ class Settings():
 
 
         # Win Game
-        self.won_game = False
+        self.won_game = False # Dfeault = False todo make false
 
         # Inventory Items Found
         self.all_items_visible = False # Default = False // Allows to toggle all items on or off
@@ -177,7 +177,7 @@ class Settings():
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
         self.green_key_found = False # Default = False
-        self.remote_found = True # Default = False todo make false
+        self.remote_found = False # Default = False todo make false
         self.batteries_found = False # Default = False
         self.power_cord_found = False # Default = False
         self.papers_found = False # Default = False
@@ -187,9 +187,9 @@ class Settings():
         self.shirt_found = False # Default = False
         self.screwdriver_found = False # Default = False
 
-        self.power_cord_desk_1 = False # Default = False todo make false
-        self.power_cord_desk_2 = False # Default = False todo make false
-        self.power_cord_window_1 = False # Default = False todo make false
+        self.power_cord_desk_1 = False # Default = False
+        self.power_cord_desk_2 = False # Default = False
+        self.power_cord_window_1 = False # Default = False
 
         self.moveable_items_index_list = []
 
@@ -211,14 +211,14 @@ class Settings():
         # Remote Settings
         self.remote_opened = False  # Default = False
         self.close_remote = False  # Default = False
-        self.batteries_input = True  # Default = False # todo change to false
+        self.batteries_input = False  # Default = False # todo change to false
         self.button_input_list = []
         self.entered_buttons = None
         self.muted = False
         self.volume = None
 
         # TV Settings
-        self.tv_on = True  # Default = False todo make false
+        self.tv_on = False  # Default = False todo make false
         self.current_channel = '3' # Default = '3' todo make '3'
         self.random_channel = None
         self.tv_sound_play_var = 0
@@ -275,13 +275,13 @@ class Settings():
         self.all_unlocked = False # Default = False // Unlocks all drawers / doors
 
         # Door Settings
-        self.door_opened = True  # Default = False todo change to false
+        self.door_opened = False  # Default = False todo change to false
         self.door_number = None
         self.konar_number = None # Street sign in Camera 2
         self.cam_two_number = None
 
         # Lights Settings
-        self.lights_on = True  # Default = False todo change to false
+        self.lights_on = False  # Default = False todo change to false
         self.lights_beginning = True
         
         # Settings for Red and Blue Book
@@ -341,7 +341,7 @@ class Settings():
 
         # Inventory Item Selection
         self.selected_item_index = None
-        self.selected_item = None  # selected_item stands for selected item
+        self.selected_item = None
         self.offset = None
         self.item_selection_choice = False
         self.selected_item_start_x = 0

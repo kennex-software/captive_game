@@ -705,6 +705,34 @@ def print_settings(gs):
     print("FINDCHANNEL: ???")
     print("181161693114: ???")
 
+def scrolling_credits(gs, screen, credits_full, scrolling_centerx, scrolling_centery, delta_y):
+    text_height = gs.arial48.get_height()
+
+    line_spacing = 0
+    credits_list = []
+    position_list = []
+    delta_y -= 20  # Default value = 20
+
+    """for item in list:
+        text_image = gs.arial48.render(item, True, gs.black)
+        screen.blit(text_image, (gs.screen_width//2, line_spacing))
+        line_spacing += text_height"""
+
+    #text = 'created by : kennex'
+    for line in credits_full.split('\n'):
+        text_image = gs.arial48.render(line, True, gs.black)
+        credits_list.append(text_image)
+        position = text_image.get_rect(center=(scrolling_centerx, scrolling_centery + delta_y + line_spacing * 70))
+        position_list.append(position)
+        line_spacing += 1
+
+    if scrolling_centery + delta_y + 70*(len(credits_full.split('\n'))) < 0:
+        gs.won_game = False
+
+    for i in range(line_spacing):
+        screen.blit(credits_list[i], position_list[i])
+
+
 
 
 

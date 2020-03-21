@@ -36,11 +36,20 @@ def credits():
     alpha_t = 0
     start_ticks = pygame.time.get_ticks()
     max_alpha_reached = False
+    run_tbc = True
+    run_credits = True
+    credits_full = """
+    created by : kennex
+    music by : gnarski
+    special thanks to : bigheadbrett
+    """
+    scrolling_centerx, scrolling_centery = screen.get_rect().centerx, screen.get_rect().centery
+    delta = scrolling_centery
 
 
-    while True:
+    while gs.won_game:
 
-        #pygame.mixer.Sound.play(credits_music, 1)
+        pygame.mixer.Sound.play(credits_music, 1)
         screen.fill((gs.white))
         # Events
         for event in pygame.event.get():
@@ -48,11 +57,21 @@ def credits():
                 sys.exit()
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    pass#game_menu()
+                    if not run_tbc:
+                        run_credits = False
+                        pygame.time.wait(1000)
+                        pygame.mixer.Sound.stop(credits_music)
+                        game_menu()
+                    if run_tbc:
+                        run_tbc = False
+                        run_credits = True
+
+
+
 
         seconds = (pygame.time.get_ticks() - start_ticks)/1000
 
-        if seconds > 2:
+        if seconds > 2 and run_tbc:
             if not max_alpha_reached:
                 if alpha_t >= 0 and alpha_t <= 254:
                     alpha_t = max(alpha_t+2, 0)
@@ -76,15 +95,22 @@ def credits():
 
             screen.blit(title_surface, (gs.screen_width//2, gs.screen_height//2))
 
-        if seconds > 12:
-            print('is it gone yet?')
+        if seconds > 12 and run_tbc:
+            run_tbc = False
+
+        if not run_tbc and run_credits:
+            delta -= 1
+            gf.scrolling_credits(gs, screen, credits_full, scrolling_centerx, scrolling_centery, delta)
+
+        else:
+            pass
+
+
 
 
         # Update
         pygame.display.flip()
         clock.tick(30)
-
-
 
 def title_menu():
 
@@ -450,15 +476,14 @@ def run_game():
     while gs.won_game:
         credits()
 
+    pygame.time.wait(1000)
+    pygame.mixer.Sound.stop(credits_music)
+    game_menu()
 
-
-
-
-
-gs.game_started = True # todo delete this
-run_game()
+#credits()
+#run_game()
 #title_menu()
-#game_menu()
+game_menu()
 
 
 
