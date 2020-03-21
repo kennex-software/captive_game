@@ -58,15 +58,15 @@ A Special Thanks To:
 Takagism for making the Crimson Room
 No Starch Press for teaching me to code
 Tech With Tim for inspiring me to code
-Happy Chuck Programming for help with scrolling text
-Ted Klein Bergman for help with the tv static
+Happy Chuck Programming for help with Scrolling Text
+Ted Klein Bergman for help with the TV Static
 The Stackoverflow Community
 The Python Community
 The Python Subreddits
 
 
-And a Big Thanks to YOU.
-Thank You For Playing
+And a Big Thanks to YOU!
+Thank You For Playing.
 
 I hope you enjoyed the game as much as I
 enjoyed making it and learning how to code.
@@ -589,11 +589,11 @@ def run_game():
 
 
 #gs.game_started = True # Need to run only game // todo delete me or comment out
-gs.won_game = True # Needed to run only credits // todo delete me or comment out
+#gs.won_game = True # Needed to run only credits // todo delete me or comment out
 
-credits()
+#credits()
 #run_game()
-#title_menu()
+title_menu()
 #game_menu()
 
 
