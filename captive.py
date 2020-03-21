@@ -41,7 +41,17 @@ def credits():
     credits_full = """
     created by : kennex
     music by : gnarski
-    special thanks to : bigheadbrett
+    special thanks to : bigheadbrett for play testing
+    tech with tim for inspiring me to code
+    happy chuck programming for help with scrolling text
+    Ted Klein Bergman for help with the tv static
+    
+    
+    
+    and you.  thanks for playing
+    
+    
+    CAPTIVE
     """
     scrolling_centerx, scrolling_centery = screen.get_rect().centerx, screen.get_rect().centery
     delta = scrolling_centery
@@ -221,7 +231,7 @@ def game_menu():
                         print('quit')
 
 
-
+        gs.new_game = True
         screen.fill((gs.bg_color))
         screen.blit(game_logo, (game_logo_rect.x, game_title_rect.bottom + 175))
         screen.blit(game_title, (game_title_rect.x, 175))
@@ -313,11 +323,16 @@ def options_menu():
     game_title_rect = game_title.get_rect()
     game_title_rect.centerx = gs.screen_width//2
 
+    quit_menu = pygame.Rect(400, 325, 600, 200)
+    quit_menu.centerx = gs.screen_width//2
+
     button_color1 = gs.gray
     button_color2 = gs.gray
     button_color3 = gs.gray
     button_color4 = gs.gray
     button_color5 = gs.gray
+    q_button_save_color = gs.gray
+    q_button_quit_color = gs.gray
 
     button1 = pygame.Rect(0, 600, 190, 80)
     button1.centerx = gs.screen_width//2
@@ -325,6 +340,12 @@ def options_menu():
     button3 = button2.move(-button2.width - 30, 0)
     button4 = button1.move(button1.width + 30, 0)
     button5 = button4.move(button4.width + 30, 0)
+
+    q_button_save = pygame.Rect(0, 410, 190, 80)
+    q_button_save.centerx = quit_menu.centerx - ((q_button_save.width // 2) + 15)
+    q_button_quit = q_button_save.move(q_button_save.width + 30, 0)
+
+
 
     while True:
         # Events
@@ -339,7 +360,7 @@ def options_menu():
                     gs.game_started = True
                     run_game()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
+                if event.button == 1 and not gs.quit_menu_up:
                     if button1.collidepoint(event.pos):
                         print('load game')
                         gf.load_settings(gs)
@@ -347,8 +368,9 @@ def options_menu():
                         gs.options_menu_up = False
                         gs.resume_time = pygame.time.get_ticks()
                         gs.stoppage_time = gs.stoppage_time + (gs.resume_time - gs.pause_time)
-                        gs.game_started = True
-                        run_game()
+                        if gs.start_game_from_load:
+                            gs.game_started = True
+                            run_game()
                     if button2.collidepoint(event.pos):
                         print('save game')
                         gs.resume_time = pygame.time.get_ticks()
@@ -368,7 +390,27 @@ def options_menu():
                     if button4.collidepoint(event.pos):
                         print('settings')
                     if button5.collidepoint(event.pos):
-                        print('quit')
+                        gs.quit_menu_up = True
+                        print('show quit menu')
+                if event.button == 1 and gs.quit_menu_up:
+                    print('quit menu up')
+                    if q_button_save.collidepoint(event.pos):
+                        print('save game')
+                        gs.resume_time = pygame.time.get_ticks()
+                        gs.stoppage_time = gs.stoppage_time + (gs.resume_time - gs.pause_time)
+                        gf.save_settings(gs)
+                        pygame.time.wait(500)
+                        gs.options_menu_up = False
+                        gs.quit_menu_up = False
+                        gs.game_started = True
+                        run_game()
+                    if q_button_quit.collidepoint(event.pos):
+                        gs.options_menu_up = False
+                        gs.quit_menu_up = False
+                        game_menu()
+
+
+
 
 
 
@@ -408,42 +450,76 @@ def options_menu():
         screen.blit(b4_text, b4_text_rect)
         screen.blit(b5_text, b5_text_rect)
 
-        if button1.collidepoint(pygame.mouse.get_pos()):
-            button_color1 = gs.dark_gray
-            button_color2 = gs.gray
-            button_color3 = gs.gray
-            button_color4 = gs.gray
-            button_color5 = gs.gray
-        elif button2.collidepoint(pygame.mouse.get_pos()):
-            button_color2 = gs.dark_gray
-            button_color1 = gs.gray
-            button_color3 = gs.gray
-            button_color4 = gs.gray
-            button_color5 = gs.gray
-        elif button3.collidepoint(pygame.mouse.get_pos()):
-            button_color3 = gs.dark_gray
-            button_color2 = gs.gray
-            button_color1 = gs.gray
-            button_color4 = gs.gray
-            button_color5 = gs.gray
-        elif button4.collidepoint(pygame.mouse.get_pos()):
-            button_color4 = gs.dark_gray
-            button_color2 = gs.gray
-            button_color3 = gs.gray
-            button_color1 = gs.gray
-            button_color5 = gs.gray
-        elif button5.collidepoint(pygame.mouse.get_pos()):
-            button_color5 = gs.dark_gray
-            button_color2 = gs.gray
-            button_color3 = gs.gray
-            button_color4 = gs.gray
-            button_color1 = gs.gray
-        else:
-            button_color1 = gs.gray
-            button_color2 = gs.gray
-            button_color3 = gs.gray
-            button_color4 = gs.gray
-            button_color5 = gs.gray
+        if not gs.quit_menu_up:
+            if button1.collidepoint(pygame.mouse.get_pos()):
+                button_color1 = gs.dark_gray
+                button_color2 = gs.gray
+                button_color3 = gs.gray
+                button_color4 = gs.gray
+                button_color5 = gs.gray
+            elif button2.collidepoint(pygame.mouse.get_pos()):
+                button_color2 = gs.dark_gray
+                button_color1 = gs.gray
+                button_color3 = gs.gray
+                button_color4 = gs.gray
+                button_color5 = gs.gray
+            elif button3.collidepoint(pygame.mouse.get_pos()):
+                button_color3 = gs.dark_gray
+                button_color2 = gs.gray
+                button_color1 = gs.gray
+                button_color4 = gs.gray
+                button_color5 = gs.gray
+            elif button4.collidepoint(pygame.mouse.get_pos()):
+                button_color4 = gs.dark_gray
+                button_color2 = gs.gray
+                button_color3 = gs.gray
+                button_color1 = gs.gray
+                button_color5 = gs.gray
+            elif button5.collidepoint(pygame.mouse.get_pos()):
+                button_color5 = gs.dark_gray
+                button_color2 = gs.gray
+                button_color3 = gs.gray
+                button_color4 = gs.gray
+                button_color1 = gs.gray
+            else:
+                button_color1 = gs.gray
+                button_color2 = gs.gray
+                button_color3 = gs.gray
+                button_color4 = gs.gray
+                button_color5 = gs.gray
+
+        if gs.quit_menu_up:
+            window_surface = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
+            window_surface.fill(gs.white_alpha)
+            screen.blit(window_surface, (0,0))
+
+            pygame.draw.rect(screen, gs.bg_color, quit_menu)
+            pygame.draw.rect(screen, gs.black, quit_menu, 4)
+            ask_to_save_text = gs.verdana18.render('Are you sure you want to quit without saving?', True, gs.black)
+            ask_to_save_text_rect = ask_to_save_text.get_rect(center = (quit_menu.centerx, quit_menu.y + 40))
+            screen.blit(ask_to_save_text, ask_to_save_text_rect)
+
+            pygame.draw.rect(screen, q_button_save_color, q_button_save)
+            pygame.draw.rect(screen, q_button_quit_color, q_button_quit)
+
+            pygame.draw.rect(screen, gs.black, q_button_save, 3)
+            pygame.draw.rect(screen, gs.black, q_button_quit, 3)
+
+            q_save_text_rect = b2_text.get_rect(center = q_button_save.center)
+            q_quit_text_rect = b5_text.get_rect(center = q_button_quit.center)
+
+            screen.blit(b2_text, q_save_text_rect)
+            screen.blit(b5_text, q_quit_text_rect)
+
+            if q_button_save.collidepoint(pygame.mouse.get_pos()):
+                q_button_save_color = gs.dark_gray
+                q_button_quit_color = gs.gray
+            elif q_button_quit.collidepoint(pygame.mouse.get_pos()):
+                q_button_quit_color = gs.dark_gray
+                q_button_save_color = gs.gray
+            else:
+                q_button_save_color = gs.gray
+                q_button_quit_color = gs.gray
 
         # Update
         pygame.display.flip()
@@ -452,6 +528,7 @@ def options_menu():
 def run_game():
 
     if gs.new_game:
+        gf.default_settings(gs)
         gf.generate_codes(gs) # generates numbers for problems and puzzles
         gf.update_settings_dictionary(gs) # Generates the ability to save the settings generated in the generate codes
         gs.text = "What the...?  Where am I?"
@@ -475,6 +552,7 @@ def run_game():
 
     while gs.won_game:
         credits()
+
 
     pygame.time.wait(1000)
     pygame.mixer.Sound.stop(credits_music)

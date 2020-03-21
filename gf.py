@@ -199,7 +199,7 @@ def aspect_scale_wh(surface, bx, my_h):
 
     return surface
 
-def check_inside_clickbox(self, bounding_points, bounding_box_positions):
+def check_inside_clickbox(gs, bounding_points, bounding_box_positions):
     """This function will determine whether or not user clicked inside of a polygon or image"""
     """ bounding_points: nodes that make up the polygon.
         bounding_box_positions: candidate points to filter. (In my implementation created from the bounding box.
@@ -337,12 +337,12 @@ def generate_codes(gs):
             gs.moveable_items_index_list.append(n)
 
     if gs.all_unlocked == True:
-        self.fcd1_locked = False  # Default = False
-        self.fcd2_locked = False  # Default = True // Unlocked with Purple Key
-        self.dd1_locked = False  # Default = True // Unlocked with Green Key
-        self.dd2_locked = False  # Default = False
-        self.dd3_locked = False  # Default = True // Unlocked with Red Key
-        self.door_locked = False  # Default = True // Unlocked with Door Key (Gold)
+        gs.fcd1_locked = False  # Default = False
+        gs.fcd2_locked = False  # Default = True // Unlocked with Purple Key
+        gs.dd1_locked = False  # Default = True // Unlocked with Green Key
+        gs.dd2_locked = False  # Default = False
+        gs.dd3_locked = False  # Default = True // Unlocked with Red Key
+        gs.door_locked = False  # Default = True // Unlocked with Door Key (Gold)
 
 def round_down(n, decimals=0):
     multiplier = 10 ** decimals
@@ -389,6 +389,7 @@ def clock_timer(gs):
 
 
 def update_settings_dictionary(gs):
+    """Function to update the settings dictionary."""
     gs.settings_dictionary = {
                                 'new_game': gs.new_game,
                                 'text': gs.text,
@@ -508,6 +509,7 @@ def update_settings_dictionary(gs):
         }
 
 def update_settings_from_save_file(gs):
+    """Function to update settings from a save file."""
     gs.new_game = gs.settings_dictionary['new_game']
     gs.text = gs.settings_dictionary['text']
     gs.current_text = gs.settings_dictionary['current_text']
@@ -626,34 +628,184 @@ def update_settings_from_save_file(gs):
 
 
 def save_settings(gs):
-
-    if gs.save_filename == None:
-        gs.save_time = gs.current_time - gs.game_start_time
-        gs.save_filename = asksaveasfilename(parent=root, initialdir="./saves/", title="Save File", filetypes=[("Data Files", "*.dat")], defaultextension=".dat")
-        update_settings_dictionary(gs)
-        pickle_out = open(gs.save_filename, 'wb')
-        pickle.dump(gs.settings_dictionary, pickle_out)
-        pickle_out.close()
-        print('game saved')
-    else:
-        update_settings_dictionary(gs)
-        pickle_out = open(gs.save_filename, 'wb')
-        pickle.dump(gs.settings_dictionary, pickle_out)
-        pickle_out.close()
-        print('game saved')
+    """Function to save the current settings to a game save file."""
+    try:
+        if gs.save_filename == None:
+            gs.save_time = gs.current_time - gs.game_start_time
+            gs.save_filename = asksaveasfilename(parent=root, initialdir="./saves/", title="Save File", filetypes=[("Data Files", "*.dat")], defaultextension=".dat")
+            update_settings_dictionary(gs)
+            pickle_out = open(gs.save_filename, 'wb')
+            pickle.dump(gs.settings_dictionary, pickle_out)
+            pickle_out.close()
+            print('game saved')
+        else:
+            update_settings_dictionary(gs)
+            pickle_out = open(gs.save_filename, 'wb')
+            pickle.dump(gs.settings_dictionary, pickle_out)
+            pickle_out.close()
+            print('game saved')
+    except:
+        print('file not saved')
+        gs.save_filename = None
 
 
 def load_settings(gs):
+    """Function to load the settings from a previous game save file."""
+    try:
+        filename = askopenfilename(parent=root, initialdir="./saves/", title="Load Settings", filetypes=[("Data Files", "*.dat")]) # show an "Open" dialog box and return the path to the selected file
+        if filename:
+            pickle_in = open(filename, 'rb')
+            gs.settings_dictionary = pickle.load(pickle_in)
+            pickle_in.close()
+            update_settings_from_save_file(gs)
+            if filename != None:
+                gs.start_game_from_load = True
+                print('settings loaded')
+            filename = None
 
-    filename = askopenfilename(parent=root, initialdir="./saves/", title="Load Settings", filetypes=[("Data Files", "*.dat")]) # show an "Open" dialog box and return the path to the selected file
-    if filename:
-        pickle_in = open(filename, 'rb')
-        gs.settings_dictionary = pickle.load(pickle_in)
-        pickle_in.close()
-        update_settings_from_save_file(gs)
-        filename = None
-        print('settings loaded')
-        gs.start_game_from_load = True
+
+    except:
+        print('file not loaded')
+        gs.start_game_from_load = False
+
+def default_settings(gs):
+    """Function to change all of the game settings to default settings for a new game."""
+    gs.new_game = True
+    gs.save_filename = None
+    gs.options_menu_up = False
+    gs.quit_menu_up = False
+    gs.game_ended = False
+    gs.text = None
+    gs.current_text = None
+    gs.frame_rate = 60
+    gs.game_start_time = None
+    gs.current_time = 0
+    gs.save_time = 0
+    gs.pause_time = 0
+    gs.resume_time = 0
+    gs.stoppage_time = 0
+    gs.end_time = 0
+    gs.won_game = False # Dfeault = False todo make false
+    gs.all_items_visible = False # Default = False // Allows to toggle all items on or off
+    gs.door_key_found = False # Default = False
+    gs.red_key_found = False # Default = False
+    gs.purple_key_found = False # Default = False
+    gs.green_key_found = False # Default = False
+    gs.remote_found = False # Default = False todo make false
+    gs.batteries_found = False # Default = False
+    gs.power_cord_found = False # Default = False
+    gs.papers_found = False # Default = False
+    gs.red_book_found = False # Default = False
+    gs.blue_book_found = False # Default = False
+    gs.desk_drawer_removed = False # Default = False
+    gs.shirt_found = False # Default = False
+    gs.screwdriver_found = False # Default = False
+    gs.power_cord_desk_1 = False # Default = False
+    gs.power_cord_desk_2 = False # Default = False
+    gs.power_cord_window_1 = False # Default = False
+    gs.moveable_items_index_list = []
+    gs.door_key_used = False # Default = False
+    gs.red_key_used = False # Default = False
+    gs.purple_key_used = False # Default = False
+    gs.green_key_used = False # Default = False
+    gs.batteries_used = False # Default = False
+    gs.power_cord_used = False # Default = False
+    gs.screwdriver_used = False # Default = False
+    gs.stable_item_opened = False  # Default = False
+    gs.shirt_opened = False
+    gs.remote_opened = False  # Default = False
+    gs.close_remote = False  # Default = False
+    gs.batteries_input = False  # Default = False # todo change to false
+    gs.button_input_list = []
+    gs.entered_buttons = None
+    gs.muted = False
+    gs.volume = None
+    gs.tv_on = False  # Default = False todo make false
+    gs.current_channel = '3' # Default = '3' todo make '3'
+    gs.random_channel = None
+    gs.tv_sound_play_var = 0
+    gs.safe_on_sound_var = 0
+    gs.current_tv_screen_color = (82, 82, 82)
+    gs.message_channel_play = False
+    gs.safe_uncovered = False # Default = false todo make false
+    gs.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
+    gs.safe_initialized = False # Safe can only be opened if a certain channel is on the TV todo make false
+    gs.safe_use_color = gs.black
+    gs.color_number_1 = None  # This number is needed to open the safe
+    gs.color_number_2 = None  # This number is needed to open the safe
+    gs.safe_combo_n1 = 0  # This number is needed to open the safe
+    gs.safe_combo_n2 = 0  # This number is needed to open the safe
+    gs.safe_combo_n3 = 0  # This number is needed to open the safe
+    gs.safe_combo_n4 = 0  # This number is needed to open the safe
+    gs.safe_opened = False # Default = False todo change to false
+    gs.safe_combo_random = []
+    gs.safe_combo = []
+    gs.safe_alpha_pra_answer = None
+    gs.tv_color_numbers = []
+    gs.turn_safe_on_channel = None
+    gs.safe_alpha_index = 0
+    gs.safe_combo_a1 = 0 # This number is needed to open the safe
+    gs.fourth_wall = False  # Default = False
+    gs.current_room_view = 0
+    gs.drill_possible = False  # Default = False
+    gs.room_view_drill_down = 0  # Default = 0
+    gs.fcd1_opened = False  # Default = False
+    gs.fcd2_opened = False  # Default = False
+    gs.dd1_opened = False  # Default = False
+    gs.dd2_opened = False  # Default = False
+    gs.dd3_opened = False  # Default = False
+    gs.dd3_open_attempts = 0  # Default = 0
+    gs.desk_drawer_up = False
+    gs.fcd1_locked = False  # Default = False
+    gs.fcd2_locked = True  # Default = True // Unlocked with Purple Key
+    gs.dd1_locked = True  # Default = True // Unlocked with Green Key
+    gs.dd2_locked = False  # Default = False
+    gs.dd3_locked = True  # Default = True // Unlocked with Red Key
+    gs.door_locked = True  # Default = True // Unlocked with Door Key (Gold)
+    gs.all_unlocked = False # Default = False // Unlocks all drawers / doors
+    gs.door_opened = False  # Default = False todo change to false
+    gs.door_number = None
+    gs.konar_number = None # Street sign in Camera 2
+    gs.cam_two_number = None
+    gs.lights_on = False  # Default = False todo change to false
+    gs.lights_beginning = True
+    gs.red_book_opened = False  # Default = False
+    gs.blue_book_opened = False  # Default = False
+    gs.current_page = 1  # Default = 1
+    gs.current_book = None
+    gs.diary_choice = 0
+    gs.papers_opened = False  # Default = False
+    gs.current_paper_in_view = 1  # Default = 1
+    gs.prb_n1 = 0
+    gs.prb_n2 = 0
+    gs.prb_code = 0
+    gs.pua_code = 0
+    gs.pua_double_digits = []
+    gs.pub_n1 = 0
+    gs.pub_n3 = 0
+    gs.pub_n2 = 0
+    gs.pub_n4 = 0
+    gs.pub_n5 = 0
+    gs.pub_n6 = 0
+    gs.pub_n7 = 0
+    gs.pub_n8 = 0
+    gs.pub_n9 = 0
+    gs.pub_code = 0
+    gs.control_panel_on = False
+    gs.channel_code = 0
+    gs.color_codes = {'purple': [1, 'p', gs.purple],
+                        'blue': [2, 'b', gs.blue],
+                        'green': [3, 'g', gs.green],
+                        'yellow': [4, 'y', gs.bright_yellow],
+                        'orange':[5, 'o', gs.orange],
+                        'red': [6, 'r', gs.red]}
+    gs.settings_dictionary = {}
+    gs.selected_item_index = None
+    gs.selected_item = None
+    gs.offset = None
+    gs.item_selection_choice = False
+    gs.selected_item_start_x = 0
+    gs.selected_item_start_y = 0
 
 
 def print_settings(gs):

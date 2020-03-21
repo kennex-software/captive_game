@@ -30,6 +30,7 @@ class Settings():
         # Save and Load Filename Settings
         self.save_filename = None
         self.options_menu_up = False
+        self.quit_menu_up = False
 
         # Screen Settings
         self.screen_width = 1200
@@ -51,6 +52,7 @@ class Settings():
         self.verdana16 = pygame.font.SysFont("Verdana", 16, True)
         self.verdana18 = pygame.font.SysFont("Verdana", 18, True)
         self.verdana22 = pygame.font.SysFont("Verdana", 22, True)
+        self.verdana28 = pygame.font.SysFont("Verdana", 28, True)
         self.verdana32 = pygame.font.SysFont("Verdana", 32, True)
         self.verdana40 = pygame.font.SysFont("Verdana", 40, True)
         self.verdana55 = pygame.font.SysFont("Verdana", 55, True)
@@ -104,6 +106,7 @@ class Settings():
         # Colors
         self.bg_color = (107, 126, 156)  # Walls
         self.white = (255, 255, 255)
+        self.white_alpha = (255, 255, 255, 128)
         self.silver = (192, 192, 192)
         self.green = (0, 255, 0)
         self.blue = (0, 0, 255)
