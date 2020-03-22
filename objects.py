@@ -91,7 +91,7 @@ class GameObjects():
         self.strtodisplay = "r" + str(gs.current_room_view) + " d" + str(gs.room_view_drill_down)
         self.text_image = self.viewfont.render(self.strtodisplay, True, gs.black)
         self.text_image_rect = self.text_image.get_rect()
-        self.screen.blit(self.text_image, self.text_image_rect)
+        screen.blit(self.text_image, self.text_image_rect)
         
         """
 

@@ -22,6 +22,10 @@ enlarged_papers_top1 = pygame.image.load(i_enlarged_papers_top1)
 enlarged_papers_top2 = pygame.image.load(i_enlarged_papers_top2)
 enlarged_papers_top3 = pygame.image.load(i_enlarged_papers_top3)
 
+# Scaled Images
+red_key_scaled = pygame.transform.smoothscale(inventory.red_key_taped, ((inventory.red_key_taped.get_width() // 3), (inventory.red_key_taped.get_height() // 3)))
+ripped_tape_scaled = pygame.transform.smoothscale(inventory.ripped_tape, ((inventory.red_key_taped.get_width() // 3) // 2, (inventory.red_key_taped.get_height() // 3)))
+
 # Load Sounds
 key_sound = pygame.mixer.Sound('sounds/key_jingle.wav')
 flip_page_sound = pygame.mixer.Sound('sounds/flip_page.wav')
@@ -40,6 +44,8 @@ class Stable_Items():
 
         self.red_key_clickbox = [(637, 546), (655, 531), (666, 448), (680, 411), (661, 377),
                                 (635, 371), (595, 395), (598, 437), (611, 479), (616, 527), (637, 548)]
+
+        self.manual_view_cover = pygame.Rect(410, 130, 450, 525)
 
         self.number_index_dict = {'4': 1,
                                   '5': 2,
@@ -143,13 +149,12 @@ class Stable_Items():
                 text_image = gs.cambria18.render('closets hold secrets', True, gs.gray)
                 screen.blit(text_image, (655, 170))
 
-                width = inventory.red_key_taped.get_width() // 3
-                height = inventory.red_key_taped.get_height() // 3
+
                 if not gs.red_key_found:
-                    screen.blit(pygame.transform.smoothscale(inventory.red_key_taped, (width, height)), (540, 380))
+                    screen.blit(red_key_scaled, (540, 380))
                     # pygame.draw.polygon(screen, gs.yellow, self.red_key_clickbox, 1) # todo comment this out
                 else:
-                    screen.blit(pygame.transform.smoothscale(inventory.ripped_tape, (width // 2, height)), (540, 380))
+                    screen.blit(ripped_tape_scaled, (540, 380))
 
         elif gs.current_book == 'blue_book':
             if page == 1:
@@ -348,7 +353,6 @@ class Stable_Items():
         """Function to draw the manuals to the screen based on the inputs given, i.e. which color/which one is clicked"""
 
         # Define the cover shapes.  These will be clickable to turn the pages
-        self.manual_view_cover = pygame.Rect(410, 130, 450, 525)
         self.bc_x = 160  # Back Cover X
         self.bc_tc_y = 58  # Back Cover, Top Corner Y
         self.bc_bc_y = 727  # Back Cover, Top Corner Y

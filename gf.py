@@ -120,7 +120,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
 
 
-                print("Click Position: " + str(event.pos))
+                #print("Click Position: " + str(event.pos))
                 #print(str(event.pos))
 
         elif event.type == pygame.MOUSEBUTTONUP:
@@ -333,21 +333,6 @@ def generate_codes(gs):
 
     gs.safe_alpha_pra_answer = int(round_down(gs.konar_number/gs.door_number*25/10))
 
-
-
-    # Necessary game settings based on settings for development purposes
-    if gs.all_items_visible == True:
-        for n in range(0, 7):
-            gs.moveable_items_index_list.append(n)
-
-    if gs.all_unlocked == True:
-        gs.fcd1_locked = False  # Default = False
-        gs.fcd2_locked = False  # Default = True // Unlocked with Purple Key
-        gs.dd1_locked = False  # Default = True // Unlocked with Green Key
-        gs.dd2_locked = False  # Default = False
-        gs.dd3_locked = False  # Default = True // Unlocked with Red Key
-        gs.door_locked = False  # Default = True // Unlocked with Door Key (Gold)
-
 def round_down(n, decimals=0):
     multiplier = 10 ** decimals
     return math.floor(n * multiplier) / multiplier
@@ -408,7 +393,6 @@ def update_settings_dictionary(gs):
                                 'frame_rate': gs.frame_rate,
                                 'game_start_time': gs.game_start_time,
                                 'won_game': gs.won_game,
-                                'all_items_visible': gs.all_items_visible,
                                 'door_key_found': gs.door_key_found,
                                 'red_key_found': gs.red_key_found,
                                 'purple_key_found': gs.purple_key_found,
@@ -481,7 +465,6 @@ def update_settings_dictionary(gs):
                                 'dd2_locked': gs.dd2_locked,
                                 'dd3_locked': gs.dd3_locked,
                                 'door_locked': gs.door_locked,
-                                'all_unlocked': gs.all_unlocked,
                                 'door_opened': gs.door_opened,
                                 'door_number': gs.door_number,
                                 'konar_number': gs.konar_number,
@@ -528,7 +511,6 @@ def update_settings_from_save_file(gs):
     gs.frame_rate = gs.settings_dictionary['frame_rate']
     gs.game_start_time = gs.settings_dictionary['game_start_time']
     gs.won_game = gs.settings_dictionary['won_game']
-    gs.all_items_visible = gs.settings_dictionary['all_items_visible']
     gs.door_key_found = gs.settings_dictionary['door_key_found']
     gs.red_key_found = gs.settings_dictionary['red_key_found']
     gs.purple_key_found = gs.settings_dictionary['purple_key_found']
@@ -601,7 +583,6 @@ def update_settings_from_save_file(gs):
     gs.dd2_locked = gs.settings_dictionary['dd2_locked']
     gs.dd3_locked = gs.settings_dictionary['dd3_locked']
     gs.door_locked = gs.settings_dictionary['door_locked']
-    gs.all_unlocked = gs.settings_dictionary['all_unlocked']
     gs.door_opened = gs.settings_dictionary['door_opened']
     gs.door_number = gs.settings_dictionary['door_number']
     gs.konar_number = gs.settings_dictionary['konar_number']
@@ -693,7 +674,6 @@ def default_settings(gs):
     gs.stoppage_time = 0
     gs.end_time = 0
     gs.won_game = False # Dfeault = False todo make false
-    gs.all_items_visible = False # Default = False // Allows to toggle all items on or off
     gs.door_key_found = False # Default = False
     gs.red_key_found = False # Default = False
     gs.purple_key_found = False # Default = False
@@ -769,7 +749,6 @@ def default_settings(gs):
     gs.dd2_locked = False  # Default = False
     gs.dd3_locked = True  # Default = True // Unlocked with Red Key
     gs.door_locked = True  # Default = True // Unlocked with Door Key (Gold)
-    gs.all_unlocked = False # Default = False // Unlocks all drawers / doors
     gs.door_opened = False  # Default = False todo change to false
     gs.door_number = None
     gs.konar_number = None # Street sign in Camera 2

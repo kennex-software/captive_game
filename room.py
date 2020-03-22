@@ -49,6 +49,9 @@ power_cord_plugged_2 = pygame.image.load(power_cord_plugged_2_load)
 pittsburgh = pygame.image.load(pittsburgh_load)
 tablevase = pygame.image.load(tablevase_load)
 
+# Scaled Images
+hanging_shirt_scaled = pygame.transform.smoothscale(hanging_shirt, (150, 235))
+
 # Load Sounds
 key_sound = pygame.mixer.Sound('sounds/key_jingle.wav')
 door_open_sound = pygame.mixer.Sound('sounds/door_open.wav')
@@ -125,6 +128,9 @@ class Room():
         self.safe_hole = self.safe.inflate(90, 60)
         self.safe_cover = self.safe_hole.inflate(10,10)
         self.safe_handle = pygame.Rect(700, 240, 30, 80)
+
+        self.safe_on_block = pygame.Rect(657, 170, 8, 8)
+        self.safe_off_block = self.safe_on_block.move(0, 30)
 
         # Safe Numbers
         self.safe_number_rect_n1 = pygame.Rect((self.safe.topleft[0] + 20), (self.safe.topleft[1] + 20), 70, 100)
@@ -465,9 +471,6 @@ class Room():
 
 
                 # On / Off Settings
-                self.safe_on_block = pygame.Rect(657, 170, 8, 8)
-                self.safe_off_block = self.safe_on_block.move(0, 30)
-
                 pygame.draw.circle(screen, self.safe_status_color_on, self.safe_on_block.center, 8)
                 pygame.draw.circle(screen, self.safe_status_color_off, self.safe_off_block.center, 8)
                 pygame.draw.circle(screen, gs.black, self.safe_on_block.center, 9, 2)
@@ -1082,7 +1085,7 @@ class Room():
 
         # Shirt in Closet
         if not gs.shirt_found:
-            screen.blit(pygame.transform.smoothscale(hanging_shirt, (150, 235)), self.shirt_surface)
+            screen.blit(hanging_shirt_scaled, self.shirt_surface)
 
 
         # Click / Mouseovers

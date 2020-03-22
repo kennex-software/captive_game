@@ -28,6 +28,8 @@ class Settings():
             -Fixed the fact that a new game wouldn't start after the game was beat and you pressed play again.
             -Added verison number to the main manu and options menu.
             -Altered the clues on the paper to better address the diamonds, number grid, and colors.
+            -Changed up where items are scaled and transformed, keeping them directly off the blits.
+            -Removed the "unlock all" and "show all items" settings.
             
             
             
@@ -200,7 +202,6 @@ class Settings():
         self.leave = False # Default = False
 
         # Inventory Items Found
-        self.all_items_visible = False # Default = False // Allows to toggle all items on or off
         self.door_key_found = False # Default = False
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
@@ -300,8 +301,6 @@ class Settings():
         self.dd3_locked = True  # Default = True // Unlocked with Red Key
         self.door_locked = True  # Default = True // Unlocked with Door Key (Gold)
 
-        self.all_unlocked = False # Default = False // Unlocks all drawers / doors
-
         # Door Settings
         self.door_opened = False  # Default = False todo change to false
         self.door_number = None
@@ -374,5 +373,4 @@ class Settings():
         self.item_selection_choice = False
         self.selected_item_start_x = 0
         self.selected_item_start_y = 0
-    
     

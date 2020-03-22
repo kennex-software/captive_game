@@ -45,6 +45,8 @@ screwdriver = pygame.image.load(i_screwdriver)
 sur_inv_desk_drawer = pygame.Surface((218, 94), pygame.SRCALPHA)
 sur_inv_desk_drawer.fill((254, 254, 254, 0))
 
+
+
 # Load Sounds
 key_sound = pygame.mixer.Sound('sounds/key_jingle.wav')
 flip_page_sound = pygame.mixer.Sound('sounds/flip_page.wav')
@@ -88,7 +90,6 @@ class Inventory():
         self.screen = screen
         self.gs = gs
         self.room_view = room_view
-        
 
         # Range of inventory list | Need to figure out and fix the height variables        here V   and    here V
         for y in range(7):
@@ -115,89 +116,56 @@ class Inventory():
         pygame.draw.rect(sur_inv_desk_drawer, gs.black, desk_drawer_inv, 3)
         pygame.draw.circle(sur_inv_desk_drawer, gs.silver, (desk_drawer_inv.center), 7)
         pygame.draw.circle(sur_inv_desk_drawer, gs.black, (desk_drawer_inv.center), 8, 2)
+
+        # Scaled Images
+        self.remote_inv_scaled = pygame.transform.smoothscale(remote, (int(gs.inv_item_w), int(gs.inv_item_h)))
+        self.papers_inv_scaled = pygame.transform.smoothscale(papers, (int(gs.inv_item_w), int(gs.inv_item_h)))
+        self.red_book_inv_scaled = pygame.transform.smoothscale(red_book, (int(gs.inv_item_w), int(gs.inv_item_h)))
+        self.blue_book_inv_scaled = pygame.transform.smoothscale(blue_book, (int(gs.inv_item_w), int(gs.inv_item_h)))
+        self.shirt_inv_scaled = pygame.transform.smoothscale(shirt, (int(gs.inv_item_w), int(gs.inv_item_h)))
+        self.drawer_inv_scaled = gf.aspect_scale(sur_inv_desk_drawer, int(gs.inv_item_w))
+        self.door_key_inv_scaled = pygame.transform.smoothscale(door_key, (int(gs.inv_item_w), int(gs.inv_item_h)))
+        self.red_key_inv_scaled = pygame.transform.smoothscale(red_key, (int(gs.inv_item_w), int(gs.inv_item_h)))
+        self.purple_key_inv_scaled = pygame.transform.smoothscale(purple_key, (int(gs.inv_item_w), int(gs.inv_item_h)))
+        self.green_key_inv_scaled = pygame.transform.smoothscale(green_key, (int(gs.inv_item_w), int(gs.inv_item_h)))
+        self.batteries_inv_scaled = pygame.transform.smoothscale(batteries, (int(gs.inv_item_w), int(gs.inv_item_h)))
+        self.power_cord_inv_scaled = pygame.transform.smoothscale(power_cord, (int(gs.inv_item_w), int(gs.inv_item_h)))
+        self.screwdriver_inv_scaled = pygame.transform.smoothscale(screwdriver, (int(gs.inv_item_w), int(gs.inv_item_h)))
         
     def draw_items(self, gs, screen):
         """Draw the items in the locations they need to be."""
-
-        if gs.all_items_visible:  # Change in settings to True to show all items
-            ### Stable Items
-            # Draw Remote Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(remote, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[0])
-            # Draw Papers Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(papers, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[1])
-            # Draw Camera Manual Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(red_book, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[2])
-            # Draw Chair Manual Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(blue_book, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[3])
-            # Draw Shirt
-            self.screen.blit(pygame.transform.smoothscale(shirt, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[4])
-            # Draw Desk Drawer
+        # Change in settings to False to hide all items
+       ### Stable Items
+        if gs.remote_found == True:  # Draw Remote Inventory Item
+            screen.blit(self.remote_inv_scaled, inv_items_stable[0])
+        if gs.papers_found == True:  # Draw Papers Inventory Item
+            screen.blit(self.papers_inv_scaled, inv_items_stable[1])
+        if gs.red_book_found == True:  # Draw Red Book Inventory Item
+            screen.blit(self.red_book_inv_scaled, inv_items_stable[2])
+        if gs.blue_book_found == True:  # Draw Blue Book Manual Inventory Item
+            screen.blit(self.blue_book_inv_scaled, inv_items_stable[3])
+        if gs.shirt_found == True: # Draw Shirt
+            screen.blit(self.shirt_inv_scaled, inv_items_stable[4])
+        if gs.desk_drawer_removed == True:  # Draw Desk Drawer
             sdx = inv_items_stable[5].centerx
             sdy = inv_items_stable[5].centery
-            scaled_drawer = gf.aspect_scale(sur_inv_desk_drawer, int(gs.inv_item_w))
-            self.screen.blit(scaled_drawer, (sdx - scaled_drawer.get_width() // 2, sdy - scaled_drawer.get_height() // 2 ))
+            screen.blit(self.drawer_inv_scaled, (sdx - self.drawer_inv_scaled.get_width() // 2, sdy - self.drawer_inv_scaled.get_height() // 2 ))
 
-
-            # todo fix the ability to open an open when it's not found yet in the inventory
-
-            # settings 'S' todo remove this later
-            text = 'S'
-            text_image = gs.arial60.render(text, True, gs.black)
-            self.screen.blit(text_image, inv_items_stable[6])
-
-            ### Moveable Items
-            # Draw Door Key Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(door_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[0])
-            # Draw File Cabinet Key 1 Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(red_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[1])
-            # Draw File Cabinet Key 2 Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(purple_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[2])
-            # Draw Desk Drawer Key Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(green_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[3])
-            # Draw Batteries Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(batteries, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[4])
-            # Draw Power Cord Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(power_cord, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[5])
-            # Draw Screwdriver Inventory Item
-            self.screen.blit(pygame.transform.smoothscale(screwdriver, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[6])
-
-        else:  # Change in settings to False to hide all items
-            ### Stable Items
-            if gs.remote_found == True:  # Draw Remote Inventory Item
-
-                self.screen.blit(pygame.transform.smoothscale(remote, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[0])
-            if gs.papers_found == True:  # Draw Papers Inventory Item
-                self.screen.blit(pygame.transform.smoothscale(papers, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[1])
-            if gs.red_book_found == True:  # Draw Red Book Inventory Item
-                self.screen.blit(pygame.transform.smoothscale(red_book, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[2])
-            if gs.blue_book_found == True:  # Draw Blue Book Manual Inventory Item
-                self.screen.blit(pygame.transform.smoothscale(blue_book, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[3])
-            if gs.shirt_found == True: # Draw Shirt
-                self.screen.blit(pygame.transform.smoothscale(shirt, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_stable[4])
-            if gs.desk_drawer_removed == True:  # Draw Desk Drawer
-                sdx = inv_items_stable[5].centerx
-                sdy = inv_items_stable[5].centery
-                scaled_drawer = gf.aspect_scale(sur_inv_desk_drawer, int(gs.inv_item_w))
-                self.screen.blit(scaled_drawer, (sdx - scaled_drawer.get_width() // 2, sdy - scaled_drawer.get_height() // 2 ))
-
-            ### Moveable Items
-            if gs.door_key_found == True and not gs.door_key_used:  # Draw Door Key Inventory Item
-                self.screen.blit(pygame.transform.smoothscale(door_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[0])
-            if gs.red_key_found == True and not gs.red_key_used:  # Draw File Cabinet Key 1 Inventory Item
-                self.screen.blit(pygame.transform.smoothscale(red_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[1])
-            if gs.purple_key_found == True and not gs.purple_key_used:  # Draw File Cabinet Key 2 Inventory Item
-                self.screen.blit(pygame.transform.smoothscale(purple_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[2])
-            if gs.green_key_found == True and not gs.green_key_used:  # Draw Desk Drawer Key Inventory Item
-                self.screen.blit(pygame.transform.smoothscale(green_key, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[3])
-            if gs.batteries_found == True and not gs.batteries_used:  # Draw Batteries Inventory Item
-                self.screen.blit(pygame.transform.smoothscale(batteries, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[4])
-            if gs.power_cord_found == True and not gs.power_cord_used:  # Draw Power Cord Inventory Item
-                self.screen.blit(pygame.transform.smoothscale(power_cord, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[5])
-            if gs.screwdriver_found == True and not gs.screwdriver_used:  # Draw Screwdriver Inventory Item
-                self.screen.blit(pygame.transform.smoothscale(screwdriver, (int(gs.inv_item_w), int(gs.inv_item_h))), inv_items_spaces[6])
-
-
-
+        ### Moveable Items
+        if gs.door_key_found == True and not gs.door_key_used:  # Draw Door Key Inventory Item
+            screen.blit(self.door_key_inv_scaled, inv_items_spaces[0])
+        if gs.red_key_found == True and not gs.red_key_used:  # Draw File Cabinet Key 1 Inventory Item
+            screen.blit(self.red_key_inv_scaled, inv_items_spaces[1])
+        if gs.purple_key_found == True and not gs.purple_key_used:  # Draw File Cabinet Key 2 Inventory Item
+            screen.blit(self.purple_key_inv_scaled, inv_items_spaces[2])
+        if gs.green_key_found == True and not gs.green_key_used:  # Draw Desk Drawer Key Inventory Item
+            screen.blit(self.green_key_inv_scaled, inv_items_spaces[3])
+        if gs.batteries_found == True and not gs.batteries_used:  # Draw Batteries Inventory Item
+            screen.blit(self.batteries_inv_scaled, inv_items_spaces[4])
+        if gs.power_cord_found == True and not gs.power_cord_used:  # Draw Power Cord Inventory Item
+            screen.blit(self.power_cord_inv_scaled, inv_items_spaces[5])
+        if gs.screwdriver_found == True and not gs.screwdriver_used:  # Draw Screwdriver Inventory Item
+            screen.blit(self.screwdriver_inv_scaled, inv_items_spaces[6])
 
 
         """
