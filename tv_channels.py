@@ -295,11 +295,11 @@ def blue_book_hint(gs, screen, rect):
             pygame.draw.rect(screen, gs.green, current_grid2)
             pygame.draw.rect(screen, gs.black, current_grid2, 3)
 
-            pygame.draw.rect(screen, gs.blue_book_color, current_grid3)
+            pygame.draw.rect(screen, gs.purple, current_grid3)
             pygame.draw.rect(screen, gs.black, current_grid3, 3)
 
         elif index == 2:
-            pygame.draw.rect(screen, gs.blue_book_color, current_grid)
+            pygame.draw.rect(screen, gs.purple, current_grid)
             pygame.draw.rect(screen, gs.black, current_grid, 3)
 
             text_image = gs.cambria30.render('X', True, gs.black)

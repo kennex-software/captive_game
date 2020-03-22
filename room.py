@@ -781,7 +781,7 @@ class Room():
         pygame.draw.line(screen, gs.black, (678, 515), (678, 670), 3)
         pygame.draw.line(screen, gs.black, (84, 474), (690, 474), 3)  # Line for desk
                
-        ########## Desk Drawer 3
+        ########## Desk DrawerDrawer 3
         if gs.dd3_open_attempts < 4:
             if gs.dd3_opened:
                 pygame.draw.polygon(screen, gs.interior_drawer, ((desk_drawer3_opened.topleft), (desk_drawer3_opened.topright), (desk_drawer3.topright), (desk_drawer3.topleft)))

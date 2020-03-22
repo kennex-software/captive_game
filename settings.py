@@ -15,24 +15,31 @@ class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Game Version
-        self.game_version = '0.8.3'
+        self.game_version = 'v 0.7.7'
         self.start_game_from_load = False
         """
         Use this area to discuss version:
         
-        -Version 0.9.6 --->   3/21/2020
-        -New Features
-            -Added quit menu with ability to quit with or without saving
-            -Will automatically install game into C: drive
-            -Added area to work on versions (here)
-            -Added credits and got them to roll up, like a movie
-        -Fixes
-            -Save and Load were updated for error handling
-            -Updated the ability to leave and run the credits
+        -3/22/2020 -- Version 0.7.7 ---
+            -Fixed the blue book text by changing the fonts, hoping this will work better on more PC's.
+            -Fixed the blue book hint, changing the colors to not make them confusing.
+            -Fixed the ability to trigger the wall outlet from the closet.
+            -Fixed the fact that the message on the TV would play over and over if you kept pressing play.
+            -Fixed the fact that a new game wouldn't start after the game was beat and you pressed play again.
+            -Added verison number to the main manu and options menu.
+            -Altered the clues on the paper to better address the diamonds, number grid, and colors.
             
-        
-        
-        
+            
+            
+            
+        -3/21/2020 -- Version 0.7.6 ---
+            -Started a verisoning log.
+            -Added quit menu with ability to quit with or without saving.
+            -Will automatically install game into C: drive.
+            -Added credits and got them to roll up, like a movie.
+            -Save and Load were updated for error handling, so this was fixed.
+            -Updated the ability to leave and run the credits.            
+
         
         """
 
@@ -62,13 +69,19 @@ class Settings():
         self.verdana12 = pygame.font.SysFont("Verdana", 12, True)
         self.verdana16 = pygame.font.SysFont("Verdana", 16, True)
         self.verdana18 = pygame.font.SysFont("Verdana", 18, True)
+        self.verdana20 = pygame.font.SysFont("Verdana", 20, True)
         self.verdana22 = pygame.font.SysFont("Verdana", 22, True)
         self.verdana28 = pygame.font.SysFont("Verdana", 28, True)
         self.verdana32 = pygame.font.SysFont("Verdana", 32, True)
         self.verdana40 = pygame.font.SysFont("Verdana", 40, True)
         self.verdana55 = pygame.font.SysFont("Verdana", 55, True)
 
+        self.times12 = pygame.font.SysFont("Times New Roman", 12, True)
+        self.times14 = pygame.font.SysFont("Times New Roman", 14, True)
+        self.times20 = pygame.font.SysFont("Times New Roman", 20, True)
+
         self.arial12 = pygame.font.SysFont("Arial", 12, True)
+        self.arial14 = pygame.font.SysFont("Arial", 14, True)
         self.arial16 = pygame.font.SysFont("Arial", 16, True)
         self.arial22 = pygame.font.SysFont("Arial", 22, True)
         self.arial32 = pygame.font.SysFont("Arial", 32, True)

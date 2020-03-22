@@ -30,6 +30,9 @@ cp = Control_Panel(gs, screen)
 intro_music = pygame.mixer.Sound('sounds/intro.wav')
 credits_music = pygame.mixer.Sound('sounds/credits.wav')
 
+game_version = gs.verdana16.render(str(gs.game_version), True, gs.black)
+game_version_rect = game_version.get_rect()
+
 def credits():
     title = gs.arial60.render('to be continued...', True, gs.black)
     alpha_title_surface = pygame.Surface(title.get_size(), pygame.SRCALPHA)
@@ -262,14 +265,11 @@ def game_menu():
 
         gs.new_game = True
         screen.fill((gs.bg_color))
+
+        screen.blit(game_version, (0,0))
+
         screen.blit(game_logo, (game_logo_rect.x, game_title_rect.bottom + 175))
         screen.blit(game_title, (game_title_rect.x, 175))
-
-
-
-
-
-
 
         pygame.draw.rect(screen, button_color1, button1)
         pygame.draw.rect(screen, button_color2, button2)
@@ -349,6 +349,7 @@ def game_menu():
 def options_menu():
     gs.options_menu_up = True
     game_title = gs.cambria90.render('OPTIONS', True, gs.black)
+
     game_title_rect = game_title.get_rect()
     game_title_rect.centerx = gs.screen_width//2
 
@@ -447,7 +448,7 @@ def options_menu():
         screen.fill((gs.bg_color))
         screen.blit(game_title, (game_title_rect.x, 200))
 
-
+        screen.blit(game_version, (0,0))
 
         pygame.draw.rect(screen, button_color1, button1)
         pygame.draw.rect(screen, button_color2, button2)
@@ -557,7 +558,7 @@ def options_menu():
 def run_game():
 
     if gs.new_game:
-        #gf.default_settings(gs)
+        gf.default_settings(gs)
         gf.generate_codes(gs) # generates numbers for problems and puzzles
         gf.update_settings_dictionary(gs) # Generates the ability to save the settings generated in the generate codes
         gs.text = "What the...?  Where am I?"
@@ -589,14 +590,27 @@ def run_game():
 
 
 #gs.game_started = True # Need to run only game // todo delete me or comment out
-#gs.won_game = True # Needed to run only credits // todo delete me or comment out
-
-#credits()
 #run_game()
-title_menu()
+
+#gs.won_game = True # Needed to run only credits // todo delete me or comment out
+#credits()
+
+
 #game_menu()
 
+# Make sure this is not commented for the full game prior to batching
+title_menu()
 
+"""
+
+
+
+
+
+
+
+
+"""
 
 
 
@@ -604,6 +618,32 @@ title_menu()
 Batch this:
 
 pyinstaller --onefile -w captive.py control_panel.py credits.py gf.py inventory.py multiline_text.py objects.py puzzles.py room.py scale_points_list.py settings.py stable_items.py tv_channels.py whitespace.py
+
+
+----ability to ask for a desktop icon:
+
+Function finishpageaction
+CreateShortcut "$desktop\foo.lnk" "$instdir\foo.exe"
+FunctionEnd
+
+!define MUI_FINISHPAGE_SHOWREADME ""
+!define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
+!define MUI_FINISHPAGE_SHOWREADME_TEXT "Create Desktop Shortcut"
+!define MUI_FINISHPAGE_SHOWREADME_FUNCTION finishpageaction
+
+https://stackoverflow.com/questions/1517471/how-to-add-a-desktop-shortcut-option-on-finish-page-in-nsis-installer
+
+-ability to choose a place on the C: Drive as a default installation path
+-ability to uninstall / show in add/remove programs
+-run game after install
+-.exe needs to be custom ico
+-uninstall old before installing new
+
+
+
+
+
+
 
 
 """

@@ -194,12 +194,15 @@ class Stable_Items():
             # Page 2 - Two Math Problems (Problems A and B)
             elif page == 2:
                 gs.text = 'Some ... Math problems???'
-                problem_a_text = "safe_alpha=ROUNDDOWN(STREETSIGN / SUBJECT * 25 / 10,0)"
+                problem_a_text = "safe_alpha=STREETSIGN / SUBJECT * 25 / 10"
                 problem_a_text2 = "IF A=0...then:"
-                pra_text_image = gs.arial16.render(problem_a_text, True, gs.black)
+                problem_a_text3 = "Then round down safe_alpha"
+                pra_text_image = gs.times14.render(problem_a_text, True, gs.black)
                 pra_text_image2 = gs.arial16.render(problem_a_text2, True, gs.black)
+                pra_text_image3 = gs.arial14.render(problem_a_text3, True, gs.black)
                 screen.blit(pra_text_image, (440, 240))
                 screen.blit(pra_text_image2, (505, 210))
+                screen.blit(pra_text_image3, (495, 285))
 
 
                 problem_b_text = "kn+(2k(3+n))+(k+n)"
@@ -565,6 +568,7 @@ class Stable_Items():
                             pass # todo print something in text stating that nothing happened
                         elif box_index == 17:  # Play
                             if gs.current_channel == str(11):
+                                pygame.mixer.stop()
                                 pygame.mixer.Sound.play(message_sound, loops=0)
                         elif box_index == 18:  # Pause
                             pygame.mixer.pause()
@@ -697,27 +701,28 @@ class Stable_Items():
                     'SAFE TO SAY: ',
                     '    LEAVE IT ON SEVEN!',
                     '',
-                    '',
+                    'toss out the diamonds',
                     '',
                     'solve, then',
                     'boxIboxII >',
                     '',
                     '',
+                    'colors number downward',
                     '',
-                    'colors are numbered'
+                    'grids number upward'
                     ]
 
             line_spacing = 95
             x_spacing = 325
             text_height = gs.verdana22.get_height()
-            angle = 8
+            angle = 5
 
             for text in texts:
-                text_image = gs.verdana22.render(text, True, gs.black)
+                text_image = gs.times20.render(text, True, gs.black)
                 text_image = pygame.transform.rotate(text_image, angle)
                 screen.blit(text_image, (x_spacing, line_spacing))
                 line_spacing += text_height
-                x_spacing += 10
+                x_spacing += 11
                 angle += 2.5
 
 
