@@ -701,7 +701,6 @@ class Stable_Items():
                     'SAFE TO SAY: ',
                     '    LEAVE IT ON SEVEN!',
                     '',
-                    'toss out the diamonds',
                     '',
                     'solve, then',
                     'boxIboxII >',
@@ -709,7 +708,8 @@ class Stable_Items():
                     '',
                     'colors number downward',
                     '',
-                    'grids number upward'
+                    'grids number upward',
+                    'without diamonds'
                     ]
 
             line_spacing = 95
