@@ -15,10 +15,14 @@ class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Game Version
-        self.game_version = 'v 0.7.7'
+        self.game_version = 'v 0.7.8'
         self.start_game_from_load = False
         """
         Use this area to discuss version:
+        
+        -3/24/2020 -- Version 0.7.8 ---
+            -Added time value to end of game to inform user of time escaped
+            
         
         -3/22/2020 -- Version 0.7.7 ---
             -Fixed the blue book text by changing the fonts, hoping this will work better on more PC's.
@@ -30,10 +34,7 @@ class Settings():
             -Altered the clues on the paper to better address the diamonds, number grid, and colors.
             -Changed up where items are scaled and transformed, keeping them directly off the blits.
             -Removed the "unlock all" and "show all items" settings.
-            
-            
-            
-            
+
         -3/21/2020 -- Version 0.7.6 ---
             -Started a verisoning log.
             -Added quit menu with ability to quit with or without saving.
@@ -260,8 +261,8 @@ class Settings():
         self.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
         self.safe_initialized = False # Safe can only be opened if a certain channel is on the TV todo make false
         self.safe_use_color = self.black
-        self.color_number_1 = None  # This number is needed to open the safe
-        self.color_number_2 = None  # This number is needed to open the safe
+        self.color_number_1 = self.black  # This number is needed to open the safe
+        self.color_number_2 = self.black  # This number is needed to open the safe
         self.safe_combo_n1 = 0  # This number is needed to open the safe
         self.safe_combo_n2 = 0  # This number is needed to open the safe
         self.safe_combo_n3 = 0  # This number is needed to open the safe

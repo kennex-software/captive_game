@@ -33,6 +33,42 @@ credits_music = pygame.mixer.Sound('sounds/credits.wav')
 game_version = gs.verdana16.render(str(gs.game_version), True, gs.black)
 game_version_rect = game_version.get_rect()
 
+def total_time():
+
+
+    while True:
+
+        screen.fill((gs.white))
+        # Events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    game_menu()
+
+        display_text = ['YOUR ESCAPE TIME:',
+                        '',
+                        str(gs.end_time),
+                        '',
+                        '',
+                        'CLICK TO CONTINUE']
+
+        line_spacing = 200
+        text_height = gs.arial60.get_height()
+
+        for item in display_text:
+            text_image = gs.arial60.render(item, True, gs.black)
+            text_image_rect = text_image.get_rect()
+            text_image_rect.centerx = gs.screen_width // 2
+            screen.blit(text_image, (text_image_rect[0], 0+line_spacing))
+            line_spacing += text_height
+
+        # Update
+        pygame.display.flip()
+        clock.tick(30)
+
+
 def credits():
     title = gs.arial60.render('to be continued...', True, gs.black)
     alpha_title_surface = pygame.Surface(title.get_size(), pygame.SRCALPHA)
@@ -103,7 +139,8 @@ CAPTIVE
                         run_credits = False
                         pygame.time.wait(1000)
                         pygame.mixer.Sound.stop(credits_music)
-                        game_menu()
+                        total_time()
+                        #game_menu()
                     if run_tbc:
                         run_tbc = False
                         run_credits = True
@@ -143,6 +180,7 @@ CAPTIVE
         if not run_tbc and run_credits:
             delta -= 1
             gf.scrolling_credits(gs, screen, credits_full, scrolling_centerx, scrolling_centery, delta)
+
 
         else:
             pass
@@ -233,6 +271,8 @@ def game_menu():
     button4 = button1.move(button1.width + 30, 0)
     button5 = button4.move(button4.width + 30, 0)
 
+    gs.new_game = True
+
     while True:
         # Events
         for event in pygame.event.get():
@@ -263,7 +303,7 @@ def game_menu():
                         print('quit')
 
 
-        gs.new_game = True
+
         screen.fill((gs.bg_color))
 
         screen.blit(game_version, (0,0))
@@ -564,6 +604,7 @@ def run_game():
         gs.text = "What the...?  Where am I?"
         gs.game_start_time = pygame.time.get_ticks()
         gs.new_game = False
+        print('starting completely new game')
 
     while gs.game_started:
         gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
@@ -586,14 +627,15 @@ def run_game():
 
     pygame.time.wait(1000)
     pygame.mixer.Sound.stop(credits_music)
-    game_menu()
+    total_time()
 
+#gs.won_game = True # Needed to run only credits // todo delete me or comment out
+#credits()
 
 #gs.game_started = True # Need to run only game // todo delete me or comment out
 #run_game()
 
-#gs.won_game = True # Needed to run only credits // todo delete me or comment out
-#credits()
+
 
 
 #game_menu()

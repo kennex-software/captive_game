@@ -58,7 +58,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                         if room_view.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0:
                                             if gs.leave:
                                                 gs.won_game = True
-                                                gs.end_time = pygame.time.get_ticks()
+                                                gs.end_time = get_game_clock(gs, screen)
                                                 gs.game_started = False
                                             else:
                                                 gs.leave = True

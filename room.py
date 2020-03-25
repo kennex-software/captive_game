@@ -138,10 +138,10 @@ class Room():
         self.safe_number_rect_n3 = self.safe_number_rect_n2.move(90, 0)
         self.safe_number_rect_n4 = self.safe_number_rect_n3.move(90, 0)
 
-        self.safe_number_n1 = 0
-        self.safe_number_n2 = 0
-        self.safe_number_n3 = 0
-        self.safe_number_n4 = 0
+        self.safe_number_n1 = gs.safe_combo_n1
+        self.safe_number_n2 = gs.safe_combo_n2
+        self.safe_number_n3 = gs.safe_combo_n3
+        self.safe_number_n4 = gs.safe_combo_n4
 
         # Alphabet Code
         #self.safe_alpha_a1 = gs.alphabet_list[gs.safe_alpha_index]
@@ -151,8 +151,8 @@ class Room():
         self.safe_number_rect_c1 = self.safe_number_rect_n3.move(0, 130)
         self.safe_number_rect_c2 = self.safe_number_rect_n4.move(0, 130)
 
-        self.safe_color_c1 = gs.black
-        self.safe_color_c2 = gs.black
+        self.safe_color_c1 = gs.color_number_1
+        self.safe_color_c2 = gs.color_number_2
         self.index_color1 = gs.color_codes.get('purple')[0]
         self.index_color2 = gs.color_codes.get('purple')[0]
 
