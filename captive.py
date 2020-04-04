@@ -9,6 +9,8 @@ from stable_items import Stable_Items
 from control_panel import Control_Panel
 from room import Room
 from pygame.locals import *
+from pygame import FULLSCREEN
+from pygame.rect import Rect
 
 # Initialize pygame, settings, and screen object.
 pygame.mixer.pre_init(44100,-16,2, 2048)
@@ -17,7 +19,7 @@ pygame.font.init()
 clock = pygame.time.Clock()
 gs = Settings()
 screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF) # add ability to resize window
-pygame.display.set_caption("Captive | Kennex")
+pygame.display.set_caption("Captive | Kennex Software")
 icon = pygame.image.load('images/key_icon.ico') # should be 32 x 32
 game_logo = pygame.image.load('images/key_logo.png')
 pygame.display.set_icon(icon)
@@ -32,6 +34,39 @@ credits_music = pygame.mixer.Sound('sounds/credits.wav')
 
 game_version = gs.verdana16.render(str(gs.game_version), True, gs.black)
 game_version_rect = game_version.get_rect()
+
+def fullscreen_fix(game_height):
+    """ Sets full screen display mode and draws a square in the top left """
+    # Set the display mode to the current screen resolution
+    screen = pygame.display.set_mode((0, 0), FULLSCREEN)
+
+    # create a square pygame surface
+    game_surface = pygame.Surface((game_height, game_height))
+    game_surface.fill((255, 255, 255))
+
+    # draw a square in the top left
+    pygame.draw.rect(game_surface, (0, 0, 0), Rect(10, 10, 200, 200))
+
+    # make the largest square surface that will fit on the screen
+    screen_width = screen.get_width()
+    screen_height = screen.get_height()
+    smallest_side = min(screen_width, screen_height)
+    screen_surface = pygame.Surface((smallest_side, smallest_side))
+
+    # scale the game surface up to the larger surface
+    pygame.transform.scale(
+        game_surface,  # surface to be scaled
+        (smallest_side, smallest_side),  # scale up to (width, height)
+        screen_surface)  # surface that game_surface will be scaled onto
+
+    # place the larger surface in the centre of the screen
+    screen.blit(
+        screen_surface,
+        ((screen_width - smallest_side) // 2,  # x pos
+        (screen_height - smallest_side) // 2))  # y pos
+
+    pygame.display.flip()
+    wait_for_keypress()
 
 def total_time():
 
@@ -67,7 +102,6 @@ def total_time():
         # Update
         pygame.display.flip()
         clock.tick(30)
-
 
 def credits():
     title = gs.arial60.render('to be continued...', True, gs.black)
@@ -298,9 +332,9 @@ def game_menu():
                         run_game()
                     if button4.collidepoint(event.pos):
                         print('settings')
+                        settings_menu()
                     if button5.collidepoint(event.pos):
                         sys.exit()
-                        print('quit')
 
 
 
@@ -411,9 +445,25 @@ def options_menu():
     button4 = button1.move(button1.width + 30, 0)
     button5 = button4.move(button4.width + 30, 0)
 
+    b1_text = gs.arial32.render('BACK', True, gs.black)
+    b2_text = gs.arial32.render('SAVE', True, gs.black)
+    b3_text = gs.arial32.render('LOAD', True, gs.black)
+    b4_text = gs.arial32.render('SETTINGS', True, gs.black)
+    b5_text = gs.arial32.render('QUIT', True, gs.black)
+
+    b1_text_rect = b1_text.get_rect(center = button3.center)
+    b2_text_rect = b2_text.get_rect(center = button2.center)
+    b3_text_rect = b3_text.get_rect(center = button1.center)
+    b4_text_rect = b4_text.get_rect(center = button4.center)
+    b5_text_rect = b5_text.get_rect(center = button5.center)
+
     q_button_save = pygame.Rect(0, 410, 190, 80)
     q_button_save.centerx = quit_menu.centerx - ((q_button_save.width // 2) + 15)
     q_button_quit = q_button_save.move(q_button_save.width + 30, 0)
+    ask_to_save_text = gs.verdana18.render('Are you sure you want to quit without saving?', True, gs.black)
+    ask_to_save_text_rect = ask_to_save_text.get_rect(center = (quit_menu.centerx, quit_menu.y + 40))
+    q_save_text_rect = b2_text.get_rect(center = q_button_save.center)
+    q_quit_text_rect = b5_text.get_rect(center = q_button_quit.center)
 
 
 
@@ -458,6 +508,7 @@ def options_menu():
                         gs.game_started = True
                         run_game()
                     if button4.collidepoint(event.pos):
+                        settings_menu()
                         print('settings')
                     if button5.collidepoint(event.pos):
                         gs.quit_menu_up = True
@@ -501,18 +552,6 @@ def options_menu():
         pygame.draw.rect(screen, gs.black, button3, 3)
         pygame.draw.rect(screen, gs.black, button4, 3)
         pygame.draw.rect(screen, gs.black, button5, 3)
-
-        b1_text = gs.arial32.render('BACK', True, gs.black)
-        b2_text = gs.arial32.render('SAVE', True, gs.black)
-        b3_text = gs.arial32.render('LOAD', True, gs.black)
-        b4_text = gs.arial32.render('SETTINGS', True, gs.black)
-        b5_text = gs.arial32.render('QUIT', True, gs.black)
-
-        b1_text_rect = b1_text.get_rect(center = button3.center)
-        b2_text_rect = b2_text.get_rect(center = button2.center)
-        b3_text_rect = b3_text.get_rect(center = button1.center)
-        b4_text_rect = b4_text.get_rect(center = button4.center)
-        b5_text_rect = b5_text.get_rect(center = button5.center)
 
         screen.blit(b1_text, b1_text_rect)
         screen.blit(b2_text, b2_text_rect)
@@ -565,8 +604,6 @@ def options_menu():
 
             pygame.draw.rect(screen, gs.bg_color, quit_menu)
             pygame.draw.rect(screen, gs.black, quit_menu, 4)
-            ask_to_save_text = gs.verdana18.render('Are you sure you want to quit without saving?', True, gs.black)
-            ask_to_save_text_rect = ask_to_save_text.get_rect(center = (quit_menu.centerx, quit_menu.y + 40))
             screen.blit(ask_to_save_text, ask_to_save_text_rect)
 
             pygame.draw.rect(screen, q_button_save_color, q_button_save)
@@ -574,9 +611,6 @@ def options_menu():
 
             pygame.draw.rect(screen, gs.black, q_button_save, 3)
             pygame.draw.rect(screen, gs.black, q_button_quit, 3)
-
-            q_save_text_rect = b2_text.get_rect(center = q_button_save.center)
-            q_quit_text_rect = b5_text.get_rect(center = q_button_quit.center)
 
             screen.blit(b2_text, q_save_text_rect)
             screen.blit(b5_text, q_quit_text_rect)
@@ -594,6 +628,127 @@ def options_menu():
         # Update
         pygame.display.flip()
         clock.tick(30)
+
+def settings_menu():
+    gs.settings_menu_up = True
+    game_title = gs.cambria90.render('SETTINGS', True, gs.black)
+
+    game_title_rect = game_title.get_rect()
+    game_title_rect.centerx = gs.screen_width//2
+
+    button_color1 = gs.gray # Save
+    button_color2 = gs.gray # Cancel
+
+    button1 = pygame.Rect(0, 600, 190, 80)
+    button1.centerx = gs.screen_width//2 - button1.width//2 - 15
+    button2 = button1.move(button1.width + 30, 0)
+
+    b1_text = gs.arial32.render('SAVE', True, gs.black)
+    b2_text = gs.arial32.render('CANCEL', True, gs.black)
+
+    b1_text_rect = b1_text.get_rect(center = button1.center)
+    b2_text_rect = b2_text.get_rect(center = button2.center)
+
+    setting1_text = gs.cambria30.render('FULLSCREEN', True, gs.black)
+    #setting2_text = gs.cambria30.render('SETTING 2', True, gs.black)
+    #setting3_text = gs.cambria30.render('SETTING 3', True, gs.black)
+
+    setting1_text_rect = setting1_text.get_rect()
+    #setting2_text_rect = setting2_text.get_rect()
+    #setting3_text_rect = setting3_text.get_rect()
+
+    settings1_checkbox = pygame.Rect(490, 376, setting1_text.get_height() - 10, setting1_text.get_height() - 10)
+
+    settings_checkmark = gs.cambria24.render('X', True, gs.black)
+    settings_checkmark_rect = settings_checkmark.get_rect(center=settings1_checkbox.center)
+
+
+    while True:
+        # Events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    if gs.options_menu_up:
+                        options_menu()
+                    else:
+                        game_menu()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    print(event.pos)
+                    if settings1_checkbox.collidepoint(event.pos):
+                        gs.fullscreen_checked = not gs.fullscreen_checked
+                    if button1.collidepoint(event.pos):
+                        print('save settings')
+                        if screen.get_flags() & FULLSCREEN and not gs.fullscreen_checked:
+                            pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF)
+                        elif gs.fullscreen_checked:
+                            pygame.display.set_mode((gs.screen_width, gs.screen_height), FULLSCREEN | HWSURFACE | DOUBLEBUF)
+
+
+                    if button2.collidepoint(event.pos):
+                        print('cancel settings')
+                        if gs.options_menu_up:
+                            options_menu()
+                            gs.settings_menu_up = False
+                        else:
+                            game_menu()
+                            gs.settings_menu_up = False
+
+
+        screen.fill((gs.bg_color))
+        screen.blit(game_version, (0,0))
+        screen.blit(game_title, (game_title_rect.x, 200))
+
+        pygame.draw.rect(screen, gs.white, settings1_checkbox)
+        pygame.draw.rect(screen, gs.black, settings1_checkbox, 2)
+
+
+
+
+        screen.blit(setting1_text, (530, 370))
+        #screen.blit(setting2_text, (490, 410))
+        #screen.blit(setting3_text, (490, 450))
+
+
+
+
+
+
+
+
+
+
+
+        pygame.draw.rect(screen, button_color1, button1)
+        pygame.draw.rect(screen, button_color2, button2)
+
+        pygame.draw.rect(screen, gs.black, button1, 3)
+        pygame.draw.rect(screen, gs.black, button2, 3)
+
+        screen.blit(b1_text, b1_text_rect)
+        screen.blit(b2_text, b2_text_rect)
+
+        if gs.fullscreen_checked:
+            screen.blit(settings_checkmark, settings_checkmark_rect)
+
+        if button1.collidepoint(pygame.mouse.get_pos()):
+            button_color1 = gs.dark_gray
+            button_color2 = gs.gray
+        elif button2.collidepoint(pygame.mouse.get_pos()):
+            button_color2 = gs.dark_gray
+            button_color1 = gs.gray
+        else:
+            button_color1 = gs.gray
+            button_color2 = gs.gray
+
+        # Update
+        pygame.display.flip()
+        clock.tick(30)
+
+
+
 
 def run_game():
 
@@ -636,12 +791,12 @@ def run_game():
 #run_game()
 
 
-
+settings_menu()
 
 #game_menu()
 
 # Make sure this is not commented for the full game prior to batching
-title_menu()
+#title_menu()
 
 """
 

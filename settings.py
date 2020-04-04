@@ -51,7 +51,9 @@ class Settings():
         # Save and Load Filename Settings
         self.save_filename = None
         self.options_menu_up = False
+        self.settings_menu_up = False
         self.quit_menu_up = False
+        self.fullscreen_checked = False
 
         # Screen Settings
         self.screen_width = 1200
@@ -97,6 +99,7 @@ class Settings():
         self.cambria18 = pygame.font.SysFont("Cambria", 18, True)
         self.cambria20 = pygame.font.SysFont("Cambria", 20, True)
         self.cambria22 = pygame.font.SysFont("Cambria", 22, True)
+        self.cambria24 = pygame.font.SysFont("Cambria", 24, True)
         self.cambria30 = pygame.font.SysFont("Cambria", 30, True)
         self.cambria48 = pygame.font.SysFont("Cambria", 48, True)
         self.cambria90 = pygame.font.SysFont("Cambria", 90, True)
