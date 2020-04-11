@@ -653,7 +653,7 @@ def settings_menu():
     #setting2_text = gs.cambria30.render('SETTING 2', True, gs.black)
     #setting3_text = gs.cambria30.render('SETTING 3', True, gs.black)
 
-    setting1_text_rect = setting1_text.get_rect()
+    #setting1_text_rect = setting1_text.get_rect()
     #setting2_text_rect = setting2_text.get_rect()
     #setting3_text_rect = setting3_text.get_rect()
 
@@ -791,12 +791,12 @@ def run_game():
 #run_game()
 
 
-settings_menu()
+#settings_menu()
 
 #game_menu()
 
 # Make sure this is not commented for the full game prior to batching
-#title_menu()
+title_menu()
 
 """
 

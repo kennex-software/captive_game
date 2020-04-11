@@ -1199,7 +1199,7 @@ class Room():
                     gs.room_view_drill_down = 2
                     #gs.current_room_view = 4.2
             if self.click_window_int_frame.collidepoint(event.pos) and gs.room_view_drill_down == 2:
-                gs.text = 'It is a city skyline...'
+                gs.text = "It is a city skyline? It's clear this is not real..."
                 gs.room_view_drill_down = 2.1
                 #gs.current_room_view = 4.21
 

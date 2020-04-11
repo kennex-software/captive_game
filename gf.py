@@ -136,6 +136,8 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                     gs.options_menu_up = True
                     gs.pause_time = pygame.time.get_ticks()
                     gs.game_started = False
+                    if gs.quit_menu_up:
+                        gs.quit_menu_up = False
 
 
 
@@ -638,6 +640,9 @@ def save_settings(gs):
 
 def load_settings(gs):
     """Function to load the settings from a previous game save file."""
+    gs.quit_menu_up = False
+    gs.options_menu_up = False
+
     try:
         filename = askopenfilename(parent=root, initialdir="./saves/", title="Load Settings", filetypes=[("Data Files", "*.dat")]) # show an "Open" dialog box and return the path to the selected file
         if filename:
