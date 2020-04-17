@@ -8,7 +8,7 @@ import multiline_text as mt
 import random
 from settings import Settings
 import inventory
-import tv_channels
+#import tv_channels
 
 i_enlarged_remote = 'images/remote_enlarged.png'
 i_big_shirt = 'images/shirt_no_hang.png'

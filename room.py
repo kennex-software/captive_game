@@ -32,6 +32,7 @@ power_cord_plugged_1_flip_load = 'images/power_cord_plugged_one_flip.png' # Firs
 power_cord_plugged_2_load = 'images/power_cord_plugged_two.png' # Second plugged power cord
 pittsburgh_load = 'images/pittsburgh.png' # View of Pittsburgh
 tablevase_load = 'images/tablevase.png' # Table and Vase
+egg_load = 'images/egg.png' # Table and Vase
 
 hanging_shirt = pygame.image.load(hanging_shirt_load)
 laying_remote = pygame.image.load(laying_remote_load)
@@ -48,9 +49,11 @@ power_cord_plugged_1_flip = pygame.image.load(power_cord_plugged_1_flip_load)
 power_cord_plugged_2 = pygame.image.load(power_cord_plugged_2_load)
 pittsburgh = pygame.image.load(pittsburgh_load)
 tablevase = pygame.image.load(tablevase_load)
+egg_image = pygame.image.load(egg_load)
 
 # Scaled Images
 hanging_shirt_scaled = pygame.transform.smoothscale(hanging_shirt, (150, 235))
+tablevase_scaled = gf.aspect_scale(tablevase, 180) # table and vase scaled
 
 # Load Sounds
 key_sound = pygame.mixer.Sound('sounds/key_jingle.wav')
@@ -176,6 +179,7 @@ class Room():
         self.laying_paper_clicker = gf.draw_item_to_screen(gs, screen, laying_paper, 2, 380, 475)
         self.remote_clicker = gf.draw_item_to_screen(gs, screen, laying_remote, 4.5, 380, 493)
         self.door_key_clicker = gf.draw_item_to_screen(gs, screen, door_key_rotated, 6, 521, 335)
+        self.egg_clicker = gf.draw_item_to_screen(gs, screen, egg_image, 15, 419, 552)
         self.shirt_surface = pygame.Rect(125, 212, 150, 235)
         self.table_surface = pygame.Rect(0, 0, 500, 500) # todo update this accordingly
 
@@ -191,6 +195,10 @@ class Room():
 
         # Light Switch
         self.light_switch = pygame.Rect(650, 325, 30, 40)
+
+        # Pittsburgh Scaled
+        self.pittsburgh_scaled = gf.aspect_scale_wh(pittsburgh, int(gs.gw_width*1.05), int(gs.gw_height*1.05))
+
 
 
 
@@ -333,6 +341,15 @@ class Room():
             gs.text = 'A remote!  I can probably use this on the TV...'
             pygame.mixer.Sound.play(item_picked)
             gs.remote_found = True
+
+    def click_egg(self, gs, event):
+        # function to be able to pick up the egg item
+        if self.egg_clicker.collidepoint(event.pos):
+            gs.text = 'An egg?  What do I need an egg for?'
+            pygame.mixer.Sound.play(item_picked)
+            gs.egg_found = True
+            gs.tv_stand_open = False
+            gs.moveable_items_index_list.append(7)
 
     def click_hole_in_floor(self, gs, event):
         # function to be able to connect camera cable power cord
@@ -625,8 +642,8 @@ class Room():
     def room_view_four_2_1(self, gs, screen, stable_item_blocks):  # View of outside window
         screen.fill(gs.white)
         # Clear Screen
-        pittsburgh_scaled = gf.aspect_scale_wh(pittsburgh, int(gs.gw_width*1.05), int(gs.gw_height*1.05))
-        screen.blit(pittsburgh_scaled, (-10, -10))
+
+        screen.blit(self.pittsburgh_scaled, (-10, -10))
 
         # Required in all views if items are opened during the view.
         if gs.stable_item_opened:
@@ -698,7 +715,6 @@ class Room():
                 pygame.draw.rect(screen, gs.the_other_gray, ((self.main_door.x, 486), (self.main_door.width, (self.main_door.y + self.main_door.height - 486))))
                 pygame.draw.line(screen, gs.black, (self.main_door.x, 486), (self.main_door.x + self.main_door.width, 486), 3)
 
-                tablevase_scaled = gf.aspect_scale(tablevase, 180) # table and vase scaled
                 screen.blit(tablevase_scaled, (370, 395))
 
                 pygame.draw.polygon(screen, gs.door, self.opened_door)
@@ -1015,8 +1031,7 @@ class Room():
         open_tv_right = (self.front_tv_stand.midbottom[0] + 70, self.front_tv_stand.midbottom[1] - 2)
 
         # TV Stand Opened
-        tv_open_open = True
-        if tv_open_open:
+        if gs.tv_stand_open and not gs.egg_found:
             pygame.draw.rect(screen, gs.dark_gray, self.inside_tv_stand_opening)
 
             pygame.draw.rect(screen, gs.dark_wood, self.tv_open_floor)
@@ -1031,7 +1046,8 @@ class Room():
             pygame.draw.line(screen, gs.black, self.back_tv_stand.topleft, self.back_tv_stand.bottomleft, 3)
             pygame.draw.line(screen, gs.black, self.back_tv_stand.topright, self.back_tv_stand.bottomright, 3)
 
-
+            if not gs.egg_found:
+                self.egg_clicker = gf.draw_item_to_screen(gs, screen, egg_image, 15, 419, 552)
 
         else:
 

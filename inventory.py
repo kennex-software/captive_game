@@ -28,6 +28,7 @@ i_red_book = 'images/red_book.png' # Red Book
 i_blue_book = 'images/blue_book.png' # Blue Book
 i_shirt = 'images/shirt_no_hang.png' # Shirt
 i_screwdriver = 'images/flathead.png' # Screwdriver
+i_egg = 'images/egg.png' # Screwdriver
 
 door_key = pygame.image.load(i_door_key)
 red_key = pygame.image.load(i_red_key)
@@ -41,6 +42,7 @@ red_book = pygame.image.load(i_red_book)
 blue_book = pygame.image.load(i_blue_book)
 shirt = pygame.image.load(i_shirt)
 screwdriver = pygame.image.load(i_screwdriver)
+egg_inv = pygame.image.load(i_egg)
 
 sur_inv_desk_drawer = pygame.Surface((218, 94), pygame.SRCALPHA)
 sur_inv_desk_drawer.fill((254, 254, 254, 0))
@@ -92,9 +94,9 @@ class Inventory():
         self.room_view = room_view
 
         # Range of inventory list | Need to figure out and fix the height variables        here V   and    here V
-        for y in range(7):
+        for y in range(8):
             inv_items_spaces.append(pygame.Rect(gs.sidebar_x+gs.item_offset_w, gs.item_offset_h+65*y, gs.inv_item_w, gs.inv_item_h))
-            inv_items_stable.append(pygame.Rect(gs.inv_item_w+gs.sidebar_x+gs.item_offset_w*2, gs.item_offset_h+65*y, gs.inv_item_w, gs.inv_item_h))            
+            inv_items_stable.append(pygame.Rect(gs.inv_item_w+gs.sidebar_x+gs.item_offset_w*2, gs.item_offset_h+65*y, gs.inv_item_w, gs.inv_item_h))
 
         # End Range of Inventory List ###############################
         
@@ -131,7 +133,8 @@ class Inventory():
         self.batteries_inv_scaled = pygame.transform.smoothscale(batteries, (int(gs.inv_item_w), int(gs.inv_item_h)))
         self.power_cord_inv_scaled = pygame.transform.smoothscale(power_cord, (int(gs.inv_item_w), int(gs.inv_item_h)))
         self.screwdriver_inv_scaled = pygame.transform.smoothscale(screwdriver, (int(gs.inv_item_w), int(gs.inv_item_h)))
-        
+        self.egg_inv_scaled = gf.aspect_scale(egg_inv, 43)
+
     def draw_items(self, gs, screen):
         """Draw the items in the locations they need to be."""
         # Change in settings to False to hide all items
@@ -166,10 +169,14 @@ class Inventory():
             screen.blit(self.power_cord_inv_scaled, inv_items_spaces[5])
         if gs.screwdriver_found == True and not gs.screwdriver_used:  # Draw Screwdriver Inventory Item
             screen.blit(self.screwdriver_inv_scaled, inv_items_spaces[6])
+        if gs.egg_found == True and not gs.egg_used:  # Draw Egg Inventory Item
+            sdx = inv_items_spaces[7].centerx
+            sdy = inv_items_spaces[7].centery
+            screen.blit(self.egg_inv_scaled, (sdx - self.egg_inv_scaled.get_width() // 2, sdy - self.egg_inv_scaled.get_height() // 2 ))
 
 
-        """
-        # Draw pick boxes
+
+        """# Draw pick boxes
         for item in inv_items_spaces:
             pygame.draw.rect(screen, gs.black, item, 1)  # <<<<< CHANGE THE # HERE TO -1 TO REMOVE THE ABILITY TO SEE THE BOXES
             
@@ -184,6 +191,7 @@ class Inventory():
             index = inv_items_spaces.index(item)
             if index in gs.moveable_items_index_list:
                 if item.collidepoint(event.pos):
+                    print(index)
                     gs.offset = Vector2(item.topleft) - event.pos
                     gs.selected_item = item
                     gs.selected_item_index = index
@@ -220,6 +228,7 @@ class Inventory():
                 if index == 6: # todo figure out what to do with this later
                     gs.stable_item_opened = False
                     gf.print_settings(gs) # todo make sure this isn't running
+
 
     def item_grabbed(self, gs, event):  # Referenced from gf
         """Drags items around screen"""

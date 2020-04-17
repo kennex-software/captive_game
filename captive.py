@@ -795,8 +795,8 @@ def run_game():
 #gs.won_game = True # Needed to run only credits // todo delete me or comment out
 #credits()
 
-#gs.game_started = True # Need to run only game // todo delete me or comment out
-#run_game()
+gs.game_started = True # Need to run only game // todo delete me or comment out
+run_game()
 
 
 #settings_menu()

@@ -12,8 +12,8 @@ import tkinter as tk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 import sched
-from room import Room
-from stable_items import Stable_Items
+#from room import Room
+#from stable_items import Stable_Items
 from inventory import Inventory
 from PIL import ImageFont
 
@@ -45,6 +45,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                             if gs.lights_on:
                                 room_view.move_between_views(gs, screen, game_objects, stable_item_blocks, event)
                                 inventory.select_item(gs, screen, room_view, event)
+
 
                                 if gs.drill_possible:
                                     room_view.drill_down_views(gs, screen, game_objects, event)
@@ -80,6 +81,8 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                 if gs.current_room_view == 1:  # Right from default // View with TV
                                     if gs.room_view_drill_down == 0:
                                         room_view.click_tv(gs, event, game_objects)
+                                        if gs.tv_stand_open and not gs.egg_found:
+                                            room_view.click_egg(gs, event)
                                     if gs.room_view_drill_down == 1:
                                         if not gs.remote_found: # Function to click remote when it's not found
                                             room_view.click_remote(gs, event)
@@ -120,8 +123,8 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
 
 
-                #print("Click Position: " + str(event.pos))
-                #print(str(event.pos))
+                print("Click Position: " + str(event.pos))
+                print(str(event.pos))
 
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
@@ -526,6 +529,7 @@ def update_settings_from_save_file(gs):
     gs.desk_drawer_removed = gs.settings_dictionary['desk_drawer_removed']
     gs.shirt_found = gs.settings_dictionary['shirt_found']
     gs.screwdriver_found = gs.settings_dictionary['screwdriver_found']
+    gs.egg_found = gs.settings_dictionary['egg_found']
     gs.power_cord_desk_1 = gs.settings_dictionary['power_cord_desk_1']
     gs.power_cord_desk_2 = gs.settings_dictionary['power_cord_desk_2']
     gs.power_cord_window_1 = gs.settings_dictionary['power_cord_window_1']
@@ -537,6 +541,7 @@ def update_settings_from_save_file(gs):
     gs.batteries_used = gs.settings_dictionary['batteries_used']
     gs.power_cord_used = gs.settings_dictionary['power_cord_used']
     gs.screwdriver_used = gs.settings_dictionary['screwdriver_used']
+    gs.egg_used = gs.settings_dictionary['egg_used']
     gs.stable_item_opened = gs.settings_dictionary['stable_item_opened']
     gs.shirt_opened = gs.settings_dictionary['shirt_opened']
     gs.remote_opened = gs.settings_dictionary['remote_opened']
@@ -692,6 +697,7 @@ def default_settings(gs):
     gs.desk_drawer_removed = False # Default = False
     gs.shirt_found = False # Default = False
     gs.screwdriver_found = False # Default = False
+    gs.egg_found = False # Default = False
     gs.power_cord_desk_1 = False # Default = False
     gs.power_cord_desk_2 = False # Default = False
     gs.power_cord_window_1 = False # Default = False
@@ -703,6 +709,7 @@ def default_settings(gs):
     gs.batteries_used = False # Default = False
     gs.power_cord_used = False # Default = False
     gs.screwdriver_used = False # Default = False
+    gs.egg_used = False # Default = False
     gs.stable_item_opened = False  # Default = False
     gs.shirt_opened = False
     gs.remote_opened = False  # Default = False

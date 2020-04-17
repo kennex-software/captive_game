@@ -210,7 +210,7 @@ class Settings():
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
         self.green_key_found = False # Default = False
-        self.remote_found = False # Default = False todo make false
+        self.remote_found = True # Default = False todo make false
         self.batteries_found = False # Default = False
         self.power_cord_found = False # Default = False
         self.papers_found = False # Default = False
@@ -219,6 +219,7 @@ class Settings():
         self.desk_drawer_removed = False # Default = False
         self.shirt_found = False # Default = False
         self.screwdriver_found = False # Default = False
+        self.egg_found = False # Default = False
 
         self.power_cord_desk_1 = False # Default = False
         self.power_cord_desk_2 = False # Default = False
@@ -233,6 +234,7 @@ class Settings():
         self.batteries_used = False # Default = False
         self.power_cord_used = False # Default = False
         self.screwdriver_used = False # Default = False
+        self.egg_used = False # Default = False
 
 
         # Stable Items in Inventory Settings
@@ -244,7 +246,7 @@ class Settings():
         # Remote Settings
         self.remote_opened = False  # Default = False
         self.close_remote = False  # Default = False
-        self.batteries_input = False  # Default = False # todo change to false
+        self.batteries_input = True  # Default = False # todo change to false
         self.button_input_list = []
         self.entered_buttons = None
         self.muted = False
@@ -258,6 +260,7 @@ class Settings():
         self.safe_on_sound_var = 0
         self.current_tv_screen_color = (82, 82, 82)
         self.message_channel_play = False
+        self.tv_stand_open = False
 
         # Safe Settings
         self.safe_uncovered = False # Default = false todo make false

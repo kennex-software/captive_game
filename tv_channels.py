@@ -3,7 +3,7 @@
 
 import pygame, time, sys
 import numpy as np
-import room
+#import room
 import random
 import gf
 
@@ -434,6 +434,12 @@ def tv_channels(gs, screen):
         screen.blit(clock_text, clock_text_rect)
         if gs.current_room_view == 1:
             gs.text = 'What is this clock?'
+
+    # Channel F
+    elif gs.current_channel == 'F':
+        gs.tv_stand_open = True
+        if gs.current_room_view == 1:
+            gs.text = None
 
     # Game Channels // These channels will change on each new instance of the game
     # Channel Code
