@@ -27,7 +27,7 @@ root.withdraw()
 
 
 
-def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp):
+def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp, steamworks):
     """Response to mouse events."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -41,7 +41,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                 if not gs.options_menu_up:
                     if not gs.won_game:
                         if not gs.stable_item_opened:
-                            room_view.switch_light(gs, event)
+                            room_view.switch_light(gs, event, steamworks)
                             if gs.lights_on:
                                 room_view.move_between_views(gs, screen, game_objects, stable_item_blocks, event)
                                 inventory.select_item(gs, screen, room_view, event)
@@ -868,6 +868,10 @@ def scrolling_credits(gs, screen, credits_full, scrolling_centerx, scrolling_cen
 
     for i in range(line_spacing):
         screen.blit(credits_list[i], position_list[i])
+
+def draw_123_rectangle_borders(gs, screen, rect, left, right, top, bottom):
+    pass
+
 
 
 

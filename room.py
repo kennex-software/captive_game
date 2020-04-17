@@ -123,6 +123,13 @@ class Room():
         self.tv_screen_glass = pygame.Rect(195, 140, 470, 296)
         self.partial_tv_screen_glass = pygame.Rect(945, 140, 470, 296)
 
+        # TV Stand
+        self.front_tv_stand = pygame.Rect(130, 540, 600, 80)
+        self.inside_tv_stand_opening = pygame.Rect(0,0, 130, 80)
+        self.inside_tv_stand_opening.center = self.front_tv_stand.center
+        self.back_tv_stand = pygame.Rect(160, 540, 540, 50)
+        self.tv_open_floor = pygame.Rect(self.inside_tv_stand_opening.x, self.back_tv_stand.y+self.back_tv_stand.height-28, self.inside_tv_stand_opening.width, (self.front_tv_stand.y+self.front_tv_stand.height) - (self.back_tv_stand.y+self.back_tv_stand.height-28))
+
         # Safe
         self.safe = pygame.Rect(270, 130, 480, 270)
         self.safe_hole = self.safe.inflate(90, 60)
@@ -992,17 +999,45 @@ class Room():
         pygame.draw.polygon(screen, gs.black, ((150, 500), (120, 530), (740, 530), (710, 500)), 3)
         
         pygame.draw.rect(screen, gs.wood, (120, 530, 620, 100))
-
         pygame.draw.rect(screen, gs.dark_wood, (130, 540, 600, 80))
-        front_tv_stand = pygame.Rect(130, 540, 600, 80)
-        back_tv_stand = pygame.Rect(160, 540, 540, 50)
-        
-        pygame.draw.rect(screen, gs.black, front_tv_stand, 3)
-        pygame.draw.rect(screen, gs.black, back_tv_stand, 3)
-        pygame.draw.line(screen, gs.black, front_tv_stand.bottomleft, back_tv_stand.bottomleft, 3)
-        pygame.draw.line(screen, gs.black, front_tv_stand.bottomright, back_tv_stand.bottomright, 3)
 
-        pygame.draw.rect(screen, gs.black, (120, 530, 620, 100), 3)            
+
+        pygame.draw.line(screen, gs.black, self.front_tv_stand.bottomleft, self.back_tv_stand.bottomleft, 3)
+        pygame.draw.line(screen, gs.black, self.front_tv_stand.bottomright, self.back_tv_stand.bottomright, 3)
+
+
+
+
+
+        pygame.draw.rect(screen, gs.black, (120, 530, 620, 100), 3) # Overall Border
+
+        open_tv_left = (self.front_tv_stand.midbottom[0] - 70, self.front_tv_stand.midbottom[1] - 2)
+        open_tv_right = (self.front_tv_stand.midbottom[0] + 70, self.front_tv_stand.midbottom[1] - 2)
+
+        # TV Stand Opened
+        tv_open_open = True
+        if tv_open_open:
+            pygame.draw.rect(screen, gs.dark_gray, self.inside_tv_stand_opening)
+
+            pygame.draw.rect(screen, gs.dark_wood, self.tv_open_floor)
+            pygame.draw.line(screen, gs.black, self.tv_open_floor.topleft, self.tv_open_floor.topright, 3)
+            pygame.draw.line(screen, gs.black, self.back_tv_stand.bottomleft, open_tv_left, 3)
+            pygame.draw.line(screen, gs.black, self.back_tv_stand.bottomright, open_tv_right, 3)
+            pygame.draw.line(screen, gs.black, self.back_tv_stand.bottomright, open_tv_right, 3)
+
+            pygame.draw.line(screen, gs.black, self.inside_tv_stand_opening.topleft, self.inside_tv_stand_opening.bottomleft, 3)
+            pygame.draw.line(screen, gs.black, self.inside_tv_stand_opening.topright, self.inside_tv_stand_opening.bottomright, 3)
+
+            pygame.draw.line(screen, gs.black, self.back_tv_stand.topleft, self.back_tv_stand.bottomleft, 3)
+            pygame.draw.line(screen, gs.black, self.back_tv_stand.topright, self.back_tv_stand.bottomright, 3)
+
+
+
+        else:
+
+            pygame.draw.rect(screen, gs.black, self.back_tv_stand, 3)
+
+        pygame.draw.rect(screen, gs.black, self.front_tv_stand, 3)
 
         # TV
 
@@ -1297,7 +1332,7 @@ class Room():
             if not gs.screwdriver_found:
                 self.click_flathead(gs, event) # will add flathead to inventory
 
-    def switch_light(self, gs, event):
+    def switch_light(self, gs, event, steamworks):
         if self.light_switch.collidepoint(event.pos) and gs.room_view_drill_down == 0 and gs.current_room_view == 0 and not gs.door_opened:
             pygame.mixer.Sound.play(light_sound)
 
@@ -1307,6 +1342,8 @@ class Room():
                 gs.text = 'The light turned off...'
             elif not gs.lights_on and gs.lights_beginning:
                 gs.text = "I turned on the light switch!  I need to get out of here..."
+                steamworks.UserStats.GetAchievement('Cheevo1')
+                print("achievement unlocked")
                 gs.lights_beginning = False
             elif not gs.lights_on and not gs.lights_beginning:
                 gs.text = "I turned on the light switch!"

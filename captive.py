@@ -11,6 +11,7 @@ from room import Room
 from pygame.locals import *
 from pygame import FULLSCREEN
 from pygame.rect import Rect
+from steamworks import STEAMWORKS
 
 # Initialize pygame, settings, and screen object.
 pygame.mixer.pre_init(44100,-16,2, 2048)
@@ -34,6 +35,16 @@ credits_music = pygame.mixer.Sound('sounds/credits.wav')
 
 game_version = gs.verdana16.render(str(gs.game_version), True, gs.black)
 game_version_rect = game_version.get_rect()
+
+"""
+UNCOMMENT THIS FOR STEAM ACHIEVEMENTS AND STEAMWORKS ABILITIES
+"""
+
+# Declare the steamworks variable and create a new instance of the Steamworks class
+steamworks = STEAMWORKS()
+
+# Initialize Steam
+steamworks.initialize()
 
 def fullscreen_fix(game_height):
     """ Sets full screen display mode and draws a square in the top left """
@@ -747,9 +758,6 @@ def settings_menu():
         pygame.display.flip()
         clock.tick(30)
 
-
-
-
 def run_game():
 
     if gs.new_game:
@@ -762,7 +770,7 @@ def run_game():
         print('starting completely new game')
 
     while gs.game_started:
-        gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
+        gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp, steamworks)
         gf.update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
 
 
@@ -787,8 +795,8 @@ def run_game():
 #gs.won_game = True # Needed to run only credits // todo delete me or comment out
 #credits()
 
-#gs.game_started = True # Need to run only game // todo delete me or comment out
-#run_game()
+gs.game_started = True # Need to run only game // todo delete me or comment out
+run_game()
 
 
 #settings_menu()
