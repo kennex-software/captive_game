@@ -133,6 +133,14 @@ class Room():
         self.inside_tv_stand_opening.center = self.front_tv_stand.center
         self.back_tv_stand = pygame.Rect(160, 540, 540, 50)
         self.tv_open_floor = pygame.Rect(self.inside_tv_stand_opening.x, self.back_tv_stand.y+self.back_tv_stand.height-28, self.inside_tv_stand_opening.width, (self.front_tv_stand.y+self.front_tv_stand.height) - (self.back_tv_stand.y+self.back_tv_stand.height-28))
+        self.open_tv_left = (self.front_tv_stand.midbottom[0] - 70, self.front_tv_stand.midbottom[1] - 2)
+        self.open_tv_right = (self.front_tv_stand.midbottom[0] + 70, self.front_tv_stand.midbottom[1] - 2)
+
+        self.front_tv_stand_rv1 = pygame.Rect(880, 540, 600, 80)
+        self.back_tv_stand_rv1 = pygame.Rect(910, 540, 540, 50)
+        self.open_tv_left_rv1 = (self.front_tv_stand_rv1.midbottom[0] - 70, self.front_tv_stand_rv1.midbottom[1] - 2)
+        self.open_tv_right_rv1 = (self.front_tv_stand_rv1.midbottom[0] + 70, self.front_tv_stand_rv1.midbottom[1] - 2)
+
 
         # Safe
         self.safe = pygame.Rect(270, 130, 480, 270)
@@ -344,7 +352,7 @@ class Room():
             gs.remote_found = True
 
     def click_egg(self, gs, event):
-        # function to be able to pick up the egg item
+        # function to be able to pick up the egg item todo add achievement
         if self.egg_clicker.collidepoint(event.pos):
             gs.text = 'An egg?  What do I need an egg for?  Why did the TV shut off?'
             pygame.mixer.Sound.play(item_picked)
@@ -728,10 +736,6 @@ class Room():
 
                 pygame.draw.rect(screen, gs.black, self.main_door, 3)
 
-
-
-
-
             else:
                 # Door
                 pygame.draw.rect(screen, gs.door, self.main_door)
@@ -746,13 +750,16 @@ class Room():
             pygame.draw.polygon(screen, gs.black, ((900, 500), (870, 530), (1070, 530), (1070, 500)), 3)
             pygame.draw.rect(screen, gs.wood, (870, 530, 620, 100))
             pygame.draw.rect(screen, gs.dark_wood, (870, 540, 600, 80))
-            front_tv_stand = pygame.Rect(880, 540, 600, 80)
-            back_tv_stand = pygame.Rect(910, 540, 540, 50)
-            pygame.draw.rect(screen, gs.black, front_tv_stand, 3)
-            pygame.draw.rect(screen, gs.black, back_tv_stand, 3)
-            pygame.draw.line(screen, gs.black, front_tv_stand.bottomleft, back_tv_stand.bottomleft, 3)
-            pygame.draw.line(screen, gs.black, front_tv_stand.bottomright, back_tv_stand.bottomright, 3)
-            pygame.draw.rect(screen, gs.black, (870, 530, 620, 100), 3)  
+            pygame.draw.rect(screen, gs.black, self.front_tv_stand_rv1, 3)
+            pygame.draw.line(screen, gs.black, self.front_tv_stand_rv1.bottomleft, self.back_tv_stand_rv1.bottomleft, 3)
+            pygame.draw.line(screen, gs.black, self.front_tv_stand_rv1.bottomright, self.back_tv_stand_rv1.bottomright, 3)
+            pygame.draw.rect(screen, gs.black, (870, 530, 620, 100), 3)
+
+            if gs.tv_stand_open and not gs.egg_found:
+                pygame.draw.line(screen, gs.black, self.back_tv_stand_rv1.topleft, self.back_tv_stand_rv1.bottomleft, 3) # Vertical Line
+                pygame.draw.line(screen, gs.black, self.back_tv_stand_rv1.bottomleft, self.open_tv_left_rv1, 3) # Diagonal Line
+            else:
+                pygame.draw.rect(screen, gs.black, self.back_tv_stand_rv1, 3) # line that needs removed when opened
             
             # TV
             pygame.draw.rect(screen, gs.black, (930, 125, 500, 326))
@@ -1032,8 +1039,6 @@ class Room():
 
         pygame.draw.rect(screen, gs.black, (120, 530, 620, 100), 3) # Overall Border
 
-        open_tv_left = (self.front_tv_stand.midbottom[0] - 70, self.front_tv_stand.midbottom[1] - 2)
-        open_tv_right = (self.front_tv_stand.midbottom[0] + 70, self.front_tv_stand.midbottom[1] - 2)
 
         # TV Stand Opened
         if gs.tv_stand_open and not gs.egg_found:
@@ -1041,9 +1046,9 @@ class Room():
 
             pygame.draw.rect(screen, gs.dark_wood, self.tv_open_floor)
             pygame.draw.line(screen, gs.black, self.tv_open_floor.topleft, self.tv_open_floor.topright, 3)
-            pygame.draw.line(screen, gs.black, self.back_tv_stand.bottomleft, open_tv_left, 3)
-            pygame.draw.line(screen, gs.black, self.back_tv_stand.bottomright, open_tv_right, 3)
-            pygame.draw.line(screen, gs.black, self.back_tv_stand.bottomright, open_tv_right, 3)
+            pygame.draw.line(screen, gs.black, self.back_tv_stand.bottomleft, self.open_tv_left, 3)
+            pygame.draw.line(screen, gs.black, self.back_tv_stand.bottomright, self.open_tv_right, 3)
+            pygame.draw.line(screen, gs.black, self.back_tv_stand.bottomright, self.open_tv_right, 3)
 
             pygame.draw.line(screen, gs.black, self.inside_tv_stand_opening.topleft, self.inside_tv_stand_opening.bottomleft, 3)
             pygame.draw.line(screen, gs.black, self.inside_tv_stand_opening.topright, self.inside_tv_stand_opening.bottomright, 3)
@@ -1074,7 +1079,7 @@ class Room():
             if not gs.button_input_list:
                 channel_text = gs.verdana16.render(str(gs.current_channel), True, gs.green)
             else:
-                channel_text = gs.verdana16.render(str(gs.entered_buttons), True, gs.green)
+                channel_text = gs.verdana16.render(str(gs.entered_buttons), True, gs.red) # This generates the channel on the screen while it is being entered
             #channel_text = gs.verdana16.render(str(gs.current_channel), True, gs.green)
             tv_channels.tv_channels(gs, screen)
             screen.blit(channel_text, ((self.tv_screen_glass.x + 3), (self.tv_screen_glass.y)))
@@ -1365,7 +1370,7 @@ class Room():
                 gs.text = 'The light turned off and the TV turned off... Weird...'
             elif gs.lights_on:
                 gs.text = 'The light turned off...'
-            elif not gs.lights_on and gs.lights_beginning:
+            elif not gs.lights_on and gs.lights_beginning: # todo add achievement - light swtich - participation trophy
                 gs.text = "I turned on the light switch!  I need to get out of here..."
                 steamworks.UserStats.GetAchievement('Cheevo1')
                 print("achievement unlocked")

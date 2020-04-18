@@ -760,7 +760,7 @@ def settings_menu():
 
 def run_game():
 
-    allow_new_game = False
+    allow_new_game = True
     if gs.new_game and allow_new_game:
         gf.default_settings(gs)
         gf.generate_codes(gs) # generates numbers for problems and puzzles

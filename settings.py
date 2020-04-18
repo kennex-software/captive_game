@@ -15,10 +15,18 @@ class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Game Version
-        self.game_version = 'v 0.7.8'
+        self.game_version = 'v 0.8.2'
         self.start_game_from_load = False
         """
         Use this area to discuss version:
+        
+        -4/18/2020 -- Verison 0.8.2 ---
+            -Added ability to connect game to Steam and have Steam Achievements
+            -Added the Easter Egg that can be added to the inventory in a secret location
+            -Added various new changes and fixes
+            -Changed the TV stand in room view 1 if it's opened to view properly
+            
+            
         
         -3/24/2020 -- Version 0.7.8 ---
             -Added time value to end of game to inform user of time escaped
@@ -263,7 +271,7 @@ class Settings():
         self.message_channel_play = False
         self.tv_stand_open = False
         self.tv_stand_egg_found_text_var = True  # Default = True
-        self.easter_egg_channel = 'F'
+        self.easter_egg_channel = '1F'
 
         # Safe Settings
         self.safe_uncovered = False # Default = false todo make false

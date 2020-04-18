@@ -141,6 +141,9 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                     gs.game_started = False
                     if gs.quit_menu_up:
                         gs.quit_menu_up = False
+            if event.key == pygame.K_f:
+                if gs.current_channel == 'F' and gs.tv_on:
+                    print('F') #todo add achievement
 
 
 
@@ -739,7 +742,7 @@ def default_settings(gs):
     gs.message_channel_play = False
     gs.tv_stand_open = False
     gs.tv_stand_egg_found_text_var = True
-    gs.easter_egg_channel = 'F'
+    gs.easter_egg_channel = '1F'
     gs.safe_uncovered = False # Default = false todo make false
     gs.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
     gs.safe_initialized = False # Safe can only be opened if a certain channel is on the TV todo make false
@@ -889,9 +892,6 @@ def scrolling_credits(gs, screen, credits_full, scrolling_centerx, scrolling_cen
 
     for i in range(line_spacing):
         screen.blit(credits_list[i], position_list[i])
-
-def draw_123_rectangle_borders(gs, screen, rect, left, right, top, bottom):
-    pass
 
 
 

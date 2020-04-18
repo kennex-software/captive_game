@@ -351,7 +351,6 @@ def tv_channels(gs, screen):
     # Channels Settings
     if gs.current_channel != gs.easter_egg_channel and gs.tv_stand_open:
         while gs.tv_stand_open_var == 1:
-            print('made it here')
             pygame.mixer.Sound.play(tv_stand_open_sound)
             gs.tv_stand_open_var = 2
             gs.tv_stand_open = False
@@ -496,10 +495,15 @@ def tv_channels(gs, screen):
     elif gs.current_channel == str(456): # todo something
         print(gs.current_channel)
 
-    elif gs.current_channel == str(456): # todo easter egg channel for fun
-        print(gs.current_channel)
+    elif gs.current_channel == str('F'): # todo easter egg channel for fun
+        gs.current_tv_screen_color = gs.white
+        text_image = gs.arial22.render("PRESS 'F' TO PAY RESPECTS", True, gs.black)
+        text_rect = text_image.get_rect(center = tv_rect.center)
+        screen.blit(text_image, text_rect)
+        if gs.current_room_view == 1:
+            gs.text = 'F'
 
-    elif gs.current_channel == str('1234567890F'): # Button Presser
+    elif gs.current_channel == str('1234567890F'): # Button Presser todo add achievement
         gs.current_tv_screen_color = gs.white
         text_image = gs.arial22.render("YOU LIKE TO PRESS BUTTONS, DON'T YA?", True, gs.black)
         text_rect = text_image.get_rect(center = tv_rect.center)
