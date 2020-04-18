@@ -760,7 +760,8 @@ def settings_menu():
 
 def run_game():
 
-    if gs.new_game:
+    allow_new_game = False
+    if gs.new_game and allow_new_game:
         gf.default_settings(gs)
         gf.generate_codes(gs) # generates numbers for problems and puzzles
         gf.update_settings_dictionary(gs) # Generates the ability to save the settings generated in the generate codes
@@ -768,6 +769,9 @@ def run_game():
         gs.game_start_time = pygame.time.get_ticks()
         gs.new_game = False
         print('starting completely new game')
+    else:
+        gs.game_start_time = pygame.time.get_ticks()
+        gs.new_game = False
 
     while gs.game_started:
         gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp, steamworks)

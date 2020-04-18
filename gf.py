@@ -434,7 +434,12 @@ def update_settings_dictionary(gs):
                                 'random_channel': gs.random_channel,
                                 'tv_sound_play_var': gs.tv_sound_play_var,
                                 'safe_on_sound_var': gs.safe_on_sound_var,
+                                'tv_stand_open_var': gs.tv_stand_open_var,
                                 'current_tv_screen_color': gs.current_tv_screen_color,
+                                'message_channel_play': gs.message_channel_play,
+                                'tv_stand_open': gs.tv_stand_open,
+                                'tv_stand_egg_found_text_var': gs.tv_stand_egg_found_text_var,
+                                'easter_egg_channel': gs.easter_egg_channel,
                                 'safe_uncovered': gs.safe_uncovered,
                                 'safe_on': gs.safe_on,
                                 'safe_initialized': gs.safe_initialized,
@@ -554,7 +559,12 @@ def update_settings_from_save_file(gs):
     gs.random_channel = gs.settings_dictionary['random_channel']
     gs.tv_sound_play_var = gs.settings_dictionary['tv_sound_play_var']
     gs.safe_on_sound_var = gs.settings_dictionary['safe_on_sound_var']
+    gs.tv_stand_open_var = gs.settings_dictionary['tv_stand_open_var']
     gs.current_tv_screen_color = gs.settings_dictionary['current_tv_screen_color']
+    gs.message_channel_play = gs.settings_dictionary['message_channel_play']
+    gs.tv_stand_open = gs.settings_dictionary['tv_stand_open']
+    gs.tv_stand_egg_found_text_var = gs.settings_dictionary['tv_stand_egg_found_text_var']
+    gs.easter_egg_channel = gs.settings_dictionary['easter_egg_channel']
     gs.safe_uncovered = gs.settings_dictionary['safe_uncovered']
     gs.safe_on = gs.settings_dictionary['safe_on']
     gs.safe_initialized = gs.settings_dictionary['safe_initialized']
@@ -724,8 +734,12 @@ def default_settings(gs):
     gs.random_channel = None
     gs.tv_sound_play_var = 0
     gs.safe_on_sound_var = 0
+    gs.tv_stand_open_var = 0
     gs.current_tv_screen_color = (82, 82, 82)
     gs.message_channel_play = False
+    gs.tv_stand_open = False
+    gs.tv_stand_egg_found_text_var = True
+    gs.easter_egg_channel = 'F'
     gs.safe_uncovered = False # Default = false todo make false
     gs.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
     gs.safe_initialized = False # Safe can only be opened if a certain channel is on the TV todo make false

@@ -258,9 +258,12 @@ class Settings():
         self.random_channel = None
         self.tv_sound_play_var = 0
         self.safe_on_sound_var = 0
+        self.tv_stand_open_var = 0
         self.current_tv_screen_color = (82, 82, 82)
         self.message_channel_play = False
         self.tv_stand_open = False
+        self.tv_stand_egg_found_text_var = True  # Default = True
+        self.easter_egg_channel = 'F'
 
         # Safe Settings
         self.safe_uncovered = False # Default = false todo make false
@@ -284,7 +287,7 @@ class Settings():
 
         # Default room view
         self.fourth_wall = False  # Default = False
-        self.current_room_view = 0
+        self.current_room_view = 1
         
         # Default Drill Down Room Views
         self.drill_possible = False  # Default = False
@@ -315,7 +318,7 @@ class Settings():
         self.cam_two_number = None
 
         # Lights Settings
-        self.lights_on = False  # Default = False todo change to false
+        self.lights_on = True  # Default = False todo change to false
         self.lights_beginning = True
         
         # Settings for Red and Blue Book

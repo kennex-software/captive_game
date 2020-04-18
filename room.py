@@ -71,6 +71,7 @@ item_picked = pygame.mixer.Sound('sounds/item_picked.wav')
 light_sound = pygame.mixer.Sound('sounds/light_switch.wav')
 shirt_sound = pygame.mixer.Sound('sounds/pick_shirt.wav')
 safe_door = pygame.mixer.Sound('sounds/safe_door.wav')
+tv_stand_open_sound = pygame.mixer.Sound('sounds/drawer_close.wav')
 
 pygame.init()
 pygame.font.init()
@@ -345,10 +346,14 @@ class Room():
     def click_egg(self, gs, event):
         # function to be able to pick up the egg item
         if self.egg_clicker.collidepoint(event.pos):
-            gs.text = 'An egg?  What do I need an egg for?'
+            gs.text = 'An egg?  What do I need an egg for?  Why did the TV shut off?'
             pygame.mixer.Sound.play(item_picked)
             gs.egg_found = True
             gs.tv_stand_open = False
+            if gs.tv_stand_egg_found_text_var:
+                gs.current_channel = '3'
+                gs.tv_on = False
+                gs.tv_stand_egg_found_text_var = False
             gs.moveable_items_index_list.append(7)
 
     def click_hole_in_floor(self, gs, event):
@@ -1045,11 +1050,15 @@ class Room():
 
             pygame.draw.line(screen, gs.black, self.back_tv_stand.topleft, self.back_tv_stand.bottomleft, 3)
             pygame.draw.line(screen, gs.black, self.back_tv_stand.topright, self.back_tv_stand.bottomright, 3)
+            while gs.tv_stand_open_var == 0:
+                pygame.mixer.Sound.play(tv_stand_open_sound)
+                gs.tv_stand_open_var = 1
 
             if not gs.egg_found:
                 self.egg_clicker = gf.draw_item_to_screen(gs, screen, egg_image, 15, 419, 552)
 
         else:
+            gs.tv_stand_open = False
 
             pygame.draw.rect(screen, gs.black, self.back_tv_stand, 3)
 

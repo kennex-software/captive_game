@@ -26,6 +26,7 @@ gnarski_logo = pygame.image.load(i_gnarski_logo)
 # Sounds
 safe_init_sound = pygame.mixer.Sound('sounds/safe_init.wav')
 safe_on_sound = pygame.mixer.Sound('sounds/safe_on.wav')
+tv_stand_open_sound = pygame.mixer.Sound('sounds/drawer_close.wav')
 
 
 pygame.init()
@@ -347,6 +348,17 @@ def tv_channels(gs, screen):
     check_channels_for_events(gs)
 
     # Channels
+    # Channels Settings
+    if gs.current_channel != gs.easter_egg_channel and gs.tv_stand_open:
+        while gs.tv_stand_open_var == 1:
+            print('made it here')
+            pygame.mixer.Sound.play(tv_stand_open_sound)
+            gs.tv_stand_open_var = 2
+            gs.tv_stand_open = False
+        if not gs.egg_found:
+            gs.tv_stand_open_var = 0
+        gs.tv_stand_open = False
+
     # Channel 1
     if gs.current_channel == str(1):  # Powered by Python
         if gs.current_room_view == 1:
@@ -435,11 +447,7 @@ def tv_channels(gs, screen):
         if gs.current_room_view == 1:
             gs.text = 'What is this clock?'
 
-    # Channel F
-    elif gs.current_channel == 'F':
-        gs.tv_stand_open = True
-        if gs.current_room_view == 1:
-            gs.text = None
+
 
     # Game Channels // These channels will change on each new instance of the game
     # Channel Code
@@ -472,6 +480,19 @@ def tv_channels(gs, screen):
 
 
     # Easter Egg Channels
+
+    # Channel Easter Egg
+    elif gs.current_channel == gs.easter_egg_channel:
+        if not gs.egg_found:
+            gs.tv_stand_open = True
+            gs.text = 'A secret compartment?! What is this?'
+        elif gs.tv_stand_egg_found_text_var == False:
+            gs.text = 'Nothing happened...'
+
+        if gs.current_room_view == 0:
+            gs.text = None
+
+
     elif gs.current_channel == str(456): # todo something
         print(gs.current_channel)
 
