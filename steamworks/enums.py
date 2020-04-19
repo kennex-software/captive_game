@@ -77,3 +77,7 @@ class EItemUpdateStatus(Enum):
     UPLOADING_CONTENT       = 3
     UPLOADING_PREVIEW_FILE  = 4
     COMMITTING_CHANGES      = 5
+
+class EAchievements(Enum):
+    pass
+

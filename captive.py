@@ -12,6 +12,9 @@ from pygame.locals import *
 from pygame import FULLSCREEN
 from pygame.rect import Rect
 from steamworks import STEAMWORKS
+from OpenGL.GL import *
+from OpenGL.GLU import *
+
 
 # Initialize pygame, settings, and screen object.
 pygame.mixer.pre_init(44100,-16,2, 2048)
@@ -19,7 +22,7 @@ pygame.init()
 pygame.font.init()
 clock = pygame.time.Clock()
 gs = Settings()
-screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF) # add ability to resize window
+screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF)
 pygame.display.set_caption("Captive | Kennex Software")
 icon = pygame.image.load('images/key_icon.ico') # should be 32 x 32
 game_logo = pygame.image.load('images/key_logo.png')
@@ -799,8 +802,8 @@ def run_game():
 #gs.won_game = True # Needed to run only credits // todo delete me or comment out
 #credits()
 
-gs.game_started = True # Need to run only game // todo delete me or comment out
-run_game()
+#gs.game_started = True # Need to run only game // todo delete me or comment out
+#run_game()
 
 
 #settings_menu()

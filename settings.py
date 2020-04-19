@@ -18,6 +18,12 @@ class Settings():
         self.game_version = 'v 0.8.2'
         self.start_game_from_load = False
         """
+        People that want the game:
+        Reddit Users:
+        ReallyRussell
+        Shuffledrive
+        
+        
         Use this area to discuss version:
         
         -4/18/2020 -- Verison 0.8.2 ---

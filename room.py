@@ -1372,8 +1372,8 @@ class Room():
                 gs.text = 'The light turned off...'
             elif not gs.lights_on and gs.lights_beginning: # todo add achievement - light swtich - participation trophy
                 gs.text = "I turned on the light switch!  I need to get out of here..."
-                steamworks.UserStats.GetAchievement('Cheevo1')
-                print("achievement unlocked")
+                steamworks.UserStats.SetAchievement('ACH_PT')
+                print("Participation Trophy Achievement Unlocked")
                 gs.lights_beginning = False
             elif not gs.lights_on and not gs.lights_beginning:
                 gs.text = "I turned on the light switch!"

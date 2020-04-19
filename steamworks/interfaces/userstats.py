@@ -91,6 +91,11 @@ class SteamUserStats(object):
     def SetAchievement(self, name: str) -> bool:
         """Set a given achievement
 
+        What it does - This method sets a given achievement to achieved and sends the results to Steam.
+        You can set a given achievement multiple times so you don't need to worry about only setting achievements
+        that aren't already set. This is an asynchronous call which will trigger
+        two callbacks: OnUserStatsStored() and OnAchievementStored().
+
         :param name: str
         :return: bool
         """
