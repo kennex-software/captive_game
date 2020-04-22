@@ -351,7 +351,7 @@ class Room():
             pygame.mixer.Sound.play(item_picked)
             gs.remote_found = True
 
-    def click_egg(self, gs, event):
+    def click_egg(self, gs, event, steamworks):
         # function to be able to pick up the egg item todo add achievement
         if self.egg_clicker.collidepoint(event.pos):
             gs.text = 'An egg?  What do I need an egg for?  Why did the TV shut off?'
@@ -363,6 +363,9 @@ class Room():
                 gs.tv_on = False
                 gs.tv_stand_egg_found_text_var = False
             gs.moveable_items_index_list.append(7)
+            if not steamworks.UserStats.GetAchievement('ACH_EGG'):
+                steamworks.UserStats.SetAchievement('ACH_EGG')
+                print("Easter Egg Achievement Unlocked")
 
     def click_hole_in_floor(self, gs, event):
         # function to be able to connect camera cable power cord
@@ -1194,22 +1197,28 @@ class Room():
             gs.drill_possible = True
             self.room_view_four(gs, screen, stable_item_blocks)
 
-    def open_door(self, gs, event):
+    def open_door(self, gs, event, steamworks):
         """Unlocks the door to finish / win the game"""
         if self.door_handle_rect.collidepoint(event.pos) and gs.door_locked == False and not gs.door_opened:
             gs.text = "I opened the door! I'm free... I think..."
             pygame.mixer.Sound.play(door_open_sound)
             gs.door_opened = True
+            if not steamworks.UserStats.GetAchievement('ACH_OPEN'):
+                steamworks.UserStats.SetAchievement('ACH_OPEN')
+                print("Door Opened Achievement Unlocked")
 
         elif self.door_handle_rect.collidepoint(event.pos) or self.main_door.collidepoint(event.pos) and gs.door_locked == True and not gs.door_opened:
             gs.text = 'The door is locked...'
 
 
-    def close_door(self, gs, event):
+    def close_door(self, gs, event, steamworks):
         """Closes door after it's been opened"""
         if gf.check_inside_clickbox(self, self.opened_door, ((event.pos), (0, 0))):
             pygame.mixer.Sound.play(door_close_sound)
             gs.door_opened = False
+            if not steamworks.UserStats.GetAchievement('ACH_STAY'):
+                steamworks.UserStats.SetAchievement('ACH_STAY')
+                print("Social Distancing Achievement Unlocked")
 
     def move_between_views(self, gs, screen, game_objects, stable_item_blocks, event):
         """Moves player between the various views based on the side that they clicked"""
@@ -1237,7 +1246,7 @@ class Room():
                 gs.current_room_view = int(gs.current_room_view // 1)
                 gs.text = None
 
-    def drill_down_views(self, gs, screen, game_objects, event):
+    def drill_down_views(self, gs, screen, game_objects, event, steamworks):
         """Moves player between various drill down views on each view already"""        
         # Drill Down Views
         
@@ -1267,6 +1276,10 @@ class Room():
                 gs.text = "It is a city skyline? It's clear this is not real..."
                 gs.room_view_drill_down = 2.1
                 #gs.current_room_view = 4.21
+                if not steamworks.UserStats.GetAchievement('ACH_WINDOW'):
+                    steamworks.UserStats.SetAchievement('ACH_WINDOW')
+                    print("Bird Watcher Achievement Unlocked")
+
 
     def open_drawers(self, gs, screen, game_objects, event):
         """Opens drawers (file cabinets and desk drawers when the user clicks them"""
@@ -1372,8 +1385,9 @@ class Room():
                 gs.text = 'The light turned off...'
             elif not gs.lights_on and gs.lights_beginning: # todo add achievement - light swtich - participation trophy
                 gs.text = "I turned on the light switch!  I need to get out of here..."
-                steamworks.UserStats.SetAchievement('ACH_PT')
-                print("Participation Trophy Achievement Unlocked")
+                if not steamworks.UserStats.GetAchievement('ACH_PT'):
+                    steamworks.UserStats.SetAchievement('ACH_PT')
+                    print("Participation Trophy Achievement Unlocked")
                 gs.lights_beginning = False
             elif not gs.lights_on and not gs.lights_beginning:
                 gs.text = "I turned on the light switch!"

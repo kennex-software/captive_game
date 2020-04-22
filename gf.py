@@ -48,14 +48,14 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
 
                                 if gs.drill_possible:
-                                    room_view.drill_down_views(gs, screen, game_objects, event)
+                                    room_view.drill_down_views(gs, screen, game_objects, event, steamworks)
 
                                 if gs.current_room_view == 0:   # Default View
-                                    room_view.open_door(gs, event)
+                                    room_view.open_door(gs, event, steamworks)
                                     room_view.click_tv(gs, event, game_objects)
                                     room_view.click_trash_can(gs, event)
                                     if gs.door_opened:
-                                        room_view.close_door(gs, event)
+                                        room_view.close_door(gs, event, steamworks)
                                         if room_view.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0:
                                             if gs.leave:
                                                 gs.won_game = True
@@ -82,7 +82,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                     if gs.room_view_drill_down == 0:
                                         room_view.click_tv(gs, event, game_objects)
                                         if gs.tv_stand_open and not gs.egg_found:
-                                            room_view.click_egg(gs, event)
+                                            room_view.click_egg(gs, event, steamworks)
                                     if gs.room_view_drill_down == 1:
                                         if not gs.remote_found: # Function to click remote when it's not found
                                             room_view.click_remote(gs, event)
@@ -143,7 +143,10 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                         gs.quit_menu_up = False
             if event.key == pygame.K_f:
                 if gs.current_channel == 'F' and gs.tv_on:
-                    print('F') #todo add achievement
+                    if not steamworks.UserStats.GetAchievement('ACH_F'):
+                        steamworks.UserStats.SetAchievement('ACH_F')
+                        print("Respects Achievement Unlocked")
+                        print('F') #todo add achievement
 
 
 
