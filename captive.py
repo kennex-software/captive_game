@@ -16,13 +16,27 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 
+"""
+UNCOMMENT THIS FOR STEAM ACHIEVEMENTS AND STEAMWORKS ABILITIES
+"""
+
+# Declare the steamworks variable and create a new instance of the Steamworks class
+steamworks = STEAMWORKS()
+
+# Initialize Steam
+steamworks.initialize()
+
+
 # Initialize pygame, settings, and screen object.
 pygame.mixer.pre_init(44100,-16,2, 2048)
 pygame.init()
 pygame.font.init()
 clock = pygame.time.Clock()
 gs = Settings()
+
 screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF)
+
+
 pygame.display.set_caption("Captive | Kennex Software")
 icon = pygame.image.load('images/key_icon.ico') # should be 32 x 32
 game_logo = pygame.image.load('images/key_logo.png')
@@ -39,15 +53,7 @@ credits_music = pygame.mixer.Sound('sounds/credits.wav')
 game_version = gs.verdana16.render(str(gs.game_version), True, gs.black)
 game_version_rect = game_version.get_rect()
 
-"""
-UNCOMMENT THIS FOR STEAM ACHIEVEMENTS AND STEAMWORKS ABILITIES
-"""
 
-# Declare the steamworks variable and create a new instance of the Steamworks class
-steamworks = STEAMWORKS()
-
-# Initialize Steam
-steamworks.initialize()
 
 def fullscreen_fix(game_height):
     """ Sets full screen display mode and draws a square in the top left """
@@ -145,6 +151,7 @@ A Special Thanks To:
 Takagism for making the Crimson Room
 No Starch Press for teaching me to code
 Tech With Tim for inspiring me to code
+Gramps for SteakworksPy
 Happy Chuck Programming for help with Scrolling Text
 Ted Klein Bergman for help with the TV Static
 The Stackoverflow Community
@@ -157,7 +164,6 @@ Thank You For Playing.
 
 I hope you enjoyed the game as much as I
 enjoyed making it and learning how to code.
-
 
 
 
@@ -261,6 +267,7 @@ def title_menu():
                     game_menu()
 
         # Draw Menu
+
         screen.fill((gs.white))
         seconds = (pygame.time.get_ticks() - start_ticks)/1000
 
@@ -430,6 +437,8 @@ def game_menu():
 
 
 
+
+
         # Update
         pygame.display.flip()
         clock.tick(30)
@@ -478,7 +487,6 @@ def options_menu():
     ask_to_save_text_rect = ask_to_save_text.get_rect(center = (quit_menu.centerx, quit_menu.y + 40))
     q_save_text_rect = b2_text.get_rect(center = q_button_save.center)
     q_quit_text_rect = b5_text.get_rect(center = q_button_quit.center)
-
 
 
     while True:
@@ -543,11 +551,6 @@ def options_menu():
                         gs.options_menu_up = False
                         gs.quit_menu_up = False
                         game_menu()
-
-
-
-
-
 
 
         screen.fill((gs.bg_color))

@@ -24,7 +24,7 @@ class Settings():
         Shuffledrive
         
         
-        Use this area to discuss version:
+        Use this area to discuss version: 
         -4/22/2020 -- Version 0.8.6 ---
             -Added a lot of different functionality
             -Added a handful of Steam Achievements
