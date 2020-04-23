@@ -14,6 +14,7 @@ from pygame.rect import Rect
 from steamworks import STEAMWORKS
 from OpenGL.GL import *
 from OpenGL.GLU import *
+from OpenGL.GLUT import *
 
 
 """
@@ -25,6 +26,8 @@ steamworks = STEAMWORKS()
 
 # Initialize Steam
 steamworks.initialize()
+
+
 
 
 # Initialize pygame, settings, and screen object.
