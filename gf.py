@@ -164,7 +164,9 @@ def update_screen(gs, screen, inventory, room_view, game_objects, stable_item_bl
             cp.draw_dots(gs, screen)
 
     
-        
+
+
+
     # Make the most recently drawn screen visible.
     pygame.display.flip()
 

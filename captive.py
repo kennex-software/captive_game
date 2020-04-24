@@ -13,8 +13,8 @@ from pygame import FULLSCREEN
 from pygame.rect import Rect
 from steamworks import STEAMWORKS
 from OpenGL.GL import *
-from OpenGL.GLU import *
-from OpenGL.GLUT import *
+#from OpenGL.GLU import *
+#from OpenGL.GLUT import *
 
 
 """
@@ -37,8 +37,13 @@ pygame.font.init()
 clock = pygame.time.Clock()
 gs = Settings()
 
-screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF)
+#screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF)
+pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF | OPENGL) # Code to add OpenGL
+pygame.display.init()
+info = pygame.display.Info()
 
+
+screen = pygame.Surface((info.current_w, info.current_h))  # Make 'Off-Screen' Pygame Surface
 
 pygame.display.set_caption("Captive | Kennex Software")
 icon = pygame.image.load('images/key_icon.ico') # should be 32 x 32
@@ -56,7 +61,61 @@ credits_music = pygame.mixer.Sound('sounds/credits.wav')
 game_version = gs.verdana16.render(str(gs.game_version), True, gs.black)
 game_version_rect = game_version.get_rect()
 
+# Basic OpenGL Configuration
+glViewport(0, 0, info.current_w, info.current_h)
+glDepthRange(0, 1)
+glMatrixMode(GL_PROJECTION)
+glMatrixMode(GL_MODELVIEW)
+glLoadIdentity()
+glShadeModel(GL_SMOOTH)
+glClearColor(0.0, 0.0, 0.0, 0.0)
+glClearDepth(1.0)
+glDisable(GL_DEPTH_TEST)
+glDisable(GL_LIGHTING)
+glDepthFunc(GL_LEQUAL)
+glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
+glEnable(GL_BLEND)
 
+###
+### Function to convert a PyGame Surface to an OpenGL Texture
+### Maybe it's not necessary to perform each of these operations
+### every time.
+### todo review this for optimization
+###
+texID = glGenTextures(1)
+def surfaceToTexture(pygame_surface):
+    global texID
+    rgb_surface = pygame.image.tostring(pygame_surface, 'RGB')
+    glBindTexture(GL_TEXTURE_2D, texID)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
+    surface_rect = pygame_surface.get_rect()
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, surface_rect.width, surface_rect.height, 0, GL_RGB, GL_UNSIGNED_BYTE, rgb_surface)
+    glGenerateMipmap(GL_TEXTURE_2D)
+    glBindTexture(GL_TEXTURE_2D, 0)
+
+
+def open_gl_code_to_run(screen):
+    # prepare to render the texture-mapped rectangle
+    glClearColor(0, 0, 0, 1.0)
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+    glLoadIdentity()
+    glDisable(GL_LIGHTING)
+    glEnable(GL_TEXTURE_2D)
+    #glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+
+
+    # draw texture openGL Texture
+    surfaceToTexture( screen )
+    glBindTexture(GL_TEXTURE_2D, texID)
+    glBegin(GL_QUADS)
+    glTexCoord2f(0, 0); glVertex2f(-1, 1)
+    glTexCoord2f(0, 1); glVertex2f(-1, -1)
+    glTexCoord2f(1, 1); glVertex2f(1, -1)
+    glTexCoord2f(1, 0); glVertex2f(1, 1)
+    glEnd()
 
 def fullscreen_fix(game_height):
     """ Sets full screen display mode and draws a square in the top left """
@@ -122,9 +181,11 @@ def total_time():
             screen.blit(text_image, (text_image_rect[0], 0+line_spacing))
             line_spacing += text_height
 
+        open_gl_code_to_run(screen)
+
         # Update
         pygame.display.flip()
-        clock.tick(30)
+        clock.tick(60)
 
 def credits():
     title = gs.arial60.render('to be continued...', True, gs.black)
@@ -243,11 +304,12 @@ CAPTIVE
             pass
 
 
+        open_gl_code_to_run(screen)
 
 
         # Update
         pygame.display.flip()
-        clock.tick(30)
+        clock.tick(60)
 
 def title_menu():
 
@@ -305,9 +367,11 @@ def title_menu():
         if seconds > 16:
             game_menu()
 
+        open_gl_code_to_run(screen)
+
         # Update
         pygame.display.flip()
-        clock.tick(30)
+        clock.tick(60)
 
 def game_menu():
     game_title = gs.cambria150.render('CAPTIVE', True, gs.black)
@@ -437,14 +501,14 @@ def game_menu():
             button_color5 = gs.gray
 
 
-
+        open_gl_code_to_run(screen)
 
 
 
 
         # Update
         pygame.display.flip()
-        clock.tick(30)
+        clock.tick(60)
 
 def options_menu():
     gs.options_menu_up = True
@@ -645,9 +709,11 @@ def options_menu():
                 q_button_save_color = gs.gray
                 q_button_quit_color = gs.gray
 
+        open_gl_code_to_run(screen)
+
         # Update
         pygame.display.flip()
-        clock.tick(30)
+        clock.tick(60)
 
 def settings_menu():
     gs.settings_menu_up = True
@@ -702,9 +768,9 @@ def settings_menu():
                     if button1.collidepoint(event.pos):
                         print('save settings')
                         if screen.get_flags() & FULLSCREEN and not gs.fullscreen_checked:
-                            pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF)
+                            pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF | OPENGL)
                         elif gs.fullscreen_checked:
-                            pygame.display.set_mode((gs.screen_width, gs.screen_height), FULLSCREEN | HWSURFACE | DOUBLEBUF)
+                            pygame.display.set_mode((gs.screen_width, gs.screen_height), FULLSCREEN | HWSURFACE | DOUBLEBUF | OPENGL)
 
 
                     if button2.collidepoint(event.pos):
@@ -763,9 +829,11 @@ def settings_menu():
             button_color1 = gs.gray
             button_color2 = gs.gray
 
+        open_gl_code_to_run(screen)
+
         # Update
         pygame.display.flip()
-        clock.tick(30)
+        clock.tick(60)
 
 def run_game():
 
@@ -784,6 +852,7 @@ def run_game():
 
     while gs.game_started:
         gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp, steamworks)
+        open_gl_code_to_run(screen)
         gf.update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
 
 
@@ -799,6 +868,8 @@ def run_game():
 
     while gs.won_game:
         credits()
+
+
 
 
     pygame.time.wait(1000)
