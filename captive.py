@@ -16,6 +16,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 import numpy as np
+from texture_gl import Texture
 
 
 """
@@ -41,7 +42,6 @@ pygame.display.set_mode((gs.screen_width, gs.screen_height), OPENGL | DOUBLEBUF 
 pygame.display.init()
 info = pygame.display.Info()
 
-
 screen = pygame.Surface((info.current_w, info.current_h))  # Make 'Off-Screen' Pygame Surface
 screen_rect = screen.get_rect()
 
@@ -54,6 +54,7 @@ room_view = Room(gs, screen, stable_item_blocks)
 inventory = Inventory(gs, screen, room_view)
 game_objects = GameObjects(gs, screen, inventory)
 cp = Control_Panel(gs, screen)
+tex_gl = Texture()
 
 intro_music = pygame.mixer.Sound('sounds/intro.wav')
 credits_music = pygame.mixer.Sound('sounds/credits.wav')
@@ -61,17 +62,23 @@ credits_music = pygame.mixer.Sound('sounds/credits.wav')
 game_version = gs.verdana16.render(str(gs.game_version), True, gs.black)
 game_version_rect = game_version.get_rect()
 
+
+#rgb_converted_surface = pygame.image.tostring(screen, 'RGB')
+tex_gl.store(screen_rect.width, screen_rect.height, tex_gl.screen_to_string(screen))
+
 # Basic OpenGL Configuration
-glViewport(0, 0, info.current_w, info.current_h)
+glViewport(0, 0, screen_rect.width, screen_rect.height)
 glDepthRange(0, 1)
 glMatrixMode(GL_PROJECTION)
 glMatrixMode(GL_MODELVIEW)
 glLoadIdentity()
 glShadeModel(GL_SMOOTH)
-glClearColor(0.0, 0.0, 0.0, 0.0)
+glClearColor(0.0, 0.0, 0.0, 1.0)
 glClearDepth(5.0)
 glDisable(GL_DEPTH_TEST)
 glDisable(GL_LIGHTING)
+glDisable(GL_TEXTURE_1D)
+glDisable(GL_TEXTURE_3D)
 glDepthFunc(GL_LEQUAL)
 glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
 glEnable(GL_BLEND)
@@ -82,45 +89,6 @@ glEnable(GL_BLEND)
 ### every time.
 ### todo review this for optimization
 ###
-
-global texID
-texID = glGenTextures(1)
-
-# prepare to render the texture-mapped rectangle
-
-glLoadIdentity()
-glDisable(GL_LIGHTING)
-glDisable(GL_TEXTURE_1D)
-glDisable(GL_TEXTURE_3D)
-glEnable(GL_TEXTURE_2D)
-glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-
-glBindTexture(GL_TEXTURE_2D, texID)
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP)
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
-
-
-
-def open_gl_code_to_run(screen):
-    glClearColor(0, 0, 0, 1.0)
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-    glBegin(GL_QUADS)
-    glTexCoord2f(0, 0); glVertex2f(-1, 1)
-    glTexCoord2f(0, 1); glVertex2f(-1, -1)
-    glTexCoord2f(1, 1); glVertex2f(1, -1)
-    glTexCoord2f(1, 0); glVertex2f(1, 1)
-    glEnd()
-
-    # draw texture openGL Texture
-    rgb_surface = pygame.image.tostring(screen, 'RGB')
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screen_rect.width, screen_rect.height, 0, GL_RGB, GL_UNSIGNED_BYTE, rgb_surface)
-    glGenerateMipmap(GL_TEXTURE_2D)
-    #glBindTexture(GL_TEXTURE_2D, 0)
-
-
 
 def fullscreen_fix(game_height):
     """ Sets full screen display mode and draws a square in the top left """
@@ -373,7 +341,7 @@ def title_menu():
         if seconds > 16:
             game_menu()
 
-        open_gl_code_to_run(screen)
+        tex_gl.update(screen_rect.width, screen_rect.height, tex_gl.screen_to_string(screen))
 
         # Update
         pygame.display.flip()
@@ -507,7 +475,7 @@ def game_menu():
             button_color5 = gs.gray
 
 
-        open_gl_code_to_run(screen)
+        tex_gl.update(screen_rect.width, screen_rect.height, tex_gl.screen_to_string(screen))
 
 
 
@@ -715,7 +683,7 @@ def options_menu():
                 q_button_save_color = gs.gray
                 q_button_quit_color = gs.gray
 
-        open_gl_code_to_run(screen)
+        tex_gl.update(screen_rect.width, screen_rect.height, tex_gl.screen_to_string(screen))
 
         # Update
         pygame.display.flip()
@@ -835,7 +803,7 @@ def settings_menu():
             button_color1 = gs.gray
             button_color2 = gs.gray
 
-        open_gl_code_to_run(screen)
+        tex_gl.update(screen_rect.width, screen_rect.height, tex_gl.screen_to_string(screen))
 
         # Update
         pygame.display.flip()
@@ -858,8 +826,7 @@ def run_game():
 
     while gs.game_started:
         gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp, steamworks)
-        open_gl_code_to_run(screen)
-        gf.update_screen(gs, screen, inventory, room_view, stable_item_blocks, cp, clock, game_objects)
+        gf.update_screen(gs, screen, inventory, room_view, stable_item_blocks, cp, clock, game_objects, screen_rect, tex_gl)
 
 
         #if gs.sleeperticks:

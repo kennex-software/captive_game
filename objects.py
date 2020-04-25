@@ -3,7 +3,7 @@
 import pygame
 
 class GameObjects():
-    """Class to store the objects in the game"""
+    """Class to store the overlay objects in the game"""
     
     def __init__(self, gs, screen, inventory):
         """Initialize the game objects."""

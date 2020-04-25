@@ -79,8 +79,8 @@ class Settings():
         self.fullscreen_checked = False
 
         # Screen Settings
-        self.screen_width = 1200
-        self.screen_height = 800
+        self.screen_width = 1200 # 1440
+        self.screen_height = 800 # 960
 
         # Alphabet List
         self.alphabet_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']

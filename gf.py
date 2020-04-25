@@ -139,9 +139,11 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
 
 
-def update_screen(gs, screen, inventory, room_view, stable_item_blocks, cp, clock, game_objects):
+def update_screen(gs, screen, inventory, room_view, stable_item_blocks, cp, clock, game_objects, screen_rect, tex_gl):
     """Update images on the screen and flip to the new screen."""
     # Redraw the screen during each pass through the loop
+
+
 
     # Fill Screen
     screen.fill(gs.bg_color)
@@ -168,6 +170,7 @@ def update_screen(gs, screen, inventory, room_view, stable_item_blocks, cp, cloc
         if cp.selected == 1:
             cp.draw_dots(gs, screen)
 
+    tex_gl.update(screen_rect.width, screen_rect.height, tex_gl.screen_to_string(screen))
 
     # Make the most recently drawn screen visible.
     pygame.display.flip()
