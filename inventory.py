@@ -1,12 +1,10 @@
 #kennex
 
-import pygame, sys, time
+import pygame
 import pygame.font
-from pygame.sprite import Sprite
 from pygame.math import Vector2
 import gf
 
-pygame.init()
 pygame.font.init()
 pygame.mixer.init()
 

@@ -2,7 +2,7 @@
 
 from PIL import ImageFont
 import pygame
-pygame.init()
+
 pygame.font.init()
 
 def multiline_text(text, width, font1):

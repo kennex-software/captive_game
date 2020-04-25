@@ -2,7 +2,6 @@
 
 import pygame
 
-pygame.init()
 pygame.font.init()
 
 class Settings():
@@ -15,7 +14,7 @@ class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Game Version
-        self.game_version = 'v 0.8.6'
+        self.game_version = 'v 0.8.7'
         self.start_game_from_load = False
         """
         People that want the game:
@@ -25,6 +24,12 @@ class Settings():
         
         
         Use this area to discuss version: 
+        -4/24/2020 -- Version 0.8.7 ---
+            -Got Steam overlay working with OpenGL
+            -Need to make OpenGL faster
+            -Optimized some of the game objects and cleared out a lot of the game objects file
+            -Remove pygame.init() from every file except for captive.py
+            
         -4/22/2020 -- Version 0.8.6 ---
             -Added a lot of different functionality
             -Added a handful of Steam Achievements

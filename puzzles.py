@@ -5,7 +5,7 @@
 import random
 import math
 import pygame
-pygame.init()
+
 pygame.font.init()
 
 # Digit Doubler - Used to find the digits to circle for Puzzle A

@@ -1,23 +1,16 @@
 #kennex
 
-import sys, pygame, random, time, threading, pickle
+import sys, pygame, random, pickle
 from pygame.math import Vector2
 import math
 import datetime
-from objects import GameObjects
 import puzzles
-import credits
-#from tkinter import Tk
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
-import sched
-#from room import Room
-#from stable_items import Stable_Items
-from inventory import Inventory
-from PIL import ImageFont
 
-pygame.init()
+
+
 pygame.font.init()
 
 root = tk.Tk()
@@ -34,10 +27,6 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
             sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                #if game_objects.save_button.collidepoint(event.pos):
-                #    save_settings(gs)
-                #if game_objects.load_button.collidepoint(event.pos):
-                #    load_settings(gs)
                 if not gs.options_menu_up:
                     if not gs.won_game:
                         if not gs.stable_item_opened:
@@ -150,25 +139,69 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
 
 
-def update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp):
+def update_screen(gs, screen, inventory, room_view, stable_item_blocks, cp, clock, game_objects):
     """Update images on the screen and flip to the new screen."""
     # Redraw the screen during each pass through the loop
+
+    # Fill Screen
     screen.fill(gs.bg_color)
+
+    # Draw Room View
     room_view.current_view(gs, screen, stable_item_blocks)
-    GameObjects(gs, screen, inventory)
+
+    # Draw Inventory Window and Border
+    draw_inventory_window(gs, screen, game_objects)
+
+    # Draw Inventory Item
+    inventory.draw_items(gs, screen)
+
+    # Show Game Overlay
+    screen.blit(game_objects_on_screen(gs, game_objects), (0,0))
+
+    # Draw Game Text
     game_status_text(gs, screen)
+
+
 
     if gs.control_panel_on:
         cp.draw_control_panel(gs, screen)
         if cp.selected == 1:
             cp.draw_dots(gs, screen)
 
-    
-
-
 
     # Make the most recently drawn screen visible.
     pygame.display.flip()
+    clock.tick(60)
+
+def game_objects_on_screen(gs, game_objects):
+    screen_overlay = pygame.Surface((gs.gw_width, gs.gw_height), pygame.SRCALPHA)
+    #GameObjects(gs, screen, inventory)
+
+    pygame.draw.rect(screen_overlay, gs.silver, game_objects.inventory_window)
+    pygame.draw.rect(screen_overlay, gs.black, game_objects.inventory_window, 3)
+
+    # Draw Directions Windows
+    if gs.lights_on:
+        if not gs.room_view_drill_down: # Only shows if drill down is not current
+            ### Left
+            pygame.draw.rect(screen_overlay, gs.gray_transparent, game_objects.go_left)
+            ### Right
+            pygame.draw.rect(screen_overlay, gs.gray_transparent, game_objects.go_right)
+        else:
+            pygame.draw.rect(screen_overlay, gs.gray_transparent, game_objects.go_back)
+
+    return screen_overlay
+
+
+
+def draw_inventory_window(gs, screen, game_objects):
+    pygame.draw.rect(screen, gs.silver, game_objects.inventory_window)
+    pygame.draw.rect(screen, gs.black, game_objects.inventory_window, 3)
+
+    # Draw Bottom Black Border
+    pygame.draw.rect(screen, gs.black, game_objects.bottom_border)
+    #pygame.draw.rect(screen_overlay, gs.black, (0, 0, gs.screen_width, gs.screen_height), 3)
+
 
 def draw_item_to_screen(gs, screen, image, factor, x, y):
     """Function to pass item and draw to screen
@@ -362,21 +395,6 @@ def game_status_text(gs, screen):
     bti_rect = bottom_text_image.get_rect(center=(text_box_w, text_box_h))
 
     screen.blit(bottom_text_image, bti_rect)
-
-    """if gs.text != None and gs.text_seconds > 0:
-        time_stop = datetime.datetime.now()
-        print(time_stop)
-
-
-
-        
-
-        gs.text_seconds -= 1
-
-    else:
-        gs.text = None
-        gs.text_seconds = gs.default_seconds # will display text for this many iterations, then text will do away
-    """
 
 
 def get_game_clock(gs, screen):

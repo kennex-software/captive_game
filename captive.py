@@ -13,8 +13,9 @@ from pygame import FULLSCREEN
 from pygame.rect import Rect
 from steamworks import STEAMWORKS
 from OpenGL.GL import *
-#from OpenGL.GLU import *
-#from OpenGL.GLUT import *
+from OpenGL.GLU import *
+from OpenGL.GLUT import *
+import numpy as np
 
 
 """
@@ -28,8 +29,6 @@ steamworks = STEAMWORKS()
 steamworks.initialize()
 
 
-
-
 # Initialize pygame, settings, and screen object.
 pygame.mixer.pre_init(44100,-16,2, 2048)
 pygame.init()
@@ -38,12 +37,13 @@ clock = pygame.time.Clock()
 gs = Settings()
 
 #screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF)
-pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF | OPENGL) # Code to add OpenGL
+pygame.display.set_mode((gs.screen_width, gs.screen_height), OPENGL | DOUBLEBUF | HWSURFACE) # Code to add OpenGL
 pygame.display.init()
 info = pygame.display.Info()
 
 
 screen = pygame.Surface((info.current_w, info.current_h))  # Make 'Off-Screen' Pygame Surface
+screen_rect = screen.get_rect()
 
 pygame.display.set_caption("Captive | Kennex Software")
 icon = pygame.image.load('images/key_icon.ico') # should be 32 x 32
@@ -69,7 +69,7 @@ glMatrixMode(GL_MODELVIEW)
 glLoadIdentity()
 glShadeModel(GL_SMOOTH)
 glClearColor(0.0, 0.0, 0.0, 0.0)
-glClearDepth(1.0)
+glClearDepth(5.0)
 glDisable(GL_DEPTH_TEST)
 glDisable(GL_LIGHTING)
 glDepthFunc(GL_LEQUAL)
@@ -82,40 +82,45 @@ glEnable(GL_BLEND)
 ### every time.
 ### todo review this for optimization
 ###
+
+global texID
 texID = glGenTextures(1)
-def surfaceToTexture(pygame_surface):
-    global texID
-    rgb_surface = pygame.image.tostring(pygame_surface, 'RGB')
-    glBindTexture(GL_TEXTURE_2D, texID)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
-    surface_rect = pygame_surface.get_rect()
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, surface_rect.width, surface_rect.height, 0, GL_RGB, GL_UNSIGNED_BYTE, rgb_surface)
-    glGenerateMipmap(GL_TEXTURE_2D)
-    glBindTexture(GL_TEXTURE_2D, 0)
+
+# prepare to render the texture-mapped rectangle
+
+glLoadIdentity()
+glDisable(GL_LIGHTING)
+glDisable(GL_TEXTURE_1D)
+glDisable(GL_TEXTURE_3D)
+glEnable(GL_TEXTURE_2D)
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+
+glBindTexture(GL_TEXTURE_2D, texID)
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP)
+glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
+
 
 
 def open_gl_code_to_run(screen):
-    # prepare to render the texture-mapped rectangle
     glClearColor(0, 0, 0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-    glLoadIdentity()
-    glDisable(GL_LIGHTING)
-    glEnable(GL_TEXTURE_2D)
-    #glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-
-
-    # draw texture openGL Texture
-    surfaceToTexture( screen )
-    glBindTexture(GL_TEXTURE_2D, texID)
     glBegin(GL_QUADS)
     glTexCoord2f(0, 0); glVertex2f(-1, 1)
     glTexCoord2f(0, 1); glVertex2f(-1, -1)
     glTexCoord2f(1, 1); glVertex2f(1, -1)
     glTexCoord2f(1, 0); glVertex2f(1, 1)
     glEnd()
+
+    # draw texture openGL Texture
+    rgb_surface = pygame.image.tostring(screen, 'RGB')
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screen_rect.width, screen_rect.height, 0, GL_RGB, GL_UNSIGNED_BYTE, rgb_surface)
+    glGenerateMipmap(GL_TEXTURE_2D)
+    #glBindTexture(GL_TEXTURE_2D, 0)
+
+
 
 def fullscreen_fix(game_height):
     """ Sets full screen display mode and draws a square in the top left """
@@ -209,6 +214,7 @@ Gnarski
 BigHeadBrett
 Rappican
 Mr. Green
+Josh
 
 
 A Special Thanks To:
@@ -216,6 +222,7 @@ Takagism for making the Crimson Room
 No Starch Press for teaching me to code
 Tech With Tim for inspiring me to code
 Gramps for SteakworksPy
+Kingsley for OpenGL Support
 Happy Chuck Programming for help with Scrolling Text
 Ted Klein Bergman for help with the TV Static
 The Stackoverflow Community
@@ -228,8 +235,6 @@ Thank You For Playing.
 
 I hope you enjoyed the game as much as I
 enjoyed making it and learning how to code.
-
-
 
 
 
@@ -362,6 +367,7 @@ def title_menu():
 
 
             screen.blit(title_surface, (gs.screen_width//2, gs.screen_height//2))
+
 
 
         if seconds > 16:
@@ -853,13 +859,12 @@ def run_game():
     while gs.game_started:
         gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp, steamworks)
         open_gl_code_to_run(screen)
-        gf.update_screen(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp)
+        gf.update_screen(gs, screen, inventory, room_view, stable_item_blocks, cp, clock, game_objects)
 
 
         #if gs.sleeperticks:
         #    pygame.time.wait(100)  # Leave this at 100 or less
 
-        clock.tick(60)
         gf.clock_timer(gs)
 
     while gs.options_menu_up:

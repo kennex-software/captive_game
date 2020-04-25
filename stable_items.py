@@ -32,7 +32,6 @@ flip_page_sound = pygame.mixer.Sound('sounds/flip_page.wav')
 safe_init_sound = pygame.mixer.Sound('sounds/safe_init.wav')
 message_sound = pygame.mixer.Sound('sounds/message.wav')
 
-pygame.init()
 pygame.font.init()
 
 

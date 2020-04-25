@@ -28,15 +28,8 @@ safe_init_sound = pygame.mixer.Sound('sounds/safe_init.wav')
 safe_on_sound = pygame.mixer.Sound('sounds/safe_on.wav')
 tv_stand_open_sound = pygame.mixer.Sound('sounds/drawer_close.wav')
 
-
-pygame.init()
 pygame.font.init()
 clock = pygame.time.Clock()
-
-
-
-
-
 
 def draw_items_full(gs, screen, image, factor, x, y):
     """Function to pass item and draw to screen

@@ -73,7 +73,7 @@ shirt_sound = pygame.mixer.Sound('sounds/pick_shirt.wav')
 safe_door = pygame.mixer.Sound('sounds/safe_door.wav')
 tv_stand_open_sound = pygame.mixer.Sound('sounds/drawer_close.wav')
 
-pygame.init()
+
 pygame.font.init()
 
 
