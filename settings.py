@@ -14,7 +14,7 @@ class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Game Version
-        self.game_version = 'v 0.8.7'
+        self.game_version = 'v 0.8.8'
         self.start_game_from_load = False
         """
         People that want the game:
@@ -24,6 +24,9 @@ class Settings():
         
         
         Use this area to discuss version: 
+        -4/25/2020 -- Verizon 0.8.8 ---
+            -Got OpenGL corrected and no longer lagging.  Uses much less resources and things seem to work fairly well.
+                        
         -4/24/2020 -- Version 0.8.7 ---
             -Got Steam overlay working with OpenGL
             -Need to make OpenGL faster
@@ -76,11 +79,14 @@ class Settings():
         self.options_menu_up = False
         self.settings_menu_up = False
         self.quit_menu_up = False
-        self.fullscreen_checked = False
+        self.setting1_checked = False # 1440x960
+        self.setting2_checked = False # 1200x800
+        self.setting3_checked = False # Fullscreen
+
 
         # Screen Settings
-        self.screen_width = 1200 # 1440
-        self.screen_height = 800 # 960
+        self.screen_width = 1200 # 1440 // 1200
+        self.screen_height = 800 # 960  // 800
 
         # Alphabet List
         self.alphabet_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']

@@ -38,7 +38,7 @@ clock = pygame.time.Clock()
 gs = Settings()
 
 #screen = pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF)
-pygame.display.set_mode((gs.screen_width, gs.screen_height), OPENGL | DOUBLEBUF | HWSURFACE) # Code to add OpenGL
+pygame.display.set_mode((gs.screen_width, gs.screen_height), OPENGL | DOUBLEBUF | HWSURFACE)
 pygame.display.init()
 info = pygame.display.Info()
 
@@ -121,7 +121,7 @@ def total_time():
             screen.blit(text_image, (text_image_rect[0], 0+line_spacing))
             line_spacing += text_height
 
-        open_gl_code_to_run(screen)
+        tex_gl.update(screen_rect.width, screen_rect.height, tex_gl.screen_to_string(screen))
 
         # Update
         pygame.display.flip()
@@ -158,11 +158,12 @@ No Starch Press for teaching me to code
 Tech With Tim for inspiring me to code
 Gramps for SteakworksPy
 Kingsley for OpenGL Support
+NeHe for PyOpenGL Tutorial Lessons
 Happy Chuck Programming for help with Scrolling Text
 Ted Klein Bergman for help with the TV Static
-The Stackoverflow Community
+The StackOverflow Community
 The Python Community
-The Python Subreddits
+The Python Subeddits
 
 
 And a Big Thanks to YOU!
@@ -170,8 +171,6 @@ Thank You For Playing.
 
 I hope you enjoyed the game as much as I
 enjoyed making it and learning how to code.
-
-
 
 
 
@@ -244,7 +243,7 @@ CAPTIVE
             pass
 
 
-        open_gl_code_to_run(screen)
+        tex_gl.update(screen_rect.width, screen_rect.height, tex_gl.screen_to_string(screen))
 
 
         # Update
@@ -676,18 +675,24 @@ def settings_menu():
     b1_text_rect = b1_text.get_rect(center = button1.center)
     b2_text_rect = b2_text.get_rect(center = button2.center)
 
-    setting1_text = gs.cambria30.render('FULLSCREEN', True, gs.black)
-    #setting2_text = gs.cambria30.render('SETTING 2', True, gs.black)
-    #setting3_text = gs.cambria30.render('SETTING 3', True, gs.black)
+    setting1_text = gs.cambria30.render('1440 x 960', True, gs.black)
+    setting2_text = gs.cambria30.render('1200 x 800', True, gs.black)
+    setting3_text = gs.cambria30.render('FULLSCREEN', True, gs.black)
 
-    #setting1_text_rect = setting1_text.get_rect()
-    #setting2_text_rect = setting2_text.get_rect()
-    #setting3_text_rect = setting3_text.get_rect()
+    setting1_text_rect = setting1_text.get_rect()
+    setting2_text_rect = setting2_text.get_rect()
+    setting3_text_rect = setting3_text.get_rect()
 
-    settings1_checkbox = pygame.Rect(490, 376, setting1_text.get_height() - 10, setting1_text.get_height() - 10)
+    settings_checkbox1 = pygame.Rect(button1.centerx, gs.screen_height // 3 + button1.height // 2, setting1_text.get_height() - 10, setting1_text.get_height() - 10)
+    settings_checkbox2 = pygame.Rect(button1.centerx, settings_checkbox1.y + settings_checkbox1.height*2, setting2_text.get_height() - 10, setting2_text.get_height() - 10)
+    settings_checkbox3 = pygame.Rect(button1.centerx, settings_checkbox2.y + settings_checkbox2.height*2, setting3_text.get_height() - 10, setting3_text.get_height() - 10)
 
     settings_checkmark = gs.cambria24.render('X', True, gs.black)
-    settings_checkmark_rect = settings_checkmark.get_rect(center=settings1_checkbox.center)
+    settings_checkmark_rect = (0, 0)
+
+    under_construction = gs.cambria30.render("THIS DOESN'T WORK YET, STAY TUNED!", True, gs.red) # todo remove
+    under_construction_rect = under_construction.get_rect()
+    under_construction_rect.centerx = gs.screen_width//2 # todo remove
 
 
     while True:
@@ -704,14 +709,37 @@ def settings_menu():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     print(event.pos)
-                    if settings1_checkbox.collidepoint(event.pos):
-                        gs.fullscreen_checked = not gs.fullscreen_checked
+                    if settings_checkbox1.collidepoint(event.pos):
+                        gs.setting1_checked = not gs.setting1_checked
+                        settings_checkmark_rect = settings_checkmark.get_rect(center=settings_checkbox1.center)
+                        gs.setting2_checked = False
+                        gs.setting3_checked = False
+                    if settings_checkbox2.collidepoint(event.pos):
+                        gs.setting2_checked = not gs.setting2_checked
+                        settings_checkmark_rect = settings_checkmark.get_rect(center=settings_checkbox2.center)
+                        gs.setting1_checked = False
+                        gs.setting3_checked = False
+                    if settings_checkbox3.collidepoint(event.pos):
+                        gs.setting3_checked = not gs.setting3_checked
+                        settings_checkmark_rect = settings_checkmark.get_rect(center=settings_checkbox3.center)
+                        gs.setting1_checked = False
+                        gs.setting2_checked = False
                     if button1.collidepoint(event.pos):
                         print('save settings')
-                        if screen.get_flags() & FULLSCREEN and not gs.fullscreen_checked:
+                        if gs.setting1_checked:
+                            pass
+                            #gs.screen_width = 1440
+                            #gs.screen_height = 960
+                        if gs.setting2_checked:
+                            gs.screen_width = 1200
+                            gs.screen_height = 800
+                        if gs.setting3_checked:
+                            pass
+
+                        """if screen.get_flags() & FULLSCREEN and not gs.fullscreen_checked:
                             pygame.display.set_mode((gs.screen_width, gs.screen_height), HWSURFACE | DOUBLEBUF | OPENGL)
                         elif gs.fullscreen_checked:
-                            pygame.display.set_mode((gs.screen_width, gs.screen_height), FULLSCREEN | HWSURFACE | DOUBLEBUF | OPENGL)
+                            pygame.display.set_mode((gs.screen_width, gs.screen_height), FULLSCREEN | HWSURFACE | DOUBLEBUF | OPENGL)"""
 
 
                     if button2.collidepoint(event.pos):
@@ -719,33 +747,38 @@ def settings_menu():
                         if gs.options_menu_up:
                             options_menu()
                             gs.settings_menu_up = False
+                            gs.setting1_checked = False
+                            gs.setting2_checked = False
+                            gs.setting3_checked = False
+                            settings_checkmark_rect = (0, 0)
                         else:
                             game_menu()
                             gs.settings_menu_up = False
+                            gs.setting1_checked = False
+                            gs.setting2_checked = False
+                            gs.setting3_checked = False
+                            settings_checkmark_rect = (0, 0)
 
 
         screen.fill((gs.bg_color))
         screen.blit(game_version, (0,0))
-        screen.blit(game_title, (game_title_rect.x, 200))
+        screen.blit(game_title, (game_title_rect.x, gs.screen_height // 5))
 
-        pygame.draw.rect(screen, gs.white, settings1_checkbox)
-        pygame.draw.rect(screen, gs.black, settings1_checkbox, 2)
+        pygame.draw.rect(screen, gs.white, settings_checkbox1)
+        pygame.draw.rect(screen, gs.black, settings_checkbox1, 2)
 
+        pygame.draw.rect(screen, gs.white, settings_checkbox2)
+        pygame.draw.rect(screen, gs.black, settings_checkbox2, 2)
 
-
-
-        screen.blit(setting1_text, (530, 370))
-        #screen.blit(setting2_text, (490, 410))
-        #screen.blit(setting3_text, (490, 450))
-
+        pygame.draw.rect(screen, gs.white, settings_checkbox3)
+        pygame.draw.rect(screen, gs.black, settings_checkbox3, 2)
 
 
 
 
-
-
-
-
+        screen.blit(setting1_text, (settings_checkbox1.x + settings_checkbox1.width*2, settings_checkbox1.y - settings_checkbox1.height // 4))
+        screen.blit(setting2_text, (settings_checkbox2.x + settings_checkbox2.width*2, settings_checkbox2.y - settings_checkbox2.height // 4))
+        screen.blit(setting3_text, (settings_checkbox3.x + settings_checkbox3.width*2, settings_checkbox3.y - settings_checkbox3.height // 4))
 
 
         pygame.draw.rect(screen, button_color1, button1)
@@ -757,8 +790,9 @@ def settings_menu():
         screen.blit(b1_text, b1_text_rect)
         screen.blit(b2_text, b2_text_rect)
 
-        if gs.fullscreen_checked:
+        if gs.setting1_checked or gs.setting2_checked or gs.setting3_checked:
             screen.blit(settings_checkmark, settings_checkmark_rect)
+
 
         if button1.collidepoint(pygame.mouse.get_pos()):
             button_color1 = gs.dark_gray
@@ -769,6 +803,8 @@ def settings_menu():
         else:
             button_color1 = gs.gray
             button_color2 = gs.gray
+
+        screen.blit(under_construction, under_construction_rect) # todo remove this text
 
         tex_gl.update(screen_rect.width, screen_rect.height, tex_gl.screen_to_string(screen))
 
