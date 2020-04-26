@@ -91,6 +91,7 @@ class STEAMWORKS(object):
         self._loaded 	= True
 
         self._load_steamworks_api()
+
         return self._loaded
 
 

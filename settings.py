@@ -14,7 +14,7 @@ class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Game Version
-        self.game_version = 'v 0.8.8'
+        self.game_version = 'v 0.8.8.1'
         self.start_game_from_load = False
         """
         People that want the game:
@@ -24,6 +24,10 @@ class Settings():
         
         
         Use this area to discuss version: 
+        -4/26/2020 -- Version 0.8.8.1 ---
+            -Got Steam Achievements Working.  Need to make a full list and get them more working in the game.
+            -Need to figure out Stats also
+            
         -4/25/2020 -- Verizon 0.8.8 ---
             -Got OpenGL corrected and no longer lagging.  Uses much less resources and things seem to work fairly well.
                         
@@ -82,11 +86,14 @@ class Settings():
         self.setting1_checked = False # 1440x960
         self.setting2_checked = False # 1200x800
         self.setting3_checked = False # Fullscreen
+        #self.achievement_list = []
+        #self.achievement_list = [b'ACH_COLLECT', b'ACH_CREDITS', b'ACH_DR', b'ACH_EGG', b'ACH_EXIT_ONEHOUR', b'ACH_EXIT_TEN', b'ACH_EXIT_TWOHOUR', b'ACH_F', b'ACH_OPEN', b'ACH_PT', b'ACH_STAY', b'ACH_WINDOW']
 
 
         # Screen Settings
-        self.screen_width = 1200 # 1440 // 1200
-        self.screen_height = 800 # 960  // 800
+        self.screen_width = 1440 # 1440 // 1200
+        self.screen_height = 960 # 960  // 800
+        self.screen_rect_all = None
 
         # Alphabet List
         self.alphabet_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']

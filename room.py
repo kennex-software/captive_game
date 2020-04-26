@@ -3,6 +3,7 @@
 import pygame#, os, sys, copy, datetime
 #from settings import Settings
 import gf
+import check_steam
 import inventory
 #import objects
 #from stable_items import Stable_Items
@@ -363,9 +364,7 @@ class Room():
                 gs.tv_on = False
                 gs.tv_stand_egg_found_text_var = False
             gs.moveable_items_index_list.append(7)
-            if not steamworks.UserStats.GetAchievement('ACH_EGG'):
-                steamworks.UserStats.SetAchievement('ACH_EGG')
-                print("Easter Egg Achievement Unlocked")
+            check_steam.check_set_achievement(steamworks, b'ACH_EGG') # Easter Egg Achievement
 
     def click_hole_in_floor(self, gs, event):
         # function to be able to connect camera cable power cord
@@ -1203,9 +1202,7 @@ class Room():
             gs.text = "I opened the door! I'm free... I think..."
             pygame.mixer.Sound.play(door_open_sound)
             gs.door_opened = True
-            if not steamworks.UserStats.GetAchievement('ACH_OPEN'):
-                steamworks.UserStats.SetAchievement('ACH_OPEN')
-                print("Door Opened Achievement Unlocked")
+            check_steam.check_set_achievement(steamworks, b'ACH_OPEN') # Door Opened Achievement
 
         elif self.door_handle_rect.collidepoint(event.pos) or self.main_door.collidepoint(event.pos) and gs.door_locked == True and not gs.door_opened:
             gs.text = 'The door is locked...'
@@ -1216,9 +1213,7 @@ class Room():
         if gf.check_inside_clickbox(self, self.opened_door, ((event.pos), (0, 0))):
             pygame.mixer.Sound.play(door_close_sound)
             gs.door_opened = False
-            if not steamworks.UserStats.GetAchievement('ACH_STAY'):
-                steamworks.UserStats.SetAchievement('ACH_STAY')
-                print("Social Distancing Achievement Unlocked")
+            check_steam.check_set_achievement(steamworks, b'ACH_STAY') # Social Distancing Achievement
 
     def move_between_views(self, gs, screen, game_objects, stable_item_blocks, event):
         """Moves player between the various views based on the side that they clicked"""
@@ -1276,9 +1271,7 @@ class Room():
                 gs.text = "It is a city skyline? It's clear this is not real..."
                 gs.room_view_drill_down = 2.1
                 #gs.current_room_view = 4.21
-                if not steamworks.UserStats.GetAchievement('ACH_WINDOW'):
-                    steamworks.UserStats.SetAchievement('ACH_WINDOW')
-                    print("Bird Watcher Achievement Unlocked")
+                check_steam.check_set_achievement(steamworks, b'ACH_WINDOW') # Bird Watcher Achievement
 
 
     def open_drawers(self, gs, screen, game_objects, event):
@@ -1385,9 +1378,9 @@ class Room():
                 gs.text = 'The light turned off...'
             elif not gs.lights_on and gs.lights_beginning: # todo add achievement - light swtich - participation trophy
                 gs.text = "I turned on the light switch!  I need to get out of here..."
-                if not steamworks.UserStats.GetAchievement('ACH_PT'):
-                    steamworks.UserStats.SetAchievement('ACH_PT')
-                    print("Participation Trophy Achievement Unlocked")
+
+                check_steam.check_set_achievement(steamworks, b'ACH_PT') # Participation Trophy Achievement
+                        
                 gs.lights_beginning = False
             elif not gs.lights_on and not gs.lights_beginning:
                 gs.text = "I turned on the light switch!"

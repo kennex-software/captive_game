@@ -8,16 +8,14 @@ import puzzles
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
+import check_steam
 
 
 
 pygame.font.init()
-
 root = tk.Tk()
 root.wm_attributes('-topmost', 1)
 root.withdraw()
-
-
 
 
 def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp, steamworks):
@@ -132,10 +130,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                         gs.quit_menu_up = False
             if event.key == pygame.K_f:
                 if gs.current_channel == 'F' and gs.tv_on:
-                    if not steamworks.UserStats.GetAchievement('ACH_F'):
-                        steamworks.UserStats.SetAchievement('ACH_F')
-                        print("Respects Achievement Unlocked")
-                        print('F') #todo add achievement
+                    check_steam.check_set_achievement(steamworks, b'ACH_F') # Respects Achievement
 
 
 
@@ -918,6 +913,8 @@ def scrolling_credits(gs, screen, credits_full, scrolling_centerx, scrolling_cen
 
     for i in range(line_spacing):
         screen.blit(credits_list[i], position_list[i])
+
+
 
 
 
