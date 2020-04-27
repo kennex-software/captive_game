@@ -91,10 +91,12 @@ class Inventory():
         self.gs = gs
         self.room_view = room_view
 
+        inv_height_var = int(gs.screen_height // 12.3)
+
         # Range of inventory list | Need to figure out and fix the height variables        here V   and    here V
         for y in range(8):
-            inv_items_spaces.append(pygame.Rect(gs.sidebar_x+gs.item_offset_w, gs.item_offset_h+65*y, gs.inv_item_w, gs.inv_item_h))
-            inv_items_stable.append(pygame.Rect(gs.inv_item_w+gs.sidebar_x+gs.item_offset_w*2, gs.item_offset_h+65*y, gs.inv_item_w, gs.inv_item_h))
+            inv_items_spaces.append(pygame.Rect(gs.sidebar_x+gs.item_offset_w, gs.item_offset_h+ inv_height_var *y, gs.inv_item_w, gs.inv_item_h))
+            inv_items_stable.append(pygame.Rect(gs.inv_item_w+gs.sidebar_x+gs.item_offset_w*2, gs.item_offset_h+ inv_height_var *y, gs.inv_item_w, gs.inv_item_h))
 
         # End Range of Inventory List ###############################
         

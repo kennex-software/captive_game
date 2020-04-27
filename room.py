@@ -553,7 +553,7 @@ class Room():
         if gs.stable_item_opened:
             self.find_stable_item_opened(gs, screen, stable_item_blocks)
 
-    def safe_controls(self, gs, screen, event):
+    def safe_controls(self, gs, screen, event, steamworks):
         if gs.safe_uncovered:
             if gs.safe_on:
                 gs.text = 'The safe is on!'
@@ -565,10 +565,12 @@ class Room():
                     gs.text = 'WOW! I opened the safe!'
                     if not gs.door_key_found:
                         if self.door_key_clicker.collidepoint(event.pos):
+                            check_steam.check_set_achievement(steamworks, b'ACH_GOLD') # Social Distancing Achievement
                             pygame.mixer.Sound.play(key_sound)
                             gs.text = 'I found a gold key!'
                             gs.door_key_found = True
                             gs.moveable_items_index_list.append(0)
+
                     if gf.check_inside_clickbox(self, self.safe_door, ((event.pos), (0, 0))):
                         pygame.mixer.Sound.play(safe_door)
                         gs.safe_opened = False
@@ -1035,10 +1037,6 @@ class Room():
         pygame.draw.line(screen, gs.black, self.front_tv_stand.bottomleft, self.back_tv_stand.bottomleft, 3)
         pygame.draw.line(screen, gs.black, self.front_tv_stand.bottomright, self.back_tv_stand.bottomright, 3)
 
-
-
-
-
         pygame.draw.rect(screen, gs.black, (120, 530, 620, 100), 3) # Overall Border
 
 
@@ -1196,13 +1194,12 @@ class Room():
             gs.drill_possible = True
             self.room_view_four(gs, screen, stable_item_blocks)
 
-    def open_door(self, gs, event, steamworks):
+    def open_door(self, gs, event):
         """Unlocks the door to finish / win the game"""
         if self.door_handle_rect.collidepoint(event.pos) and gs.door_locked == False and not gs.door_opened:
             gs.text = "I opened the door! I'm free... I think..."
             pygame.mixer.Sound.play(door_open_sound)
             gs.door_opened = True
-            check_steam.check_set_achievement(steamworks, b'ACH_OPEN') # Door Opened Achievement
 
         elif self.door_handle_rect.collidepoint(event.pos) or self.main_door.collidepoint(event.pos) and gs.door_locked == True and not gs.door_opened:
             gs.text = 'The door is locked...'
@@ -1213,6 +1210,7 @@ class Room():
         if gf.check_inside_clickbox(self, self.opened_door, ((event.pos), (0, 0))):
             pygame.mixer.Sound.play(door_close_sound)
             gs.door_opened = False
+            gs.leave = False
             check_steam.check_set_achievement(steamworks, b'ACH_STAY') # Social Distancing Achievement
 
     def move_between_views(self, gs, screen, game_objects, stable_item_blocks, event):
@@ -1274,7 +1272,7 @@ class Room():
                 check_steam.check_set_achievement(steamworks, b'ACH_WINDOW') # Bird Watcher Achievement
 
 
-    def open_drawers(self, gs, screen, game_objects, event):
+    def open_drawers(self, gs, screen, game_objects, event, steamworks):
         """Opens drawers (file cabinets and desk drawers when the user clicks them"""
         
         # File Cabinets
@@ -1321,6 +1319,9 @@ class Room():
                         pygame.mixer.Sound.play(drawer_open_sound)
                         gs.dd3_open_attempts += 1
                         gs.dd3_opened = True
+                        if gs.dd3_open_attempts == 4:
+                            print('hit this spot1')
+                            check_steam.check_set_achievement(steamworks, b'ACH_DR') # Participation Trophy Achievement
 
                     else:
                         gs.text = 'This drawer is locked.'
@@ -1330,6 +1331,9 @@ class Room():
                             pygame.mixer.Sound.play(drawer_open_sound)
                             gs.dd3_opened = True
                             gs.dd3_open_attempts += 1
+                            if gs.dd3_open_attempts == 4:
+                                print('hit this spot2')
+                                check_steam.check_set_achievement(steamworks, b'ACH_DR') # Participation Trophy Achievement
                     else:
                         gs.text = 'This drawer is locked.'
 

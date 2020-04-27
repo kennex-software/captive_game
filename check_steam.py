@@ -10,6 +10,7 @@ def create_steam_achievements_list(gs, steamworks):
     achievement_range = steamworks.UserStats.GetNumAchievements()
     for index, achievement in enumerate(range(achievement_range)):
         gs.achievement_list.append(steamworks.UserStats.GetAchievementName(achievement))
+    print(gs.achievement_list)
 
 def check_set_achievement(steamworks, achievement_id):
     """Function to check achievement and set it achieved"""

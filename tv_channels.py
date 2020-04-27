@@ -6,6 +6,7 @@ import numpy as np
 #import room
 import random
 import gf
+import check_steam
 
 ws_cnt = 0
 
@@ -503,6 +504,7 @@ def tv_channels(gs, screen):
         screen.blit(text_image, text_rect)
         if gs.current_room_view == 1:
             gs.text = 'I DO LIKE BUTTONS! HAHA!'
+
 
     elif gs.current_channel == str(181161693114): # This spells "RAPPICAN" if you put 1-26 next to the alphabet
         if gs.current_room_view == 1:

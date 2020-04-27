@@ -38,7 +38,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                     room_view.drill_down_views(gs, screen, game_objects, event, steamworks)
 
                                 if gs.current_room_view == 0:   # Default View
-                                    room_view.open_door(gs, event, steamworks)
+                                    room_view.open_door(gs, event)
                                     room_view.click_tv(gs, event, game_objects)
                                     room_view.click_trash_can(gs, event)
                                     if gs.door_opened:
@@ -48,6 +48,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                                 gs.won_game = True
                                                 gs.end_time = get_game_clock(gs, screen)
                                                 gs.game_started = False
+                                                check_steam.check_set_achievement(steamworks, b'ACH_EXIT_ONE') # Door Opened Achievement
                                             else:
                                                 gs.leave = True
 
@@ -56,7 +57,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                         room_view.click_power_cord(gs, event)
 
                                 if gs.current_room_view == -1:  # Left from default
-                                    room_view.open_drawers(gs, screen, game_objects, event) # See open drawers for click events
+                                    room_view.open_drawers(gs, screen, game_objects, event, steamworks) # See open drawers for click events
                                     room_view.click_desk_wall_outlet(gs, event)
                                     if gs.power_cord_desk_1 and not gs.power_cord_desk_2:
                                         room_view.pick_power_cord_desk(gs, event)
@@ -83,7 +84,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                             room_view.click_shirt(gs, event)
                                     if gs.room_view_drill_down == 1:
                                         #if gs.safe_uncovered: # Function when safe is uncovered
-                                        room_view.safe_controls(gs, screen, event)
+                                        room_view.safe_controls(gs, screen, event, steamworks)
                                         if not gs.papers_found: # Function to click papers when they're not found
                                             room_view.click_papers(gs, event)
 
@@ -92,7 +93,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                             if gs.red_book_opened or gs.blue_book_opened:
                                 stable_item_blocks.change_manual_pages(gs, event)
                             if gs.remote_opened:
-                                stable_item_blocks.remote_buttons_clicked(gs, event)
+                                stable_item_blocks.remote_buttons_clicked(gs, event, steamworks)
                             if gs.papers_opened:
                                 stable_item_blocks.change_papers(gs, event)
                             if gs.shirt_opened:
@@ -111,11 +112,14 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
 
                 print("Click Position: " + str(event.pos))
-                print(str(event.pos))
+                #print(str(event.pos))
+                gs.game_clicks += 1
+                #print(gs.game_clicks)
 
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 inventory.deselect_items(gs, event)
+
         elif event.type == pygame.MOUSEMOTION:
             inventory.item_grabbed(gs, event)
         elif event.type == pygame.KEYDOWN:
@@ -410,6 +414,7 @@ def update_settings_dictionary(gs):
     """Function to update the settings dictionary."""
     gs.settings_dictionary = {
                                 'new_game': gs.new_game,
+                                'game_clicks': gs.game_clicks,
                                 'text': gs.text,
                                 'leave': gs.leave,
                                 'current_text': gs.current_text,
@@ -533,6 +538,7 @@ def update_settings_dictionary(gs):
 def update_settings_from_save_file(gs):
     """Function to update settings from a save file."""
     gs.new_game = gs.settings_dictionary['new_game']
+    gs.game_clicks = gs.settings_dictionary['game_clicks']
     gs.text = gs.settings_dictionary['text']
     gs.leave = gs.settings_dictionary['leave']
     gs.current_text = gs.settings_dictionary['current_text']
@@ -708,6 +714,7 @@ def default_settings(gs):
     gs.game_ended = False
     gs.leave = False
     gs.text = None
+    gs.game_clicks = 0
     gs.current_text = None
     gs.frame_rate = 60
     gs.game_start_time = None
@@ -913,6 +920,7 @@ def scrolling_credits(gs, screen, credits_full, scrolling_centerx, scrolling_cen
 
     for i in range(line_spacing):
         screen.blit(credits_list[i], position_list[i])
+
 
 
 

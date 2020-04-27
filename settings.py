@@ -86,14 +86,16 @@ class Settings():
         self.setting1_checked = False # 1440x960
         self.setting2_checked = False # 1200x800
         self.setting3_checked = False # Fullscreen
-        #self.achievement_list = []
-        #self.achievement_list = [b'ACH_COLLECT', b'ACH_CREDITS', b'ACH_DR', b'ACH_EGG', b'ACH_EXIT_ONEHOUR', b'ACH_EXIT_TEN', b'ACH_EXIT_TWOHOUR', b'ACH_F', b'ACH_OPEN', b'ACH_PT', b'ACH_STAY', b'ACH_WINDOW']
+        self.achievement_list = []
+        #self.achievement_list = [b'ACH_BUTTONS', b'ACH_COLLECT', b'ACH_CREDITS', b'ACH_DR', b'ACH_EGG', b'ACH_EXIT_FIVE', b'ACH_EXIT_ONE', b'ACH_EXIT_ONEHOUR', b'ACH_EXIT_TEN', b'ACH_EXIT_TWOHOUR', b'ACH_F', b'ACH_GOLD', b'ACH_PT', b'ACH_STAY', b'ACH_WINDOW']
 
 
         # Screen Settings
         self.screen_width = 1440 # 1440 // 1200
         self.screen_height = 960 # 960  // 800
         self.screen_rect_all = None
+
+
 
         # Alphabet List
         self.alphabet_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -212,12 +214,16 @@ class Settings():
 
         self.game_started = False
         self.game_ended = False
+        self.clicked_credits = False
 
         # ----------------------------------------------------------------------------------------------------------
         # All Variable Settings that need to be saved and reset
 
         # Game
         self.new_game = True
+
+        # Count Clicks
+        self.game_clicks = 0
 
         # Text
         self.text = None
@@ -246,7 +252,7 @@ class Settings():
         self.red_key_found = False # Default = False
         self.purple_key_found = False # Default = False
         self.green_key_found = False # Default = False
-        self.remote_found = True # Default = False todo make false
+        self.remote_found = False # Default = False todo make false
         self.batteries_found = False # Default = False
         self.power_cord_found = False # Default = False
         self.papers_found = False # Default = False
@@ -282,7 +288,7 @@ class Settings():
         # Remote Settings
         self.remote_opened = False  # Default = False
         self.close_remote = False  # Default = False
-        self.batteries_input = True  # Default = False # todo change to false
+        self.batteries_input = False  # Default = False # todo change to false
         self.button_input_list = []
         self.entered_buttons = None
         self.muted = False
@@ -323,7 +329,7 @@ class Settings():
 
         # Default room view
         self.fourth_wall = False  # Default = False
-        self.current_room_view = 1
+        self.current_room_view = 0
         
         # Default Drill Down Room Views
         self.drill_possible = False  # Default = False

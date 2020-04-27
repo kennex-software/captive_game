@@ -85,6 +85,23 @@ glDepthFunc(GL_LEQUAL)
 glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
 glEnable(GL_BLEND)
 
+# Optional Steam Commands ** Warning - Testing Only # todo turn this off
+check_steam.create_steam_achievements_list(gs, steamworks)
+steamworks.UserStats.ResetAllStats(b'ACH_PT') # Tested and Working
+steamworks.UserStats.ResetAllStats(b'ACH_GOLD')
+steamworks.UserStats.ResetAllStats(b'ACH_EXIT_TEN')
+steamworks.UserStats.ResetAllStats(b'ACH_EXIT_ONEHOUR')
+steamworks.UserStats.ResetAllStats(b'ACH_EXIT_TWOHOUR')
+steamworks.UserStats.ResetAllStats(b'ACH_WINDOW') # Tested and Working
+steamworks.UserStats.ResetAllStats(b'ACH_COLLECT')
+steamworks.UserStats.ResetAllStats(b'ACH_DR') # Tested and Working
+steamworks.UserStats.ResetAllStats(b'ACH_CREDITS') # Tested and Working
+steamworks.UserStats.ResetAllStats(b'ACH_STAY') # Tested and Working
+steamworks.UserStats.ResetAllStats(b'ACH_EGG') # Tested and Working
+steamworks.UserStats.ResetAllStats(b'ACH_F') # Tested and Working
+steamworks.UserStats.ResetAllStats(b'ACH_BUTTONS') # Tested and Working
+steamworks.UserStats.ResetAllStats(b'ACH_EXIT_ONE')
+steamworks.UserStats.ResetAllStats(b'ACH_EXIT_FIVE')
 
 
 def total_time():
@@ -93,6 +110,9 @@ def total_time():
     while True:
 
         screen.fill((gs.white))
+        if gs.clicked_credits == False:
+            check_steam.check_set_achievement(steamworks, b'ACH_CREDITS') # Easter Egg Achievement
+
         # Events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -104,6 +124,8 @@ def total_time():
         display_text = ['YOUR ESCAPE TIME:',
                         '',
                         str(gs.end_time),
+                        '',
+                        'IN ' + str(gs.game_clicks) + ' CLICKS',
                         '',
                         '',
                         'CLICK TO CONTINUE']
@@ -160,13 +182,13 @@ Happy Chuck Programming for help with Scrolling Text
 Ted Klein Bergman for help with the TV Static
 The StackOverflow Community
 The Python Community
-The Python Subeddits
+The Python Subreddits
 
 
 And a Big Thanks to YOU!
 Thank You For Playing.
 
-I hope you enjoyed the game as much as I
+I hope you enjoyed playing the game as much as I
 enjoyed making it and learning how to code.
 
 
@@ -189,6 +211,7 @@ CAPTIVE
                 sys.exit()
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
+                    gs.clicked_credits = True
                     if not run_tbc:
                         run_credits = False
                         pygame.time.wait(1000)
@@ -331,8 +354,6 @@ def game_menu():
     button5 = button4.move(button4.width + 30, 0)
 
     gs.new_game = True
-
-    print(steamworks.UserStats.GetAchievement('ACH_PT'))
 
     while True:
         # Events
@@ -821,6 +842,9 @@ def run_game():
         gs.text = "What the...?  Where am I?"
         gs.game_start_time = pygame.time.get_ticks()
         gs.new_game = False
+        gs.safe_opened = True
+        gs.safe_uncovered = True
+        gs.safe_on = True
         print('starting completely new game')
     else:
         gs.game_start_time = pygame.time.get_ticks()

@@ -8,6 +8,7 @@ import multiline_text as mt
 import random
 from settings import Settings
 import inventory
+import check_steam
 #import tv_channels
 
 i_enlarged_remote = 'images/remote_enlarged.png'
@@ -521,7 +522,7 @@ class Stable_Items():
             gs.remote_opened = False
             gs.stable_item_opened = False
 
-    def remote_buttons_clicked(self, gs, event):
+    def remote_buttons_clicked(self, gs, event, steamworks):
         """Function to change the TV screen when remote can be opened as well as close the remote"""
         if gs.batteries_input:
             for box in self.remote_square_buttons_clickbox:
@@ -587,6 +588,7 @@ class Stable_Items():
                                 gs.muted = False
                         elif box_index == 21:  # Central Play
                             self.remote_entry(gs)
+                            self.check_channel_achievements(gs, steamworks)
 
                         elif box_index == 22:  # Top Arrow
                             gs.button_input_list.append(box_index)
@@ -625,6 +627,10 @@ class Stable_Items():
         else:
             gs.current_channel = 'INVALID'
             gs.button_input_list.clear()
+
+    def check_channel_achievements(self, gs, steamworks):
+        if gs.current_channel == '1234567890F':
+            check_steam.check_set_achievement(steamworks, b'ACH_BUTTONS') # Social Distancing Achievement
 
     def remote_entry(self, gs):
         temp_channel = []
