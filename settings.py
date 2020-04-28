@@ -158,12 +158,30 @@ class Settings():
         #self.clock_box_h = ((self.screen_height - self.gw_height) * 2)
         #self.clock_box_y = self.screen_height - self.clock_box_h
 
+        # Line Calculations
+        # Room View 3 (TV Stand)
+        self.r3_line_x2 = 1070 # Standard size for 1200 W // Will change if run at 1440 W
+        self.r3_line_y2 = 750 # Standard size for 1200 W // Will change if run at 1440 W
+
+        self.r3_1_line_x2 = 1093 # Standard size for 1200 W // Will change if run at 1440 W
+        self.r3_1_line_y2 = 740 # Standard size for 1200 W // Will change if run at 1440 W
+
+        self.r4_1_line_x2 = 1074 # Standard size for 1200 W // Will change if run at 1440 W
+        self.r4_1_line_y2 = 741 # Standard size for 1200 W // Will change if run at 1440 W
+
+
+
+
+
+
         # Inventory Area Settings
         self.inventory_h = self.screen_height #- self.clock_box_h
         self.inv_item_w = self.sidebar_w / 2 * .8
         self.inv_item_h = self.sidebar_w / 2 * .8
         self.item_offset_w = self.gw_border * 2
         self.item_offset_h = self.gw_border * 2.5
+
+        self.full_game_window_height = self.gw_height + (self.gw_border * 3)
 
         # Textbox Area Settings
         self.text_box_w = self.gw_width

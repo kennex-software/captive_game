@@ -212,6 +212,8 @@ class Room():
 
 
 
+
+
         """
         # Door Key
         self.door_key_rotated_full_rect = door_key_rotated.get_rect()
@@ -385,13 +387,16 @@ class Room():
         screen.fill(gs.bg_color)
 
         # Carpet
-        pygame.draw.polygon(screen, gs.carpet, ((0, 460), (680, 460), (1093, 740), (0, 740)))
-        
+        if gs.screen_width == 1440:
+            pygame.draw.polygon(screen, gs.carpet, ((0, 460), (680, 460), (gs.r3_1_line_x2, gs.r3_1_line_y2), (gs.r3_1_line_x2, gs.full_game_window_height), (0, gs.full_game_window_height), ))
+        else:
+            pygame.draw.polygon(screen, gs.carpet, ((0, 460), (680, 460), (gs.r3_1_line_x2, gs.r3_1_line_y2), (0, gs.r3_1_line_y2)))
+
         # Lines
-        pygame.draw.line(screen, gs.black, (360, 460), (680, 460), 5)
-        pygame.draw.line(screen, gs.black, (680, 460), (680, 0), 5)
-        pygame.draw.line(screen, gs.black, (680, 460), (1093, 740), 5)
-        
+        pygame.draw.line(screen, gs.black, (360, 460), (680, 460), 5) # Horizontal Line
+        pygame.draw.line(screen, gs.black, (680, 460), (680, 0), 5) # Vertical Line
+        pygame.draw.line(screen, gs.black, (680, 460), (gs.r3_1_line_x2, gs.r3_1_line_y2), 5) # Angled Line
+
         # TV Stand
         pygame.draw.polygon(screen, gs.wood, ((360, 465), (230, 686), (-3, 686), (-3, 80), (230, 80), (360, 170)))
         pygame.draw.polygon(screen, gs.black, ((360, 465), (230, 686), (-3, 686), (-3, 80), (230, 80), (360, 170)), 3)
@@ -422,9 +427,9 @@ class Room():
         screen.fill(gs.door)
         
         # Lines
-        pygame.draw.line(screen, gs.black, (876, 508), (1074, 741), 5)
-        pygame.draw.line(screen, gs.black, (876, 508), (0, 508), 5)
-        pygame.draw.line(screen, gs.black, (876, 508), (876, 0), 5)
+        pygame.draw.line(screen, gs.black, (876, 508), (gs.r4_1_line_x2, gs.r4_1_line_y2), 5) # Angled Line
+        pygame.draw.line(screen, gs.black, (876, 508), (0, 508), 5) # Horizontal Line
+        pygame.draw.line(screen, gs.black, (876, 508), (876, 0), 5) # Vertical Line
 
         if gs.safe_uncovered:  # Safe is covered by a panel that requires a screwdriver to take off
 
@@ -650,7 +655,7 @@ class Room():
         pygame.draw.rect(screen, gs.black, self.e_window, 3)
         
         # Lines
-        pygame.draw.line(screen, gs.black, (40, 0), (40, 741), 5)
+        pygame.draw.line(screen, gs.black, (40, 0), (40, gs.full_game_window_height), 5)
 
         # Required in all views if items are opened during the view.
         if gs.stable_item_opened:
@@ -676,8 +681,8 @@ class Room():
         pygame.draw.circle(screen, gs.black, self.can_opening_rect.center, 250, 3)
         pygame.draw.circle(screen, gs.brown, self.can_opening_rect.center, 149)
         pygame.draw.circle(screen, gs.black, self.can_opening_rect.center, 150, 3)
-        pygame.draw.rect(screen, gs.bg_color, (0, 0, 1190, 84))
-        pygame.draw.line(screen, gs.black, (0, 84), (1190, 84), 5)
+        pygame.draw.rect(screen, gs.bg_color, (0, 0, gs.gw_width, 84))
+        pygame.draw.line(screen, gs.black, (0, 84), (gs.gw_width, 84), 5)
 
         # Draw Laying Power Cord
         if not gs.power_cord_found:
@@ -704,7 +709,7 @@ class Room():
 
 
             # Carpet
-            pygame.draw.polygon(screen, gs.carpet, ((0, 725), (330, 600), (1070, 600), (1070, 735), (0, 735)))
+            pygame.draw.polygon(screen, gs.carpet, ((0, gs.full_game_window_height), (0, 725), (330, 600), (gs.gw_width, 600), (gs.gw_width, gs.full_game_window_height)))
 
             # Light Switch            
             pygame.draw.rect(screen, gs.off_white, self.light_switch) # light switch body
@@ -750,8 +755,8 @@ class Room():
                 pygame.draw.circle(screen, gs.black, (585, 390), 4, 1)
             
             # TV Stand
-            pygame.draw.polygon(screen, gs.wood, ((900, 500), (870, 530), (1070, 530), (1070, 500)))
-            pygame.draw.polygon(screen, gs.black, ((900, 500), (870, 530), (1070, 530), (1070, 500)), 3)
+            pygame.draw.polygon(screen, gs.wood, ((900, 500), (870, 530), (gs.gw_width, 530), (gs.gw_width, 500)))
+            pygame.draw.polygon(screen, gs.black, ((900, 500), (870, 530), (gs.gw_width, 530), (gs.gw_width, 500)), 3)
             pygame.draw.rect(screen, gs.wood, (870, 530, 620, 100))
             pygame.draw.rect(screen, gs.dark_wood, (870, 540, 600, 80))
             pygame.draw.rect(screen, gs.black, self.front_tv_stand_rv1, 3)
@@ -805,19 +810,16 @@ class Room():
 
     def room_view_two(self, gs, screen, stable_item_blocks):  # View with desk / File cabinet
         # Carpet
-        pygame.draw.polygon(screen, gs.carpet, ((0, 735), (160, 600), (1075, 600), (1075, 735)))
+        pygame.draw.polygon(screen, gs.carpet, ((0, gs.full_game_window_height), (0, 735), (160, 600), (gs.gw_width, 600), (gs.gw_width, gs.full_game_window_height)))
         
         # Lines
-        pygame.draw.line(screen, gs.black, (0, 735), (160, 600), 5)
-        pygame.draw.line(screen, gs.black, (160, 600), (160,0), 5)
-        pygame.draw.line(screen, gs.black, (160, 600), (1075, 600), 5)
+        pygame.draw.line(screen, gs.black, (0, 735), (160, 600), 5) # Angled Line
+        pygame.draw.line(screen, gs.black, (160, 600), (160, 0), 5) # Vertical Line
+        pygame.draw.line(screen, gs.black, (160, 600), (gs.gw_width, 600), 5) # Back Horizontal Line
         
         # Desk 
         pygame.draw.polygon(screen, gs.wood, ((168, 420), (84, 474), (84, 670), (275, 670), (323, 600), (323, 515), (638, 515), (638, 600), (678, 670), (690, 670), (690, 474), (657, 420)))
         pygame.draw.polygon(screen, gs.black, ((168, 420), (84, 474), (84, 670), (275, 670), (323, 600), (323, 515), (638, 515), (638, 600), (678, 670), (690, 670), (690, 474), (657, 420)), 3)
-        
-
-
         pygame.draw.line(screen, gs.black, (275, 670), (275, 515), 3)
         pygame.draw.line(screen, gs.black, (275, 515), (678, 515), 3)
         pygame.draw.line(screen, gs.black, (678, 515), (678, 670), 3)
@@ -1019,12 +1021,12 @@ class Room():
     
     def room_view_three(self, gs, screen, stable_item_blocks):  # View with TV / TV Stand
         #Carpet
-        pygame.draw.polygon(screen, gs.carpet, ((0, 600), (770, 600), (1050, 738), (0, 738), (0,600)))
+        pygame.draw.polygon(screen, gs.carpet, ((0, gs.full_game_window_height), (0, 600), (770, 600), (gs.r3_line_x2, gs.r3_line_y2), (gs.r3_line_x2, gs.full_game_window_height), (0, gs.full_game_window_height)))
         
         # Lines
-        pygame.draw.line(screen, gs.black, (0, 600), (770, 600), 5)
-        pygame.draw.line(screen, gs.black, (770, 600), (1070, 750), 5)
-        pygame.draw.line(screen, gs.black, (770, 600), (770, 0), 5)
+        pygame.draw.line(screen, gs.black, (0, 600), (770, 600), 5) # Horizontal Line
+        pygame.draw.line(screen, gs.black, (770, 600), (gs.r3_line_x2, gs.r3_line_y2), 5) # Angled Line
+        pygame.draw.line(screen, gs.black, (770, 600), (770, 0), 5) # Vertical Line
         
         # TV Stand
         pygame.draw.polygon(screen, gs.wood, ((150, 500), (120, 530), (740, 530), (710, 500)))
@@ -1097,12 +1099,12 @@ class Room():
 
     def room_view_four(self, gs, screen, stable_item_blocks):  # View with closet / window
         # Carpet
-        pygame.draw.polygon(screen, gs.carpet, ((0, 810), (0, 725), (490, 600), (1075, 600), (1075, 810)))
+        pygame.draw.polygon(screen, gs.carpet, ((0, gs.full_game_window_height), (0, 725), (490, 600), (gs.gw_width, 600), (gs.gw_width, gs.full_game_window_height)))
         
         # Lines
-        pygame.draw.line(screen, gs.black, (0, 725), (490, 600), 5)
-        pygame.draw.line(screen, gs.black, (490, 600), (490,0), 5)
-        pygame.draw.line(screen, gs.black, (490, 600), (1075, 600), 5)
+        pygame.draw.line(screen, gs.black, (0, 725), (490, 600), 5) # Angled Line
+        pygame.draw.line(screen, gs.black, (490, 600), (490,0), 5) # Vertical Line
+        pygame.draw.line(screen, gs.black, (490, 600), (gs.gw_width, 600), 5) # Horizontal line
         
         # Window
         window_frame = pygame.Rect(625, 105, 300, 340)
@@ -1218,6 +1220,8 @@ class Room():
         # Outer-Most Room Views
         if gs.lights_on:
             if game_objects.go_left.collidepoint(event.pos) and gs.room_view_drill_down == 0 and gs.stable_item_opened == False:  # Doesn't allow player to go left/right in drill down views
+                if gs.tv_stand_open:
+                    tv_channels.tv_stand_egg_close(gs)
                 if gs.fourth_wall:
                     gs.current_room_view = 1
                     self.current_view(gs, screen, stable_item_blocks)
@@ -1226,6 +1230,8 @@ class Room():
                     self.current_view(gs, screen, stable_item_blocks)
 
             if game_objects.go_right.collidepoint(event.pos) and gs.room_view_drill_down == 0 and gs.stable_item_opened == False:  # Doesn't allow player to go left/right in drill down views
+                if gs.tv_stand_open:
+                    tv_channels.tv_stand_egg_close(gs)
                 if gs.fourth_wall:
                     gs.current_room_view = -1
                     self.current_view(gs, screen, stable_item_blocks)
@@ -1253,6 +1259,8 @@ class Room():
             
         if gs.current_room_view == 1:  # Right from default
             if gf.check_inside_clickbox(self, self.clickbox_tv_stand_side, ((event.pos), (0, 0))):
+                if gs.tv_stand_open:
+                    tv_channels.tv_stand_egg_close(gs)
                 gs.room_view_drill_down = 1
                 #gs.current_room_view = 3.1
             

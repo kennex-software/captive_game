@@ -838,13 +838,14 @@ def run_game():
     if gs.new_game and allow_new_game:
         gf.default_settings(gs)
         gf.generate_codes(gs) # generates numbers for problems and puzzles
+        gf.generate_line_sizes(gs) # changes the size of specific lines depending on the game resolution
         gf.update_settings_dictionary(gs) # Generates the ability to save the settings generated in the generate codes
         gs.text = "What the...?  Where am I?"
         gs.game_start_time = pygame.time.get_ticks()
         gs.new_game = False
-        gs.safe_opened = True
-        gs.safe_uncovered = True
-        gs.safe_on = True
+        #gs.safe_opened = True
+        #gs.safe_uncovered = True
+        #gs.safe_on = True
         print('starting completely new game')
     else:
         gs.game_start_time = pygame.time.get_ticks()
@@ -879,8 +880,8 @@ def run_game():
 #gs.won_game = True # Needed to run only credits // todo delete me or comment out
 #credits()
 
-#gs.game_started = True # Need to run only game // todo delete me or comment out
-#run_game()
+gs.game_started = True # Need to run only game // todo delete me or comment out
+run_game()
 
 
 #settings_menu()

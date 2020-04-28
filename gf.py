@@ -10,12 +10,11 @@ from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 import check_steam
 
-
-
 pygame.font.init()
 root = tk.Tk()
 root.wm_attributes('-topmost', 1)
 root.withdraw()
+
 
 
 def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp, steamworks):
@@ -74,6 +73,9 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                     if gs.room_view_drill_down == 1:
                                         if not gs.remote_found: # Function to click remote when it's not found
                                             room_view.click_remote(gs, event)
+                                            if gs.tv_stand_open and not gs.egg_found:
+                                                gs.tv_stand_open = False
+                                                pygame.mixer.Sound.play(tv_stand_open_sound)
 
                                 if gs.current_room_view < -1 or gs.current_room_view > 1:  # Fourth wall
                                     if gs.room_view_drill_down == 0:
@@ -920,6 +922,32 @@ def scrolling_credits(gs, screen, credits_full, scrolling_centerx, scrolling_cen
 
     for i in range(line_spacing):
         screen.blit(credits_list[i], position_list[i])
+
+def slope_function(x1, y1, x2, y2, x3, y3):
+    m = (y2 - y1) / (x2 - x1) # calculate slope
+    b = y1 - m * x1 # calculate y intercept
+    if y3 == None:
+        y3 = m * x3 + b
+        return y3 # return new y
+    else:
+        x3 = (y3 - b) / m
+        return x3 # return new x
+
+def generate_line_sizes(gs):
+    if gs.screen_width == 1440:
+        # Room View 3 (TV Stand) Lines
+        gs.r3_line_x2 = gs.gw_width
+        gs.r3_line_y2 = slope_function(770, 600, 1070, 750, gs.gw_width, None)
+        # Room View 3 (TV Stand Drill Down) Lines
+        gs.r3_1_line_x2 = gs.gw_width
+        gs.r3_1_line_y2 = slope_function(680, 460, 1093, 740, gs.gw_width, None)
+        # Inside Closet Drill Down Lines
+        gs.r4_1_line_x2 = slope_function(876, 508, 1074, 741, None, gs.full_game_window_height)
+        gs.r4_1_line_y2 = gs.full_game_window_height
+
+
+
+
 
 
 

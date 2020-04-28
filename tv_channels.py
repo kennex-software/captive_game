@@ -167,7 +167,7 @@ def camera_one(gs, screen, x, y):
 
     # Door Settings
     main_door = pygame.Rect(390, 160, 225, 440)
-    floor_rect = pygame.Rect(0, 600, 1065, 150)
+    floor_rect = pygame.Rect(0, 600, sur_cam_one.get_width(), sur_cam_one.get_height())
     sign = pygame.Rect(225, 220, 135, 55)
     sign_number_border = pygame.Rect(sign.bottomleft[0], sign.bottomleft[1], 135, 68)
 
@@ -344,13 +344,8 @@ def tv_channels(gs, screen):
     # Channels
     # Channels Settings
     if gs.current_channel != gs.easter_egg_channel and gs.tv_stand_open:
-        while gs.tv_stand_open_var == 1:
-            pygame.mixer.Sound.play(tv_stand_open_sound)
-            gs.tv_stand_open_var = 2
-            gs.tv_stand_open = False
-        if not gs.egg_found:
-            gs.tv_stand_open_var = 0
-        gs.tv_stand_open = False
+        tv_stand_egg_close(gs)
+
 
     # Channel 1
     if gs.current_channel == str(1):  # Powered by Python
@@ -546,6 +541,17 @@ def whitespace(surface, rect):
             rect.x += pixel_size
         rect.y += pixel_size
         rect.x = start
+
+def tv_stand_egg_close(gs):
+    while gs.tv_stand_open_var == 1:
+        pygame.mixer.Sound.play(tv_stand_open_sound)
+        gs.tv_stand_open_var = 2
+        gs.tv_stand_open = False
+        gs.current_channel = '3'
+        gs.tv_on = False
+    if not gs.egg_found:
+        gs.tv_stand_open_var = 0
+    gs.tv_stand_open = False
 
 """def create_whitespace(surface, rect):
 

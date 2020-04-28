@@ -63,6 +63,60 @@ class Stable_Items():
                                   '24': 'D',
                                   '25': 'L'}
 
+        # Shirt Settings
+        self.shirt_rect = enlarged_shirt.get_rect(center = screen.get_rect().center)
+
+        if gs.screen_width == 1200:
+            self.clickbox_shirt_pocket = [(537, 280), (570, 288), (566, 322), (536, 314)]
+        elif gs.screen_width == 1440:
+            self.clickbox_shirt_pocket = [(658, 362), (689, 367), (685, 402), (655, 394)]
+
+
+
+        # Remote Settings
+        self.remote_rect = enlarged_remote.get_rect()
+        self.remote_rect.x += 750
+        self.remote_rect.y += 195
+
+        # Remote Click Box List
+        self.remote_square_buttons_clickbox = [
+                                        [(784, 370), (812, 370), (812, 392), (784, 392)], # Volume Up // 0
+                                        [(784, 415), (812, 415), (812, 437), (784, 437)], # Volume Down // 1
+                                        [(872, 370), (900, 370), (900, 392), (872, 392)], # Channel Up // 2
+                                        [(872, 416), (900, 416), (900, 437), (872, 437)], # Channel Down // 3
+
+                                        [(784, 473), (813, 473), (812, 490), (784, 490)], # 1 Button // 4
+                                        [(827, 473), (856, 473), (856, 490), (827, 490)], # 2 Button // 5
+                                        [(870, 473), (900, 473), (900, 490), (870, 490)], # 3 Button // 6
+
+                                        [(784, 510), (813, 510), (812, 530), (784, 530)], # 4 Button // 7
+                                        [(827, 510), (856, 510), (856, 530), (827, 530)], # 5 Button // 8
+                                        [(870, 510), (900, 510), (900, 530), (870, 530)], # 6 Button // 9
+
+                                        [(784, 549), (813, 549), (812, 569), (784, 569)], # 7 Button // 10
+                                        [(827, 549), (856, 549), (856, 569), (827, 569)], # 8 Button // 11
+                                        [(870, 549), (900, 549), (900, 569), (870, 569)], # 9 Button // 12
+
+                                        [(827, 589), (856, 589), (856, 607), (827, 607)], # 0 Button // 13
+                                        [(784, 589), (813, 589), (812, 607), (784, 607)], # L Button // 14
+                                        [(870, 589), (900, 589), (900, 607), (870, 607)], # F Button // 15
+
+                                        [(782, 641), (805, 641), (805, 655), (782, 655)], # Rewind // 16
+                                        [(815, 641), (837, 641), (837, 655), (815, 655)], # Play // 17
+                                        [(847, 641), (868, 641), (868, 655), (847, 655)], # Pause // 18
+                                        [(878, 641), (902, 641), (902, 655), (878, 655)], # Fast Forward // 19
+
+                                        [(782, 220), (812, 220), (812, 240), (782, 240)], # Mute // 20
+
+                                        [(823, 290), (840, 283), (858, 291), (865, 307), (860, 326), (842, 333), (823, 325), (816, 307)], # Central Play // 21
+                                        [(823, 290), (840, 283), (859, 291), (877, 271), (860, 260), (840, 255), (821, 260), (804, 270)], # Top Arrow // 22
+                                        [(859, 291), (879, 272), (889, 286), (893, 307), (890, 323), (879, 344), (860, 325), (867, 306)], # Right Arrow // 23
+                                        [(822, 327), (840, 334), (857, 328), (876, 343), (859, 356), (841, 361), (821, 355), (804, 346)], # Bottom Arrow // 24
+                                        [(803, 272), (823, 290), (815, 307), (822, 327), (804, 344), (789, 323), (789, 309), (793, 285)], # Left Arrow // 25
+
+                                        [(899, 218), (910, 221), (914, 231), (908, 241), (900, 245), (888, 239), (887, 229), (890, 221)] # Power Button // 26
+                                        ]
+
     def book_page_content(self, gs, screen, page, page_area):
         if gs.current_book == 'red_book':
             # Page 1
@@ -308,11 +362,11 @@ class Stable_Items():
 
     def open_shirt(self, gs, screen):
         # Open Shirt
-        self.shirt_rect = enlarged_shirt.get_rect(center = screen.get_rect().center)
-        self.screen.blit(enlarged_shirt, self.shirt_rect)
 
-        self.clickbox_shirt_pocket = [(537, 280), (570, 288), (566, 322), (536, 314)]
-        # self.clickbox_shirt_pocket_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_shirt_pocket, 1) todo clickbox
+        screen.blit(enlarged_shirt, self.shirt_rect)
+
+
+        #pygame.draw.polygon(screen, gs.yellow, self.clickbox_shirt_pocket, 1)
 
     def shirt_clicks(self, gs, event):
         # Closes shirt if anywhere is clicked but the shirt
@@ -456,52 +510,9 @@ class Stable_Items():
     def draw_remote(self, gs, screen):
         """Function to draw the remote when clicked"""
 
-        self.remote_rect = enlarged_remote.get_rect()
-        self.remote_rect.x += 750
-        self.remote_rect.y += 195
-
-        # Remote Click Box List
-        self.remote_square_buttons_clickbox = [
-                                        [(784, 370), (812, 370), (812, 392), (784, 392)], # Volume Up // 0
-                                        [(784, 415), (812, 415), (812, 437), (784, 437)], # Volume Down // 1
-                                        [(872, 370), (900, 370), (900, 392), (872, 392)], # Channel Up // 2
-                                        [(872, 416), (900, 416), (900, 437), (872, 437)], # Channel Down // 3
-
-                                        [(784, 473), (813, 473), (812, 490), (784, 490)], # 1 Button // 4
-                                        [(827, 473), (856, 473), (856, 490), (827, 490)], # 2 Button // 5
-                                        [(870, 473), (900, 473), (900, 490), (870, 490)], # 3 Button // 6
-
-                                        [(784, 510), (813, 510), (812, 530), (784, 530)], # 4 Button // 7
-                                        [(827, 510), (856, 510), (856, 530), (827, 530)], # 5 Button // 8
-                                        [(870, 510), (900, 510), (900, 530), (870, 530)], # 6 Button // 9
-
-                                        [(784, 549), (813, 549), (812, 569), (784, 569)], # 7 Button // 10
-                                        [(827, 549), (856, 549), (856, 569), (827, 569)], # 8 Button // 11
-                                        [(870, 549), (900, 549), (900, 569), (870, 569)], # 9 Button // 12
-
-                                        [(827, 589), (856, 589), (856, 607), (827, 607)], # 0 Button // 13
-                                        [(784, 589), (813, 589), (812, 607), (784, 607)], # L Button // 14
-                                        [(870, 589), (900, 589), (900, 607), (870, 607)], # F Button // 15
-
-                                        [(782, 641), (805, 641), (805, 655), (782, 655)], # Rewind // 16
-                                        [(815, 641), (837, 641), (837, 655), (815, 655)], # Play // 17
-                                        [(847, 641), (868, 641), (868, 655), (847, 655)], # Pause // 18
-                                        [(878, 641), (902, 641), (902, 655), (878, 655)], # Fast Forward // 19
-
-                                        [(782, 220), (812, 220), (812, 240), (782, 240)], # Mute // 20
-
-                                        [(823, 290), (840, 283), (858, 291), (865, 307), (860, 326), (842, 333), (823, 325), (816, 307)], # Central Play // 21
-                                        [(823, 290), (840, 283), (859, 291), (877, 271), (860, 260), (840, 255), (821, 260), (804, 270)], # Top Arrow // 22
-                                        [(859, 291), (879, 272), (889, 286), (893, 307), (890, 323), (879, 344), (860, 325), (867, 306)], # Right Arrow // 23
-                                        [(822, 327), (840, 334), (857, 328), (876, 343), (859, 356), (841, 361), (821, 355), (804, 346)], # Bottom Arrow // 24
-                                        [(803, 272), (823, 290), (815, 307), (822, 327), (804, 344), (789, 323), (789, 309), (793, 285)], # Left Arrow // 25
-
-                                        [(899, 218), (910, 221), (914, 231), (908, 241), (900, 245), (888, 239), (887, 229), (890, 221)] # Power Button // 26
-                                        ]
-
         if gs.current_room_view == 1 and gs.room_view_drill_down == 0:
             # Draw Enlarged Remote Inventory Item When Clicked on the TV view
-            self.screen.blit(enlarged_remote, (750,195))
+            screen.blit(enlarged_remote, (750,195))
             pygame.draw.rect(screen, gs.yellow, self.remote_rect, -1)
 
             """
