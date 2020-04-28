@@ -843,9 +843,9 @@ def run_game():
         gs.text = "What the...?  Where am I?"
         gs.game_start_time = pygame.time.get_ticks()
         gs.new_game = False
-        #gs.safe_opened = True
-        #gs.safe_uncovered = True
-        #gs.safe_on = True
+        gs.safe_opened = True
+        gs.safe_uncovered = True
+        gs.safe_on = True
         print('starting completely new game')
     else:
         gs.game_start_time = pygame.time.get_ticks()

@@ -661,12 +661,28 @@ class Stable_Items():
         """Function to draw the papers to the screen"""
 
         # Clickboxes
-        self.papers_page1_list = [(427, 49), (841, 121), (740, 681), (327, 607)]
-        self.papers_page2_list = [(322, 68), (743, 68), (743, 642), (322, 642)]
-        self.papers_page3_list = [(217, 110), (629, 37), (729, 596), (315, 673)]
-        #self.papers_page1_clickbox = pygame.draw.polygon(screen, gs.clickboxcolor, papers_page1_list, 1)
-        #self.papers_page2_clickbox = pygame.draw.polygon(screen, gs.clickboxcolor, papers_page2_list, 1)
-        #self.papers_page3_clickbox = pygame.draw.polygon(screen, gs.clickboxcolor, papers_page3_list, 1)
+        if gs.screen_width == 1200:
+            self.papers_page1_list = [(427, 49), (841, 121), (740, 681), (327, 607)]
+            self.papers_page2_list = [(322, 68), (743, 68), (743, 642), (322, 642)]
+            self.papers_page3_list = [(217, 110), (629, 37), (729, 596), (315, 673)]
+            self.papers_page1_clickbox = pygame.draw.polygon(screen, gs.clickboxcolor, self.papers_page1_list, 1)
+            self.papers_page2_clickbox = pygame.draw.polygon(screen, gs.clickboxcolor, self.papers_page2_list, 1)
+            self.papers_page3_clickbox = pygame.draw.polygon(screen, gs.clickboxcolor, self.papers_page3_list, 1)
+            x_spacing = 530
+            line_spacing = 150
+            line_spacing_3 = 95
+            x_spacing_3 = 325
+        else:
+            self.papers_page1_list = [(536, 125), (938, 198), (838, 748), (436, 675)]
+            self.papers_page2_list = [(431, 148), (839, 148), (842, 706), (432, 708)]
+            self.papers_page3_list = [(327, 189), (729, 117), (827, 664), (426, 736)]
+            self.papers_page1_clickbox = pygame.draw.polygon(screen, gs.red, self.papers_page1_list, 1)
+            self.papers_page2_clickbox = pygame.draw.polygon(screen, gs.red, self.papers_page2_list, 1)
+            self.papers_page3_clickbox = pygame.draw.polygon(screen, gs.red, self.papers_page3_list, 1)
+            x_spacing = 722
+            line_spacing = 220
+            line_spacing_3 = 172
+            x_spacing_3 = 425
 
         if gs.current_paper_in_view == 1:
             gs.text = 'What does this stuff mean?'
@@ -686,10 +702,10 @@ class Stable_Items():
                     'check out:', str(gs.random_channel)
                     ]
 
-            line_spacing = 150
-            x_spacing = 530
+            #line_spacing = 150
+
             text_height = gs.verdana22.get_height()
-            angle = 9
+            angle = 10
 
             for text in texts:
                 text_image = gs.verdana22.render(text, True, gs.black)
@@ -707,7 +723,7 @@ class Stable_Items():
             scaled_papers = gf.aspect_scale(enlarged_papers_top2, 625)
             screen.blit(scaled_papers, (sdx - scaled_papers.get_width() // 2, sdy - scaled_papers.get_height() // 2 ))
 
-            board = puzzles.get_board(gs, screen, 10, gs.pua_double_digits)
+            puzzles.get_board(gs, screen, 10, gs.pua_double_digits)
 
         if gs.current_paper_in_view == 3:
             gs.text = 'What?'
@@ -732,18 +748,17 @@ class Stable_Items():
                     'without diamonds'
                     ]
 
-            line_spacing = 95
-            x_spacing = 325
+
             text_height = gs.verdana22.get_height()
-            angle = 5
+            angle = 12
 
             for text in texts:
                 text_image = gs.times20.render(text, True, gs.black)
                 text_image = pygame.transform.rotate(text_image, angle)
-                screen.blit(text_image, (x_spacing, line_spacing))
-                line_spacing += text_height
-                x_spacing += 11
-                angle += 2.5
+                screen.blit(text_image, (x_spacing_3, line_spacing_3))
+                line_spacing_3 += text_height
+                x_spacing_3 += 12
+                #angle += 2.5
 
 
     def change_papers(self, gs, event):

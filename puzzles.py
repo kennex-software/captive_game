@@ -37,7 +37,10 @@ def get_board(gs, screen, n, list):
     rev_board = [numbers_string[i:i+n][::-1] for i in range(0, len(numbers_string), n)]
 
     # Generate the board to the screen
-    start = 378
+    if gs.screen_width == 1200:
+        start = 378
+    else:
+        start = 478
     for line in reversed(rev_board):
         end = 208
         start += 30
