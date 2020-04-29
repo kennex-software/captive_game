@@ -42,10 +42,7 @@ class Stable_Items():
         self.gs = gs
         self.screen = screen
 
-        self.red_key_clickbox = [(637, 546), (655, 531), (666, 448), (680, 411), (661, 377),
-                                (635, 371), (595, 395), (598, 437), (611, 479), (616, 527), (637, 548)]
 
-        self.manual_view_cover = pygame.Rect(410, 130, 450, 525)
 
         self.number_index_dict = {'4': 1,
                                   '5': 2,
@@ -71,6 +68,27 @@ class Stable_Items():
         elif gs.screen_width == 1440:
             self.clickbox_shirt_pocket = [(658, 362), (689, 367), (685, 402), (655, 394)]
 
+        # Drawer Settings
+        self.sdx = screen.get_rect().centerx
+        self.sdy = screen.get_rect().centery
+        self.scaled_drawer = gf.aspect_scale(inventory.sur_inv_desk_drawer, 400)
+        self.drawer_rect = self.scaled_drawer.get_rect(center = screen.get_rect().center)
+
+        # Book / Manual Settings
+        self.red_key_clickbox = [(637, 546), (655, 531), (666, 448), (680, 411), (661, 377),
+                                (635, 371), (595, 395), (598, 437), (611, 479), (616, 527), (637, 548)]
+
+        self.manual_view_cover = pygame.Rect(410, 130, 450, 525)
+        # Define the cover shapes.  These will be clickable to turn the pages
+        self.bc_x = 160  # Back Cover X
+        self.bc_tc_y = 58  # Back Cover, Top Corner Y
+        self.bc_bc_y = 727  # Back Cover, Top Corner Y
+        self.back_cover = [self.manual_view_cover.topleft, (self.bc_x, self.bc_tc_y), (self.bc_x, self.bc_bc_y), self.manual_view_cover.bottomleft]
+
+        self.manual_pages = self.manual_view_cover.inflate(-10, -10)
+        self.manual_pages = self.manual_pages.move(-5, 0)
+        # Page Area for Page Content
+        self.page_area = self.manual_pages.inflate(-50, -50)
 
 
         # Remote Settings
@@ -116,6 +134,18 @@ class Stable_Items():
 
                                         [(899, 218), (910, 221), (914, 231), (908, 241), (900, 245), (888, 239), (887, 229), (890, 221)] # Power Button // 26
                                         ]
+
+        # Papers Click Boxes
+        if gs.screen_width == 1200:
+            self.papers_page1_list = [(427, 49), (841, 121), (740, 681), (327, 607)]
+            self.papers_page2_list = [(322, 68), (743, 68), (743, 642), (322, 642)]
+            self.papers_page3_list = [(217, 110), (629, 37), (729, 596), (315, 673)]
+
+        else:
+            self.papers_page1_list = [(536, 125), (938, 198), (838, 748), (436, 675)]
+            self.papers_page2_list = [(431, 148), (839, 148), (842, 706), (432, 708)]
+            self.papers_page3_list = [(327, 189), (729, 117), (827, 664), (426, 736)]
+
 
     def book_page_content(self, gs, screen, page, page_area):
         if gs.current_book == 'red_book':
@@ -202,7 +232,6 @@ class Stable_Items():
 
                 text_image = gs.cambria18.render('closets hold secrets', True, gs.gray)
                 screen.blit(text_image, (655, 170))
-
 
                 if not gs.red_key_found:
                     screen.blit(red_key_scaled, (540, 380))
@@ -359,10 +388,8 @@ class Stable_Items():
                             index += 1
 
 
-
     def open_shirt(self, gs, screen):
         # Open Shirt
-
         screen.blit(enlarged_shirt, self.shirt_rect)
 
 
@@ -388,11 +415,9 @@ class Stable_Items():
     def pull_up_desk_drawer(self, gs, screen):
         # Pull up drawer
 
-        sdx = screen.get_rect().centerx
-        sdy = screen.get_rect().centery
-        self.scaled_drawer = gf.aspect_scale(inventory.sur_inv_desk_drawer, 400)
-        self.drawer_rect = self.scaled_drawer.get_rect(center = screen.get_rect().center)
-        self.screen.blit(self.scaled_drawer, (sdx - self.scaled_drawer.get_width() // 2, sdy - self.scaled_drawer.get_height() // 2 ))
+
+
+        screen.blit(self.scaled_drawer, (self.sdx - self.scaled_drawer.get_width() // 2, self.sdy - self.scaled_drawer.get_height() // 2 ))
         gs.text = "This is the drawer I pulled out of the desk. I think it's useless now, but I'll carry it..."
 
     def pull_up_desk_drawer_clicks(self, gs, event):
@@ -406,11 +431,7 @@ class Stable_Items():
     def draw_manual(self, gs, screen):  # Defines and draws the manuals when they are clicked todo figure out what needs to go in the manuals
         """Function to draw the manuals to the screen based on the inputs given, i.e. which color/which one is clicked"""
 
-        # Define the cover shapes.  These will be clickable to turn the pages
-        self.bc_x = 160  # Back Cover X
-        self.bc_tc_y = 58  # Back Cover, Top Corner Y
-        self.bc_bc_y = 727  # Back Cover, Top Corner Y
-        self.back_cover = [self.manual_view_cover.topleft, (self.bc_x, self.bc_tc_y), (self.bc_x, self.bc_bc_y), self.manual_view_cover.bottomleft]
+
         cf = 5  # CF stands for change factor
         cover_color = None
 
@@ -425,21 +446,15 @@ class Stable_Items():
         pygame.draw.polygon(screen, cover_color, (self.manual_view_cover.topleft, (160, 58), (160, 727), self.manual_view_cover.bottomleft))
 
         # Draw the pages that you view on the right side
-        self.manual_pages = self.manual_view_cover.inflate(-10, -10)
-        self.manual_pages = self.manual_pages.move(-5, 0)
         pygame.draw.rect(screen, gs.off_white, self.manual_pages)
         pygame.draw.rect(screen, gs.black, self.manual_pages, 2)
 
-        # Page Area for Page Content
-        self.page_area = self.manual_pages.inflate(-50, -50)
+        # Draw page area
         #pygame.draw.rect(screen, gs.green, self.page_area)
 
         # Draw the exterior borders for the covers
         pygame.draw.polygon(screen, gs.black, self.back_cover, 3)
         pygame.draw.rect(screen, gs.black, self.manual_view_cover, 3)
-
-        #if manual_pages.collidepoint(event.pos):
-        #    print("ayoooooo")
 
         # Draw the pages that you can view on the left side
         if gs.current_page == 1:
@@ -662,23 +677,17 @@ class Stable_Items():
 
         # Clickboxes
         if gs.screen_width == 1200:
-            self.papers_page1_list = [(427, 49), (841, 121), (740, 681), (327, 607)]
-            self.papers_page2_list = [(322, 68), (743, 68), (743, 642), (322, 642)]
-            self.papers_page3_list = [(217, 110), (629, 37), (729, 596), (315, 673)]
-            self.papers_page1_clickbox = pygame.draw.polygon(screen, gs.clickboxcolor, self.papers_page1_list, 1)
-            self.papers_page2_clickbox = pygame.draw.polygon(screen, gs.clickboxcolor, self.papers_page2_list, 1)
-            self.papers_page3_clickbox = pygame.draw.polygon(screen, gs.clickboxcolor, self.papers_page3_list, 1)
+            #self.papers_page1_clickbox = pygame.draw.polygon(screen, gs.clickboxcolor, self.papers_page1_list, 1)
+            #self.papers_page2_clickbox = pygame.draw.polygon(screen, gs.clickboxcolor, self.papers_page2_list, 1)
+            #self.papers_page3_clickbox = pygame.draw.polygon(screen, gs.clickboxcolor, self.papers_page3_list, 1)
             x_spacing = 530
             line_spacing = 150
             line_spacing_3 = 95
             x_spacing_3 = 325
         else:
-            self.papers_page1_list = [(536, 125), (938, 198), (838, 748), (436, 675)]
-            self.papers_page2_list = [(431, 148), (839, 148), (842, 706), (432, 708)]
-            self.papers_page3_list = [(327, 189), (729, 117), (827, 664), (426, 736)]
-            self.papers_page1_clickbox = pygame.draw.polygon(screen, gs.red, self.papers_page1_list, 1)
-            self.papers_page2_clickbox = pygame.draw.polygon(screen, gs.red, self.papers_page2_list, 1)
-            self.papers_page3_clickbox = pygame.draw.polygon(screen, gs.red, self.papers_page3_list, 1)
+            #self.papers_page1_clickbox = pygame.draw.polygon(screen, gs.red, self.papers_page1_list, 1)
+            #self.papers_page2_clickbox = pygame.draw.polygon(screen, gs.red, self.papers_page2_list, 1)
+            #self.papers_page3_clickbox = pygame.draw.polygon(screen, gs.red, self.papers_page3_list, 1)
             x_spacing = 722
             line_spacing = 220
             line_spacing_3 = 172
@@ -705,15 +714,20 @@ class Stable_Items():
             #line_spacing = 150
 
             text_height = gs.verdana22.get_height()
-            angle = 10
+            angle = 6
 
             for text in texts:
-                text_image = gs.verdana22.render(text, True, gs.black)
-                text_image = pygame.transform.rotate(text_image, angle)
-                screen.blit(text_image, (x_spacing, line_spacing))
-                line_spacing += text_height
-                x_spacing -= 10
-                angle += 6
+                if text == '':
+                    line_spacing += text_height
+                    x_spacing -= 10
+                    angle += 8
+                else:
+                    text_image = gs.verdana22.render(text, True, gs.black)
+                    text_image = pygame.transform.rotozoom(text_image, angle, 1)
+                    screen.blit(text_image, (x_spacing, line_spacing))
+                    line_spacing += text_height
+                    x_spacing -= 10
+                    angle += 8
 
         if gs.current_paper_in_view == 2:
             gs.text = 'Is this a puzzle?'
@@ -750,15 +764,20 @@ class Stable_Items():
 
 
             text_height = gs.verdana22.get_height()
-            angle = 12
+            angle = 13
 
             for text in texts:
-                text_image = gs.times20.render(text, True, gs.black)
-                text_image = pygame.transform.rotate(text_image, angle)
-                screen.blit(text_image, (x_spacing_3, line_spacing_3))
-                line_spacing_3 += text_height
-                x_spacing_3 += 12
-                #angle += 2.5
+                if text == '':
+                    line_spacing_3 += text_height
+                    x_spacing_3 += 12
+                else:
+                    text_image = gs.times20.render(text, True, gs.black)
+                    #text_image = pygame.transform.rotate(text_image, angle)
+                    text_image = pygame.transform.rotozoom(text_image, angle, 1)
+                    screen.blit(text_image, (x_spacing_3, line_spacing_3))
+                    line_spacing_3 += text_height
+                    x_spacing_3 += 12
+                    #angle += 2.5
 
 
     def change_papers(self, gs, event):

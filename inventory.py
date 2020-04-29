@@ -191,7 +191,7 @@ class Inventory():
             index = inv_items_spaces.index(item)
             if index in gs.moveable_items_index_list:
                 if item.collidepoint(event.pos):
-                    print(index)
+                    #print(index)
                     gs.offset = Vector2(item.topleft) - event.pos
                     gs.selected_item = item
                     gs.selected_item_index = index

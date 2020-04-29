@@ -14,7 +14,7 @@ class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Game Version
-        self.game_version = 'v 0.8.8.1'
+        self.game_version = 'v 0.8.8.2'
         self.start_game_from_load = False
         """
         People that want the game:
@@ -24,6 +24,9 @@ class Settings():
         
         
         Use this area to discuss version: 
+        -4/27/2020 -- Version 0.8.8.2 ---
+            -Fixed resolution issues
+            
         -4/26/2020 -- Version 0.8.8.1 ---
             -Got Steam Achievements Working.  Need to make a full list and get them more working in the game.
             -Need to figure out Stats also

@@ -120,9 +120,15 @@ class Room():
         # Window Settings
         self.e_window = pygame.Rect(305, 80, 500, 600)
         self.click_window_int_frame = pygame.Rect(0, self.e_window.top, 12, self.e_window.height)
+        self.window_frame = pygame.Rect(625, 105, 300, 340)
+        self.window = pygame.Rect(650, 120, 250, 300)
+        self.window_int_frame = pygame.Rect(0, self.window.top, 6, self.window.height)
+        self.window_int_frame.centerx = self.window.centerx
+        self.window_frame_zoom = pygame.Rect(255, 50, 600, 680)
+        self.click_window_int_frame.centerx = self.e_window.centerx
 
         # Trash Can Opening
-        self.can_opening_rect = pygame.Rect(350, 220, 350, 350)
+        self.can_opening_rect = pygame.Rect(gs.gw_width//2 - 175, 220, 350, 350)
 
         # TV Settings
         self.tv_screen_glass = pygame.Rect(195, 140, 470, 296)
@@ -142,15 +148,21 @@ class Room():
         self.open_tv_left_rv1 = (self.front_tv_stand_rv1.midbottom[0] - 70, self.front_tv_stand_rv1.midbottom[1] - 2)
         self.open_tv_right_rv1 = (self.front_tv_stand_rv1.midbottom[0] + 70, self.front_tv_stand_rv1.midbottom[1] - 2)
 
+        # Closet
+        self.clickbox_closet_right = [(220, 460), (332, 488), (332, 615), (220, 561)]
 
         # Safe
         self.safe = pygame.Rect(270, 130, 480, 270)
         self.safe_hole = self.safe.inflate(90, 60)
         self.safe_cover = self.safe_hole.inflate(10,10)
         self.safe_handle = pygame.Rect(700, 240, 30, 80)
+        self.back_of_safe = self.safe.inflate(-180, -190)
 
         self.safe_on_block = pygame.Rect(657, 170, 8, 8)
         self.safe_off_block = self.safe_on_block.move(0, 30)
+
+        self.on_text = gs.arial16.render('ON', True, gs.white)
+        self.off_text = gs.arial16.render('OFF', True, gs.white)
 
         # Safe Numbers
         self.safe_number_rect_n1 = pygame.Rect((self.safe.topleft[0] + 20), (self.safe.topleft[1] + 20), 70, 100)
@@ -208,6 +220,8 @@ class Room():
 
         # Pittsburgh Scaled
         self.pittsburgh_scaled = gf.aspect_scale_wh(pittsburgh, int(gs.gw_width*1.05), int(gs.gw_height*1.05))
+
+
 
 
 
@@ -450,7 +464,7 @@ class Room():
                 pygame.draw.polygon(screen, gs.tv_screen, self.safe_door)
                 pygame.draw.polygon(screen, gs.black, ((-5, 183), (self.safe.topleft), (self.safe.bottomleft), (-5, 577)), 3)
 
-                self.back_of_safe = self.safe.inflate(-180, -190)
+
                 pygame.draw.rect(screen, gs.tv_screen, self.back_of_safe)
                 pygame.draw.rect(screen, gs.black, self.back_of_safe, 3)
                 pygame.draw.line(screen, gs.black, self.safe.topleft, self.back_of_safe.topleft, 3)
@@ -519,9 +533,6 @@ class Room():
                 pygame.draw.circle(screen, self.safe_status_color_off, self.safe_off_block.center, 8)
                 pygame.draw.circle(screen, gs.black, self.safe_on_block.center, 9, 2)
                 pygame.draw.circle(screen, gs.black, self.safe_off_block.center, 9, 2)
-
-                self.on_text = gs.arial16.render('ON', True, gs.white)
-                self.off_text = gs.arial16.render('OFF', True, gs.white)
 
                 screen.blit(self.on_text, ((self.safe_on_block.x + 20), self.safe_on_block.y - 6))
                 screen.blit(self.off_text, ((self.safe_off_block.x + 20), self.safe_off_block.y - 6))
@@ -641,15 +652,13 @@ class Room():
         screen.fill(gs.bg_color)
 
         # Window
-        window_frame = pygame.Rect(255, 50, 600, 680)
-        self.click_window_int_frame.centerx = self.e_window.centerx
-        
-        pygame.draw.rect(screen, gs.gray, window_frame)
-        pygame.draw.rect(screen, gs.black, window_frame, 3)
-        pygame.draw.line(screen, gs.black, window_frame.topleft, self.e_window.topleft, 3)
-        pygame.draw.line(screen, gs.black, window_frame.topright, self.e_window.topright, 3)
-        pygame.draw.line(screen, gs.black, window_frame.bottomleft, self.e_window.bottomleft, 3)
-        pygame.draw.line(screen, gs.black, window_frame.bottomright, self.e_window.bottomright, 3)
+
+        pygame.draw.rect(screen, gs.gray, self.window_frame_zoom)
+        pygame.draw.rect(screen, gs.black, self.window_frame_zoom, 3)
+        pygame.draw.line(screen, gs.black, self.window_frame_zoom.topleft, self.e_window.topleft, 3)
+        pygame.draw.line(screen, gs.black, self.window_frame_zoom.topright, self.e_window.topright, 3)
+        pygame.draw.line(screen, gs.black, self.window_frame_zoom.bottomleft, self.e_window.bottomleft, 3)
+        pygame.draw.line(screen, gs.black, self.window_frame_zoom.bottomright, self.e_window.bottomright, 3)
         pygame.draw.rect(screen, gs.off_white, self.e_window)
         pygame.draw.rect(screen, gs.black, self.click_window_int_frame, 3)
         pygame.draw.rect(screen, gs.black, self.e_window, 3)
@@ -1107,19 +1116,15 @@ class Room():
         pygame.draw.line(screen, gs.black, (490, 600), (gs.gw_width, 600), 5) # Horizontal line
         
         # Window
-        window_frame = pygame.Rect(625, 105, 300, 340)
-        self.window = pygame.Rect(650, 120, 250, 300)
-        window_int_frame = pygame.Rect(0, self.window.top, 6, self.window.height)
-        window_int_frame.centerx = self.window.centerx
-        
-        pygame.draw.rect(screen, gs.gray, window_frame)
-        pygame.draw.rect(screen, gs.black, window_frame, 3)
-        pygame.draw.line(screen, gs.black, window_frame.topleft, self.window.topleft, 3)
-        pygame.draw.line(screen, gs.black, window_frame.topright, self.window.topright, 3)
-        pygame.draw.line(screen, gs.black, window_frame.bottomleft, self.window.bottomleft, 3)
-        pygame.draw.line(screen, gs.black, window_frame.bottomright, self.window.bottomright, 3)
+
+        pygame.draw.rect(screen, gs.gray, self.window_frame)
+        pygame.draw.rect(screen, gs.black, self.window_frame, 3)
+        pygame.draw.line(screen, gs.black, self.window_frame.topleft, self.window.topleft, 3)
+        pygame.draw.line(screen, gs.black, self.window_frame.topright, self.window.topright, 3)
+        pygame.draw.line(screen, gs.black, self.window_frame.bottomleft, self.window.bottomleft, 3)
+        pygame.draw.line(screen, gs.black, self.window_frame.bottomright, self.window.bottomright, 3)
         pygame.draw.rect(screen, gs.off_white, self.window)
-        pygame.draw.rect(screen, gs.black, window_int_frame, 3)
+        pygame.draw.rect(screen, gs.black, self.window_int_frame, 3)
         pygame.draw.rect(screen, gs.black, self.window, 3)
         
         # Closet Inside
@@ -1156,7 +1161,7 @@ class Room():
 
 
         # Click / Mouseovers
-        self.clickbox_closet_right = [(220, 460), (332, 488), (332, 615), (220, 561)]
+
         #self.clickbox_closet_right_draw = pygame.draw.polygon(screen, gs.yellow, self.clickbox_closet_right, 1) # todo comment this out
 
         if gs.room_view_drill_down == 1:
