@@ -87,24 +87,25 @@ glEnable(GL_BLEND)
 
 # Optional Steam Commands ** Warning - Testing Only # todo turn this off
 check_steam.create_steam_achievements_list(gs, steamworks)
-steamworks.UserStats.ResetAllStats(b'ACH_PT') # Tested and Working
-steamworks.UserStats.ResetAllStats(b'ACH_GOLD')
+"""#steamworks.UserStats.ResetAllStats(b'ACH_PT') # Tested and Working
+#steamworks.UserStats.ResetAllStats(b'ACH_GOLD') # Tested and Working
 steamworks.UserStats.ResetAllStats(b'ACH_EXIT_TEN')
 steamworks.UserStats.ResetAllStats(b'ACH_EXIT_ONEHOUR')
 steamworks.UserStats.ResetAllStats(b'ACH_EXIT_TWOHOUR')
-steamworks.UserStats.ResetAllStats(b'ACH_WINDOW') # Tested and Working
+#steamworks.UserStats.ResetAllStats(b'ACH_WINDOW') # Tested and Working
 steamworks.UserStats.ResetAllStats(b'ACH_COLLECT')
-steamworks.UserStats.ResetAllStats(b'ACH_DR') # Tested and Working
-steamworks.UserStats.ResetAllStats(b'ACH_CREDITS') # Tested and Working
-steamworks.UserStats.ResetAllStats(b'ACH_STAY') # Tested and Working
-steamworks.UserStats.ResetAllStats(b'ACH_EGG') # Tested and Working
-steamworks.UserStats.ResetAllStats(b'ACH_F') # Tested and Working
-steamworks.UserStats.ResetAllStats(b'ACH_BUTTONS') # Tested and Working
-steamworks.UserStats.ResetAllStats(b'ACH_EXIT_ONE')
-steamworks.UserStats.ResetAllStats(b'ACH_EXIT_FIVE')
+#steamworks.UserStats.ResetAllStats(b'ACH_DR') # Tested and Working
+#steamworks.UserStats.ResetAllStats(b'ACH_CREDITS') # Tested and Working
+#steamworks.UserStats.ResetAllStats(b'ACH_STAY') # Tested and Working
+#steamworks.UserStats.ResetAllStats(b'ACH_EGG') # Tested and Working
+#steamworks.UserStats.ResetAllStats(b'ACH_F') # Tested and Working
+#steamworks.UserStats.ResetAllStats(b'ACH_BUTTONS') # Tested and Working
+#steamworks.UserStats.ResetAllStats(b'ACH_EXIT_ONE') # Tested and Working
+steamworks.UserStats.ResetAllStats(b'ACH_EXIT_FIVE')"""
 
 
 def total_time():
+
 
 
     while True:
@@ -130,8 +131,8 @@ def total_time():
                         '',
                         'CLICK TO CONTINUE']
 
-        line_spacing = 200
         text_height = gs.arial60.get_height()
+        line_spacing = 200
 
         for item in display_text:
             text_image = gs.arial60.render(item, True, gs.black)
@@ -353,6 +354,18 @@ def game_menu():
     button4 = button1.move(button1.width + 30, 0)
     button5 = button4.move(button4.width + 30, 0)
 
+    b1_text = gs.arial32.render('PLAY', True, gs.black)
+    b2_text = gs.arial32.render('LOAD', True, gs.black)
+    b3_text = gs.arial32.render('SCORES', True, gs.black)
+    b4_text = gs.arial32.render('SETTINGS', True, gs.black)
+    b5_text = gs.arial32.render('QUIT', True, gs.black)
+
+    b1_text_rect = b1_text.get_rect(center = button3.center)
+    b2_text_rect = b2_text.get_rect(center = button2.center)
+    b3_text_rect = b3_text.get_rect(center = button1.center)
+    b4_text_rect = b4_text.get_rect(center = button4.center)
+    b5_text_rect = b5_text.get_rect(center = button5.center)
+
     gs.new_game = True
 
     while True:
@@ -404,18 +417,6 @@ def game_menu():
         pygame.draw.rect(screen, gs.black, button3, 3)
         pygame.draw.rect(screen, gs.black, button4, 3)
         pygame.draw.rect(screen, gs.black, button5, 3)
-
-        b1_text = gs.arial32.render('PLAY', True, gs.black)
-        b2_text = gs.arial32.render('LOAD', True, gs.black)
-        b3_text = gs.arial32.render('SCORES', True, gs.black)
-        b4_text = gs.arial32.render('SETTINGS', True, gs.black)
-        b5_text = gs.arial32.render('QUIT', True, gs.black)
-
-        b1_text_rect = b1_text.get_rect(center = button3.center)
-        b2_text_rect = b2_text.get_rect(center = button2.center)
-        b3_text_rect = b3_text.get_rect(center = button1.center)
-        b4_text_rect = b4_text.get_rect(center = button4.center)
-        b5_text_rect = b5_text.get_rect(center = button5.center)
 
         screen.blit(b1_text, b1_text_rect)
         screen.blit(b2_text, b2_text_rect)
@@ -843,9 +844,9 @@ def run_game():
         gs.text = "What the...?  Where am I?"
         gs.game_start_time = pygame.time.get_ticks()
         gs.new_game = False
-        gs.safe_opened = True
+        """gs.safe_opened = True
         gs.safe_uncovered = True
-        gs.safe_on = True
+        gs.safe_on = True"""
         print('starting completely new game')
     else:
         gs.game_start_time = pygame.time.get_ticks()
@@ -870,9 +871,6 @@ def run_game():
     while gs.won_game:
         credits()
 
-
-
-
     pygame.time.wait(1000)
     pygame.mixer.Sound.stop(credits_music)
     total_time()
@@ -880,8 +878,8 @@ def run_game():
 #gs.won_game = True # Needed to run only credits // todo delete me or comment out
 #credits()
 
-gs.game_started = True # Need to run only game // todo delete me or comment out
-run_game()
+#gs.game_started = True # Need to run only game // todo delete me or comment out
+#run_game()
 
 
 #settings_menu()

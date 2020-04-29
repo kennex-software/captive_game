@@ -24,6 +24,11 @@ class Settings():
         
         
         Use this area to discuss version: 
+        -4/28/2020 -- Version 0.8.8.2 ---
+            -Added the ability to check the fonts in the system and if the font doesn't exist to use the default font.
+            -Fixed some of the bugs.
+            -Fixed a lot of areas for optimization that needed to be done.
+            
         -4/27/2020 -- Version 0.8.8.2 ---
             -Fixed resolution issues
             
@@ -44,18 +49,14 @@ class Settings():
             -Added a lot of different functionality
             -Added a handful of Steam Achievements
             
-        
         -4/18/2020 -- Version 0.8.2 ---
             -Added ability to connect game to Steam and have Steam Achievements
             -Added the Easter Egg that can be added to the inventory in a secret location
             -Added various new changes and fixes
             -Changed the TV stand in room view 1 if it's opened to view properly
             
-            
-        
         -3/24/2020 -- Version 0.7.8 ---
             -Added time value to end of game to inform user of time escaped
-            
         
         -3/22/2020 -- Version 0.7.7 ---
             -Fixed the blue book text by changing the fonts, hoping this will work better on more PC's.
@@ -100,6 +101,8 @@ class Settings():
 
 
 
+
+
         # Alphabet List
         self.alphabet_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
@@ -111,40 +114,67 @@ class Settings():
         self.gw_height = self.screen_height * .90  # Default is .90
         self.gw_border = 5
 
+        # Check Fonts
+        print(pygame.font.get_fonts())
+        if 'verdana' not in pygame.font.get_fonts():
+            self.verdana_name = pygame.font.get_default_font()
+            print('Verdana not found')
+        else:
+            self.verdana_name = 'Verdana'
+
+        if 'timesnewroman' not in pygame.font.get_fonts():
+            self.times_new_roman_name = pygame.font.get_default_font()
+            print('Times New Roman not found')
+        else:
+            self.times_new_roman_name = 'Times New Roman'
+
+        if 'arial' not in pygame.font.get_fonts():
+            self.arial_name = pygame.font.get_default_font()
+            print('Arial not found')
+        else:
+            self.arial_name = 'Arial'
+
+        if 'cambria' not in pygame.font.get_fonts():
+            self.cambria_name = pygame.font.get_default_font()
+            print('Cambria not found')
+        else:
+            self.cambria_name = 'Cambria'
+
         # Fonts
-        self.verdana12 = pygame.font.SysFont("Verdana", 12, True)
-        self.verdana16 = pygame.font.SysFont("Verdana", 16, True)
-        self.verdana18 = pygame.font.SysFont("Verdana", 18, True)
-        self.verdana20 = pygame.font.SysFont("Verdana", 20, True)
-        self.verdana22 = pygame.font.SysFont("Verdana", 22, True)
-        self.verdana28 = pygame.font.SysFont("Verdana", 28, True)
-        self.verdana32 = pygame.font.SysFont("Verdana", 32, True)
-        self.verdana40 = pygame.font.SysFont("Verdana", 40, True)
-        self.verdana55 = pygame.font.SysFont("Verdana", 55, True)
+        self.verdana12 = pygame.font.SysFont(self.verdana_name, 12, True)
+        self.verdana16 = pygame.font.SysFont(self.verdana_name, 16, True)
+        self.verdana18 = pygame.font.SysFont(self.verdana_name, 18, True)
+        self.verdana20 = pygame.font.SysFont(self.verdana_name, 20, True)
+        self.verdana22 = pygame.font.SysFont(self.verdana_name, 22, True)
+        self.verdana28 = pygame.font.SysFont(self.verdana_name, 28, True)
+        self.verdana32 = pygame.font.SysFont(self.verdana_name, 32, True)
+        self.verdana40 = pygame.font.SysFont(self.verdana_name, 40, True)
+        self.verdana55 = pygame.font.SysFont(self.verdana_name, 55, True)
 
-        self.times12 = pygame.font.SysFont("Times New Roman", 12, True)
-        self.times14 = pygame.font.SysFont("Times New Roman", 14, True)
-        self.times20 = pygame.font.SysFont("Times New Roman", 20, True)
+        self.times12 = pygame.font.SysFont(self.times_new_roman_name, 12, True)
+        self.times14 = pygame.font.SysFont(self.times_new_roman_name, 14, True)
+        self.times20 = pygame.font.SysFont(self.times_new_roman_name, 20, True)
 
-        self.arial12 = pygame.font.SysFont("Arial", 12, True)
-        self.arial14 = pygame.font.SysFont("Arial", 14, True)
-        self.arial16 = pygame.font.SysFont("Arial", 16, True)
-        self.arial22 = pygame.font.SysFont("Arial", 22, True)
-        self.arial32 = pygame.font.SysFont("Arial", 32, True)
-        self.arial48 = pygame.font.SysFont("Arial", 48, True)
-        self.arial60 = pygame.font.SysFont("Arial", 60, True)
-        self.arial88 = pygame.font.SysFont("Arial", 88, True)
+        self.arial12 = pygame.font.SysFont(self.arial_name, 12, True)
+        self.arial14 = pygame.font.SysFont(self.arial_name, 14, True)
+        self.arial16 = pygame.font.SysFont(self.arial_name, 16, True)
+        self.arial22 = pygame.font.SysFont(self.arial_name, 22, True)
+        self.arial32 = pygame.font.SysFont(self.arial_name, 32, True)
+        self.arial48 = pygame.font.SysFont(self.arial_name, 48, True)
+        self.arial60 = pygame.font.SysFont(self.arial_name, 60, True)
+        self.arial88 = pygame.font.SysFont(self.arial_name, 88, True)
 
-        self.cambria12 = pygame.font.SysFont("Cambria", 12, True)
-        self.cambria16 = pygame.font.SysFont("Cambria", 16, True)
-        self.cambria18 = pygame.font.SysFont("Cambria", 18, True)
-        self.cambria20 = pygame.font.SysFont("Cambria", 20, True)
-        self.cambria22 = pygame.font.SysFont("Cambria", 22, True)
-        self.cambria24 = pygame.font.SysFont("Cambria", 24, True)
-        self.cambria30 = pygame.font.SysFont("Cambria", 30, True)
-        self.cambria48 = pygame.font.SysFont("Cambria", 48, True)
-        self.cambria90 = pygame.font.SysFont("Cambria", 90, True)
-        self.cambria150 = pygame.font.SysFont("Cambria", 150, True)
+        self.cambria12 = pygame.font.SysFont(self.cambria_name, 12, True)
+        self.cambria16 = pygame.font.SysFont(self.cambria_name, 16, True)
+        self.cambria18 = pygame.font.SysFont(self.cambria_name, 18, True)
+        self.cambria20 = pygame.font.SysFont(self.cambria_name, 20, True)
+        self.cambria22 = pygame.font.SysFont(self.cambria_name, 22, True)
+        self.cambria24 = pygame.font.SysFont(self.cambria_name, 24, True)
+        self.cambria30 = pygame.font.SysFont(self.cambria_name, 30, True)
+        self.cambria48 = pygame.font.SysFont(self.cambria_name, 48, True)
+        self.cambria90 = pygame.font.SysFont(self.cambria_name, 90, True)
+        self.cambria150 = pygame.font.SysFont(self.cambria_name, 150, True)
+
 
         # Sleep Ticker
         #self.sleeperticks = True
@@ -447,3 +477,4 @@ class Settings():
         self.selected_item_start_x = 0
         self.selected_item_start_y = 0
     
+
