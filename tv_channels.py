@@ -492,7 +492,7 @@ def tv_channels(gs, screen):
         if gs.current_room_view == 1:
             gs.text = 'F'
 
-    elif gs.current_channel == str('1234567890F'): # Button Presser todo add achievement
+    elif gs.current_channel == str('1234567890F'): # Button Presser
         gs.current_tv_screen_color = gs.white
         text_image = gs.arial22.render("YOU LIKE TO PRESS BUTTONS, DON'T YA?", True, gs.black)
         text_rect = text_image.get_rect(center = tv_rect.center)
@@ -503,7 +503,7 @@ def tv_channels(gs, screen):
 
     elif gs.current_channel == str(181161693114): # This spells "RAPPICAN" if you put 1-26 next to the alphabet
         if gs.current_room_view == 1:
-            gs.text = "Paul's Channel..."
+            gs.text = "Rappican's Channel..."
 
     else:  # Whitespace
         whitespace(screen, tv_rect)

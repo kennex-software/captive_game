@@ -52,7 +52,7 @@ icon = pygame.image.load('images/key_icon.ico') # should be 32 x 32
 game_logo = pygame.image.load('images/key_logo.png')
 pygame.display.set_icon(icon)
 stable_item_blocks = Stable_Items(gs, screen)
-room_view = Room(gs, screen, stable_item_blocks)
+room_view = Room(gs, screen)
 inventory = Inventory(gs, screen, room_view)
 game_objects = GameObjects(gs, screen, inventory)
 cp = Control_Panel(gs, screen)
@@ -86,22 +86,9 @@ glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
 glEnable(GL_BLEND)
 
 # Optional Steam Commands ** Warning - Testing Only # todo turn this off
-check_steam.create_steam_achievements_list(gs, steamworks)
-"""#steamworks.UserStats.ResetAllStats(b'ACH_PT') # Tested and Working
-#steamworks.UserStats.ResetAllStats(b'ACH_GOLD') # Tested and Working
-steamworks.UserStats.ResetAllStats(b'ACH_EXIT_TEN')
-steamworks.UserStats.ResetAllStats(b'ACH_EXIT_ONEHOUR')
-steamworks.UserStats.ResetAllStats(b'ACH_EXIT_TWOHOUR')
-#steamworks.UserStats.ResetAllStats(b'ACH_WINDOW') # Tested and Working
-steamworks.UserStats.ResetAllStats(b'ACH_COLLECT')
-#steamworks.UserStats.ResetAllStats(b'ACH_DR') # Tested and Working
-#steamworks.UserStats.ResetAllStats(b'ACH_CREDITS') # Tested and Working
-#steamworks.UserStats.ResetAllStats(b'ACH_STAY') # Tested and Working
-#steamworks.UserStats.ResetAllStats(b'ACH_EGG') # Tested and Working
-#steamworks.UserStats.ResetAllStats(b'ACH_F') # Tested and Working
-#steamworks.UserStats.ResetAllStats(b'ACH_BUTTONS') # Tested and Working
-#steamworks.UserStats.ResetAllStats(b'ACH_EXIT_ONE') # Tested and Working
-steamworks.UserStats.ResetAllStats(b'ACH_EXIT_FIVE')"""
+#check_steam.create_steam_achievements_list(gs, steamworks)
+steamworks.UserStats.ResetAllStats(1) # also resets achievements
+
 
 
 def total_time():
@@ -176,7 +163,7 @@ A Special Thanks To:
 Takagism for making the Crimson Room
 No Starch Press for teaching me to code
 Tech With Tim for inspiring me to code
-Gramps for SteakworksPy
+Gramps for SteamworksPy
 Kingsley for OpenGL Support
 NeHe for PyOpenGL Tutorial Lessons
 Happy Chuck Programming for help with Scrolling Text
@@ -184,6 +171,7 @@ Ted Klein Bergman for help with the TV Static
 The StackOverflow Community
 The Python Community
 The Python Subreddits
+The PyGame Community
 
 
 And a Big Thanks to YOU!
@@ -191,7 +179,6 @@ Thank You For Playing.
 
 I hope you enjoyed playing the game as much as I
 enjoyed making it and learning how to code.
-
 
 
 
@@ -844,9 +831,12 @@ def run_game():
         gs.text = "What the...?  Where am I?"
         gs.game_start_time = pygame.time.get_ticks()
         gs.new_game = False
+
+        # Comment that out // Show for easy winning
         """gs.safe_opened = True
         gs.safe_uncovered = True
         gs.safe_on = True"""
+
         print('starting completely new game')
     else:
         gs.game_start_time = pygame.time.get_ticks()

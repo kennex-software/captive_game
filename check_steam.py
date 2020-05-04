@@ -18,3 +18,14 @@ def check_set_achievement(steamworks, achievement_id):
         steamworks.UserStats.SetAchievement(achievement_id)
         steamworks.UserStats.StoreStats()
         print(str(achievement_id) + ' unlocked') # todo comment this out
+
+def check_set_stats(steamworks, stat_id, value_to_add):
+    """Function to check achievement and set it achieved"""
+    steamworks.UserStats.RequestCurrentStats()
+    #print(steamworks.UserStats.GetStatInt(stat_id))
+    added_amount = value_to_add + steamworks.UserStats.GetStatInt(stat_id)
+    steamworks.UserStats.SetStat(stat_id, added_amount)
+    #print(steamworks.UserStats.SetStat(stat_id, added_amount))
+    #print(steamworks.UserStats.GetStatInt(stat_id))
+    steamworks.UserStats.StoreStats()
+    #print('1 added to ' + str(stat_id) + ' stat') # todo comment this out

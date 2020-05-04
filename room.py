@@ -37,7 +37,7 @@ egg_load = 'images/egg.png' # Table and Vase
 
 hanging_shirt = pygame.image.load(hanging_shirt_load)
 laying_remote = pygame.image.load(laying_remote_load)
-laying_paper = pygame.image.load(laying_paper_load) # todo figure out .convert_alpha()
+laying_paper = pygame.image.load(laying_paper_load)# todo figure out .convert_alpha()
 rotated_batteries = pygame.image.load(rotated_batteries_load)
 laying_power_cord = pygame.image.load(laying_power_cord_load)
 red_book_rotated = pygame.image.load(red_book_rotated_load)
@@ -81,10 +81,9 @@ pygame.font.init()
 class Room():
     """Class to store the objects of the rooms and the views regarding them"""
     
-    def __init__(self, gs, screen, stable_item_blocks):
+    def __init__(self, gs, screen):
         self.gs = gs
         self.screen = screen
-        #self.game_obects = game_objects
 
         global fcd1
         global fcd2
@@ -283,57 +282,64 @@ class Room():
             gs.text = "It's a wall outlet..."
 
 
-    def click_papers(self, gs, event):
+    def click_papers(self, gs, event, steamworks):
         # function to be able to pick up the papers item
         if self.laying_paper_clicker.collidepoint(event.pos):
             gs.text = 'Papers with writing on them!'
             pygame.mixer.Sound.play(paper_found_sound)
             gs.papers_found = True
+            gf.found_all_items(gs, steamworks)
 
-    def click_shirt(self, gs, event):
+    def click_shirt(self, gs, event, steamworks):
         # function to be able to pick up the shirt item
         if self.shirt_surface.collidepoint(event.pos):
             gs.text = "If I get out of here, I'm wearing this shirt!"
             pygame.mixer.Sound.play(shirt_sound)
             gs.shirt_found = True
+            gf.found_all_items(gs, steamworks)
 
-    def click_flathead(self, gs, event):
+    def click_flathead(self, gs, event, steamworks):
         # function to be able to pick up the flathead item
         if self.flathead_clicker.collidepoint(event.pos):
             gs.text = 'A normal screwdriver!'
             pygame.mixer.Sound.play(item_picked)
             gs.screwdriver_found = True
             gs.moveable_items_index_list.append(6)
+            gf.found_all_items(gs, steamworks)
 
-    def click_red_book(self, gs, event):
+    def click_red_book(self, gs, event, steamworks):
         # function to be able to pick up the red book item
         if self.red_book_clicker.collidepoint(event.pos) and not fcdo1.collidepoint(event.pos):
             gs.text = "A red book! What's inside?"
             pygame.mixer.Sound.play(book_found_sound)
             gs.red_book_found = True
+            gf.found_all_items(gs, steamworks)
 
-    def click_blue_book(self, gs, event):
+    def click_blue_book(self, gs, event, steamworks):
         # function to be able to pick up the blue book item
         if self.blue_book_clicker.collidepoint(event.pos) and not fcdo2.collidepoint(event.pos):
             gs.text = 'Wow! A blue book was in this drawer!'
             pygame.mixer.Sound.play(book_found_sound)
             gs.blue_book_found = True
+            gf.found_all_items(gs, steamworks)
 
-    def click_green_key(self, gs, event):
+    def click_green_key(self, gs, event, steamworks):
         # function to be able to pick up the green key item
         if self.green_key_clicker.collidepoint(event.pos):
             gs.text = 'I found a green key!'
             pygame.mixer.Sound.play(key_sound)
             gs.green_key_found = True
             gs.moveable_items_index_list.append(3)
+            gf.found_all_items(gs, steamworks)
 
-    def click_power_cord(self, gs, event):
+    def click_power_cord(self, gs, event, steamworks):
         # function to be able to pick up the power cord item
         if self.laying_power_cord_scaled_rect.collidepoint(event.pos):
             gs.text = 'A power cord! What can this be used for?'
             pygame.mixer.Sound.play(item_picked)
             gs.power_cord_found = True
             gs.moveable_items_index_list.append(5)
+            gf.found_all_items(gs, steamworks)
 
     def pick_power_cord_desk(self, gs, event):
         # function to be able to pick up plugged power cord
@@ -353,20 +359,22 @@ class Room():
             gs.power_cord_window_1 = False
             gs.moveable_items_index_list.append(5)
 
-    def click_batteries(self, gs, event):
+    def click_batteries(self, gs, event, steamworks):
         # function to be able to pick up the batteries item
         if self.battery_clicker.collidepoint(event.pos):
             gs.text = 'Batteries! What can these be for?'
             pygame.mixer.Sound.play(battery_found_sound)
             gs.batteries_found = True
             gs.moveable_items_index_list.append(4)
+            gf.found_all_items(gs, steamworks)
 
-    def click_remote(self, gs, event):
+    def click_remote(self, gs, event, steamworks):
         # function to be able to pick up the remote item
         if self.remote_clicker.collidepoint(event.pos):
             gs.text = 'A remote!  I can probably use this on the TV...'
             pygame.mixer.Sound.play(item_picked)
             gs.remote_found = True
+            gf.found_all_items(gs, steamworks)
 
     def click_egg(self, gs, event, steamworks):
         # function to be able to pick up the egg item todo add achievement
@@ -380,6 +388,7 @@ class Room():
                 gs.tv_on = False
                 gs.tv_stand_egg_found_text_var = False
             gs.moveable_items_index_list.append(7)
+            gf.found_all_items(gs, steamworks)
             check_steam.check_set_achievement(steamworks, b'ACH_EGG') # Easter Egg Achievement
 
     def click_hole_in_floor(self, gs, event):
@@ -586,6 +595,7 @@ class Room():
                             gs.text = 'I found a gold key!'
                             gs.door_key_found = True
                             gs.moveable_items_index_list.append(0)
+                            gf.found_all_items(gs, steamworks)
 
                     if gf.check_inside_clickbox(self, self.safe_door, ((event.pos), (0, 0))):
                         pygame.mixer.Sound.play(safe_door)
@@ -1295,6 +1305,9 @@ class Room():
                     if gs.fcd2_locked == False:
                         pygame.mixer.Sound.play(file_cabinet_open_sound)
                         gs.fcd2_opened = True
+                        gs.fc2_open_attempts += 1
+                        if gs.fc2_open_attempts == 4:
+                            check_steam.check_set_achievement(steamworks, b'ACH_DR_NOPE') # Participation Trophy Achievement
                     else:
                         gs.text = 'This drawer is locked.'
             else:
@@ -1302,6 +1315,9 @@ class Room():
                     if gs.fcd2_locked == False:
                         pygame.mixer.Sound.play(file_cabinet_open_sound)
                         gs.fcd2_opened = True
+                        gs.fc2_open_attempts += 1
+                        if gs.fc2_open_attempts == 4:
+                            check_steam.check_set_achievement(steamworks, b'ACH_DR_NOPE') # Participation Trophy Achievement
                     else:
                         gs.text = 'This drawer is locked.'
 
@@ -1310,7 +1326,7 @@ class Room():
                 pygame.mixer.Sound.play(file_cabinet_close_sound)
                 gs.fcd2_opened = False
             if not gs.blue_book_found and gs.fcd1_opened == False:
-                self.click_blue_book(gs, event)
+                self.click_blue_book(gs, event, steamworks)
 
         
         if gs.fcd1_opened == False:
@@ -1322,7 +1338,7 @@ class Room():
                 pygame.mixer.Sound.play(file_cabinet_close_sound)
                 gs.fcd1_opened = False
             if not gs.red_book_found:
-                self.click_red_book(gs, event)
+                self.click_red_book(gs, event, steamworks)
         
         # Desk Drawers
         if gs.dd3_opened == False:
@@ -1333,8 +1349,8 @@ class Room():
                         gs.dd3_open_attempts += 1
                         gs.dd3_opened = True
                         if gs.dd3_open_attempts == 4:
-                            print('hit this spot1')
                             check_steam.check_set_achievement(steamworks, b'ACH_DR') # Participation Trophy Achievement
+                            gf.found_all_items(gs, steamworks)
 
                     else:
                         gs.text = 'This drawer is locked.'
@@ -1345,8 +1361,8 @@ class Room():
                             gs.dd3_opened = True
                             gs.dd3_open_attempts += 1
                             if gs.dd3_open_attempts == 4:
-                                print('hit this spot2')
                                 check_steam.check_set_achievement(steamworks, b'ACH_DR') # Participation Trophy Achievement
+                                gf.found_all_items(gs, steamworks)
                     else:
                         gs.text = 'This drawer is locked.'
 
@@ -1369,7 +1385,7 @@ class Room():
                 pygame.mixer.Sound.play(drawer_close_sound)
                 gs.dd2_opened = False
             if not gs.batteries_found:
-                self.click_batteries(gs, event) # will add batteries to inventory
+                self.click_batteries(gs, event, steamworks) # will add batteries to inventory
                 
         if gs.dd1_opened == False:
             if desk_drawer1.collidepoint(event.pos):
@@ -1383,7 +1399,7 @@ class Room():
                 pygame.mixer.Sound.play(drawer_close_sound)
                 gs.dd1_opened = False
             if not gs.screwdriver_found:
-                self.click_flathead(gs, event) # will add flathead to inventory
+                self.click_flathead(gs, event, steamworks) # will add flathead to inventory
 
     def switch_light(self, gs, event, steamworks):
         if self.light_switch.collidepoint(event.pos) and gs.room_view_drill_down == 0 and gs.current_room_view == 0 and not gs.door_opened:

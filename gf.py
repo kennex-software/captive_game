@@ -43,17 +43,22 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                     if gs.door_opened:
                                         room_view.close_door(gs, event, steamworks)
                                         if room_view.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0:
-                                            if gs.leave:
+                                            if gs.leave: # This is all the end of the game stuff when the user exits the room
                                                 gs.won_game = True
                                                 gs.end_time = get_game_clock(gs, screen)
+                                                if gs.current_time < 7200000:
+                                                    check_steam.check_set_achievement(steamworks, b'ACH_EXIT_TWOHOUR') # Exit the room in under 2 hours
+                                                    if gs.current_time < 3600000:
+                                                        check_steam.check_set_achievement(steamworks, b'ACH_EXIT_ONEHOUR') # Exit the room in under 1 hour
                                                 gs.game_started = False
                                                 check_steam.check_set_achievement(steamworks, b'ACH_EXIT_ONE') # Door Opened Achievement
+                                                check_steam.check_set_stats(steamworks, b'STAT_TIMES_ESCAPED', 1) # Add 1 to stats of times exited
                                             else:
                                                 gs.leave = True
 
 
                                     if gs.room_view_drill_down == 0.1 and not gs.power_cord_found: # Function to click power cord when it's not found
-                                        room_view.click_power_cord(gs, event)
+                                        room_view.click_power_cord(gs, event, steamworks)
 
                                 if gs.current_room_view == -1:  # Left from default
                                     room_view.open_drawers(gs, screen, game_objects, event, steamworks) # See open drawers for click events
@@ -61,7 +66,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                     if gs.power_cord_desk_1 and not gs.power_cord_desk_2:
                                         room_view.pick_power_cord_desk(gs, event)
                                     if gs.desk_drawer_removed and not gs.green_key_found:
-                                        room_view.click_green_key(gs, event)
+                                        room_view.click_green_key(gs, event, steamworks)
                                     if gs.desk_drawer_removed:
                                         room_view.click_hole_in_floor(gs, event)
 
@@ -72,7 +77,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                             room_view.click_egg(gs, event, steamworks)
                                     if gs.room_view_drill_down == 1:
                                         if not gs.remote_found: # Function to click remote when it's not found
-                                            room_view.click_remote(gs, event)
+                                            room_view.click_remote(gs, event, steamworks)
                                             if gs.tv_stand_open and not gs.egg_found:
                                                 gs.tv_stand_open = False
                                                 pygame.mixer.Sound.play(tv_stand_open_sound)
@@ -83,23 +88,23 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                         if gs.power_cord_window_1:
                                             room_view.pick_power_cord_window(gs, event)
                                         if not gs.shirt_found:
-                                            room_view.click_shirt(gs, event)
+                                            room_view.click_shirt(gs, event, steamworks)
                                     if gs.room_view_drill_down == 1:
                                         #if gs.safe_uncovered: # Function when safe is uncovered
                                         room_view.safe_controls(gs, screen, event, steamworks)
                                         if not gs.papers_found: # Function to click papers when they're not found
-                                            room_view.click_papers(gs, event)
+                                            room_view.click_papers(gs, event, steamworks)
 
 
                         else:
                             if gs.red_book_opened or gs.blue_book_opened:
-                                stable_item_blocks.change_manual_pages(gs, event)
+                                stable_item_blocks.change_manual_pages(gs, event, steamworks)
                             if gs.remote_opened:
                                 stable_item_blocks.remote_buttons_clicked(gs, event, steamworks)
                             if gs.papers_opened:
                                 stable_item_blocks.change_papers(gs, event)
                             if gs.shirt_opened:
-                                stable_item_blocks.shirt_clicks(gs, event)
+                                stable_item_blocks.shirt_clicks(gs, event, steamworks)
                             if gs.desk_drawer_up:
                                 stable_item_blocks.pull_up_desk_drawer_clicks(gs, event)
 
@@ -446,6 +451,7 @@ def update_settings_dictionary(gs):
                                 'power_cord_desk_2': gs.power_cord_desk_2,
                                 'power_cord_window_1': gs.power_cord_window_1,
                                 'moveable_items_index_list': gs.moveable_items_index_list,
+                                'number_all_items_found': gs.number_all_items_found,
                                 'door_key_used': gs.door_key_used,
                                 'red_key_used': gs.red_key_used,
                                 'purple_key_used': gs.purple_key_used,
@@ -499,6 +505,7 @@ def update_settings_dictionary(gs):
                                 'dd2_opened': gs.dd2_opened,
                                 'dd3_opened': gs.dd3_opened,
                                 'dd3_open_attempts': gs.dd3_open_attempts,
+                                'fc2_open_attempts': gs.fc2_open_attempts,
                                 'desk_drawer_up': gs.desk_drawer_up,
                                 'fcd1_locked': gs.fcd1_locked,
                                 'fcd2_locked': gs.fcd2_locked,
@@ -571,6 +578,7 @@ def update_settings_from_save_file(gs):
     gs.power_cord_desk_2 = gs.settings_dictionary['power_cord_desk_2']
     gs.power_cord_window_1 = gs.settings_dictionary['power_cord_window_1']
     gs.moveable_items_index_list = gs.settings_dictionary['moveable_items_index_list']
+    gs.number_all_items_found = gs.settings_dictionary['number_all_items_found']
     gs.door_key_used = gs.settings_dictionary['door_key_used']
     gs.red_key_used = gs.settings_dictionary['red_key_used']
     gs.purple_key_used = gs.settings_dictionary['purple_key_used']
@@ -625,6 +633,7 @@ def update_settings_from_save_file(gs):
     gs.dd2_opened = gs.settings_dictionary['dd2_opened']
     gs.dd3_opened = gs.settings_dictionary['dd3_opened']
     gs.dd3_open_attempts = gs.settings_dictionary['dd3_open_attempts']
+    gs.fc2_open_attempts = gs.settings_dictionary['fc2_open_attempts']
     gs.desk_drawer_up = gs.settings_dictionary['desk_drawer_up']
     gs.fcd1_locked = gs.settings_dictionary['fcd1_locked']
     gs.fcd2_locked = gs.settings_dictionary['fcd2_locked']
@@ -710,6 +719,7 @@ def load_settings(gs):
 def default_settings(gs):
     """Function to change all of the game settings to default settings for a new game."""
     gs.new_game = True
+    gs.game_clicks = 0
     gs.save_filename = None
     gs.options_menu_up = False
     gs.quit_menu_up = False
@@ -745,6 +755,7 @@ def default_settings(gs):
     gs.power_cord_desk_2 = False # Default = False
     gs.power_cord_window_1 = False # Default = False
     gs.moveable_items_index_list = []
+    gs.number_all_items_found = 0
     gs.door_key_used = False # Default = False
     gs.red_key_used = False # Default = False
     gs.purple_key_used = False # Default = False
@@ -772,7 +783,7 @@ def default_settings(gs):
     gs.message_channel_play = False
     gs.tv_stand_open = False
     gs.tv_stand_egg_found_text_var = True
-    gs.easter_egg_channel = '1F'
+    gs.easter_egg_channel = '366F'
     gs.safe_uncovered = False # Default = false todo make false
     gs.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
     gs.safe_initialized = False # Safe can only be opened if a certain channel is on the TV todo make false
@@ -801,6 +812,7 @@ def default_settings(gs):
     gs.dd2_opened = False  # Default = False
     gs.dd3_opened = False  # Default = False
     gs.dd3_open_attempts = 0  # Default = 0
+    gs.fc2_open_attempts = 0  # Default = 0
     gs.desk_drawer_up = False
     gs.fcd1_locked = False  # Default = False
     gs.fcd2_locked = True  # Default = True // Unlocked with Purple Key
@@ -944,6 +956,13 @@ def generate_line_sizes(gs):
         # Inside Closet Drill Down Lines
         gs.r4_1_line_x2 = slope_function(876, 508, 1074, 741, None, gs.full_game_window_height)
         gs.r4_1_line_y2 = gs.full_game_window_height
+
+def found_all_items(gs, steamworks):
+    gs.number_all_items_found += 1
+    print('item found: ' + str(gs.number_all_items_found))
+    if gs.number_all_items_found == gs.number_total_items:
+        check_steam.check_set_achievement(steamworks, b'ACH_COLLECT') # Collect all items
+
 
 
 

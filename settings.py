@@ -14,7 +14,7 @@ class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Game Version
-        self.game_version = 'v 0.8.8.2'
+        self.game_version = 'v 0.8.8.3'
         self.start_game_from_load = False
         """
         People that want the game:
@@ -24,6 +24,12 @@ class Settings():
         
         
         Use this area to discuss version: 
+        -5/4/2020 -- Version 0.8.8.3 ---
+            -Got all achievements working that are in Steam.  Need a few more achievements.
+            -Got stats working and it works for the few achievements that require it.
+            -Need to add more stats information   
+            -Setting up the build for review with Steam         
+            
         -4/28/2020 -- Version 0.8.8.2 ---
             -Added the ability to check the fonts in the system and if the font doesn't exist to use the default font.
             -Fixed some of the bugs.
@@ -115,7 +121,7 @@ class Settings():
         self.gw_border = 5
 
         # Check Fonts
-        print(pygame.font.get_fonts())
+        #print(pygame.font.get_fonts())
         if 'verdana' not in pygame.font.get_fonts():
             self.verdana_name = pygame.font.get_default_font()
             print('Verdana not found')
@@ -215,6 +221,8 @@ class Settings():
         self.item_offset_h = self.gw_border * 2.5
 
         self.full_game_window_height = self.gw_height + (self.gw_border * 3)
+
+        self.number_total_items = 14
 
         # Textbox Area Settings
         self.text_box_w = self.gw_width
@@ -319,6 +327,7 @@ class Settings():
         self.power_cord_window_1 = False # Default = False
 
         self.moveable_items_index_list = []
+        self.number_all_items_found = 0
 
         self.door_key_used = False # Default = False
         self.red_key_used = False # Default = False
@@ -356,7 +365,7 @@ class Settings():
         self.message_channel_play = False
         self.tv_stand_open = False
         self.tv_stand_egg_found_text_var = True  # Default = True
-        self.easter_egg_channel = '1F'
+        self.easter_egg_channel = '366F'
 
         # Safe Settings
         self.safe_uncovered = False # Default = false todo make false
@@ -394,6 +403,7 @@ class Settings():
         self.dd3_opened = False  # Default = False
 
         self.dd3_open_attempts = 0  # Default = 0
+        self.fc2_open_attempts = 0  # Default = 0
         self.desk_drawer_up = False
 
         # Locked Settings

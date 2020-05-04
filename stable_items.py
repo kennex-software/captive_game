@@ -395,7 +395,7 @@ class Stable_Items():
 
         #pygame.draw.polygon(screen, gs.yellow, self.clickbox_shirt_pocket, 1)
 
-    def shirt_clicks(self, gs, event):
+    def shirt_clicks(self, gs, event, steamworks):
         # Closes shirt if anywhere is clicked but the shirt
         if gs.shirt_opened:
             gs.text = 'A nice shirt.'
@@ -409,6 +409,7 @@ class Stable_Items():
             pygame.mixer.Sound.play(key_sound)
             gs.purple_key_found = True
             gs.moveable_items_index_list.append(2)
+            gf.found_all_items(gs, steamworks)
 
 
 
@@ -503,7 +504,7 @@ class Stable_Items():
             color_cover = None
             gs.current_page = 1
 
-    def change_manual_pages(self, gs, event):
+    def change_manual_pages(self, gs, event, steamworks):
         """Function to change the pages in the manuals"""
         if self.manual_pages.collidepoint(event.pos):
             if gs.current_book == 'red_book' and gs.current_page == 4 and not gs.red_key_found and gf.check_inside_clickbox(self, self.red_key_clickbox, ((event.pos), (0, 0))):
@@ -511,6 +512,7 @@ class Stable_Items():
                 pygame.mixer.Sound.play(key_sound)
                 gs.red_key_found = True
                 gs.moveable_items_index_list.append(1)
+                gf.found_all_items(gs, steamworks)
             else:
                 gs.current_page += 1
                 pygame.mixer.Sound.play(flip_page_sound)
@@ -657,6 +659,8 @@ class Stable_Items():
     def check_channel_achievements(self, gs, steamworks):
         if gs.current_channel == '1234567890F':
             check_steam.check_set_achievement(steamworks, b'ACH_BUTTONS') # Social Distancing Achievement
+        if gs.current_channel == '181161693114':
+            check_steam.check_set_achievement(steamworks, b'ACH_RAPP') # Social Distancing Achievement
 
     def remote_entry(self, gs):
         temp_channel = []

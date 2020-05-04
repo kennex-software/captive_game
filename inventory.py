@@ -227,7 +227,7 @@ class Inventory():
                     gs.desk_drawer_up = not gs.desk_drawer_up
                 if index == 6: # todo figure out what to do with this later
                     gs.stable_item_opened = False
-                    gf.print_settings(gs) # todo make sure this isn't running
+                    #gf.print_settings(gs) # todo make sure this isn't running
 
 
     def item_grabbed(self, gs, event):  # Referenced from gf
