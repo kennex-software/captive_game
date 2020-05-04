@@ -87,7 +87,7 @@ glEnable(GL_BLEND)
 
 # Optional Steam Commands ** Warning - Testing Only # todo turn this off
 #check_steam.create_steam_achievements_list(gs, steamworks)
-steamworks.UserStats.ResetAllStats(1) # also resets achievements
+#steamworks.UserStats.ResetAllStats(1) # also resets achievements
 
 
 
