@@ -481,8 +481,13 @@ def tv_channels(gs, screen):
             gs.text = None
 
 
-    elif gs.current_channel == str(456): # todo something
-        print(gs.current_channel)
+    elif gs.current_channel == str('1510F'): # Secret Achievement Channel
+        gs.current_tv_screen_color = gs.white
+        text_image = gs.arial22.render("I V X F", True, gs.black)
+        text_rect = text_image.get_rect(center = tv_rect.center)
+        screen.blit(text_image, text_rect)
+        if gs.current_room_view == 1:
+            gs.text = "It's the Secret Achievement Channel!"
 
     elif gs.current_channel == str('F'): # todo easter egg channel for fun
         gs.current_tv_screen_color = gs.white
@@ -498,7 +503,18 @@ def tv_channels(gs, screen):
         text_rect = text_image.get_rect(center = tv_rect.center)
         screen.blit(text_image, text_rect)
         if gs.current_room_view == 1:
-            gs.text = 'I DO LIKE BUTTONS! HAHA!'
+            gs.text = 'I DO LIKE BUTTONS!'
+
+    elif gs.current_channel == str('366F'): # Egg Channel for the next step
+        gs.current_tv_screen_color = gs.white
+
+        line_spacing_tv = 25 + tv_rect.y
+        text_height = gs.verdana24.get_height()
+
+        for item in gs.list_to_display_on_egg:
+            text_image = gs.verdana24.render(item, True, gs.black)
+            screen.blit(text_image, (tv_rect.x + 100, line_spacing_tv+35))
+            line_spacing_tv += text_height
 
 
     elif gs.current_channel == str(181161693114): # This spells "RAPPICAN" if you put 1-26 next to the alphabet

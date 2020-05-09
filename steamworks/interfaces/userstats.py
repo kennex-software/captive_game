@@ -110,7 +110,7 @@ class SteamUserStats(object):
         :return:
         """
         if isinstance(value, float):
-            return self.steam.SetStatFloat(name, value)
+            return self.steam.SetStatFloat(name, c_float(value))
 
         elif isinstance(value, int):
             return self.steam.SetStatInt(name, value)

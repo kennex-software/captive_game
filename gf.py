@@ -24,6 +24,8 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
             sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
+                if len(gs.wasd_list) > 0:
+                    gs.wasd_list = []
                 if not gs.options_menu_up:
                     if not gs.won_game:
                         if not gs.stable_item_opened:
@@ -43,6 +45,9 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                     if gs.door_opened:
                                         room_view.close_door(gs, event, steamworks)
                                         if room_view.main_door.collidepoint(event.pos) and gs.current_room_view == 0 and gs.room_view_drill_down == 0:
+
+                                            # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
                                             if gs.leave: # This is all the end of the game stuff when the user exits the room
                                                 gs.won_game = True
                                                 gs.end_time = get_game_clock(gs, screen)
@@ -50,9 +55,14 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                                     check_steam.check_set_achievement(steamworks, b'ACH_EXIT_TWOHOUR') # Exit the room in under 2 hours
                                                     if gs.current_time < 3600000:
                                                         check_steam.check_set_achievement(steamworks, b'ACH_EXIT_ONEHOUR') # Exit the room in under 1 hour
+                                                if gs.game_clicks <= 175:
+                                                    check_steam.check_set_achievement(steamworks, b'ACH_MO_CLICKS') # Escape the room in under 175 clicks
                                                 gs.game_started = False
                                                 check_steam.check_set_achievement(steamworks, b'ACH_EXIT_ONE') # Door Opened Achievement
-                                                check_steam.check_set_stats(steamworks, b'STAT_TIMES_ESCAPED', 1) # Add 1 to stats of times exited
+                                                check_steam.check_set_stats(steamworks, gs, 1) # Add 1 to stats of times exited and check other stats
+
+                                            # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
                                             else:
                                                 gs.leave = True
 
@@ -63,6 +73,8 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                 if gs.current_room_view == -1:  # Left from default
                                     room_view.open_drawers(gs, screen, game_objects, event, steamworks) # See open drawers for click events
                                     room_view.click_desk_wall_outlet(gs, event)
+                                    if not gs.yellow_book_found:
+                                        room_view.click_yellow_book(gs, event, steamworks)
                                     if gs.power_cord_desk_1 and not gs.power_cord_desk_2:
                                         room_view.pick_power_cord_desk(gs, event)
                                     if gs.desk_drawer_removed and not gs.green_key_found:
@@ -97,7 +109,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
 
                         else:
-                            if gs.red_book_opened or gs.blue_book_opened:
+                            if gs.red_book_opened or gs.blue_book_opened or gs.yellow_book_opened:
                                 stable_item_blocks.change_manual_pages(gs, event, steamworks)
                             if gs.remote_opened:
                                 stable_item_blocks.remote_buttons_clicked(gs, event, steamworks)
@@ -119,8 +131,10 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
 
                 print("Click Position: " + str(event.pos))
+                print(gs.yellow_book_opened)
                 #print(str(event.pos))
-                gs.game_clicks += 1
+                if gs.game_started:
+                    gs.game_clicks += 1
                 #print(gs.game_clicks)
 
         elif event.type == pygame.MOUSEBUTTONUP:
@@ -142,6 +156,27 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
             if event.key == pygame.K_f:
                 if gs.current_channel == 'F' and gs.tv_on:
                     check_steam.check_set_achievement(steamworks, b'ACH_F') # Respects Achievement
+            if event.key == pygame.K_w:
+                if len(gs.wasd_list) == 0:
+                    gs.wasd_list.append('w')
+            if event.key == pygame.K_a:
+                if len(gs.wasd_list) == 1 and 'w' in gs.wasd_list:
+                    gs.wasd_list.append('a')
+                else:
+                    gs.wasd_list = []
+            if event.key == pygame.K_s:
+                if len(gs.wasd_list) == 2 and 'a' in gs.wasd_list:
+                    gs.wasd_list.append('s')
+                else:
+                    gs.wasd_list = []
+            if event.key == pygame.K_d:
+                if len(gs.wasd_list) == 3 and 's' in gs.wasd_list:
+                    gs.wasd_list = []
+                    check_steam.check_set_achievement(steamworks, b'ACH_WRONG_CONTROLS') # Wrong Controls Achievement
+                else:
+                    gs.wasd_list = []
+            if event.key == pygame.K_EQUALS:
+                print_settings(gs)
 
 
 
@@ -330,7 +365,8 @@ def generate_codes(gs):
     # Diary Choice Interger
     gs.diary_choice = random.randint(1, 3)
 
-
+    # Egg Channel
+    gs.easter_egg_channel = str(random.randint(12030, 32030)) + 'F'
 
     # Generate color numbers
     # Shuffle List for Colors
@@ -358,6 +394,25 @@ def generate_codes(gs):
     for n in range(1, 7):
         if n not in gs.safe_combo_random:
             gs.tv_color_numbers.append(n)
+
+    # Egg Channel TV Dot Code
+    list_for_channel = ['> ',
+                        '> .',
+                        '> ..',
+                        '> ...',
+                        '> ....',
+                        '> .....',
+                        '> ......',
+                        '> .......',
+                        '> ........',
+                        '> .........',
+                        ]
+
+    for number in gs.easter_egg_channel:
+        if number == 'F':
+            gs.list_to_display_on_egg.append('> F')
+        else:
+            gs.list_to_display_on_egg.append(list_for_channel[int(number)])
 
     # Implement safe code in proper order
     safe_combo_temp = list(map(int, str(gs.pua_code)))
@@ -444,6 +499,7 @@ def update_settings_dictionary(gs):
                                 'papers_found': gs.papers_found,
                                 'red_book_found': gs.red_book_found,
                                 'blue_book_found': gs.blue_book_found,
+                                'yellow_book_found': gs.yellow_book_found,
                                 'desk_drawer_removed': gs.desk_drawer_removed,
                                 'shirt_found': gs.shirt_found,
                                 'screwdriver_found': gs.screwdriver_found,
@@ -452,6 +508,7 @@ def update_settings_dictionary(gs):
                                 'power_cord_window_1': gs.power_cord_window_1,
                                 'moveable_items_index_list': gs.moveable_items_index_list,
                                 'number_all_items_found': gs.number_all_items_found,
+                                'list_to_display_on_egg': gs.list_to_display_on_egg,
                                 'door_key_used': gs.door_key_used,
                                 'red_key_used': gs.red_key_used,
                                 'purple_key_used': gs.purple_key_used,
@@ -521,6 +578,7 @@ def update_settings_dictionary(gs):
                                 'lights_beginning': gs.lights_beginning,
                                 'red_book_opened': gs.red_book_opened,
                                 'blue_book_opened': gs.blue_book_opened,
+                                'yellow_book_opened': gs.yellow_book_opened,
                                 'current_page': gs.current_page,
                                 'current_book': gs.current_book,
                                 'diary_choice': gs.diary_choice,
@@ -570,6 +628,7 @@ def update_settings_from_save_file(gs):
     gs.papers_found = gs.settings_dictionary['papers_found']
     gs.red_book_found = gs.settings_dictionary['red_book_found']
     gs.blue_book_found = gs.settings_dictionary['blue_book_found']
+    gs.yellow_book_found = gs.settings_dictionary['yellow_book_found']
     gs.desk_drawer_removed = gs.settings_dictionary['desk_drawer_removed']
     gs.shirt_found = gs.settings_dictionary['shirt_found']
     gs.screwdriver_found = gs.settings_dictionary['screwdriver_found']
@@ -579,6 +638,7 @@ def update_settings_from_save_file(gs):
     gs.power_cord_window_1 = gs.settings_dictionary['power_cord_window_1']
     gs.moveable_items_index_list = gs.settings_dictionary['moveable_items_index_list']
     gs.number_all_items_found = gs.settings_dictionary['number_all_items_found']
+    gs.list_to_display_on_egg = gs.settings_dictionary['list_to_display_on_egg']
     gs.door_key_used = gs.settings_dictionary['door_key_used']
     gs.red_key_used = gs.settings_dictionary['red_key_used']
     gs.purple_key_used = gs.settings_dictionary['purple_key_used']
@@ -649,6 +709,7 @@ def update_settings_from_save_file(gs):
     gs.lights_beginning = gs.settings_dictionary['lights_beginning']
     gs.red_book_opened = gs.settings_dictionary['red_book_opened']
     gs.blue_book_opened = gs.settings_dictionary['blue_book_opened']
+    gs.yellow_book_opened = gs.settings_dictionary['yellow_book_opened']
     gs.current_page = gs.settings_dictionary['current_page']
     gs.current_book = gs.settings_dictionary['current_book']
     gs.diary_choice = gs.settings_dictionary['diary_choice']
@@ -747,6 +808,7 @@ def default_settings(gs):
     gs.papers_found = False # Default = False
     gs.red_book_found = False # Default = False
     gs.blue_book_found = False # Default = False
+    gs.yellow_book_found = False # Default = False
     gs.desk_drawer_removed = False # Default = False
     gs.shirt_found = False # Default = False
     gs.screwdriver_found = False # Default = False
@@ -756,6 +818,7 @@ def default_settings(gs):
     gs.power_cord_window_1 = False # Default = False
     gs.moveable_items_index_list = []
     gs.number_all_items_found = 0
+    gs.list_to_display_on_egg = []
     gs.door_key_used = False # Default = False
     gs.red_key_used = False # Default = False
     gs.purple_key_used = False # Default = False
@@ -828,6 +891,7 @@ def default_settings(gs):
     gs.lights_beginning = True
     gs.red_book_opened = False  # Default = False
     gs.blue_book_opened = False  # Default = False
+    gs.yellow_book_opened = False  # Default = False
     gs.current_page = 1  # Default = 1
     gs.current_book = None
     gs.diary_choice = 0
@@ -910,7 +974,7 @@ def print_settings(gs):
     print(str(gs.channel_code) + ": Code to Turn on Safe // Done")
     print(str(gs.random_channel) + ": Diamond Channel // Done")
     print(str(gs.turn_safe_on_channel) + ": Turn Safe On Channel // Done")
-    print("FINDCHANNEL: ???")
+    print("Easter Egg Channel: " + str(gs.easter_egg_channel))
     print("FINDCHANNEL: ???")
     print("181161693114: ???")
 

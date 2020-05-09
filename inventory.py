@@ -24,6 +24,7 @@ i_power_cord = 'images/power_cord.png' # Power Cord
 i_papers = 'images/papers_1top.png' # Papers
 i_red_book = 'images/red_book.png' # Red Book
 i_blue_book = 'images/blue_book.png' # Blue Book
+i_yellow_book = 'images/yellow_book.png' # Yellow Book
 i_shirt = 'images/shirt_no_hang.png' # Shirt
 i_screwdriver = 'images/flathead.png' # Screwdriver
 i_egg = 'images/egg.png' # Screwdriver
@@ -38,6 +39,7 @@ power_cord = pygame.image.load(i_power_cord)
 papers = pygame.image.load(i_papers)
 red_book = pygame.image.load(i_red_book)
 blue_book = pygame.image.load(i_blue_book)
+yellow_book = pygame.image.load(i_yellow_book)
 shirt = pygame.image.load(i_shirt)
 screwdriver = pygame.image.load(i_screwdriver)
 egg_inv = pygame.image.load(i_egg)
@@ -53,8 +55,6 @@ flip_page_sound = pygame.mixer.Sound('sounds/flip_page.wav')
 shirt_sound = pygame.mixer.Sound('sounds/pick_shirt.wav')
 
 
-
-
 # Game Screen
 g_red_key_taped = 'images/red_key_rotated_tape.png' # Red Key with Tape
 g_ripped_tape = 'images/ripped_tape.png' # Ripped Tape
@@ -62,23 +62,6 @@ g_ripped_tape = 'images/ripped_tape.png' # Ripped Tape
 red_key_taped = pygame.image.load(g_red_key_taped)
 ripped_tape = pygame.image.load(g_ripped_tape)
   
-
-
-
-
-"""
-inv_items.append(door_key)
-inv_items.append(red_key)
-inv_items.append(purple_key)
-inv_items.append(green_key)
-inv_items.append(remote)
-inv_items.append(batteries)
-inv_items.append(power_cord)
-inv_items.append(papers)
-inv_items.append(camera_manual)
-inv_items.append(chair_manual)
-"""
-
 
 
 class Inventory():
@@ -124,6 +107,7 @@ class Inventory():
         self.papers_inv_scaled = pygame.transform.smoothscale(papers, (int(gs.inv_item_w), int(gs.inv_item_h)))
         self.red_book_inv_scaled = pygame.transform.smoothscale(red_book, (int(gs.inv_item_w), int(gs.inv_item_h)))
         self.blue_book_inv_scaled = pygame.transform.smoothscale(blue_book, (int(gs.inv_item_w), int(gs.inv_item_h)))
+        self.yellow_book_inv_scaled = pygame.transform.smoothscale(yellow_book, (int(gs.inv_item_w), int(gs.inv_item_h)))
         self.shirt_inv_scaled = pygame.transform.smoothscale(shirt, (int(gs.inv_item_w), int(gs.inv_item_h)))
         self.drawer_inv_scaled = gf.aspect_scale(sur_inv_desk_drawer, int(gs.inv_item_w))
         self.door_key_inv_scaled = pygame.transform.smoothscale(door_key, (int(gs.inv_item_w), int(gs.inv_item_h)))
@@ -153,6 +137,8 @@ class Inventory():
             sdx = inv_items_stable[5].centerx
             sdy = inv_items_stable[5].centery
             screen.blit(self.drawer_inv_scaled, (sdx - self.drawer_inv_scaled.get_width() // 2, sdy - self.drawer_inv_scaled.get_height() // 2 ))
+        if gs.yellow_book_found == True:  # Draw Yellow Book Manual Inventory Item
+            screen.blit(self.yellow_book_inv_scaled, inv_items_stable[6])
 
         ### Moveable Items
         if gs.door_key_found == True and not gs.door_key_used:  # Draw Door Key Inventory Item
@@ -225,9 +211,11 @@ class Inventory():
                 if index == 5 and gs.desk_drawer_removed:
                     gs.stable_item_opened = True  # Turns on stable items.  User cannot move in view until item is closed.
                     gs.desk_drawer_up = not gs.desk_drawer_up
-                if index == 6: # todo figure out what to do with this later
-                    gs.stable_item_opened = False
-                    #gf.print_settings(gs) # todo make sure this isn't running
+                if index == 6 and gs.yellow_book_found:
+                    gs.stable_item_opened = True  # Turns on stable items.  User cannot move in view until item is closed.
+                    gs.yellow_book_opened = not gs.yellow_book_opened
+                    pygame.mixer.Sound.play(flip_page_sound)
+                    gs.current_book = 'yellow_book'
 
 
     def item_grabbed(self, gs, event):  # Referenced from gf
@@ -246,6 +234,7 @@ class Inventory():
         gs.selected_item = None
         gs.selected_item_index = None
         gs.offset = None
+
 
 
 

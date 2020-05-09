@@ -25,6 +25,7 @@ rotated_batteries_load = 'images/batteries_rotated.png' # Rotated batteries
 laying_power_cord_load = 'images/power_cord.png' # Laying power cord
 red_book_rotated_load = 'images/red_book_rotated.png' # Rotated Red Book
 blue_book_rotated_load = 'images/blue_book_rotated.png' # Rotated Blue Book
+yellow_book_rotated_load = 'images/yellow_book_rotated.png' # Rotated Blue Book
 flathead_load = 'images/flathead_rotated.png' # Flathead
 door_key_rotated_load = 'images/door_key_rotated.png' # Rotated Door Key
 green_key_rotated_load = 'images/green_key_rotated.png' # Rotated Green Key
@@ -42,6 +43,7 @@ rotated_batteries = pygame.image.load(rotated_batteries_load)
 laying_power_cord = pygame.image.load(laying_power_cord_load)
 red_book_rotated = pygame.image.load(red_book_rotated_load)
 blue_book_rotated = pygame.image.load(blue_book_rotated_load)
+yellow_book_rotated = pygame.image.load(yellow_book_rotated_load)
 flathead = pygame.image.load(flathead_load)
 door_key_rotated = pygame.image.load(door_key_rotated_load)
 green_key_rotated = pygame.image.load(green_key_rotated_load)
@@ -321,6 +323,14 @@ class Room():
             gs.text = 'Wow! A blue book was in this drawer!'
             pygame.mixer.Sound.play(book_found_sound)
             gs.blue_book_found = True
+            gf.found_all_items(gs, steamworks)
+
+    def click_yellow_book(self, gs, event, steamworks):
+        # function to be able to pick up the blue book item
+        if self.yellow_book_clicker.collidepoint(event.pos):
+            gs.text = 'A yellow book.'
+            pygame.mixer.Sound.play(book_found_sound)
+            gs.yellow_book_found = True
             gf.found_all_items(gs, steamworks)
 
     def click_green_key(self, gs, event, steamworks):
@@ -1030,7 +1040,12 @@ class Room():
             pygame.draw.rect(screen, gs.black, fcd1, 3)
             fcd_handle.center = fcd1.center
             pygame.draw.rect(screen, gs.silver, fcd_handle)
-            pygame.draw.rect(screen, gs.black, fcd_handle, 2) 
+            pygame.draw.rect(screen, gs.black, fcd_handle, 2)
+
+
+
+        if not gs.yellow_book_found:
+            self.yellow_book_clicker = gf.draw_item_to_screen(gs, screen, yellow_book_rotated, 4, 273, 432)
 
 
 
@@ -1448,6 +1463,9 @@ class Room():
             stable_item_blocks.draw_manual(gs, screen)
 
         if gs.blue_book_opened:
+            stable_item_blocks.draw_manual(gs, screen)
+
+        if gs.yellow_book_opened:
             stable_item_blocks.draw_manual(gs, screen)
 
         if gs.papers_opened:

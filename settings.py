@@ -14,7 +14,7 @@ class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Game Version
-        self.game_version = 'v 0.8.8.3'
+        self.game_version = 'v 0.8.8.4'
         self.start_game_from_load = False
         """
         People that want the game:
@@ -24,6 +24,15 @@ class Settings():
         
         
         Use this area to discuss version: 
+        -5/9/2020 -- Version 0.8.8.4 ---
+            -Steam approved for release!
+            -All stats are working (Times escaped, best time, worst time, least amount of clicks to escape)
+            -All achievement images are in Steam, for the 17 achievements
+            -Added the secret achievement channel
+            -Added the WASD achievement
+            -Added the Mo clicks Mo problems achievement
+            -Added the interesting puzzle for the egg
+            
         -5/4/2020 -- Version 0.8.8.3 ---
             -Got all achievements working that are in Steam.  Need a few more achievements.
             -Got stats working and it works for the few achievements that require it.
@@ -111,6 +120,7 @@ class Settings():
 
         # Alphabet List
         self.alphabet_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+        self.wasd_list = []
 
         # WhiteSpace
         self.whitespace_count = 0
@@ -152,6 +162,7 @@ class Settings():
         self.verdana18 = pygame.font.SysFont(self.verdana_name, 18, True)
         self.verdana20 = pygame.font.SysFont(self.verdana_name, 20, True)
         self.verdana22 = pygame.font.SysFont(self.verdana_name, 22, True)
+        self.verdana24 = pygame.font.SysFont(self.verdana_name, 24, True)
         self.verdana28 = pygame.font.SysFont(self.verdana_name, 28, True)
         self.verdana32 = pygame.font.SysFont(self.verdana_name, 32, True)
         self.verdana40 = pygame.font.SysFont(self.verdana_name, 40, True)
@@ -222,7 +233,7 @@ class Settings():
 
         self.full_game_window_height = self.gw_height + (self.gw_border * 3)
 
-        self.number_total_items = 14
+        self.number_total_items = 15
 
         # Textbox Area Settings
         self.text_box_w = self.gw_width
@@ -266,8 +277,10 @@ class Settings():
         self.safe = (47, 54, 82)
         self.red_book_color = (120, 33, 33)  # Red One
         self.blue_book_color = (66, 72, 158)  # Blue one
+        self.yellow_book_color = (245, 236, 61)  # Yellow one
         self.transcolor = (254, 254, 254, 0)
         self.clickboxcolor = (253, 253, 253)
+
 
 
 
@@ -317,6 +330,7 @@ class Settings():
         self.papers_found = False # Default = False
         self.red_book_found = False # Default = False
         self.blue_book_found = False # Default = False
+        self.yellow_book_found = False # Default = False
         self.desk_drawer_removed = False # Default = False
         self.shirt_found = False # Default = False
         self.screwdriver_found = False # Default = False
@@ -427,6 +441,7 @@ class Settings():
         # Settings for Red and Blue Book
         self.red_book_opened = False  # Default = False
         self.blue_book_opened = False  # Default = False
+        self.yellow_book_opened = False  # Default = False
         self.current_page = 1  # Default = 1
         self.current_book = None
         self.diary_choice = 0
@@ -461,8 +476,9 @@ class Settings():
         # Control Panel
         self.control_panel_on = False
 
-        # Channel Code
+        # Channel Codes
         self.channel_code = 0
+        self.list_to_display_on_egg = []
 
 
         # Color Code List --- MOSTLY STATIC --- name: number[0], letter[1], color[2]

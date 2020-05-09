@@ -387,6 +387,89 @@ class Stable_Items():
                             y += 40
                             index += 1
 
+        elif gs.current_book == 'yellow_book':
+            # Page 1
+            if page == 1:
+                gs.text = None
+                channels = ['', # todo update channels accordingly
+                            '',
+                            '',
+                            '',
+                            'There are numbers...',
+                            'In the achievements...',
+                            'For more achievements...',
+                            'START WITH 1',
+                            'Do you like puzzles?',
+                            '',
+                            '']
+                line_spacing = 200
+                text_height = gs.verdana18.get_height()
+
+                heading_image = gs.cambria30.render('THIS BOOK', True, gs.black)
+                screen.blit(heading_image, ((self.page_area.centerx-(heading_image.get_width()/2)), (line_spacing-25)))
+
+                for channel in channels:
+                    text_image = gs.verdana18.render(channel, True, gs.black)
+                    screen.blit(text_image, (465, line_spacing+35))
+                    line_spacing += text_height
+
+            # Page 2
+            if page == 2:
+                instructions = ['',
+                                '',
+                                'dO yOU lIKE pUZZLES?',
+                                'ENTER RAPPICAN',
+                                '',
+                                '',
+                                '',
+                                '',
+                                '3o!3o!6o!fo!',
+                                '3o!3o!6o!fo!',
+                                '',
+                                ''
+                                ]
+                line_spacing = 200
+                text_height = gs.verdana18.get_height()
+
+                heading_image = gs.cambria30.render('HOLDS MANY', True, gs.black)
+                screen.blit(heading_image, ((self.page_area.centerx-(heading_image.get_width()/2)), (line_spacing-25)))
+
+                for instruction in instructions:
+                    text_image = gs.verdana18.render(instruction, True, gs.black)
+                    screen.blit(text_image, (460, line_spacing+35))
+                    line_spacing += text_height
+
+            # Page 3
+            if page == 3:
+                instructions = ['',
+                                '',
+                                'do YOU like PUZZLES?',
+                                'egg',
+                                '',
+                                'numbers',
+                                'the beginning of Fun',
+                                'is',
+                                'helpFul',
+                                ''
+                                ]
+                line_spacing = 200
+                text_height = gs.verdana18.get_height()
+
+                heading_image = gs.cambria30.render('SECRETS', True, gs.black)
+                screen.blit(heading_image, ((self.page_area.centerx-(heading_image.get_width()/2)), (line_spacing-25)))
+
+                for instruction in instructions:
+                    text_image = gs.verdana18.render(instruction, True, gs.black)
+                    screen.blit(text_image, (460, line_spacing+35))
+                    line_spacing += text_height
+            # Page 4
+            if page == 4:
+                #surface = pygame.Surface((100,100))
+
+                text_image = gs.cambria18.render('this page intentially leFt blank', True, gs.gray)
+                text_image_rect = text_image.get_rect(center = self.page_area.center)
+                screen.blit(text_image, text_image_rect)
+
 
     def open_shirt(self, gs, screen):
         # Open Shirt
@@ -410,8 +493,6 @@ class Stable_Items():
             gs.purple_key_found = True
             gs.moveable_items_index_list.append(2)
             gf.found_all_items(gs, steamworks)
-
-
 
     def pull_up_desk_drawer(self, gs, screen):
         # Pull up drawer
@@ -441,6 +522,8 @@ class Stable_Items():
             cover_color = gs.red_book_color
         elif gs.current_book == 'blue_book':
             cover_color = gs.blue_book_color
+        elif gs.current_book == 'yellow_book':
+            cover_color = gs.yellow_book_color
 
         # Draw the covers
         pygame.draw.rect(screen, cover_color, self.manual_view_cover)
@@ -499,6 +582,7 @@ class Stable_Items():
 
             gs.red_book_opened = False
             gs.blue_book_opened = False
+            gs.yellow_book_opened = False
             gs.stable_item_opened = False
             gs.text = None
             color_cover = None
@@ -519,6 +603,7 @@ class Stable_Items():
         else:
             gs.red_book_opened = False
             gs.blue_book_opened = False
+            gs.yellow_book_opened = False
             gs.stable_item_opened = False
             gs.text = None
             color_cover = None
@@ -658,9 +743,11 @@ class Stable_Items():
 
     def check_channel_achievements(self, gs, steamworks):
         if gs.current_channel == '1234567890F':
-            check_steam.check_set_achievement(steamworks, b'ACH_BUTTONS') # Social Distancing Achievement
+            check_steam.check_set_achievement(steamworks, b'ACH_BUTTONS') # Buttons Achievement
         if gs.current_channel == '181161693114':
-            check_steam.check_set_achievement(steamworks, b'ACH_RAPP') # Social Distancing Achievement
+            check_steam.check_set_achievement(steamworks, b'ACH_RAPP') # Rappican Achievement
+        if gs.current_channel == '1510F':
+            check_steam.check_set_achievement(steamworks, b'ACH_IVXF') # IVXF Achievement Channel
 
     def remote_entry(self, gs):
         temp_channel = []
@@ -782,7 +869,6 @@ class Stable_Items():
                     line_spacing_3 += text_height
                     x_spacing_3 += 12
                     #angle += 2.5
-
 
     def change_papers(self, gs, event):
         """Function to flip through the papers on the screen"""
