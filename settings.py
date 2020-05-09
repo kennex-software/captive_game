@@ -32,6 +32,7 @@ class Settings():
             -Added the WASD achievement
             -Added the Mo clicks Mo problems achievement
             -Added the interesting puzzle for the egg
+            -Tested all achievements /// All Work
             
         -5/4/2020 -- Version 0.8.8.3 ---
             -Got all achievements working that are in Steam.  Need a few more achievements.
@@ -392,6 +393,14 @@ class Settings():
         self.safe_combo_n2 = 0  # This number is needed to open the safe
         self.safe_combo_n3 = 0  # This number is needed to open the safe
         self.safe_combo_n4 = 0  # This number is needed to open the safe
+
+        self.safe_number_n1 = self.safe_combo_n1
+        self.safe_number_n2 = self.safe_combo_n2
+        self.safe_number_n3 = self.safe_combo_n3
+        self.safe_number_n4 = self.safe_combo_n4
+        self.safe_color_c1 = self.color_number_1
+        self.safe_color_c2 = self.color_number_2
+
         self.safe_opened = False # Default = False todo change to false
         self.safe_combo_random = []
         self.safe_combo = []

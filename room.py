@@ -171,10 +171,10 @@ class Room():
         self.safe_number_rect_n3 = self.safe_number_rect_n2.move(90, 0)
         self.safe_number_rect_n4 = self.safe_number_rect_n3.move(90, 0)
 
-        self.safe_number_n1 = gs.safe_combo_n1
+        """self.safe_number_n1 = gs.safe_combo_n1
         self.safe_number_n2 = gs.safe_combo_n2
         self.safe_number_n3 = gs.safe_combo_n3
-        self.safe_number_n4 = gs.safe_combo_n4
+        self.safe_number_n4 = gs.safe_combo_n4"""
 
         # Alphabet Code
         #self.safe_alpha_a1 = gs.alphabet_list[gs.safe_alpha_index]
@@ -184,8 +184,8 @@ class Room():
         self.safe_number_rect_c1 = self.safe_number_rect_n3.move(0, 130)
         self.safe_number_rect_c2 = self.safe_number_rect_n4.move(0, 130)
 
-        self.safe_color_c1 = gs.color_number_1
-        self.safe_color_c2 = gs.color_number_2
+        """self.safe_color_c1 = gs.color_number_1
+        self.safe_color_c2 = gs.color_number_2"""
         self.index_color1 = gs.color_codes.get('purple')[0]
         self.index_color2 = gs.color_codes.get('purple')[0]
 
@@ -526,10 +526,10 @@ class Room():
                 pygame.draw.rect(screen, self.safe_back_color, self.safe_number_rect_n4) # Number spot 4
                 pygame.draw.rect(screen, self.safe_back_color, self.safe_alpha_rect_a1) # Alpha spot 1
 
-                self.n1_image = gs.arial60.render(str(self.safe_number_n1), True, gs.black) # n1 text
-                self.n2_image = gs.arial60.render(str(self.safe_number_n2), True, gs.black) # n2 text
-                self.n3_image = gs.arial60.render(str(self.safe_number_n3), True, gs.black) # n3 text
-                self.n4_image = gs.arial60.render(str(self.safe_number_n4), True, gs.black) # n4 text
+                self.n1_image = gs.arial60.render(str(gs.safe_number_n1), True, gs.black) # n1 text
+                self.n2_image = gs.arial60.render(str(gs.safe_number_n2), True, gs.black) # n2 text
+                self.n3_image = gs.arial60.render(str(gs.safe_number_n3), True, gs.black) # n3 text
+                self.n4_image = gs.arial60.render(str(gs.safe_number_n4), True, gs.black) # n4 text
 
                 self.n1_rect = self.n1_image.get_rect(center=self.safe_number_rect_n1.center) # n1 rect
                 self.n2_rect = self.n2_image.get_rect(center=self.safe_number_rect_n2.center) # n2 rect
@@ -558,8 +558,8 @@ class Room():
 
                 # Initialization Block
                 pygame.draw.rect(screen, gs.safe_use_color, self.safe_use_rect) # Initiation
-                pygame.draw.rect(screen, self.safe_color_c1, self.safe_number_rect_c1) # Color spot 1
-                pygame.draw.rect(screen, self.safe_color_c2, self.safe_number_rect_c2) # Color Spot 2
+                pygame.draw.rect(screen, gs.safe_color_c1, self.safe_number_rect_c1) # Color spot 1
+                pygame.draw.rect(screen, gs.safe_color_c2, self.safe_number_rect_c2) # Color Spot 2
 
                 # Borders
                 pygame.draw.rect(screen, gs.black, self.safe_number_rect_n1, 2) # Number spot 1
@@ -613,28 +613,28 @@ class Room():
                 else:
                     # Number Button 1
                     if self.safe_number_rect_n1.collidepoint(event.pos):
-                        self.safe_number_n1 += 1
-                        gs.safe_combo_n1 = self.safe_number_n1
-                        if self.safe_number_n1 > 9:
-                            self.safe_number_n1 = 0
+                        gs.safe_number_n1 += 1
+                        gs.safe_combo_n1 = gs.safe_number_n1
+                        if gs.safe_number_n1 > 9:
+                            gs.safe_number_n1 = 0
                     # Number Button 2
                     if self.safe_number_rect_n2.collidepoint(event.pos):
-                        self.safe_number_n2 += 1
-                        gs.safe_combo_n2 = self.safe_number_n2
-                        if self.safe_number_n2 > 9:
-                            self.safe_number_n2 = 0
+                        gs.safe_number_n2 += 1
+                        gs.safe_combo_n2 = gs.safe_number_n2
+                        if gs.safe_number_n2 > 9:
+                            gs.safe_number_n2 = 0
                     # Number Button 3
                     if self.safe_number_rect_n3.collidepoint(event.pos):
-                        self.safe_number_n3 += 1
-                        gs.safe_combo_n3 = self.safe_number_n3
-                        if self.safe_number_n3 > 9:
-                            self.safe_number_n3 = 0
+                        gs.safe_number_n3 += 1
+                        gs.safe_combo_n3 = gs.safe_number_n3
+                        if gs.safe_number_n3 > 9:
+                            gs.safe_number_n3 = 0
                     # Number Button 4
                     if self.safe_number_rect_n4.collidepoint(event.pos):
-                        self.safe_number_n4 += 1
-                        gs.safe_combo_n4 = self.safe_number_n4
-                        if self.safe_number_n4 > 9:
-                            self.safe_number_n4 = 0
+                        gs.safe_number_n4 += 1
+                        gs.safe_combo_n4 = gs.safe_number_n4
+                        if gs.safe_number_n4 > 9:
+                            gs.safe_number_n4 = 0
                     # Alpha Button 1
                     if self.safe_alpha_rect_a1.collidepoint(event.pos):
                         gs.safe_alpha_index += 1
@@ -646,7 +646,7 @@ class Room():
                     elif self.safe_number_rect_c1.collidepoint(event.pos):
                         for v in gs.color_codes.values():
                             if v[0] == self.index_color1:
-                                self.safe_color_c1 = v[2]
+                                gs.safe_color_c1 = v[2]
                                 gs.color_number_1 = v[0]
                         if self.index_color1 == 6:
                             self.index_color1 = 1
@@ -656,7 +656,7 @@ class Room():
                     elif self.safe_number_rect_c2.collidepoint(event.pos):
                         for v in gs.color_codes.values():
                             if v[0] == self.index_color2:
-                                self.safe_color_c2 = v[2]
+                                gs.safe_color_c2 = v[2]
                                 gs.color_number_2 = v[0]
                         if self.index_color2 == 6:
                             self.index_color2 = 1

@@ -87,7 +87,8 @@ glEnable(GL_BLEND)
 
 # Optional Steam Commands ** Warning - Testing Only # todo turn this off
 #check_steam.create_steam_achievements_list(gs, steamworks)
-steamworks.UserStats.ResetAllStats(1) # also resets achievements
+
+#steamworks.UserStats.ResetAllStats(1) # also resets achievements
 
 
 
@@ -343,7 +344,7 @@ def game_menu():
 
     b1_text = gs.arial32.render('PLAY', True, gs.black)
     b2_text = gs.arial32.render('LOAD', True, gs.black)
-    b3_text = gs.arial32.render('SCORES', True, gs.black)
+    b3_text = gs.arial32.render('STATS', True, gs.black)
     b4_text = gs.arial32.render('SETTINGS', True, gs.black)
     b5_text = gs.arial32.render('QUIT', True, gs.black)
 
@@ -355,6 +356,12 @@ def game_menu():
 
     gs.new_game = True
 
+    under_construction = gs.cambria30.render("Stats Coming Soon.", True, gs.red) # todo remove
+    under_construction_rect = under_construction.get_rect()
+    under_construction_rect.centerx = gs.screen_width//2 # todo remove
+    under_construction_rect.y = 860
+    clicked_stats = False
+
     while True:
         # Events
         for event in pygame.event.get():
@@ -363,7 +370,8 @@ def game_menu():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if button1.collidepoint(event.pos):
-                        print('scores')
+                        print('STATS')
+                        clicked_stats = True
                     if button2.collidepoint(event.pos):
                         print('load game')
                         gf.load_settings(gs)
@@ -410,6 +418,9 @@ def game_menu():
         screen.blit(b3_text, b3_text_rect)
         screen.blit(b4_text, b4_text_rect)
         screen.blit(b5_text, b5_text_rect)
+
+        if clicked_stats:
+            screen.blit(under_construction, under_construction_rect)
 
         if button1.collidepoint(pygame.mouse.get_pos()):
             button_color1 = gs.dark_gray
@@ -698,7 +709,7 @@ def settings_menu():
     settings_checkmark = gs.cambria24.render('X', True, gs.black)
     settings_checkmark_rect = (0, 0)
 
-    under_construction = gs.cambria30.render("THIS DOESN'T WORK YET, STAY TUNED!", True, gs.red) # todo remove
+    under_construction = gs.cambria30.render("Only 1440x960 works at this time.", True, gs.red) # todo remove
     under_construction_rect = under_construction.get_rect()
     under_construction_rect.centerx = gs.screen_width//2 # todo remove
 
@@ -735,12 +746,17 @@ def settings_menu():
                     if button1.collidepoint(event.pos):
                         print('save settings')
                         if gs.setting1_checked:
-                            pass
-                            #gs.screen_width = 1440
-                            #gs.screen_height = 960
+                            gs.screen_width = 1440
+                            gs.screen_height = 960
+                            #os.execl(sys.executable, *sys.argv)
+
+
                         if gs.setting2_checked:
-                            gs.screen_width = 1200
-                            gs.screen_height = 800
+                            pass
+                            # gs.screen_width = 1200
+                            # gs.screen_height = 800
+
+
                         if gs.setting3_checked:
                             pass
 

@@ -38,10 +38,7 @@ def check_set_stats(steamworks, gs, value_to_add_escaped):
     current_best_clicks = steamworks.UserStats.GetStatInt(b'STAT_BEST_CLICKS')
     escaped_added_amount = value_to_add_escaped + steamworks.UserStats.GetStatInt(b'STAT_TIMES_ESCAPED')
     time_in_minutes = float(round((gs.current_time / 1000) / 60, 2))
-    print('Current Time in Minutes: ' + str(time_in_minutes))
-    print('Current Best Time in Minutes: ' + str(current_best_time))
-    print('Current Worst Time in Minutes: ' + str(current_worst_time))
-    print('Current Best Clicks: ' + str(current_best_clicks))
+
 
     if current_best_time > time_in_minutes:
         steamworks.UserStats.SetStat(b'STAT_BEST_TIME', time_in_minutes)
@@ -57,16 +54,14 @@ def check_set_stats(steamworks, gs, value_to_add_escaped):
         steamworks.UserStats.SetStat(b'STAT_BEST_CLICKS', gs.game_clicks)
 
     steamworks.UserStats.SetStat(b'STAT_TIMES_ESCAPED', escaped_added_amount)
-
-
     steamworks.UserStats.StoreStats()
 
-    current_best_time = steamworks.UserStats.GetStatFloat(b'STAT_BEST_TIME')
-    current_worst_time = steamworks.UserStats.GetStatFloat(b'STAT_WORST_TIME')
-    current_best_clicks = steamworks.UserStats.GetStatInt(b'STAT_BEST_CLICKS')
-    times_escaped = steamworks.UserStats.GetStatInt(b'STAT_TIMES_ESCAPED')
+    current_best_time1 = steamworks.UserStats.GetStatFloat(b'STAT_BEST_TIME')
+    current_worst_time1 = steamworks.UserStats.GetStatFloat(b'STAT_WORST_TIME')
+    current_best_clicks1 = steamworks.UserStats.GetStatInt(b'STAT_BEST_CLICKS')
+    times_escaped1 = steamworks.UserStats.GetStatInt(b'STAT_TIMES_ESCAPED')
     print('Current Time in Minutes: ' + str(time_in_minutes))
-    print('Current Best Time in Minutes: ' + str(current_best_time))
-    print('Current Worst Time in Minutes: ' + str(current_worst_time))
-    print('Current Best Clicks: ' + str(current_best_clicks))
-    print('Times Escaped: ' + str(times_escaped))
+    print('Current Best Time in Minutes: ' + str(current_best_time1))
+    print('Current Worst Time in Minutes: ' + str(current_worst_time1))
+    print('Current Best Clicks: ' + str(current_best_clicks1))
+    print('Times Escaped: ' + str(times_escaped1))

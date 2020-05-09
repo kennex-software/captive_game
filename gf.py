@@ -51,6 +51,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                             if gs.leave: # This is all the end of the game stuff when the user exits the room
                                                 gs.won_game = True
                                                 gs.end_time = get_game_clock(gs, screen)
+                                                gs.new_game = True
                                                 if gs.current_time < 7200000:
                                                     check_steam.check_set_achievement(steamworks, b'ACH_EXIT_TWOHOUR') # Exit the room in under 2 hours
                                                     if gs.current_time < 3600000:
@@ -130,8 +131,8 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
 
 
 
-                print("Click Position: " + str(event.pos))
-                print(gs.yellow_book_opened)
+                #print("Click Position: " + str(event.pos))
+                #print(gs.yellow_book_opened)
                 #print(str(event.pos))
                 if gs.game_started:
                     gs.game_clicks += 1
@@ -544,6 +545,12 @@ def update_settings_dictionary(gs):
                                 'safe_combo_n2': gs.safe_combo_n2,
                                 'safe_combo_n3': gs.safe_combo_n3,
                                 'safe_combo_n4': gs.safe_combo_n4,
+                                'safe_number_n1': gs.safe_number_n1,
+                                'safe_number_n2': gs.safe_number_n2,
+                                'safe_number_n3': gs.safe_number_n3,
+                                'safe_number_n4': gs.safe_number_n4,
+                                'safe_color_c1': gs.safe_color_c1,
+                                'safe_color_c2': gs.safe_color_c2,
                                 'safe_opened': gs.safe_opened,
                                 'safe_combo_random': gs.safe_combo_random,
                                 'safe_combo': gs.safe_combo,
@@ -675,6 +682,12 @@ def update_settings_from_save_file(gs):
     gs.safe_combo_n2 = gs.settings_dictionary['safe_combo_n2']
     gs.safe_combo_n3 = gs.settings_dictionary['safe_combo_n3']
     gs.safe_combo_n4 = gs.settings_dictionary['safe_combo_n4']
+    gs.safe_number_n1 = gs.settings_dictionary['safe_number_n1']
+    gs.safe_number_n2 = gs.settings_dictionary['safe_number_n2']
+    gs.safe_number_n3 = gs.settings_dictionary['safe_number_n3']
+    gs.safe_number_n4 = gs.settings_dictionary['safe_number_n4']
+    gs.safe_color_c1 = gs.settings_dictionary['safe_color_c1']
+    gs.safe_color_c2 = gs.settings_dictionary['safe_color_c2']
     gs.safe_opened = gs.settings_dictionary['safe_opened']
     gs.safe_combo_random = gs.settings_dictionary['safe_combo_random']
     gs.safe_combo = gs.settings_dictionary['safe_combo']
@@ -851,12 +864,18 @@ def default_settings(gs):
     gs.safe_on = False  # Default = False // Nothing on the safe can be done or used until the safe is turned on todo make false
     gs.safe_initialized = False # Safe can only be opened if a certain channel is on the TV todo make false
     gs.safe_use_color = gs.black
-    gs.color_number_1 = None  # This number is needed to open the safe
-    gs.color_number_2 = None  # This number is needed to open the safe
+    gs.color_number_1 = gs.black  # This number is needed to open the safe
+    gs.color_number_2 = gs.black  # This number is needed to open the safe
     gs.safe_combo_n1 = 0  # This number is needed to open the safe
     gs.safe_combo_n2 = 0  # This number is needed to open the safe
     gs.safe_combo_n3 = 0  # This number is needed to open the safe
     gs.safe_combo_n4 = 0  # This number is needed to open the safe
+    gs.safe_number_n1 = gs.safe_combo_n1
+    gs.safe_number_n2 = gs.safe_combo_n2
+    gs.safe_number_n3 = gs.safe_combo_n3
+    gs.safe_number_n4 = gs.safe_combo_n4
+    gs.safe_color_c1 = gs.color_number_1
+    gs.safe_color_c2 = gs.color_number_2
     gs.safe_opened = False # Default = False todo change to false
     gs.safe_combo_random = []
     gs.safe_combo = []
@@ -927,6 +946,15 @@ def default_settings(gs):
     gs.item_selection_choice = False
     gs.selected_item_start_x = 0
     gs.selected_item_start_y = 0
+
+
+    gs.safe_number_n1 = 0
+    gs.safe_number_n2 = 0
+    gs.safe_number_n3 = 0
+    gs.safe_number_n4 = 0
+
+    gs.safe_color_c1 = gs.black
+    gs.safe_color_c2 = gs.black
 
 
 def print_settings(gs):
