@@ -169,6 +169,7 @@ Kingsley for OpenGL Support
 NeHe for PyOpenGL Tutorial Lessons
 Happy Chuck Programming for help with Scrolling Text
 Ted Klein Bergman for help with the TV Static
+PublicDomainCectors.org for some Clip Art
 The StackOverflow Community
 The Python Community
 The Python Subreddits
@@ -180,7 +181,6 @@ Thank You For Playing.
 
 I hope you enjoyed playing the game as much as I
 enjoyed making it and learning how to code.
-
 
 
 

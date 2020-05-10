@@ -3,10 +3,13 @@
 block_cipher = None
 
 
-a = Analysis(['captive.py', 'steamworks\\interfaces\\apps.py', 'steamworks\\interfaces\\friends.py', 'steamworks\\interfaces\\matchmaking.py', 'steamworks\\interfaces\\music.py', 'steamworks\\interfaces\\screenshots.py', 'steamworks\\interfaces\\users.py', 'steamworks\\interfaces\\userstats.py', 'steamworks\\interfaces\\utils.py', 'steamworks\\interfaces\\workshop.py', 'steamworks\\interfaces\\__init__.py', 'control_panel.py', 'credits.py', 'gf.py', 'inventory.py', 'multiline_text.py', 'objects.py', 'puzzles.py', 'room.py', 'scale_points_list.py', 'settings.py', 'stable_items.py', 'tv_channels.py', 'check_steam.py', 'whitespace.py', 'texture_gl.py', 'steamworks\\enums.py', 'steamworks\\exceptions.py', 'steamworks\\methods.py', 'steamworks\\structs.py', 'steamworks\\util.py', 'steamworks\\__init__.py'],
+a = Analysis(['captive.py'],
              pathex=['T:\\Git\\kennex_files\\escape_game\\captive'],
              binaries=[],
-             datas=[],
+             datas=[('T:\\Git\\kennex_files\\escape_game\\captive\\*.py', '.'),
+                    ('T:\\Git\\kennex_files\\escape_game\\captive\\steamworks\\*.py', 'steamworks'),
+                    ('T:\\Git\\kennex_files\\escape_game\\captive\\steamworks\\interfaces\\*.py', 'interfaces'),
+                    ('T:\\Git\\kennex_files\\escape_game\\captive\\steam_appid.txt', '.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -15,6 +18,9 @@ a = Analysis(['captive.py', 'steamworks\\interfaces\\apps.py', 'steamworks\\inte
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False)
+a.binaries = a.binaries + [('steam_api64.dll', 'T:\\Git\\kennex_files\\escape_game\\captive\\steam_api64.dll', 'BINARY'),
+                           ('steam_api64.lib', 'T:\\Git\\kennex_files\\escape_game\\captive\\steam_api64.lib', 'BINARY'),
+                           ('SteamworksPy64.dll', 'T:\\Git\\kennex_files\\escape_game\\captive\\SteamworksPy64.dll', 'BINARY')]
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
@@ -32,5 +38,3 @@ exe = EXE(pyz,
           runtime_tmpdir=None,
           console=False )
 
-"""             binaries=[('steam_api64.dll', '.'), ('SteamworksPy64.dll', '.'), ('steam_api64.lib', '.')],
-             datas=[('steam_appid.txt', '.')],"""

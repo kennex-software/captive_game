@@ -3,7 +3,7 @@ title Turn Captive Into EXE
 echo Running Installer
 CD /D T:\Git\kennex_files\escape_game\captive\
 
-pyinstaller --onefile -w captive.spec
+pyinstaller --onefile -w -noupx captive.spec
 
 CD /D T:\Git\kennex_files\escape_game\captive\dist
 move *.exe %T:\Git\kennex_files\escape_game\captive\
