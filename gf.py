@@ -504,6 +504,7 @@ def update_settings_dictionary(gs):
                                 'desk_drawer_removed': gs.desk_drawer_removed,
                                 'shirt_found': gs.shirt_found,
                                 'screwdriver_found': gs.screwdriver_found,
+                                'egg_found': gs.egg_found,
                                 'power_cord_desk_1': gs.power_cord_desk_1,
                                 'power_cord_desk_2': gs.power_cord_desk_2,
                                 'power_cord_window_1': gs.power_cord_window_1,
@@ -517,6 +518,7 @@ def update_settings_dictionary(gs):
                                 'batteries_used': gs.batteries_used,
                                 'power_cord_used': gs.power_cord_used,
                                 'screwdriver_used': gs.screwdriver_used,
+                                'egg_used': gs.egg_used,
                                 'stable_item_opened': gs.stable_item_opened,
                                 'shirt_opened': gs.shirt_opened,
                                 'remote_opened': gs.remote_opened,
@@ -537,6 +539,7 @@ def update_settings_dictionary(gs):
                                 'easter_egg_channel': gs.easter_egg_channel,
                                 'safe_uncovered': gs.safe_uncovered,
                                 'safe_on': gs.safe_on,
+                                'channel_code': gs.channel_code,
                                 'safe_initialized': gs.safe_initialized,
                                 'safe_use_color': gs.safe_use_color,
                                 'color_number_1': gs.color_number_1,
@@ -674,6 +677,7 @@ def update_settings_from_save_file(gs):
     gs.easter_egg_channel = gs.settings_dictionary['easter_egg_channel']
     gs.safe_uncovered = gs.settings_dictionary['safe_uncovered']
     gs.safe_on = gs.settings_dictionary['safe_on']
+    gs.channel_code = gs.settings_dictionary['channel_code']
     gs.safe_initialized = gs.settings_dictionary['safe_initialized']
     gs.safe_use_color = gs.settings_dictionary['safe_use_color']
     gs.color_number_1 = gs.settings_dictionary['color_number_1']
@@ -789,6 +793,7 @@ def load_settings(gs):
     except:
         print('file not loaded')
         gs.start_game_from_load = False
+        gs.new_game = True
 
 def default_settings(gs):
     """Function to change all of the game settings to default settings for a new game."""
@@ -1005,6 +1010,7 @@ def print_settings(gs):
     print("Easter Egg Channel: " + str(gs.easter_egg_channel))
     print("FINDCHANNEL: ???")
     print("181161693114: ???")
+    print("Current Clicks = " + str(gs.game_clicks))
 
 def scrolling_credits(gs, screen, credits_full, scrolling_centerx, scrolling_centery, delta_y):
     text_height = gs.arial48.get_height()

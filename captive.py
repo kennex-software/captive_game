@@ -56,6 +56,7 @@ room_view = Room(gs, screen)
 inventory = Inventory(gs, screen, room_view)
 game_objects = GameObjects(gs, screen, inventory)
 cp = Control_Panel(gs, screen)
+gf.generate_line_sizes(gs) # changes the size of specific lines depending on the game resolution
 
 tex_gl = Texture()
 
@@ -842,7 +843,6 @@ def run_game():
     if gs.new_game and allow_new_game:
         gf.default_settings(gs)
         gf.generate_codes(gs) # generates numbers for problems and puzzles
-        gf.generate_line_sizes(gs) # changes the size of specific lines depending on the game resolution
         gf.update_settings_dictionary(gs) # Generates the ability to save the settings generated in the generate codes
         gs.text = "What the...?  Where am I?"
         gs.game_start_time = pygame.time.get_ticks()

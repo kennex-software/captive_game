@@ -14,7 +14,7 @@ class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Game Version
-        self.game_version = 'v 0.8.8.4'
+        self.game_version = 'v 0.8.8.5'
         self.start_game_from_load = False
         """
         People that want the game:
@@ -24,6 +24,11 @@ class Settings():
         
         
         Use this area to discuss version: 
+        -5/11/2020 - Version 0.8.8.5 ---
+            -Fixed a bug on saving the game // Was missing 2 lines in the save method
+            -Fixed the channel code not saving
+            -Fixed the line sizes error on new game load
+            
         -5/9/2020 -- Version 0.8.8.4 ---
             -Steam approved for release!
             -All stats are working (Times escaped, best time, worst time, least amount of clicks to escape)
@@ -156,6 +161,11 @@ class Settings():
             print('Cambria not found')
         else:
             self.cambria_name = 'Cambria'
+
+        """self.verdana_name = 'Verdana'
+        self.times_new_roman_name = 'Times New Roman'
+        self.arial_name = 'Arial'
+        self.cambria_name = 'Cambria'"""
 
         # Fonts
         self.verdana12 = pygame.font.SysFont(self.verdana_name, 12, True)
