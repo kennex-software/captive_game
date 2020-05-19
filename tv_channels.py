@@ -312,6 +312,37 @@ def blue_book_hint(gs, screen, rect):
 
         index += 1
 
+def display_game_cheats(gs, screen, rect):
+
+    cheats = ['',
+              'Problem B Code: ' + str(gs.prb_code),
+                'Puzzle A Code: ' + str(gs.pua_code),
+                'Puzzle B Code: ' + str(gs.pub_code),
+                'Safe Combo: ' + str(gs.safe_combo),
+                'TV Color Numbers: ' + str(gs.tv_color_numbers),
+                'Channel to Turn On Safe: ' + str(gs.turn_safe_on_channel),
+                'Channel Code: ' + str(gs.channel_code),
+                'Street Sign (Konar Number): ' + str(gs.konar_number),
+                'Subject Number: ' + str(gs.door_number),
+                'Safe Combo A1: ' + str(gs.safe_combo_a1),
+                'Alpha Code: ' + str(gs.safe_alpha_pra_answer) + '; ' + str(gs.alphabet_list[gs.safe_alpha_pra_answer]),
+                'Purple: ' + str(gs.color_codes['purple'][0]),
+                'Blue: ' + str(gs.color_codes['blue'][0]),
+                'Green: ' + str(gs.color_codes['green'][0]),
+                'Yellow: ' + str(gs.color_codes['yellow'][0]),
+                'Orange: ' + str(gs.color_codes['orange'][0]),
+                'Red: ' + str(gs.color_codes['red'][0])
+              ]
+
+    line_spacing = rect.y
+    text_height = gs.verdana12.get_height()
+
+    for cheat in cheats:
+        text_image = gs.verdana12.render(cheat, True, gs.black)
+        screen.blit(text_image, (rect.x, line_spacing))
+        line_spacing += text_height
+
+
 
 def tv_channels(gs, screen):
     """
@@ -520,6 +551,15 @@ def tv_channels(gs, screen):
     elif gs.current_channel == str(181161693114): # This spells "RAPPICAN" if you put 1-26 next to the alphabet
         if gs.current_room_view == 1:
             gs.text = "Rappican's Channel..."
+
+    elif gs.current_channel == gs.show_cheats_channel: # This will display all of the codes on the tv screen
+        if gs.show_cheats:
+            display_game_cheats(gs, screen, tv_rect)
+            if gs.current_room_view == 1:
+                gs.text = "Nice."
+        else:
+            whitespace(screen, tv_rect)
+
 
     else:  # Whitespace
         whitespace(screen, tv_rect)

@@ -24,6 +24,11 @@ class Settings():
         
         
         Use this area to discuss version: 
+        -5/19/2020 - Version 0.8.8.6 ---
+            -Fixed the bug that didn't save the colors on the blue book color line.
+            -Added ability to see all codes in the game.
+            -Fixed the clock saving bug.
+            
         -5/11/2020 - Version 0.8.8.5 ---
             -Fixed a bug on saving the game // Was missing 2 lines in the save method
             -Fixed the channel code not saving
@@ -131,6 +136,10 @@ class Settings():
         # WhiteSpace
         self.whitespace_count = 0
 
+        # Show Cheats
+        self.show_cheats = False
+        self.show_cheats_channel = '999F999F999F'
+
         # Game window Settings
         self.gw_width = self.screen_width * .88  # Default is .88
         self.gw_height = self.screen_height * .90  # Default is .90
@@ -168,6 +177,7 @@ class Settings():
         self.cambria_name = 'Cambria'"""
 
         # Fonts
+        self.verdana8 = pygame.font.SysFont(self.verdana_name, 8, True)
         self.verdana12 = pygame.font.SysFont(self.verdana_name, 12, True)
         self.verdana16 = pygame.font.SysFont(self.verdana_name, 16, True)
         self.verdana18 = pygame.font.SysFont(self.verdana_name, 18, True)

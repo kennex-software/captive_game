@@ -177,15 +177,13 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                 else:
                     gs.wasd_list = []
             if event.key == pygame.K_EQUALS:
+                if gs.current_channel == gs.show_cheats_channel:
+                    gs.show_cheats = True
                 print_settings(gs)
-
-
 
 def update_screen(gs, screen, inventory, room_view, stable_item_blocks, cp, clock, game_objects, screen_rect, tex_gl):
     """Update images on the screen and flip to the new screen."""
     # Redraw the screen during each pass through the loop
-
-
 
     # Fill Screen
     screen.fill(gs.bg_color)
@@ -204,6 +202,10 @@ def update_screen(gs, screen, inventory, room_view, stable_item_blocks, cp, cloc
 
     # Draw Game Text
     game_status_text(gs, screen)
+
+    # Show Clock # todo comment out this code
+    show_clock = gs.arial48.render(get_game_clock(gs, screen), True, gs.black)
+    screen.blit(show_clock, (0,0))
 
 
 
@@ -237,8 +239,6 @@ def game_objects_on_screen(gs, game_objects):
 
     return screen_overlay
 
-
-
 def draw_inventory_window(gs, screen, game_objects):
     pygame.draw.rect(screen, gs.silver, game_objects.inventory_window)
     pygame.draw.rect(screen, gs.black, game_objects.inventory_window, 3)
@@ -246,7 +246,6 @@ def draw_inventory_window(gs, screen, game_objects):
     # Draw Bottom Black Border
     pygame.draw.rect(screen, gs.black, game_objects.bottom_border)
     #pygame.draw.rect(screen_overlay, gs.black, (0, 0, gs.screen_width, gs.screen_height), 3)
-
 
 def draw_item_to_screen(gs, screen, image, factor, x, y):
     """Function to pass item and draw to screen
@@ -396,6 +395,8 @@ def generate_codes(gs):
         if n not in gs.safe_combo_random:
             gs.tv_color_numbers.append(n)
 
+
+
     # Egg Channel TV Dot Code
     list_for_channel = ['> ',
                         '> .',
@@ -461,15 +462,13 @@ def game_status_text(gs, screen):
 
     screen.blit(bottom_text_image, bti_rect)
 
-
 def get_game_clock(gs, screen):
     """ Returns a string value of the game clock"""
     clock_output = str(datetime.timedelta(seconds = gs.current_time // 1000))
     return clock_output
 
 def clock_timer(gs):
-    if gs.game_started:
-        gs.current_time = pygame.time.get_ticks() - gs.game_start_time - gs.stoppage_time
+    gs.current_time = pygame.time.get_ticks() - gs.game_start_time - gs.stoppage_time
 
 
 
@@ -511,6 +510,7 @@ def update_settings_dictionary(gs):
                                 'moveable_items_index_list': gs.moveable_items_index_list,
                                 'number_all_items_found': gs.number_all_items_found,
                                 'list_to_display_on_egg': gs.list_to_display_on_egg,
+                                'color_codes': gs.color_codes,
                                 'door_key_used': gs.door_key_used,
                                 'red_key_used': gs.red_key_used,
                                 'purple_key_used': gs.purple_key_used,
@@ -649,6 +649,7 @@ def update_settings_from_save_file(gs):
     gs.moveable_items_index_list = gs.settings_dictionary['moveable_items_index_list']
     gs.number_all_items_found = gs.settings_dictionary['number_all_items_found']
     gs.list_to_display_on_egg = gs.settings_dictionary['list_to_display_on_egg']
+    gs.color_codes = gs.settings_dictionary['color_codes']
     gs.door_key_used = gs.settings_dictionary['door_key_used']
     gs.red_key_used = gs.settings_dictionary['red_key_used']
     gs.purple_key_used = gs.settings_dictionary['purple_key_used']
@@ -767,6 +768,7 @@ def save_settings(gs):
             pickle.dump(gs.settings_dictionary, pickle_out)
             pickle_out.close()
             print('game saved')
+        gs.start_game_from_load = True
     except:
         print('file not saved')
         gs.save_filename = None
@@ -961,7 +963,6 @@ def default_settings(gs):
     gs.safe_color_c1 = gs.black
     gs.safe_color_c2 = gs.black
 
-
 def print_settings(gs):
     # Print specific settings of the game for the use of more easily being able to design
     # Massive hints here
@@ -1011,6 +1012,7 @@ def print_settings(gs):
     print("FINDCHANNEL: ???")
     print("181161693114: ???")
     print("Current Clicks = " + str(gs.game_clicks))
+    print("Show Cheats: " + str(gs.show_cheats))
 
 def scrolling_credits(gs, screen, credits_full, scrolling_centerx, scrolling_centery, delta_y):
     text_height = gs.arial48.get_height()

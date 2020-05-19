@@ -546,6 +546,7 @@ def options_menu():
                         gs.stoppage_time = gs.stoppage_time + (gs.resume_time - gs.pause_time)
                         gf.save_settings(gs)
                         pygame.time.wait(500)
+                        gs.start_game_from_load = True
                         gs.options_menu_up = False
                         gs.game_started = True
                         run_game()
@@ -570,6 +571,7 @@ def options_menu():
                         gs.stoppage_time = gs.stoppage_time + (gs.resume_time - gs.pause_time)
                         gf.save_settings(gs)
                         pygame.time.wait(500)
+                        gs.start_game_from_load = True
                         gs.options_menu_up = False
                         gs.quit_menu_up = False
                         gs.game_started = True
@@ -854,6 +856,7 @@ def run_game():
         gs.safe_on = True"""
 
         print('starting completely new game')
+
     else:
         gs.game_start_time = pygame.time.get_ticks()
         gs.new_game = False
@@ -861,12 +864,6 @@ def run_game():
     while gs.game_started:
         gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp, steamworks)
         gf.update_screen(gs, screen, inventory, room_view, stable_item_blocks, cp, clock, game_objects, screen_rect, tex_gl)
-
-
-
-
-        #if gs.sleeperticks:
-        #    pygame.time.wait(100)  # Leave this at 100 or less
 
         gf.clock_timer(gs)
 
@@ -894,51 +891,3 @@ def run_game():
 
 # Make sure this is not commented for the full game prior to batching
 title_menu()
-
-"""
-
-
-
-
-
-
-
-
-"""
-
-
-
-"""
-Batch this:
-
-pyinstaller --onefile -w captive.py control_panel.py credits.py gf.py inventory.py multiline_text.py objects.py puzzles.py room.py scale_points_list.py settings.py stable_items.py tv_channels.py whitespace.py
-
-
-----ability to ask for a desktop icon:
-
-Function finishpageaction
-CreateShortcut "$desktop\foo.lnk" "$instdir\foo.exe"
-FunctionEnd
-
-!define MUI_FINISHPAGE_SHOWREADME ""
-!define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
-!define MUI_FINISHPAGE_SHOWREADME_TEXT "Create Desktop Shortcut"
-!define MUI_FINISHPAGE_SHOWREADME_FUNCTION finishpageaction
-
-https://stackoverflow.com/questions/1517471/how-to-add-a-desktop-shortcut-option-on-finish-page-in-nsis-installer
-
--ability to choose a place on the C: Drive as a default installation path
--ability to uninstall / show in add/remove programs
--run game after install
--.exe needs to be custom ico
--uninstall old before installing new
-
-
-
-
-
-
-
-
-"""
-
