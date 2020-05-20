@@ -593,7 +593,7 @@ class Room():
             if gs.safe_on:
                 gs.text = 'The safe is on!'
                 # This code will open the safe if all the conditions are met
-                if gs.safe_initialized == True and gs.safe_color_c1 == gs.tv_color_numbers[0] and gs.safe_color_c2 == gs.tv_color_numbers[1] and gs.safe_combo_n1 == gs.safe_combo[0] and gs.safe_combo_n2 == gs.safe_combo[1] and gs.safe_combo_n3 == gs.safe_combo[2] and gs.safe_combo_n4 == gs.safe_combo[3] and gs.safe_combo_a1 == gs.safe_alpha_pra_answer and self.safe_handle.collidepoint(event.pos):
+                if gs.safe_initialized == True and gs.color_number_1 == gs.tv_color_numbers[0] and gs.color_number_2 == gs.tv_color_numbers[1] and gs.safe_combo_n1 == gs.safe_combo[0] and gs.safe_combo_n2 == gs.safe_combo[1] and gs.safe_combo_n3 == gs.safe_combo[2] and gs.safe_combo_n4 == gs.safe_combo[3] and gs.safe_combo_a1 == gs.safe_alpha_pra_answer and self.safe_handle.collidepoint(event.pos):
                     pygame.mixer.Sound.play(safe_door)
                     gs.safe_opened = True
                 if gs.safe_opened == True:

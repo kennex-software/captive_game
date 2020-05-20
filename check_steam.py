@@ -37,7 +37,7 @@ def check_set_stats(steamworks, gs, value_to_add_escaped):
     current_worst_time = steamworks.UserStats.GetStatFloat(b'STAT_WORST_TIME')
     current_best_clicks = steamworks.UserStats.GetStatInt(b'STAT_BEST_CLICKS')
     escaped_added_amount = value_to_add_escaped + steamworks.UserStats.GetStatInt(b'STAT_TIMES_ESCAPED')
-    time_in_minutes = float(round((gs.current_time / 1000) / 60, 2))
+    time_in_minutes = float(round((gs.current_game_time / 1000) / 60, 2))
 
 
     if current_best_time > time_in_minutes:

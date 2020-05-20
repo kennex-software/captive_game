@@ -138,7 +138,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                     gs.game_clicks += 1
                 #print(gs.game_clicks)
 
-                print("Ticks = " + str(pygame.time.get_ticks()))
+                """print("Ticks = " + str(pygame.time.get_ticks()))
                 print("Client Start Time = " + str(gs.client_start_time))
                 print("Current Game Time = " + str(gs.current_game_time))
                 print("Save Time = " + str(gs.save_time))
@@ -148,7 +148,7 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                 print("End Time = " + str(gs.end_time))
                 print("Load Time = " + str(gs.load_time))
                 print("")
-
+                """
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 inventory.deselect_items(gs, event)
