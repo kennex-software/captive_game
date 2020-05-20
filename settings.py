@@ -14,7 +14,7 @@ class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Game Version
-        self.game_version = 'v 0.8.8.5'
+        self.game_version = 'v 0.8.8.6'
         self.start_game_from_load = False
         """
         People that want the game:
@@ -27,7 +27,7 @@ class Settings():
         -5/19/2020 - Version 0.8.8.6 ---
             -Fixed the bug that didn't save the colors on the blue book color line.
             -Added ability to see all codes in the game.
-            -Fixed the clock saving bug.
+            -Fixed the clock saving bug maybe???
             
         -5/11/2020 - Version 0.8.8.5 ---
             -Fixed a bug on saving the game // Was missing 2 lines in the save method
@@ -326,13 +326,14 @@ class Settings():
         self.frame_rate = 60
 
 
-        self.game_start_time = None
-        self.current_time = 0
+        self.client_start_time = 0
+        self.current_game_time = 0
         self.save_time = 0
         self.pause_time = 0
         self.resume_time = 0
         self.stoppage_time = 0
         self.end_time = 0
+        self.load_time = 0
 
 
 

@@ -52,9 +52,9 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                                                 gs.won_game = True
                                                 gs.end_time = get_game_clock(gs, screen)
                                                 gs.new_game = True
-                                                if gs.current_time < 7200000:
+                                                if gs.current_game_time < 7200000:
                                                     check_steam.check_set_achievement(steamworks, b'ACH_EXIT_TWOHOUR') # Exit the room in under 2 hours
-                                                    if gs.current_time < 3600000:
+                                                    if gs.current_game_time < 3600000:
                                                         check_steam.check_set_achievement(steamworks, b'ACH_EXIT_ONEHOUR') # Exit the room in under 1 hour
                                                 if gs.game_clicks <= 175:
                                                     check_steam.check_set_achievement(steamworks, b'ACH_MO_CLICKS') # Escape the room in under 175 clicks
@@ -138,6 +138,17 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                     gs.game_clicks += 1
                 #print(gs.game_clicks)
 
+                print("Ticks = " + str(pygame.time.get_ticks()))
+                print("Client Start Time = " + str(gs.client_start_time))
+                print("Current Game Time = " + str(gs.current_game_time))
+                print("Save Time = " + str(gs.save_time))
+                print("Pause Time = " + str(gs.pause_time))
+                print("Resume Time = " + str(gs.resume_time))
+                print("Stoppage Time = " + str(gs.stoppage_time))
+                print("End Time = " + str(gs.end_time))
+                print("Load Time = " + str(gs.load_time))
+                print("")
+
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 inventory.deselect_items(gs, event)
@@ -150,7 +161,6 @@ def check_events(gs, screen, inventory, room_view, game_objects, stable_item_blo
                     gs.room_view_drill_down = 0
                 else:
                     gs.options_menu_up = True
-                    gs.pause_time = pygame.time.get_ticks()
                     gs.game_started = False
                     if gs.quit_menu_up:
                         gs.quit_menu_up = False
@@ -206,6 +216,7 @@ def update_screen(gs, screen, inventory, room_view, stable_item_blocks, cp, cloc
     # Show Clock # todo comment out this code
     show_clock = gs.arial48.render(get_game_clock(gs, screen), True, gs.black)
     screen.blit(show_clock, (0,0))
+
 
 
 
@@ -464,13 +475,11 @@ def game_status_text(gs, screen):
 
 def get_game_clock(gs, screen):
     """ Returns a string value of the game clock"""
-    clock_output = str(datetime.timedelta(seconds = gs.current_time // 1000))
+    clock_output = str(datetime.timedelta(seconds = gs.current_game_time // 1000))
     return clock_output
 
 def clock_timer(gs):
-    gs.current_time = pygame.time.get_ticks() - gs.game_start_time - gs.stoppage_time
-
-
+        gs.current_game_time = pygame.time.get_ticks() - gs.client_start_time
 
 def update_settings_dictionary(gs):
     """Function to update the settings dictionary."""
@@ -480,14 +489,15 @@ def update_settings_dictionary(gs):
                                 'text': gs.text,
                                 'leave': gs.leave,
                                 'current_text': gs.current_text,
-                                'current_time': gs.current_time,
+                                'current_game_time': gs.current_game_time,
                                 'save_time': gs.save_time,
                                 'pause_time': gs.pause_time,
                                 'resume_time': gs.resume_time,
                                 'stoppage_time': gs.stoppage_time,
                                 'end_time': gs.end_time,
+                                'load_time': gs.load_time,
                                 'frame_rate': gs.frame_rate,
-                                'game_start_time': gs.game_start_time,
+                                'client_start_time': gs.client_start_time,
                                 'won_game': gs.won_game,
                                 'door_key_found': gs.door_key_found,
                                 'red_key_found': gs.red_key_found,
@@ -619,14 +629,15 @@ def update_settings_from_save_file(gs):
     gs.text = gs.settings_dictionary['text']
     gs.leave = gs.settings_dictionary['leave']
     gs.current_text = gs.settings_dictionary['current_text']
-    gs.current_time = gs.settings_dictionary['current_time']
+    gs.current_game_time = gs.settings_dictionary['current_game_time']
     gs.save_time = gs.settings_dictionary['save_time']
     gs.pause_time = gs.settings_dictionary['pause_time']
     gs.resume_time = gs.settings_dictionary['resume_time']
     gs.stoppage_time = gs.settings_dictionary['stoppage_time']
     gs.end_time = gs.settings_dictionary['end_time']
+    gs.load_time = gs.settings_dictionary['load_time']
     gs.frame_rate = gs.settings_dictionary['frame_rate']
-    gs.game_start_time = gs.settings_dictionary['game_start_time']
+    gs.client_start_time = gs.settings_dictionary['client_start_time']
     gs.won_game = gs.settings_dictionary['won_game']
     gs.door_key_found = gs.settings_dictionary['door_key_found']
     gs.red_key_found = gs.settings_dictionary['red_key_found']
@@ -749,26 +760,29 @@ def update_settings_from_save_file(gs):
     gs.pub_n9 = gs.settings_dictionary['pub_n9']
     gs.pub_code = gs.settings_dictionary['pub_code']
 
-
-
 def save_settings(gs):
     """Function to save the current settings to a game save file."""
     try:
         if gs.save_filename == None:
-            gs.save_time = gs.current_time - gs.game_start_time
+
+            gs.save_time = pygame.time.get_ticks() - gs.client_start_time
             gs.save_filename = asksaveasfilename(parent=root, initialdir="./saves/", title="Save File", filetypes=[("Data Files", "*.dat")], defaultextension=".dat")
+
             update_settings_dictionary(gs)
             pickle_out = open(gs.save_filename, 'wb')
             pickle.dump(gs.settings_dictionary, pickle_out)
             pickle_out.close()
+
             print('game saved')
         else:
+            gs.save_time = pygame.time.get_ticks() - gs.client_start_time
+
             update_settings_dictionary(gs)
             pickle_out = open(gs.save_filename, 'wb')
             pickle.dump(gs.settings_dictionary, pickle_out)
             pickle_out.close()
             print('game saved')
-        gs.start_game_from_load = True
+        #gs.start_game_from_load = True
     except:
         print('file not saved')
         gs.save_filename = None
@@ -791,7 +805,6 @@ def load_settings(gs):
                 print('settings loaded')
             filename = None
 
-
     except:
         print('file not loaded')
         gs.start_game_from_load = False
@@ -810,13 +823,14 @@ def default_settings(gs):
     gs.game_clicks = 0
     gs.current_text = None
     gs.frame_rate = 60
-    gs.game_start_time = None
-    gs.current_time = 0
+    gs.client_start_time = None
+    gs.current_game_time = 0
     gs.save_time = 0
     gs.pause_time = 0
     gs.resume_time = 0
     gs.stoppage_time = 0
     gs.end_time = 0
+    gs.load_time = 0
     gs.won_game = False # Dfeault = False todo make false
     gs.door_key_found = False # Default = False
     gs.red_key_found = False # Default = False

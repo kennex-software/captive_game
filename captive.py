@@ -524,8 +524,6 @@ def options_menu():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     gs.options_menu_up = False
-                    gs.resume_time = pygame.time.get_ticks()
-                    gs.stoppage_time = gs.stoppage_time + (gs.resume_time - gs.pause_time)
                     gs.game_started = True
                     run_game()
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -535,26 +533,20 @@ def options_menu():
                         gf.load_settings(gs)
                         pygame.time.wait(500)
                         gs.options_menu_up = False
-                        gs.resume_time = pygame.time.get_ticks()
-                        gs.stoppage_time = gs.stoppage_time + (gs.resume_time - gs.pause_time)
                         if gs.start_game_from_load:
                             gs.game_started = True
                             run_game()
                     if button2.collidepoint(event.pos):
                         print('save game')
-                        gs.resume_time = pygame.time.get_ticks()
-                        gs.stoppage_time = gs.stoppage_time + (gs.resume_time - gs.pause_time)
                         gf.save_settings(gs)
                         pygame.time.wait(500)
-                        gs.start_game_from_load = True
+                        #gs.start_game_from_load = True
                         gs.options_menu_up = False
                         gs.game_started = True
                         run_game()
                     if button3.collidepoint(event.pos):
                         print('run game')
                         gs.options_menu_up = False
-                        gs.resume_time = pygame.time.get_ticks()
-                        gs.stoppage_time = gs.stoppage_time + (gs.resume_time - gs.pause_time)
                         gs.game_started = True
                         run_game()
                     if button4.collidepoint(event.pos):
@@ -567,11 +559,9 @@ def options_menu():
                     print('quit menu up')
                     if q_button_save.collidepoint(event.pos):
                         print('save game')
-                        gs.resume_time = pygame.time.get_ticks()
-                        gs.stoppage_time = gs.stoppage_time + (gs.resume_time - gs.pause_time)
                         gf.save_settings(gs)
                         pygame.time.wait(500)
-                        gs.start_game_from_load = True
+                        #gs.start_game_from_load = True
                         gs.options_menu_up = False
                         gs.quit_menu_up = False
                         gs.game_started = True
@@ -847,7 +837,7 @@ def run_game():
         gf.generate_codes(gs) # generates numbers for problems and puzzles
         gf.update_settings_dictionary(gs) # Generates the ability to save the settings generated in the generate codes
         gs.text = "What the...?  Where am I?"
-        gs.game_start_time = pygame.time.get_ticks()
+        gs.client_start_time = pygame.time.get_ticks()
         gs.new_game = False
 
         # Comment that out // Show for easy winning
@@ -857,9 +847,8 @@ def run_game():
 
         print('starting completely new game')
 
-    else:
-        gs.game_start_time = pygame.time.get_ticks()
-        gs.new_game = False
+    elif gs.start_game_from_load:
+        gs.client_start_time = pygame.time.get_ticks() - gs.save_time
 
     while gs.game_started:
         gf.check_events(gs, screen, inventory, room_view, game_objects, stable_item_blocks, cp, steamworks)
