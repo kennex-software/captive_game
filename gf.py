@@ -213,9 +213,9 @@ def update_screen(gs, screen, inventory, room_view, stable_item_blocks, cp, cloc
     # Draw Game Text
     game_status_text(gs, screen)
 
-    # Show Clock # todo comment out this code
+    """# Show Clock # todo comment out this code
     show_clock = gs.arial48.render(get_game_clock(gs, screen), True, gs.black)
-    screen.blit(show_clock, (0,0))
+    screen.blit(show_clock, (0,0))"""
 
 
 
@@ -357,9 +357,17 @@ def generate_codes(gs):
 
     gs.pua_double_digits = puzzles.double_digits(gs.pua_code)
 
-    # Puzzle B
-    gs.pub_n1 = random.randint(2, 9)
-    gs.pub_n3 = random.randint(1, 6)
+    # Puzzle B Code
+
+    # Puzzle 8 Test - Part 1 --- Test Successful 5/24/2020
+    """for x in range (2, 10):
+        gs.pub_n1 = x
+        for y in range (1, 7):
+            gs.pub_n3 = y"""
+
+    gs.pub_n1 = random.randint(2, 9)  # todo Uncomment this for real game
+    gs.pub_n3 = random.randint(1, 6)  # todo Uncomment this for real game
+
     gs.pub_n2 = gs.pub_n1 * gs.pub_n3 * 2
     gs.pub_n4 = gs.pub_n1 + gs.pub_n2
     gs.pub_n6 = gs.pub_n1 + gs.pub_n3
@@ -367,7 +375,25 @@ def generate_codes(gs):
     gs.pub_n7 = gs.pub_n4 + gs.pub_n5
     gs.pub_n9 = gs.pub_n4 + gs.pub_n6
     gs.pub_n8 = gs.pub_n7 * gs.pub_n9 * 2
-    gs.pub_code = int(str(gs.pub_n8)[-3:])
+    gs.pub_code = str(gs.pub_n8)
+    gs.pub_code = str(gs.pub_code[-3:])
+
+    if len(gs.pub_code) == 2:
+        gs.pub_code = '0' + gs.pub_code
+    elif len(gs.pub_code) == 1:
+        gs.pub_code = '00' + gs.pub_code
+
+    # Puzzle 8 Test - Part 2 --- Test Successful 5/24/2020
+    #print('pub_n1 = ' + str(gs.pub_n1) + ' & pub_n3 = ' + str(gs.pub_n3) + ' & pub_code = ' + str(gs.pub_code))
+
+
+
+
+
+
+
+
+
 
     # Channel Code
     gs.channel_code = str(gs.prb_code) + str(gs.pub_code)

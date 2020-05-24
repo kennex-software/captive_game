@@ -14,7 +14,7 @@ class Settings():
     def __init__(self):
         """Initialize the game's static settings."""
         # Game Version
-        self.game_version = 'v 0.8.8.6'
+        self.game_version = 'v 0.8.8.7'
         self.start_game_from_load = False
         """
         People that want the game:
@@ -24,6 +24,13 @@ class Settings():
         
         
         Use this area to discuss version: 
+        -5/24/2020 - Version 0.8.8.7 ---
+            -Puzzle B (grid in blue book for box ii) was allowing non-three digit codes to pass due to leading zeros.  This was fixed and tested for all numbers.
+            -Added numbers to the color grid in the blue book for clarity.
+            -Changed the papers to read: "colors of diamonds" instead of "check out"
+            -Added a better clue for the grid puzzle for the code.  Tested and working in both resolutions.
+            -Added additional clues to the yellow book to hopefully make the game a little easier.
+            
         -5/19/2020 - Version 0.8.8.6 ---
             -Fixed the bug that didn't save the colors on the blue book color line.
             -Added ability to see all codes in the game.

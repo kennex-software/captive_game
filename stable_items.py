@@ -383,9 +383,18 @@ class Stable_Items():
                             color = v[2]
                             current_rect = pygame.Rect(x, y, width, height)
                             pygame.draw.rect(screen, color, current_rect)
+
+                            if index == 1 or index == 3 or index == 6:
+                                text_image = gs.cambria18.render(str(index), True, gs.black)
+                                text_image_rect = text_image.get_rect()
+                                text_image_rect.midright = current_rect.midleft
+                                screen.blit(text_image, (text_image_rect))
+
                             x += 15
                             y += 40
                             index += 1
+
+
 
         elif gs.current_book == 'yellow_book':
             # Page 1
@@ -417,15 +426,15 @@ class Stable_Items():
             if page == 2:
                 instructions = ['',
                                 '',
-                                'dO yOU lIKE pUZZLES?',
-                                'ENTER RAPPICAN',
+                                'ENTER RAPPICAN; think about it;',
                                 '',
                                 '',
-                                '',
-                                '',
-                                '3o!3o!6o!fo!',
-                                '3o!3o!6o!fo!',
-                                '',
+                                'the red digits hold your code...',
+                                'starting with line 1...',
+                                'but one digit is needed per line...',
+                                'but which one...',
+                                'review the diamonds...',
+                                'remove the diamonds...',
                                 ''
                                 ]
                 line_spacing = 200
@@ -444,7 +453,8 @@ class Stable_Items():
                 instructions = ['',
                                 '',
                                 'do YOU like PUZZLES?',
-                                'egg',
+                                'egg in numbers - egg+F',
+                                'for a hidden treat',
                                 '',
                                 'numbers',
                                 'the beginning of Fun',
@@ -799,7 +809,8 @@ class Stable_Items():
                     '',
                     '',
                     '',
-                    'check out:', str(gs.random_channel)
+                    '',
+                    'colors of diamonds:', str(gs.random_channel)
                     ]
 
             #line_spacing = 150
@@ -830,6 +841,13 @@ class Stable_Items():
 
             puzzles.get_board(gs, screen, 10, gs.pua_double_digits)
 
+            text_image = gs.verdana22.render('hidden CODE', True, gs.black)
+            if gs.screen_width == 1200:
+                screen.blit(text_image, (540, 590))
+            else:
+                screen.blit(text_image, (640, 670))
+
+
         if gs.current_paper_in_view == 3:
             gs.text = 'What?'
             # Code to Scale and Draw All Pages
@@ -849,7 +867,7 @@ class Stable_Items():
                     '',
                     'colors number downward',
                     '',
-                    'grids number upward',
+                    'code numbers upward',
                     'without diamonds'
                     ]
 
