@@ -28,8 +28,13 @@ UNCOMMENT THIS FOR STEAM ACHIEVEMENTS AND STEAMWORKS ABILITIES
 steamworks = STEAMWORKS()
 
 # Initialize Steam
-steamworks.initialize()
-steamworks.UserStats.RequestCurrentStats()
+try:
+    steamworks.initialize()
+    steamworks.UserStats.RequestCurrentStats()
+except:
+    # If you do not have Steam Loaded and the game purchased, the game should still run,
+    # just without all of the steam functions working properly.
+    print("Steam not loaded")
 
 # Initialize pygame, settings, and screen object.
 pygame.mixer.pre_init(44100,-16,2, 2048)
