@@ -1,6 +1,6 @@
 #kennex
 
-from PIL import ImageFont
+#from PIL import ImageFont
 import pygame
 
 pygame.font.init()
